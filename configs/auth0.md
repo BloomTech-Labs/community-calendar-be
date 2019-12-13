@@ -2,19 +2,19 @@
 
 ### React App
 
-**REACT_APP_AUTH0_DOMAIN** Auth0 app domain
-**REACT_APP_AUTH0_CLIENT_ID** Auth0 app client id
-**REACT_APP_API_AUDIENCE**
+- **REACT_APP_AUTH0_DOMAIN** Auth0 app domain
+- **REACT_APP_AUTH0_CLIENT_ID** Auth0 app client id
+- **REACT_APP_API_AUDIENCE**
 ![audience](https://res.cloudinary.com/duoz4fpzs/image/upload/v1576261889/react_audience_wvftg0.png)
 
 ### Apollo server
-**AUTH0_DOMAIN** Auth0 app domain
-**API_AUDIENCE**
+- **AUTH0_DOMAIN** Auth0 app domain
+- **API_AUDIENCE**
 ![audience](https://res.cloudinary.com/duoz4fpzs/image/upload/v1576261889/react_audience_wvftg0.png)
 
 ### Auth0 Rule 
 
-**Add a rule to Auth0 account with the following:**
+- **Add a rule to Auth0 account with the following:**
 ```
 function (user, context, callback) {
     const {request} = require('graphql-request');
