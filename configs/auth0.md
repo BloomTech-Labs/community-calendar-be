@@ -46,7 +46,6 @@ function (user, context, callback) {
       }
     
     request('https://mark-ap.herokuapp.com/', mutation).then(result => {
-        console.log('afsdfsdf', result);
         context.accessToken[namespace + 'cc_id'] = result.data.addUser.id;
         return callback(null, user, context);
       }).catch(err => {
