@@ -1,0 +1,66 @@
+type User {
+  id: ID! @id
+  auth0_id: String! @unique
+  organizations: [Organization!] @relation(name: "UsersOrganizations", link: TABLE)
+  rsvps: [Event!] @relation(name: "UsersRsvps", link: TABLE)
+  admin_for: [Event!] @relation(name: "EventsAdmins", link: TABLE)
+}
+
+type Event {
+  id: ID! @id
+  title: String!
+  description: String!
+  start: DateTime!
+  end: DateTime!
+  creator_id: User! @relation(name: "EventCreator", link: INLINE, onDelete: CASCADE)
+  event_images: [Event_Image!] @relation(name: "EventsImages", link: TABLE)
+  rsvps: [User!] @relation(name: "UsersRsvps")
+  urls: [Event_Url!] @relation(link: TABLE)
+  admins: [User!] @relation(name: "EventsAdmins")
+  locations: [Location!] @relation(name: "EventsLocations", link: TABLE)
+}
+
+type Event_Image {
+  id: ID! @id
+  event: Event! @relation(name: "EventsImages")
+  url: String!
+}
+
+type Event_Url {
+  id: ID! @id
+  url: String!
+  event: Event!
+}
+
+type Location {
+  id: ID! @id
+  name: String!
+  street_address: String!
+  street_address_2: String!  
+  city: String!
+  zipcode: Int!
+  state: String!
+  latitude: String
+  longitude: String
+  event: Event! @relation(name: "EventsLocations")
+  neighborhood: Neighborhood @relation(link: INLINE)
+}
+
+type Organization {
+  id: ID! @id
+  name: String!
+  url: String
+  phone: String
+  email: String
+  users: [User!] @relation(name: "UsersOrganizations")
+}
+
+type Neighborhood {
+  id: ID! @id
+  geo_json: Geo_Json! @relation(link: INLINE, onDelete: CASCADE)
+}
+
+type Geo_Json {
+  id: ID! @id
+  geo_json: String!
+}

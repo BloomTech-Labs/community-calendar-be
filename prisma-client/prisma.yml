@@ -1,0 +1,6 @@
+endpoint: https://mark-ap-106dd265de.herokuapp.com/prisma-client/dev
+datamodel: datamodel.prisma
+
+generate:
+  - generator: javascript-client
+    output: ./generated/prisma-client/
