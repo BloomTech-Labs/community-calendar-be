@@ -1,4 +1,4 @@
-endpoint: https://mark-ap-106dd265de.herokuapp.com/prisma-client/dev
+endpoint: ${env:MY_SECRET}
 datamodel: datamodel.prisma
 
 generate:
