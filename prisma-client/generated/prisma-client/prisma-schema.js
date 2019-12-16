@@ -47,7 +47,7 @@ type Event {
   description: String!
   start: DateTime!
   end: DateTime!
-  creator: User!
+  creator: User
   event_images(where: Event_ImageWhereInput, orderBy: Event_ImageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event_Image!]
   rsvps(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   urls(where: Event_UrlWhereInput, orderBy: Event_UrlOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event_Url!]
@@ -429,7 +429,7 @@ input EventCreateInput {
   description: String!
   start: DateTime!
   end: DateTime!
-  creator: UserCreateOneInput!
+  creator: UserCreateOneWithoutCreated_eventsInput
   event_images: Event_ImageCreateManyWithoutEventInput
   rsvps: UserCreateManyWithoutRsvpsInput
   urls: Event_UrlCreateManyWithoutEventInput
@@ -439,6 +439,11 @@ input EventCreateInput {
 
 input EventCreateManyWithoutAdminsInput {
   create: [EventCreateWithoutAdminsInput!]
+  connect: [EventWhereUniqueInput!]
+}
+
+input EventCreateManyWithoutCreatorInput {
+  create: [EventCreateWithoutCreatorInput!]
   connect: [EventWhereUniqueInput!]
 }
 
@@ -468,10 +473,23 @@ input EventCreateWithoutAdminsInput {
   description: String!
   start: DateTime!
   end: DateTime!
-  creator: UserCreateOneInput!
+  creator: UserCreateOneWithoutCreated_eventsInput
   event_images: Event_ImageCreateManyWithoutEventInput
   rsvps: UserCreateManyWithoutRsvpsInput
   urls: Event_UrlCreateManyWithoutEventInput
+  locations: LocationCreateManyWithoutEventInput
+}
+
+input EventCreateWithoutCreatorInput {
+  id: ID
+  title: String!
+  description: String!
+  start: DateTime!
+  end: DateTime!
+  event_images: Event_ImageCreateManyWithoutEventInput
+  rsvps: UserCreateManyWithoutRsvpsInput
+  urls: Event_UrlCreateManyWithoutEventInput
+  admins: UserCreateManyWithoutAdmin_forInput
   locations: LocationCreateManyWithoutEventInput
 }
 
@@ -481,7 +499,7 @@ input EventCreateWithoutEvent_imagesInput {
   description: String!
   start: DateTime!
   end: DateTime!
-  creator: UserCreateOneInput!
+  creator: UserCreateOneWithoutCreated_eventsInput
   rsvps: UserCreateManyWithoutRsvpsInput
   urls: Event_UrlCreateManyWithoutEventInput
   admins: UserCreateManyWithoutAdmin_forInput
@@ -494,7 +512,7 @@ input EventCreateWithoutLocationsInput {
   description: String!
   start: DateTime!
   end: DateTime!
-  creator: UserCreateOneInput!
+  creator: UserCreateOneWithoutCreated_eventsInput
   event_images: Event_ImageCreateManyWithoutEventInput
   rsvps: UserCreateManyWithoutRsvpsInput
   urls: Event_UrlCreateManyWithoutEventInput
@@ -507,7 +525,7 @@ input EventCreateWithoutRsvpsInput {
   description: String!
   start: DateTime!
   end: DateTime!
-  creator: UserCreateOneInput!
+  creator: UserCreateOneWithoutCreated_eventsInput
   event_images: Event_ImageCreateManyWithoutEventInput
   urls: Event_UrlCreateManyWithoutEventInput
   admins: UserCreateManyWithoutAdmin_forInput
@@ -520,7 +538,7 @@ input EventCreateWithoutUrlsInput {
   description: String!
   start: DateTime!
   end: DateTime!
-  creator: UserCreateOneInput!
+  creator: UserCreateOneWithoutCreated_eventsInput
   event_images: Event_ImageCreateManyWithoutEventInput
   rsvps: UserCreateManyWithoutRsvpsInput
   admins: UserCreateManyWithoutAdmin_forInput
@@ -640,7 +658,7 @@ input EventUpdateInput {
   description: String
   start: DateTime
   end: DateTime
-  creator: UserUpdateOneRequiredInput
+  creator: UserUpdateOneWithoutCreated_eventsInput
   event_images: Event_ImageUpdateManyWithoutEventInput
   rsvps: UserUpdateManyWithoutRsvpsInput
   urls: Event_UrlUpdateManyWithoutEventInput
@@ -670,6 +688,18 @@ input EventUpdateManyWithoutAdminsInput {
   disconnect: [EventWhereUniqueInput!]
   update: [EventUpdateWithWhereUniqueWithoutAdminsInput!]
   upsert: [EventUpsertWithWhereUniqueWithoutAdminsInput!]
+  deleteMany: [EventScalarWhereInput!]
+  updateMany: [EventUpdateManyWithWhereNestedInput!]
+}
+
+input EventUpdateManyWithoutCreatorInput {
+  create: [EventCreateWithoutCreatorInput!]
+  delete: [EventWhereUniqueInput!]
+  connect: [EventWhereUniqueInput!]
+  set: [EventWhereUniqueInput!]
+  disconnect: [EventWhereUniqueInput!]
+  update: [EventUpdateWithWhereUniqueWithoutCreatorInput!]
+  upsert: [EventUpsertWithWhereUniqueWithoutCreatorInput!]
   deleteMany: [EventScalarWhereInput!]
   updateMany: [EventUpdateManyWithWhereNestedInput!]
 }
@@ -717,10 +747,22 @@ input EventUpdateWithoutAdminsDataInput {
   description: String
   start: DateTime
   end: DateTime
-  creator: UserUpdateOneRequiredInput
+  creator: UserUpdateOneWithoutCreated_eventsInput
   event_images: Event_ImageUpdateManyWithoutEventInput
   rsvps: UserUpdateManyWithoutRsvpsInput
   urls: Event_UrlUpdateManyWithoutEventInput
+  locations: LocationUpdateManyWithoutEventInput
+}
+
+input EventUpdateWithoutCreatorDataInput {
+  title: String
+  description: String
+  start: DateTime
+  end: DateTime
+  event_images: Event_ImageUpdateManyWithoutEventInput
+  rsvps: UserUpdateManyWithoutRsvpsInput
+  urls: Event_UrlUpdateManyWithoutEventInput
+  admins: UserUpdateManyWithoutAdmin_forInput
   locations: LocationUpdateManyWithoutEventInput
 }
 
@@ -729,7 +771,7 @@ input EventUpdateWithoutEvent_imagesDataInput {
   description: String
   start: DateTime
   end: DateTime
-  creator: UserUpdateOneRequiredInput
+  creator: UserUpdateOneWithoutCreated_eventsInput
   rsvps: UserUpdateManyWithoutRsvpsInput
   urls: Event_UrlUpdateManyWithoutEventInput
   admins: UserUpdateManyWithoutAdmin_forInput
@@ -741,7 +783,7 @@ input EventUpdateWithoutLocationsDataInput {
   description: String
   start: DateTime
   end: DateTime
-  creator: UserUpdateOneRequiredInput
+  creator: UserUpdateOneWithoutCreated_eventsInput
   event_images: Event_ImageUpdateManyWithoutEventInput
   rsvps: UserUpdateManyWithoutRsvpsInput
   urls: Event_UrlUpdateManyWithoutEventInput
@@ -753,7 +795,7 @@ input EventUpdateWithoutRsvpsDataInput {
   description: String
   start: DateTime
   end: DateTime
-  creator: UserUpdateOneRequiredInput
+  creator: UserUpdateOneWithoutCreated_eventsInput
   event_images: Event_ImageUpdateManyWithoutEventInput
   urls: Event_UrlUpdateManyWithoutEventInput
   admins: UserUpdateManyWithoutAdmin_forInput
@@ -765,7 +807,7 @@ input EventUpdateWithoutUrlsDataInput {
   description: String
   start: DateTime
   end: DateTime
-  creator: UserUpdateOneRequiredInput
+  creator: UserUpdateOneWithoutCreated_eventsInput
   event_images: Event_ImageUpdateManyWithoutEventInput
   rsvps: UserUpdateManyWithoutRsvpsInput
   admins: UserUpdateManyWithoutAdmin_forInput
@@ -775,6 +817,11 @@ input EventUpdateWithoutUrlsDataInput {
 input EventUpdateWithWhereUniqueWithoutAdminsInput {
   where: EventWhereUniqueInput!
   data: EventUpdateWithoutAdminsDataInput!
+}
+
+input EventUpdateWithWhereUniqueWithoutCreatorInput {
+  where: EventWhereUniqueInput!
+  data: EventUpdateWithoutCreatorDataInput!
 }
 
 input EventUpdateWithWhereUniqueWithoutRsvpsInput {
@@ -801,6 +848,12 @@ input EventUpsertWithWhereUniqueWithoutAdminsInput {
   where: EventWhereUniqueInput!
   update: EventUpdateWithoutAdminsDataInput!
   create: EventCreateWithoutAdminsInput!
+}
+
+input EventUpsertWithWhereUniqueWithoutCreatorInput {
+  where: EventWhereUniqueInput!
+  update: EventUpdateWithoutCreatorDataInput!
+  create: EventCreateWithoutCreatorInput!
 }
 
 input EventUpsertWithWhereUniqueWithoutRsvpsInput {
@@ -896,6 +949,7 @@ input EventWhereUniqueInput {
 type Geo_Json {
   id: ID!
   geo_json: String!
+  neighborhood: Neighborhood!
 }
 
 type Geo_JsonConnection {
@@ -907,11 +961,17 @@ type Geo_JsonConnection {
 input Geo_JsonCreateInput {
   id: ID
   geo_json: String!
+  neighborhood: NeighborhoodCreateOneWithoutGeo_jsonInput!
 }
 
-input Geo_JsonCreateOneInput {
-  create: Geo_JsonCreateInput
+input Geo_JsonCreateOneWithoutNeighborhoodInput {
+  create: Geo_JsonCreateWithoutNeighborhoodInput
   connect: Geo_JsonWhereUniqueInput
+}
+
+input Geo_JsonCreateWithoutNeighborhoodInput {
+  id: ID
+  geo_json: String!
 }
 
 type Geo_JsonEdge {
@@ -949,28 +1009,29 @@ input Geo_JsonSubscriptionWhereInput {
   NOT: [Geo_JsonSubscriptionWhereInput!]
 }
 
-input Geo_JsonUpdateDataInput {
-  geo_json: String
-}
-
 input Geo_JsonUpdateInput {
   geo_json: String
+  neighborhood: NeighborhoodUpdateOneRequiredWithoutGeo_jsonInput
 }
 
 input Geo_JsonUpdateManyMutationInput {
   geo_json: String
 }
 
-input Geo_JsonUpdateOneRequiredInput {
-  create: Geo_JsonCreateInput
-  update: Geo_JsonUpdateDataInput
-  upsert: Geo_JsonUpsertNestedInput
+input Geo_JsonUpdateOneRequiredWithoutNeighborhoodInput {
+  create: Geo_JsonCreateWithoutNeighborhoodInput
+  update: Geo_JsonUpdateWithoutNeighborhoodDataInput
+  upsert: Geo_JsonUpsertWithoutNeighborhoodInput
   connect: Geo_JsonWhereUniqueInput
 }
 
-input Geo_JsonUpsertNestedInput {
-  update: Geo_JsonUpdateDataInput!
-  create: Geo_JsonCreateInput!
+input Geo_JsonUpdateWithoutNeighborhoodDataInput {
+  geo_json: String
+}
+
+input Geo_JsonUpsertWithoutNeighborhoodInput {
+  update: Geo_JsonUpdateWithoutNeighborhoodDataInput!
+  create: Geo_JsonCreateWithoutNeighborhoodInput!
 }
 
 input Geo_JsonWhereInput {
@@ -1002,6 +1063,7 @@ input Geo_JsonWhereInput {
   geo_json_not_starts_with: String
   geo_json_ends_with: String
   geo_json_not_ends_with: String
+  neighborhood: NeighborhoodWhereInput
   AND: [Geo_JsonWhereInput!]
   OR: [Geo_JsonWhereInput!]
   NOT: [Geo_JsonWhereInput!]
@@ -1042,11 +1104,16 @@ input LocationCreateInput {
   latitude: String
   longitude: String
   event: EventCreateOneWithoutLocationsInput!
-  neighborhood: NeighborhoodCreateOneInput
+  neighborhood: NeighborhoodCreateOneWithoutLocationsInput
 }
 
 input LocationCreateManyWithoutEventInput {
   create: [LocationCreateWithoutEventInput!]
+  connect: [LocationWhereUniqueInput!]
+}
+
+input LocationCreateManyWithoutNeighborhoodInput {
+  create: [LocationCreateWithoutNeighborhoodInput!]
   connect: [LocationWhereUniqueInput!]
 }
 
@@ -1060,7 +1127,20 @@ input LocationCreateWithoutEventInput {
   state: String!
   latitude: String
   longitude: String
-  neighborhood: NeighborhoodCreateOneInput
+  neighborhood: NeighborhoodCreateOneWithoutLocationsInput
+}
+
+input LocationCreateWithoutNeighborhoodInput {
+  id: ID
+  name: String!
+  street_address: String!
+  street_address_2: String
+  city: String!
+  zipcode: Int!
+  state: String!
+  latitude: String
+  longitude: String
+  event: EventCreateOneWithoutLocationsInput!
 }
 
 type LocationEdge {
@@ -1255,7 +1335,7 @@ input LocationUpdateInput {
   latitude: String
   longitude: String
   event: EventUpdateOneRequiredWithoutLocationsInput
-  neighborhood: NeighborhoodUpdateOneInput
+  neighborhood: NeighborhoodUpdateOneWithoutLocationsInput
 }
 
 input LocationUpdateManyDataInput {
@@ -1292,6 +1372,18 @@ input LocationUpdateManyWithoutEventInput {
   updateMany: [LocationUpdateManyWithWhereNestedInput!]
 }
 
+input LocationUpdateManyWithoutNeighborhoodInput {
+  create: [LocationCreateWithoutNeighborhoodInput!]
+  delete: [LocationWhereUniqueInput!]
+  connect: [LocationWhereUniqueInput!]
+  set: [LocationWhereUniqueInput!]
+  disconnect: [LocationWhereUniqueInput!]
+  update: [LocationUpdateWithWhereUniqueWithoutNeighborhoodInput!]
+  upsert: [LocationUpsertWithWhereUniqueWithoutNeighborhoodInput!]
+  deleteMany: [LocationScalarWhereInput!]
+  updateMany: [LocationUpdateManyWithWhereNestedInput!]
+}
+
 input LocationUpdateManyWithWhereNestedInput {
   where: LocationScalarWhereInput!
   data: LocationUpdateManyDataInput!
@@ -1306,7 +1398,19 @@ input LocationUpdateWithoutEventDataInput {
   state: String
   latitude: String
   longitude: String
-  neighborhood: NeighborhoodUpdateOneInput
+  neighborhood: NeighborhoodUpdateOneWithoutLocationsInput
+}
+
+input LocationUpdateWithoutNeighborhoodDataInput {
+  name: String
+  street_address: String
+  street_address_2: String
+  city: String
+  zipcode: Int
+  state: String
+  latitude: String
+  longitude: String
+  event: EventUpdateOneRequiredWithoutLocationsInput
 }
 
 input LocationUpdateWithWhereUniqueWithoutEventInput {
@@ -1314,10 +1418,21 @@ input LocationUpdateWithWhereUniqueWithoutEventInput {
   data: LocationUpdateWithoutEventDataInput!
 }
 
+input LocationUpdateWithWhereUniqueWithoutNeighborhoodInput {
+  where: LocationWhereUniqueInput!
+  data: LocationUpdateWithoutNeighborhoodDataInput!
+}
+
 input LocationUpsertWithWhereUniqueWithoutEventInput {
   where: LocationWhereUniqueInput!
   update: LocationUpdateWithoutEventDataInput!
   create: LocationCreateWithoutEventInput!
+}
+
+input LocationUpsertWithWhereUniqueWithoutNeighborhoodInput {
+  where: LocationWhereUniqueInput!
+  update: LocationUpdateWithoutNeighborhoodDataInput!
+  create: LocationCreateWithoutNeighborhoodInput!
 }
 
 input LocationWhereInput {
@@ -1513,6 +1628,7 @@ enum MutationType {
 type Neighborhood {
   id: ID!
   geo_json: Geo_Json!
+  locations(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Location!]
 }
 
 type NeighborhoodConnection {
@@ -1523,12 +1639,28 @@ type NeighborhoodConnection {
 
 input NeighborhoodCreateInput {
   id: ID
-  geo_json: Geo_JsonCreateOneInput!
+  geo_json: Geo_JsonCreateOneWithoutNeighborhoodInput!
+  locations: LocationCreateManyWithoutNeighborhoodInput
 }
 
-input NeighborhoodCreateOneInput {
-  create: NeighborhoodCreateInput
+input NeighborhoodCreateOneWithoutGeo_jsonInput {
+  create: NeighborhoodCreateWithoutGeo_jsonInput
   connect: NeighborhoodWhereUniqueInput
+}
+
+input NeighborhoodCreateOneWithoutLocationsInput {
+  create: NeighborhoodCreateWithoutLocationsInput
+  connect: NeighborhoodWhereUniqueInput
+}
+
+input NeighborhoodCreateWithoutGeo_jsonInput {
+  id: ID
+  locations: LocationCreateManyWithoutNeighborhoodInput
+}
+
+input NeighborhoodCreateWithoutLocationsInput {
+  id: ID
+  geo_json: Geo_JsonCreateOneWithoutNeighborhoodInput!
 }
 
 type NeighborhoodEdge {
@@ -1563,26 +1695,43 @@ input NeighborhoodSubscriptionWhereInput {
   NOT: [NeighborhoodSubscriptionWhereInput!]
 }
 
-input NeighborhoodUpdateDataInput {
-  geo_json: Geo_JsonUpdateOneRequiredInput
-}
-
 input NeighborhoodUpdateInput {
-  geo_json: Geo_JsonUpdateOneRequiredInput
+  geo_json: Geo_JsonUpdateOneRequiredWithoutNeighborhoodInput
+  locations: LocationUpdateManyWithoutNeighborhoodInput
 }
 
-input NeighborhoodUpdateOneInput {
-  create: NeighborhoodCreateInput
-  update: NeighborhoodUpdateDataInput
-  upsert: NeighborhoodUpsertNestedInput
+input NeighborhoodUpdateOneRequiredWithoutGeo_jsonInput {
+  create: NeighborhoodCreateWithoutGeo_jsonInput
+  update: NeighborhoodUpdateWithoutGeo_jsonDataInput
+  upsert: NeighborhoodUpsertWithoutGeo_jsonInput
+  connect: NeighborhoodWhereUniqueInput
+}
+
+input NeighborhoodUpdateOneWithoutLocationsInput {
+  create: NeighborhoodCreateWithoutLocationsInput
+  update: NeighborhoodUpdateWithoutLocationsDataInput
+  upsert: NeighborhoodUpsertWithoutLocationsInput
   delete: Boolean
   disconnect: Boolean
   connect: NeighborhoodWhereUniqueInput
 }
 
-input NeighborhoodUpsertNestedInput {
-  update: NeighborhoodUpdateDataInput!
-  create: NeighborhoodCreateInput!
+input NeighborhoodUpdateWithoutGeo_jsonDataInput {
+  locations: LocationUpdateManyWithoutNeighborhoodInput
+}
+
+input NeighborhoodUpdateWithoutLocationsDataInput {
+  geo_json: Geo_JsonUpdateOneRequiredWithoutNeighborhoodInput
+}
+
+input NeighborhoodUpsertWithoutGeo_jsonInput {
+  update: NeighborhoodUpdateWithoutGeo_jsonDataInput!
+  create: NeighborhoodCreateWithoutGeo_jsonInput!
+}
+
+input NeighborhoodUpsertWithoutLocationsInput {
+  update: NeighborhoodUpdateWithoutLocationsDataInput!
+  create: NeighborhoodCreateWithoutLocationsInput!
 }
 
 input NeighborhoodWhereInput {
@@ -1601,6 +1750,9 @@ input NeighborhoodWhereInput {
   id_ends_with: ID
   id_not_ends_with: ID
   geo_json: Geo_JsonWhereInput
+  locations_every: LocationWhereInput
+  locations_some: LocationWhereInput
+  locations_none: LocationWhereInput
   AND: [NeighborhoodWhereInput!]
   OR: [NeighborhoodWhereInput!]
   NOT: [NeighborhoodWhereInput!]
@@ -1963,6 +2115,7 @@ type User {
   organizations(where: OrganizationWhereInput, orderBy: OrganizationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Organization!]
   rsvps(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event!]
   admin_for(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event!]
+  created_events(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event!]
 }
 
 type UserConnection {
@@ -1977,6 +2130,7 @@ input UserCreateInput {
   organizations: OrganizationCreateManyWithoutUsersInput
   rsvps: EventCreateManyWithoutRsvpsInput
   admin_for: EventCreateManyWithoutAdminsInput
+  created_events: EventCreateManyWithoutCreatorInput
 }
 
 input UserCreateManyWithoutAdmin_forInput {
@@ -1994,8 +2148,8 @@ input UserCreateManyWithoutRsvpsInput {
   connect: [UserWhereUniqueInput!]
 }
 
-input UserCreateOneInput {
-  create: UserCreateInput
+input UserCreateOneWithoutCreated_eventsInput {
+  create: UserCreateWithoutCreated_eventsInput
   connect: UserWhereUniqueInput
 }
 
@@ -2004,6 +2158,15 @@ input UserCreateWithoutAdmin_forInput {
   auth0_id: String!
   organizations: OrganizationCreateManyWithoutUsersInput
   rsvps: EventCreateManyWithoutRsvpsInput
+  created_events: EventCreateManyWithoutCreatorInput
+}
+
+input UserCreateWithoutCreated_eventsInput {
+  id: ID
+  auth0_id: String!
+  organizations: OrganizationCreateManyWithoutUsersInput
+  rsvps: EventCreateManyWithoutRsvpsInput
+  admin_for: EventCreateManyWithoutAdminsInput
 }
 
 input UserCreateWithoutOrganizationsInput {
@@ -2011,6 +2174,7 @@ input UserCreateWithoutOrganizationsInput {
   auth0_id: String!
   rsvps: EventCreateManyWithoutRsvpsInput
   admin_for: EventCreateManyWithoutAdminsInput
+  created_events: EventCreateManyWithoutCreatorInput
 }
 
 input UserCreateWithoutRsvpsInput {
@@ -2018,6 +2182,7 @@ input UserCreateWithoutRsvpsInput {
   auth0_id: String!
   organizations: OrganizationCreateManyWithoutUsersInput
   admin_for: EventCreateManyWithoutAdminsInput
+  created_events: EventCreateManyWithoutCreatorInput
 }
 
 type UserEdge {
@@ -2089,18 +2254,12 @@ input UserSubscriptionWhereInput {
   NOT: [UserSubscriptionWhereInput!]
 }
 
-input UserUpdateDataInput {
-  auth0_id: String
-  organizations: OrganizationUpdateManyWithoutUsersInput
-  rsvps: EventUpdateManyWithoutRsvpsInput
-  admin_for: EventUpdateManyWithoutAdminsInput
-}
-
 input UserUpdateInput {
   auth0_id: String
   organizations: OrganizationUpdateManyWithoutUsersInput
   rsvps: EventUpdateManyWithoutRsvpsInput
   admin_for: EventUpdateManyWithoutAdminsInput
+  created_events: EventUpdateManyWithoutCreatorInput
 }
 
 input UserUpdateManyDataInput {
@@ -2152,10 +2311,12 @@ input UserUpdateManyWithWhereNestedInput {
   data: UserUpdateManyDataInput!
 }
 
-input UserUpdateOneRequiredInput {
-  create: UserCreateInput
-  update: UserUpdateDataInput
-  upsert: UserUpsertNestedInput
+input UserUpdateOneWithoutCreated_eventsInput {
+  create: UserCreateWithoutCreated_eventsInput
+  update: UserUpdateWithoutCreated_eventsDataInput
+  upsert: UserUpsertWithoutCreated_eventsInput
+  delete: Boolean
+  disconnect: Boolean
   connect: UserWhereUniqueInput
 }
 
@@ -2163,18 +2324,28 @@ input UserUpdateWithoutAdmin_forDataInput {
   auth0_id: String
   organizations: OrganizationUpdateManyWithoutUsersInput
   rsvps: EventUpdateManyWithoutRsvpsInput
+  created_events: EventUpdateManyWithoutCreatorInput
+}
+
+input UserUpdateWithoutCreated_eventsDataInput {
+  auth0_id: String
+  organizations: OrganizationUpdateManyWithoutUsersInput
+  rsvps: EventUpdateManyWithoutRsvpsInput
+  admin_for: EventUpdateManyWithoutAdminsInput
 }
 
 input UserUpdateWithoutOrganizationsDataInput {
   auth0_id: String
   rsvps: EventUpdateManyWithoutRsvpsInput
   admin_for: EventUpdateManyWithoutAdminsInput
+  created_events: EventUpdateManyWithoutCreatorInput
 }
 
 input UserUpdateWithoutRsvpsDataInput {
   auth0_id: String
   organizations: OrganizationUpdateManyWithoutUsersInput
   admin_for: EventUpdateManyWithoutAdminsInput
+  created_events: EventUpdateManyWithoutCreatorInput
 }
 
 input UserUpdateWithWhereUniqueWithoutAdmin_forInput {
@@ -2192,9 +2363,9 @@ input UserUpdateWithWhereUniqueWithoutRsvpsInput {
   data: UserUpdateWithoutRsvpsDataInput!
 }
 
-input UserUpsertNestedInput {
-  update: UserUpdateDataInput!
-  create: UserCreateInput!
+input UserUpsertWithoutCreated_eventsInput {
+  update: UserUpdateWithoutCreated_eventsDataInput!
+  create: UserCreateWithoutCreated_eventsInput!
 }
 
 input UserUpsertWithWhereUniqueWithoutAdmin_forInput {
@@ -2253,6 +2424,9 @@ input UserWhereInput {
   admin_for_every: EventWhereInput
   admin_for_some: EventWhereInput
   admin_for_none: EventWhereInput
+  created_events_every: EventWhereInput
+  created_events_some: EventWhereInput
+  created_events_none: EventWhereInput
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]

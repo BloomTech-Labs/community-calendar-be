@@ -1,7 +1,7 @@
 #import User, Location, Event  from "../prisma-client/generated/prisma.graphql"
 
 input UserCheckIdInput {
-    auth0_id: String!
+  auth0_id: String!
 }
 
 input EventCreateInput {

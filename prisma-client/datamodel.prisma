@@ -4,6 +4,7 @@ type User {
   organizations: [Organization!] @relation(name: "UsersOrganizations", link: TABLE)
   rsvps: [Event!] @relation(name: "UsersRsvps", link: TABLE)
   admin_for: [Event!] @relation(name: "EventsAdmins", link: TABLE)
+  created_events: [Event!] @relation(name: "CreatedEvents", link: TABLE, onDelete: CASCADE)
 }
 
 type Event {
@@ -12,12 +13,12 @@ type Event {
   description: String!
   start: DateTime!
   end: DateTime!
-  creator: User! @relation(name: "EventCreator", link: INLINE, onDelete: CASCADE)
-  event_images: [Event_Image!] @relation(name: "EventsImages", link: TABLE)
+  creator: User @relation(name: "CreatedEvents")
+  event_images: [Event_Image!] @relation(name: "EventsImages", link: TABLE, onDelete: CASCADE)
   rsvps: [User!] @relation(name: "UsersRsvps")
-  urls: [Event_Url!] @relation(link: TABLE)
+  urls: [Event_Url!] @relation(name: "EventUrls", link: TABLE, onDelete: CASCADE)
   admins: [User!] @relation(name: "EventsAdmins")
-  locations: [Location!] @relation(name: "EventsLocations", link: TABLE)
+  locations: [Location!] @relation(name: "EventsLocations", link: TABLE, onDelete: CASCADE)
 }
 
 type Event_Image {
@@ -29,7 +30,7 @@ type Event_Image {
 type Event_Url {
   id: ID! @id
   url: String!
-  event: Event!
+  event: Event! @relation(name: "EventUrls")
 }
 
 type Location {
@@ -43,7 +44,7 @@ type Location {
   latitude: String
   longitude: String
   event: Event! @relation(name: "EventsLocations")
-  neighborhood: Neighborhood @relation(link: INLINE)
+  neighborhood: Neighborhood @relation(name: "OrganizationLocations",link: TABLE)
 }
 
 type Organization {
@@ -57,10 +58,12 @@ type Organization {
 
 type Neighborhood {
   id: ID! @id
-  geo_json: Geo_Json! @relation(link: INLINE, onDelete: CASCADE)
+  geo_json: Geo_Json! @relation(name: "NeighborhoodGeo",link: INLINE, onDelete: CASCADE)
+  locations: [Location!] @relation(name: "OrganizationLocations")
 }
 
 type Geo_Json {
   id: ID! @id
   geo_json: String!
+  neighborhood: Neighborhood! @relation(name: "NeighborhoodGeo", onDelete: CASCADE)
 }
