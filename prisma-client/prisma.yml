@@ -1,7 +1,11 @@
 datamodel: datamodel.prisma
 secret: ${env:SECRET}
 endpoint: ${env:PRISMA}
+seed:
+  import: ./data/seed.graphql
 
 generate:
   - generator: javascript-client
     output: ./generated/prisma-client/
+  - generator: graphql-schema
+    output: ./generated/prisma.graphql

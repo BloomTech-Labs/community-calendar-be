@@ -1,0 +1,178 @@
+mutation {
+    createUser(data: {
+        auth0_id: "testid1"
+    }){
+        id
+    }
+}
+mutation {
+    createUser(data: {
+        auth0_id: "testid2"
+    }){
+        id
+    }
+}
+mutation {
+    createUser(data: {
+        auth0_id: "testid3"
+    }){
+        id
+    }
+}
+mutation {
+    createUser(data: {
+        auth0_id: "testid4"
+    }){
+        id
+    }
+}
+mutation {
+    createUser(data: {
+        auth0_id: "testid5"
+    }){
+        id
+    }
+}
+
+mutation {
+    createEvent(data: {
+        title: "Councilperson Sheffield Town Hall"
+        description: "Join Council President Pro Tem Sheffield and the City Assessor for an in depth discussion on Neighborhood Enterprise Zones and what they mean to you!"
+        start: "2019-11-21T18:00:00-0500"
+        end: "2019-11-21T20:00:00-0500"
+        creator: {connect: {auth0_id: "testid1"}}
+        event_images: {create: [
+            {url: "https://detroitmi.gov/themes/custom/detroitmi/logo.png"}
+        ]}
+        urls: {create: [
+            {url: "https://detroitmi.gov"}
+        ]}
+        admins: {connect: [
+            {auth0_id: "testid1"}
+        ]}
+        locations: {create: [
+            {
+                name: "Metropolitain United Methodist Church"
+                street_address: "8000 Woodward Ave"
+                city: "Detroit"
+                zipcode: 48202
+                state: "MI"
+            }
+        ]}
+    }){
+        id
+    }
+}
+mutation {
+    createEvent(data: {
+        title: "Trunk-or-Treat with the Lower North End Block Club"
+        description: "Bring your friends and family to enjoy a night of fright on the Michigan Urban Farming Initiative's Campus! There will be handy, hot dog roasting, and a Zombie Walk for the kids."
+        start: "2019-10-31T18:00:00-0500"
+        end: "2019-10-31T20:00:00-0500"
+        creator: {connect: {auth0_id: "testid2"}}
+        event_images: {create: [
+            {url: "https://i.ibb.co/hK3St7F/LNE-TOT.png"}
+        ]}
+        admins: {connect: [
+            {auth0_id: "testid2"}
+        ]}
+        locations: {create: [
+            {
+                name: "Michigan Urban Farming Initiative"
+                street_address: "7432 Brush St"
+                city: "Detroit"
+                zipcode: 48202
+                state: "MI"
+            }
+        ]}
+    }){
+        id
+    }
+}
+mutation {
+    createEvent(data: {
+        title: "Historic North End Alliance Monthly Meeting"
+        description: "Monthly meeting for the HNEA including a property valuation and tax assessment workshop from Alvin Horhn of the City Assessor's Office!"
+        start: "2019-10-31T18:00:00-0500"
+        end: "2019-10-31T20:00:00-0500"
+        creator: {connect: {auth0_id: "testid3"}}
+        event_images: {create: [
+            {url: "https://detroitmi.gov/sites/detroitmi.localhost/files/2018-11/Mary-Sheffield.jpg"}
+        ]}
+        urls: {create: [
+            {url: "https://detroitmi.gov/"}
+        ]}
+        admins: {connect: [
+            {auth0_id: "testid3"}
+        ]}
+        locations: {create: [
+            {
+                name: "Metropolitain United Methodist Church"
+                street_address: "8000 Woodward ave"
+                city: "Detroit"
+                zipcode: 48202
+                state: "MI"
+            }
+        ]}
+    }){
+        id
+    }
+}
+mutation {
+    createEvent(data: {
+        title: "Detroit People's Food Co-op \"Movie Night\""
+        description: "Movie Night on Friday, will be an opportunity to purchase ownership into the Co-op. The Co-op will open on Euclid and Woodward. Membership is $200."
+        start: "2019-10-31T18:00:00-0500"
+        end: "2019-10-31T20:00:00-0500"
+        creator: {connect: {auth0_id: "testid4"}}
+        event_images: {create: [
+            {url: "https://detroitmi.gov/sites/detroitmi.localhost/files/2018-11/Mary-Sheffield.jpg"}
+        ]}
+        urls: {create: [
+            {url: "https://detroitmi.gov/"}
+        ]}
+        admins: {connect: [
+            {auth0_id: "testid4"}
+        ]}
+        locations: {create: [
+            {
+                name: "Metropolitain United Methodist Church"
+                street_address: "8000 Woodward ave"
+                city: "Detroit"
+                zipcode: 48202
+                state: "MI"
+            }
+        ]}
+    }){
+        id
+    }
+}
+mutation {
+    createEvent(data: {
+        title: "North End Fall Harvest Fest"
+        description: "Vanguard CDC presents a free vent especially for children 4-12 years old, but all ages are welcome. There will be a Fire Safety Presentation for children and adults."
+        start: "2019-10-31T18:00:00-0500"
+        end: "2019-10-31T20:00:00-0500"
+        creator: {connect: {auth0_id: "testid5"}}
+        event_images: {create: [
+            {url: "https://detroitmi.gov/sites/detroitmi.localhost/files/2018-11/Mary-Sheffield.jpg"}
+        ]}
+        urls: {create: [
+            {url: "https://detroitmi.gov/"}
+        ]}
+        admins: {connect: [
+            {auth0_id: "testid5"}
+        ]}
+        locations: {create: [
+            {
+                name: "Metropolitain United Methodist Church"
+                street_address: "8000 Woodward ave"
+                city: "Detroit"
+                zipcode: 48202
+                state: "MI"
+            }
+        ]}
+    }){
+        id
+    }
+}

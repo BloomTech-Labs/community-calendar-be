@@ -19,9 +19,12 @@ const options = {
 }
 
 const decodedToken = (req, requireAuth = true) => {
-  const token = req.headers.authorization.replace('Bearer ', '')
+  const token = req.headers.authorization && req.headers.authorization.replace('Bearer ', '');
 
-  console.log('token: ', token);
+  if(!token){
+    throw "No token was found in header.";
+  }
+
   const decoded = new Promise((resolve, reject) => {
     jwt.verify(token, getKey, options, (err, decoded) => {
       if (err) {
@@ -33,6 +36,7 @@ const decodedToken = (req, requireAuth = true) => {
   })
 
   if (token) {
+    console.log('token: ', token)
     return decoded
   }
 

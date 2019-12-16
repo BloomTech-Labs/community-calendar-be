@@ -12,7 +12,7 @@ type Event {
   description: String!
   start: DateTime!
   end: DateTime!
-  creator_id: User! @relation(name: "EventCreator", link: INLINE, onDelete: CASCADE)
+  creator: User! @relation(name: "EventCreator", link: INLINE, onDelete: CASCADE)
   event_images: [Event_Image!] @relation(name: "EventsImages", link: TABLE)
   rsvps: [User!] @relation(name: "UsersRsvps")
   urls: [Event_Url!] @relation(link: TABLE)
@@ -36,7 +36,7 @@ type Location {
   id: ID! @id
   name: String!
   street_address: String!
-  street_address_2: String!  
+  street_address_2: String  
   city: String!
   zipcode: Int!
   state: String!

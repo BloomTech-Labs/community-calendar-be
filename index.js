@@ -1,8 +1,8 @@
 require('dotenv').config()
 const {ApolloServer} = require('apollo-server')
 const {Prisma} = require('./prisma-client/generated/prisma-client')
-const typeDefs = require('./schema')
-const resolvers = require('./resolvers')
+const typeDefs = require('./graphql/schema')
+const resolvers = require('./graphql/resolvers')
 
 const server = new ApolloServer({
   typeDefs,

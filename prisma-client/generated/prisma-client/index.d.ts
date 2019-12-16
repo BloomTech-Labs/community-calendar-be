@@ -643,7 +643,7 @@ export interface EventWhereInput {
   end_lte?: Maybe<DateTimeInput>;
   end_gt?: Maybe<DateTimeInput>;
   end_gte?: Maybe<DateTimeInput>;
-  creator_id?: Maybe<UserWhereInput>;
+  creator?: Maybe<UserWhereInput>;
   event_images_every?: Maybe<Event_ImageWhereInput>;
   event_images_some?: Maybe<Event_ImageWhereInput>;
   event_images_none?: Maybe<Event_ImageWhereInput>;
@@ -952,7 +952,7 @@ export interface EventCreateInput {
   description: String;
   start: DateTimeInput;
   end: DateTimeInput;
-  creator_id: UserCreateOneInput;
+  creator: UserCreateOneInput;
   event_images?: Maybe<Event_ImageCreateManyWithoutEventInput>;
   rsvps?: Maybe<UserCreateManyWithoutRsvpsInput>;
   urls?: Maybe<Event_UrlCreateManyWithoutEventInput>;
@@ -1001,7 +1001,7 @@ export interface EventCreateWithoutRsvpsInput {
   description: String;
   start: DateTimeInput;
   end: DateTimeInput;
-  creator_id: UserCreateOneInput;
+  creator: UserCreateOneInput;
   event_images?: Maybe<Event_ImageCreateManyWithoutEventInput>;
   urls?: Maybe<Event_UrlCreateManyWithoutEventInput>;
   admins?: Maybe<UserCreateManyWithoutAdmin_forInput>;
@@ -1057,7 +1057,7 @@ export interface LocationCreateWithoutEventInput {
   id?: Maybe<ID_Input>;
   name: String;
   street_address: String;
-  street_address_2: String;
+  street_address_2?: Maybe<String>;
   city: String;
   zipcode: Int;
   state: String;
@@ -1099,7 +1099,7 @@ export interface EventCreateWithoutAdminsInput {
   description: String;
   start: DateTimeInput;
   end: DateTimeInput;
-  creator_id: UserCreateOneInput;
+  creator: UserCreateOneInput;
   event_images?: Maybe<Event_ImageCreateManyWithoutEventInput>;
   rsvps?: Maybe<UserCreateManyWithoutRsvpsInput>;
   urls?: Maybe<Event_UrlCreateManyWithoutEventInput>;
@@ -1123,7 +1123,7 @@ export interface EventUpdateInput {
   description?: Maybe<String>;
   start?: Maybe<DateTimeInput>;
   end?: Maybe<DateTimeInput>;
-  creator_id?: Maybe<UserUpdateOneRequiredInput>;
+  creator?: Maybe<UserUpdateOneRequiredInput>;
   event_images?: Maybe<Event_ImageUpdateManyWithoutEventInput>;
   rsvps?: Maybe<UserUpdateManyWithoutRsvpsInput>;
   urls?: Maybe<Event_UrlUpdateManyWithoutEventInput>;
@@ -1310,7 +1310,7 @@ export interface EventUpdateWithoutRsvpsDataInput {
   description?: Maybe<String>;
   start?: Maybe<DateTimeInput>;
   end?: Maybe<DateTimeInput>;
-  creator_id?: Maybe<UserUpdateOneRequiredInput>;
+  creator?: Maybe<UserUpdateOneRequiredInput>;
   event_images?: Maybe<Event_ImageUpdateManyWithoutEventInput>;
   urls?: Maybe<Event_UrlUpdateManyWithoutEventInput>;
   admins?: Maybe<UserUpdateManyWithoutAdmin_forInput>;
@@ -1901,7 +1901,7 @@ export interface EventUpdateWithoutAdminsDataInput {
   description?: Maybe<String>;
   start?: Maybe<DateTimeInput>;
   end?: Maybe<DateTimeInput>;
-  creator_id?: Maybe<UserUpdateOneRequiredInput>;
+  creator?: Maybe<UserUpdateOneRequiredInput>;
   event_images?: Maybe<Event_ImageUpdateManyWithoutEventInput>;
   rsvps?: Maybe<UserUpdateManyWithoutRsvpsInput>;
   urls?: Maybe<Event_UrlUpdateManyWithoutEventInput>;
@@ -1980,7 +1980,7 @@ export interface EventCreateWithoutEvent_imagesInput {
   description: String;
   start: DateTimeInput;
   end: DateTimeInput;
-  creator_id: UserCreateOneInput;
+  creator: UserCreateOneInput;
   rsvps?: Maybe<UserCreateManyWithoutRsvpsInput>;
   urls?: Maybe<Event_UrlCreateManyWithoutEventInput>;
   admins?: Maybe<UserCreateManyWithoutAdmin_forInput>;
@@ -2004,7 +2004,7 @@ export interface EventUpdateWithoutEvent_imagesDataInput {
   description?: Maybe<String>;
   start?: Maybe<DateTimeInput>;
   end?: Maybe<DateTimeInput>;
-  creator_id?: Maybe<UserUpdateOneRequiredInput>;
+  creator?: Maybe<UserUpdateOneRequiredInput>;
   rsvps?: Maybe<UserUpdateManyWithoutRsvpsInput>;
   urls?: Maybe<Event_UrlUpdateManyWithoutEventInput>;
   admins?: Maybe<UserUpdateManyWithoutAdmin_forInput>;
@@ -2037,7 +2037,7 @@ export interface EventCreateWithoutUrlsInput {
   description: String;
   start: DateTimeInput;
   end: DateTimeInput;
-  creator_id: UserCreateOneInput;
+  creator: UserCreateOneInput;
   event_images?: Maybe<Event_ImageCreateManyWithoutEventInput>;
   rsvps?: Maybe<UserCreateManyWithoutRsvpsInput>;
   admins?: Maybe<UserCreateManyWithoutAdmin_forInput>;
@@ -2061,7 +2061,7 @@ export interface EventUpdateWithoutUrlsDataInput {
   description?: Maybe<String>;
   start?: Maybe<DateTimeInput>;
   end?: Maybe<DateTimeInput>;
-  creator_id?: Maybe<UserUpdateOneRequiredInput>;
+  creator?: Maybe<UserUpdateOneRequiredInput>;
   event_images?: Maybe<Event_ImageUpdateManyWithoutEventInput>;
   rsvps?: Maybe<UserUpdateManyWithoutRsvpsInput>;
   admins?: Maybe<UserUpdateManyWithoutAdmin_forInput>;
@@ -2089,7 +2089,7 @@ export interface LocationCreateInput {
   id?: Maybe<ID_Input>;
   name: String;
   street_address: String;
-  street_address_2: String;
+  street_address_2?: Maybe<String>;
   city: String;
   zipcode: Int;
   state: String;
@@ -2110,7 +2110,7 @@ export interface EventCreateWithoutLocationsInput {
   description: String;
   start: DateTimeInput;
   end: DateTimeInput;
-  creator_id: UserCreateOneInput;
+  creator: UserCreateOneInput;
   event_images?: Maybe<Event_ImageCreateManyWithoutEventInput>;
   rsvps?: Maybe<UserCreateManyWithoutRsvpsInput>;
   urls?: Maybe<Event_UrlCreateManyWithoutEventInput>;
@@ -2142,7 +2142,7 @@ export interface EventUpdateWithoutLocationsDataInput {
   description?: Maybe<String>;
   start?: Maybe<DateTimeInput>;
   end?: Maybe<DateTimeInput>;
-  creator_id?: Maybe<UserUpdateOneRequiredInput>;
+  creator?: Maybe<UserUpdateOneRequiredInput>;
   event_images?: Maybe<Event_ImageUpdateManyWithoutEventInput>;
   rsvps?: Maybe<UserUpdateManyWithoutRsvpsInput>;
   urls?: Maybe<Event_UrlUpdateManyWithoutEventInput>;
@@ -2395,7 +2395,7 @@ export interface EventPromise extends Promise<Event>, Fragmentable {
   description: () => Promise<String>;
   start: () => Promise<DateTimeOutput>;
   end: () => Promise<DateTimeOutput>;
-  creator_id: <T = UserPromise>() => T;
+  creator: <T = UserPromise>() => T;
   event_images: <T = FragmentableArray<Event_Image>>(args?: {
     where?: Event_ImageWhereInput;
     orderBy?: Event_ImageOrderByInput;
@@ -2451,7 +2451,7 @@ export interface EventSubscription
   description: () => Promise<AsyncIterator<String>>;
   start: () => Promise<AsyncIterator<DateTimeOutput>>;
   end: () => Promise<AsyncIterator<DateTimeOutput>>;
-  creator_id: <T = UserSubscription>() => T;
+  creator: <T = UserSubscription>() => T;
   event_images: <T = Promise<AsyncIterator<Event_ImageSubscription>>>(args?: {
     where?: Event_ImageWhereInput;
     orderBy?: Event_ImageOrderByInput;
@@ -2507,7 +2507,7 @@ export interface EventNullablePromise
   description: () => Promise<String>;
   start: () => Promise<DateTimeOutput>;
   end: () => Promise<DateTimeOutput>;
-  creator_id: <T = UserPromise>() => T;
+  creator: <T = UserPromise>() => T;
   event_images: <T = FragmentableArray<Event_Image>>(args?: {
     where?: Event_ImageWhereInput;
     orderBy?: Event_ImageOrderByInput;
@@ -2783,7 +2783,7 @@ export interface Location {
   id: ID_Output;
   name: String;
   street_address: String;
-  street_address_2: String;
+  street_address_2?: String;
   city: String;
   zipcode: Int;
   state: String;
@@ -3583,7 +3583,7 @@ export interface LocationPreviousValues {
   id: ID_Output;
   name: String;
   street_address: String;
-  street_address_2: String;
+  street_address_2?: String;
   city: String;
   zipcode: Int;
   state: String;
