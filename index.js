@@ -1,8 +1,8 @@
-require('dotenv').config()
-const {ApolloServer} = require('apollo-server')
-const {Prisma} = require('./prisma-client/generated/prisma-client')
-const typeDefs = require('./schema')
-const resolvers = require('./resolvers')
+require('dotenv').config();
+const {ApolloServer} = require('apollo-server');
+const {Prisma} = require('./prisma-client/generated/prisma-client');
+const typeDefs = require('./graphql/schema');
+const resolvers = require('./graphql/resolvers');
 
 const server = new ApolloServer({
   typeDefs,
@@ -16,8 +16,8 @@ const server = new ApolloServer({
   }),
   introspection: true,
   playground: true,
-})
+});
 
 server.listen({port: process.env.PORT || 4000}).then(({url}) => {
-  console.log(`Server ready at ${url}`)
-})
+  console.log(`Server ready at ${url}`);
+});

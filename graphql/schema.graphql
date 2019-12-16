@@ -1,0 +1,32 @@
+#import User, Location, Event  from "../prisma-client/generated/prisma.graphql"
+
+input UserCheckIdInput {
+  auth0_id: String!
+}
+
+input EventCreateInput {
+  id: ID
+  title: String!
+  description: String!
+  start: DateTime!
+  end: DateTime!
+  event_images: Event_ImageCreateManyWithoutEventInput
+  rsvps: UserCreateManyWithoutRsvpsInput
+  urls: Event_UrlCreateManyWithoutEventInput
+  admin: UserCreateManyWithoutAdmin_forInput
+  locations: LocationCreateManyWithoutEventInput
+}
+
+type Query {
+  users: [User!]
+  checkId(data: UserCheckIdInput!): [User]
+  events: [Event!]
+  locations: [Location!]
+}
+
+type Mutation {
+  addUser(data: UserCreateInput!): User!
+  addEvent(data: EventCreateInput!): Event!
+  updateEvent(data: EventUpdateInput!, where: EventWhereUniqueInput!): Event
+  deleteEvent(where: EventWhereUniqueInput!): Event
+}
