@@ -1,5 +1,7 @@
 type User {
   id: ID! @id
+  first_name: String
+  last_name: String
   auth0_id: String! @unique
   organizations: [Organization!] @relation(name: "UsersOrganizations", link: TABLE)
   rsvps: [Event!] @relation(name: "UsersRsvps", link: TABLE)

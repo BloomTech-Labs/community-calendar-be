@@ -36,12 +36,8 @@ const resolvers = {
 
   Mutation: {
     addUser: async (root, args, {prisma}, info) => {
-      const {
-        data: {auth0_id},
-      } = args;
-      const user = await prisma.createUser({
-        auth0_id,
-      });
+      const {data} = args;
+      const user = await prisma.createUser(data);
       return user;
     },
     addEvent: async (root, args, {prisma, req}, info) => {
