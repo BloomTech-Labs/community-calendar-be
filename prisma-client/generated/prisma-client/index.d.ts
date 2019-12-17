@@ -401,6 +401,10 @@ export type OrganizationOrderByInput =
 export type UserOrderByInput =
   | "id_ASC"
   | "id_DESC"
+  | "first_name_ASC"
+  | "first_name_DESC"
+  | "last_name_ASC"
+  | "last_name_DESC"
   | "auth0_id_ASC"
   | "auth0_id_DESC";
 
@@ -556,6 +560,34 @@ export interface UserWhereInput {
   id_not_starts_with?: Maybe<ID_Input>;
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
+  first_name?: Maybe<String>;
+  first_name_not?: Maybe<String>;
+  first_name_in?: Maybe<String[] | String>;
+  first_name_not_in?: Maybe<String[] | String>;
+  first_name_lt?: Maybe<String>;
+  first_name_lte?: Maybe<String>;
+  first_name_gt?: Maybe<String>;
+  first_name_gte?: Maybe<String>;
+  first_name_contains?: Maybe<String>;
+  first_name_not_contains?: Maybe<String>;
+  first_name_starts_with?: Maybe<String>;
+  first_name_not_starts_with?: Maybe<String>;
+  first_name_ends_with?: Maybe<String>;
+  first_name_not_ends_with?: Maybe<String>;
+  last_name?: Maybe<String>;
+  last_name_not?: Maybe<String>;
+  last_name_in?: Maybe<String[] | String>;
+  last_name_not_in?: Maybe<String[] | String>;
+  last_name_lt?: Maybe<String>;
+  last_name_lte?: Maybe<String>;
+  last_name_gt?: Maybe<String>;
+  last_name_gte?: Maybe<String>;
+  last_name_contains?: Maybe<String>;
+  last_name_not_contains?: Maybe<String>;
+  last_name_starts_with?: Maybe<String>;
+  last_name_not_starts_with?: Maybe<String>;
+  last_name_ends_with?: Maybe<String>;
+  last_name_not_ends_with?: Maybe<String>;
   auth0_id?: Maybe<String>;
   auth0_id_not?: Maybe<String>;
   auth0_id_in?: Maybe<String[] | String>;
@@ -974,6 +1006,8 @@ export interface UserCreateOneWithoutCreated_eventsInput {
 
 export interface UserCreateWithoutCreated_eventsInput {
   id?: Maybe<ID_Input>;
+  first_name?: Maybe<String>;
+  last_name?: Maybe<String>;
   auth0_id: String;
   organizations?: Maybe<OrganizationCreateManyWithoutUsersInput>;
   rsvps?: Maybe<EventCreateManyWithoutRsvpsInput>;
@@ -1048,6 +1082,8 @@ export interface UserCreateManyWithoutAdmin_forInput {
 
 export interface UserCreateWithoutAdmin_forInput {
   id?: Maybe<ID_Input>;
+  first_name?: Maybe<String>;
+  last_name?: Maybe<String>;
   auth0_id: String;
   organizations?: Maybe<OrganizationCreateManyWithoutUsersInput>;
   rsvps?: Maybe<EventCreateManyWithoutRsvpsInput>;
@@ -1081,6 +1117,8 @@ export interface UserCreateManyWithoutRsvpsInput {
 
 export interface UserCreateWithoutRsvpsInput {
   id?: Maybe<ID_Input>;
+  first_name?: Maybe<String>;
+  last_name?: Maybe<String>;
   auth0_id: String;
   organizations?: Maybe<OrganizationCreateManyWithoutUsersInput>;
   admin_for?: Maybe<EventCreateManyWithoutAdminsInput>;
@@ -1170,6 +1208,8 @@ export interface UserUpdateOneWithoutCreated_eventsInput {
 }
 
 export interface UserUpdateWithoutCreated_eventsDataInput {
+  first_name?: Maybe<String>;
+  last_name?: Maybe<String>;
   auth0_id?: Maybe<String>;
   organizations?: Maybe<OrganizationUpdateManyWithoutUsersInput>;
   rsvps?: Maybe<EventUpdateManyWithoutRsvpsInput>;
@@ -1542,6 +1582,8 @@ export interface UserUpdateWithWhereUniqueWithoutAdmin_forInput {
 }
 
 export interface UserUpdateWithoutAdmin_forDataInput {
+  first_name?: Maybe<String>;
+  last_name?: Maybe<String>;
   auth0_id?: Maybe<String>;
   organizations?: Maybe<OrganizationUpdateManyWithoutUsersInput>;
   rsvps?: Maybe<EventUpdateManyWithoutRsvpsInput>;
@@ -1613,6 +1655,8 @@ export interface UserUpdateWithWhereUniqueWithoutRsvpsInput {
 }
 
 export interface UserUpdateWithoutRsvpsDataInput {
+  first_name?: Maybe<String>;
+  last_name?: Maybe<String>;
   auth0_id?: Maybe<String>;
   organizations?: Maybe<OrganizationUpdateManyWithoutUsersInput>;
   admin_for?: Maybe<EventUpdateManyWithoutAdminsInput>;
@@ -1983,6 +2027,34 @@ export interface UserScalarWhereInput {
   id_not_starts_with?: Maybe<ID_Input>;
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
+  first_name?: Maybe<String>;
+  first_name_not?: Maybe<String>;
+  first_name_in?: Maybe<String[] | String>;
+  first_name_not_in?: Maybe<String[] | String>;
+  first_name_lt?: Maybe<String>;
+  first_name_lte?: Maybe<String>;
+  first_name_gt?: Maybe<String>;
+  first_name_gte?: Maybe<String>;
+  first_name_contains?: Maybe<String>;
+  first_name_not_contains?: Maybe<String>;
+  first_name_starts_with?: Maybe<String>;
+  first_name_not_starts_with?: Maybe<String>;
+  first_name_ends_with?: Maybe<String>;
+  first_name_not_ends_with?: Maybe<String>;
+  last_name?: Maybe<String>;
+  last_name_not?: Maybe<String>;
+  last_name_in?: Maybe<String[] | String>;
+  last_name_not_in?: Maybe<String[] | String>;
+  last_name_lt?: Maybe<String>;
+  last_name_lte?: Maybe<String>;
+  last_name_gt?: Maybe<String>;
+  last_name_gte?: Maybe<String>;
+  last_name_contains?: Maybe<String>;
+  last_name_not_contains?: Maybe<String>;
+  last_name_starts_with?: Maybe<String>;
+  last_name_not_starts_with?: Maybe<String>;
+  last_name_ends_with?: Maybe<String>;
+  last_name_not_ends_with?: Maybe<String>;
   auth0_id?: Maybe<String>;
   auth0_id_not?: Maybe<String>;
   auth0_id_in?: Maybe<String[] | String>;
@@ -2008,6 +2080,8 @@ export interface UserUpdateManyWithWhereNestedInput {
 }
 
 export interface UserUpdateManyDataInput {
+  first_name?: Maybe<String>;
+  last_name?: Maybe<String>;
   auth0_id?: Maybe<String>;
 }
 
@@ -2373,6 +2447,8 @@ export interface UserCreateManyWithoutOrganizationsInput {
 
 export interface UserCreateWithoutOrganizationsInput {
   id?: Maybe<ID_Input>;
+  first_name?: Maybe<String>;
+  last_name?: Maybe<String>;
   auth0_id: String;
   rsvps?: Maybe<EventCreateManyWithoutRsvpsInput>;
   admin_for?: Maybe<EventCreateManyWithoutAdminsInput>;
@@ -2415,6 +2491,8 @@ export interface UserUpdateWithWhereUniqueWithoutOrganizationsInput {
 }
 
 export interface UserUpdateWithoutOrganizationsDataInput {
+  first_name?: Maybe<String>;
+  last_name?: Maybe<String>;
   auth0_id?: Maybe<String>;
   rsvps?: Maybe<EventUpdateManyWithoutRsvpsInput>;
   admin_for?: Maybe<EventUpdateManyWithoutAdminsInput>;
@@ -2436,6 +2514,8 @@ export interface OrganizationUpdateManyMutationInput {
 
 export interface UserCreateInput {
   id?: Maybe<ID_Input>;
+  first_name?: Maybe<String>;
+  last_name?: Maybe<String>;
   auth0_id: String;
   organizations?: Maybe<OrganizationCreateManyWithoutUsersInput>;
   rsvps?: Maybe<EventCreateManyWithoutRsvpsInput>;
@@ -2444,6 +2524,8 @@ export interface UserCreateInput {
 }
 
 export interface UserUpdateInput {
+  first_name?: Maybe<String>;
+  last_name?: Maybe<String>;
   auth0_id?: Maybe<String>;
   organizations?: Maybe<OrganizationUpdateManyWithoutUsersInput>;
   rsvps?: Maybe<EventUpdateManyWithoutRsvpsInput>;
@@ -2452,6 +2534,8 @@ export interface UserUpdateInput {
 }
 
 export interface UserUpdateManyMutationInput {
+  first_name?: Maybe<String>;
+  last_name?: Maybe<String>;
   auth0_id?: Maybe<String>;
 }
 
@@ -2755,11 +2839,15 @@ export interface EventNullablePromise
 
 export interface User {
   id: ID_Output;
+  first_name?: String;
+  last_name?: String;
   auth0_id: String;
 }
 
 export interface UserPromise extends Promise<User>, Fragmentable {
   id: () => Promise<ID_Output>;
+  first_name: () => Promise<String>;
+  last_name: () => Promise<String>;
   auth0_id: () => Promise<String>;
   organizations: <T = FragmentableArray<Organization>>(args?: {
     where?: OrganizationWhereInput;
@@ -2803,6 +2891,8 @@ export interface UserSubscription
   extends Promise<AsyncIterator<User>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
+  first_name: () => Promise<AsyncIterator<String>>;
+  last_name: () => Promise<AsyncIterator<String>>;
   auth0_id: () => Promise<AsyncIterator<String>>;
   organizations: <T = Promise<AsyncIterator<OrganizationSubscription>>>(args?: {
     where?: OrganizationWhereInput;
@@ -2846,6 +2936,8 @@ export interface UserNullablePromise
   extends Promise<User | null>,
     Fragmentable {
   id: () => Promise<ID_Output>;
+  first_name: () => Promise<String>;
+  last_name: () => Promise<String>;
   auth0_id: () => Promise<String>;
   organizations: <T = FragmentableArray<Organization>>(args?: {
     where?: OrganizationWhereInput;
@@ -3995,6 +4087,8 @@ export interface UserSubscriptionPayloadSubscription
 
 export interface UserPreviousValues {
   id: ID_Output;
+  first_name?: String;
+  last_name?: String;
   auth0_id: String;
 }
 
@@ -4002,6 +4096,8 @@ export interface UserPreviousValuesPromise
   extends Promise<UserPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
+  first_name: () => Promise<String>;
+  last_name: () => Promise<String>;
   auth0_id: () => Promise<String>;
 }
 
@@ -4009,6 +4105,8 @@ export interface UserPreviousValuesSubscription
   extends Promise<AsyncIterator<UserPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
+  first_name: () => Promise<AsyncIterator<String>>;
+  last_name: () => Promise<AsyncIterator<String>>;
   auth0_id: () => Promise<AsyncIterator<String>>;
 }
 

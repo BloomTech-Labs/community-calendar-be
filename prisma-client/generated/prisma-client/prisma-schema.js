@@ -2111,6 +2111,8 @@ type Subscription {
 
 type User {
   id: ID!
+  first_name: String
+  last_name: String
   auth0_id: String!
   organizations(where: OrganizationWhereInput, orderBy: OrganizationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Organization!]
   rsvps(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event!]
@@ -2126,6 +2128,8 @@ type UserConnection {
 
 input UserCreateInput {
   id: ID
+  first_name: String
+  last_name: String
   auth0_id: String!
   organizations: OrganizationCreateManyWithoutUsersInput
   rsvps: EventCreateManyWithoutRsvpsInput
@@ -2155,6 +2159,8 @@ input UserCreateOneWithoutCreated_eventsInput {
 
 input UserCreateWithoutAdmin_forInput {
   id: ID
+  first_name: String
+  last_name: String
   auth0_id: String!
   organizations: OrganizationCreateManyWithoutUsersInput
   rsvps: EventCreateManyWithoutRsvpsInput
@@ -2163,6 +2169,8 @@ input UserCreateWithoutAdmin_forInput {
 
 input UserCreateWithoutCreated_eventsInput {
   id: ID
+  first_name: String
+  last_name: String
   auth0_id: String!
   organizations: OrganizationCreateManyWithoutUsersInput
   rsvps: EventCreateManyWithoutRsvpsInput
@@ -2171,6 +2179,8 @@ input UserCreateWithoutCreated_eventsInput {
 
 input UserCreateWithoutOrganizationsInput {
   id: ID
+  first_name: String
+  last_name: String
   auth0_id: String!
   rsvps: EventCreateManyWithoutRsvpsInput
   admin_for: EventCreateManyWithoutAdminsInput
@@ -2179,6 +2189,8 @@ input UserCreateWithoutOrganizationsInput {
 
 input UserCreateWithoutRsvpsInput {
   id: ID
+  first_name: String
+  last_name: String
   auth0_id: String!
   organizations: OrganizationCreateManyWithoutUsersInput
   admin_for: EventCreateManyWithoutAdminsInput
@@ -2193,12 +2205,18 @@ type UserEdge {
 enum UserOrderByInput {
   id_ASC
   id_DESC
+  first_name_ASC
+  first_name_DESC
+  last_name_ASC
+  last_name_DESC
   auth0_id_ASC
   auth0_id_DESC
 }
 
 type UserPreviousValues {
   id: ID!
+  first_name: String
+  last_name: String
   auth0_id: String!
 }
 
@@ -2217,6 +2235,34 @@ input UserScalarWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  first_name: String
+  first_name_not: String
+  first_name_in: [String!]
+  first_name_not_in: [String!]
+  first_name_lt: String
+  first_name_lte: String
+  first_name_gt: String
+  first_name_gte: String
+  first_name_contains: String
+  first_name_not_contains: String
+  first_name_starts_with: String
+  first_name_not_starts_with: String
+  first_name_ends_with: String
+  first_name_not_ends_with: String
+  last_name: String
+  last_name_not: String
+  last_name_in: [String!]
+  last_name_not_in: [String!]
+  last_name_lt: String
+  last_name_lte: String
+  last_name_gt: String
+  last_name_gte: String
+  last_name_contains: String
+  last_name_not_contains: String
+  last_name_starts_with: String
+  last_name_not_starts_with: String
+  last_name_ends_with: String
+  last_name_not_ends_with: String
   auth0_id: String
   auth0_id_not: String
   auth0_id_in: [String!]
@@ -2255,6 +2301,8 @@ input UserSubscriptionWhereInput {
 }
 
 input UserUpdateInput {
+  first_name: String
+  last_name: String
   auth0_id: String
   organizations: OrganizationUpdateManyWithoutUsersInput
   rsvps: EventUpdateManyWithoutRsvpsInput
@@ -2263,10 +2311,14 @@ input UserUpdateInput {
 }
 
 input UserUpdateManyDataInput {
+  first_name: String
+  last_name: String
   auth0_id: String
 }
 
 input UserUpdateManyMutationInput {
+  first_name: String
+  last_name: String
   auth0_id: String
 }
 
@@ -2321,6 +2373,8 @@ input UserUpdateOneWithoutCreated_eventsInput {
 }
 
 input UserUpdateWithoutAdmin_forDataInput {
+  first_name: String
+  last_name: String
   auth0_id: String
   organizations: OrganizationUpdateManyWithoutUsersInput
   rsvps: EventUpdateManyWithoutRsvpsInput
@@ -2328,6 +2382,8 @@ input UserUpdateWithoutAdmin_forDataInput {
 }
 
 input UserUpdateWithoutCreated_eventsDataInput {
+  first_name: String
+  last_name: String
   auth0_id: String
   organizations: OrganizationUpdateManyWithoutUsersInput
   rsvps: EventUpdateManyWithoutRsvpsInput
@@ -2335,6 +2391,8 @@ input UserUpdateWithoutCreated_eventsDataInput {
 }
 
 input UserUpdateWithoutOrganizationsDataInput {
+  first_name: String
+  last_name: String
   auth0_id: String
   rsvps: EventUpdateManyWithoutRsvpsInput
   admin_for: EventUpdateManyWithoutAdminsInput
@@ -2342,6 +2400,8 @@ input UserUpdateWithoutOrganizationsDataInput {
 }
 
 input UserUpdateWithoutRsvpsDataInput {
+  first_name: String
+  last_name: String
   auth0_id: String
   organizations: OrganizationUpdateManyWithoutUsersInput
   admin_for: EventUpdateManyWithoutAdminsInput
@@ -2401,6 +2461,34 @@ input UserWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  first_name: String
+  first_name_not: String
+  first_name_in: [String!]
+  first_name_not_in: [String!]
+  first_name_lt: String
+  first_name_lte: String
+  first_name_gt: String
+  first_name_gte: String
+  first_name_contains: String
+  first_name_not_contains: String
+  first_name_starts_with: String
+  first_name_not_starts_with: String
+  first_name_ends_with: String
+  first_name_not_ends_with: String
+  last_name: String
+  last_name_not: String
+  last_name_in: [String!]
+  last_name_not_in: [String!]
+  last_name_lt: String
+  last_name_lte: String
+  last_name_gt: String
+  last_name_gte: String
+  last_name_contains: String
+  last_name_not_contains: String
+  last_name_starts_with: String
+  last_name_not_starts_with: String
+  last_name_ends_with: String
+  last_name_not_ends_with: String
   auth0_id: String
   auth0_id_not: String
   auth0_id_in: [String!]
