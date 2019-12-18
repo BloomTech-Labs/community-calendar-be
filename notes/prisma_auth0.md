@@ -101,7 +101,7 @@ Run `prisma deploy -e ../.env`
 Add config vars from the `.env` file you created earlier and add `NODE_ENV` = `production` in your app's Heroku settings. Auth0 are variables explained at the end.
 
 Example:
-![config_variables](https://res.cloudinary.com/duoz4fpzs/image/upload/v1576303244/config_vars_dxdhdt.png)
+![config_variables](https://res.cloudinary.com/thisbenrogers/image/upload/v1576627798/Screen_Shot_2019-12-17_at_5.05.02_PM_sen5d4.png)
 
 ## Connecting your server to you own Auth0 account:
 
