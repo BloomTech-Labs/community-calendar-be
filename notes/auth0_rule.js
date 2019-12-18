@@ -42,3 +42,48 @@ function (user, context, callback) {
     });
     return callback(null, user, context);
 }
+
+
+function (user, context, callback) {
+    if(user && user.user_id){  
+    const {request} = require('graphql-request');
+        const namespace = 'http://';
+      
+      const query = `
+          {
+              checkId(data: {
+                auth0_id: "${user.user_id || 'test'}"
+              }){
+                  id
+              }
+          }
+      `;
+      
+      const mutation = user.user_id && `
+          mutation{
+            adddUser(data: {
+              auth0_id: "${user.user_id}"
+            }){
+                id
+            }
+        }`;
+        
+      request('https://0a76ab76.ngrok.io/', query).then(result => {
+        if(result.checkId.length){
+                context.accessToken[namespace + 'cc_id'] = result.checkId[0].id;
+          return callback(null, user, context);
+        }
+        request('https://0a76ab76.ngrok.io/', mutation).then(result => {
+          context.accessToken[namespace + 'cc_id'] = result.data.addUser.id;
+          return callback(null, user, context);
+        }).catch(err => {
+         return callback(null, user, context);
+        });
+      }).catch(err => {
+             return callback(null, user, context);
+      });
+    }else{
+          return callback(null, user, context);
+    }
+      
+    }

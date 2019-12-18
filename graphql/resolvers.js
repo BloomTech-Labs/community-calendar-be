@@ -4,6 +4,13 @@ const resolvers = {
   Event: {
     creator: (parent, args, {prisma}) =>
       prisma.event({id: parent.id}).creator(),
+    event_images: (parent, args, {prisma}) =>
+      prisma.event({id: parent.id}).event_images(),
+    rsvps: (parent, args, {prisma}) => prisma.event({id: parent.id}).rsvps(),
+    urls: (parent, args, {prisma}) => prisma.event({id: parent.id}).urls(),
+    admins: (parent, args, {prisma}) => prisma.event({id: parent.id}).admins(),
+    locations: (parent, args, {prisma}) =>
+      prisma.event({id: parent.id}).locations(),
   },
   Query: {
     users: async (root, args, {prisma, req}, info) => {
@@ -29,7 +36,7 @@ const resolvers = {
         throw err;
       }
     },
-    events: async (root, args, {prisma}, info) => {
+    events: async (root, args, {prisma, req}, info) => {
       return await prisma.events();
     },
   },
@@ -70,7 +77,6 @@ const resolvers = {
     },
     deleteEvent: async (root, args, {prisma, req}, info) => {
       const {where} = args;
-      console.log(where);
       try {
         const [{creator}] = await prisma.events({where}).creator();
         const decoded = await decodedToken(req);
