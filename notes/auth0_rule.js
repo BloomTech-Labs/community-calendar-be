@@ -68,12 +68,12 @@ function (user, context, callback) {
             }
         }`;
         
-      request('https://0a76ab76.ngrok.io/', query).then(result => {
+      request('https://ccstaging.herokuapp.com/', query).then(result => {
         if(result.checkId.length){
                 context.accessToken[namespace + 'cc_id'] = result.checkId[0].id;
           return callback(null, user, context);
         }
-        request('https://0a76ab76.ngrok.io/', mutation).then(result => {
+        request('https://ccstaging.herokuapp.com/', mutation).then(result => {
           context.accessToken[namespace + 'cc_id'] = result.data.addUser.id;
           return callback(null, user, context);
         }).catch(err => {
