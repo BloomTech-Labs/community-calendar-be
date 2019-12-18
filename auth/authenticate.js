@@ -38,7 +38,6 @@ const decodedToken = (req, requireAuth = true) => {
   });
 
   if (token) {
-    console.log('token: ', token);
     return decoded;
   }
 
