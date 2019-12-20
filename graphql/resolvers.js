@@ -16,7 +16,7 @@ const resolvers = {
     users: async (root, args, {prisma, req}, info) => {
       try {
         const decoded = await decodedToken(req);
-        return prisma.users();
+        return prisma.users({...args});
       } catch (err) {
         throw err;
       }
@@ -37,7 +37,8 @@ const resolvers = {
       }
     },
     events: async (root, args, {prisma, req}, info) => {
-      return await prisma.events();
+
+      return await prisma.events({...args});
     },
   },
 
