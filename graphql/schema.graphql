@@ -18,10 +18,9 @@ input EventCreateInput {
 }
 
 type Query {
-  users: [User!]
+  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   checkId(data: UserCheckIdInput!): [User]
-  events: [Event!]
-  locations: [Location!]
+  events(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event!]
 }
 
 type Mutation {
