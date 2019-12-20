@@ -199,7 +199,7 @@
       z-index: 9;
     }
     .fa {
-      font-size: 2rem;
+      font-size: 1.5rem;
     }
     .guestLink {
       display: flex;
@@ -264,7 +264,7 @@
               style="text-align: right"
               id="btn-google-login"
             >
-              Log in with <strong>Google</strong>
+              Sign in with <strong>Google</strong>
             </div>
             <div class="col-xs-2 social">or</div>
             <div
@@ -272,7 +272,7 @@
               style="text-align: left"
               id="btn-facebook-login"
             >
-              Log in with <strong>Facebook</strong>
+              Sign in with <strong>Facebook</strong>
             </div>
             <div class="row" style="margin: 0 auto">
               <div class="col-md-1"></div>
@@ -306,7 +306,7 @@
           id="btn-real-login"
           class="btn btn-default btn-danger btn-block btn-block btn-color"
         >
-          Sign In with Email
+          <strong>Sign in</strong> with email
         </button>
       </div>
     </div>
@@ -387,7 +387,7 @@
           id="btn-real-signup"
           class="btn btn-default btn-danger btn-block btn-color"
         >
-          Sign Up with email
+          <strong>Sign up</strong> with email
         </button>
       </div>
     </div>
@@ -448,130 +448,132 @@
           );
         }
 
-      function goBack() {
-        webAuth.logout();
-      }
-
-      function signup() {
-        var email = document.getElementById('email_signup').value;
-        var password = document.getElementById('password_signup').value;
-        var first_name = document.getElementById('first_name').value;
-        var last_name = document.getElementById('last_name').value;
-
-        webAuth.redirect.signupAndLogin(
-          {
-            connection: databaseConnection,
-            email: email,
-            password: password,
-            user_metadata: {first_name: first_name, last_name: last_name},
-          },
-          function(err) {
-            if (err) displayError(err);
-          },
-        );
-      }
-
-      function loginWithGoogle() {
-        webAuth.authorize(
-          {
-            connection: 'google-oauth2',
-          },
-          function(err) {
-            if (err) displayError(err);
-          },
-        );
-      }
-
-      function loginWithFacebook() {
-        webAuth.authorize(
-          {
-            connection: 'facebook',
-          },
-          function(err) {
-            if (err) displayError(err);
-            alert(JSON.stringify(err));
-          },
-        );
-      }
-
-      let passwordInput = document.getElementById('password'),
-        togglePass = document.getElementById('btnToggle'),
-        icon = document.getElementById('eyeIcon');
-
-      function togglePassword() {
-        if (passwordInput.type === 'password') {
-          passwordInput.type = 'text';
-          icon.classList.remove('fa-eye-slash');
-          icon.classList.add('fa-eye');
-        } else {
-          passwordInput.type = 'password';
-          icon.classList.remove('fa-eye');
-          icon.classList.add('fa-eye-slash');
+        function goBack() {
+          webAuth.logout();
         }
-      }
 
-      togglePass.addEventListener('click', togglePassword, false);
+        function signup() {
+          var email = document.getElementById('email_signup').value;
+          var password = document.getElementById('password_signup').value;
+          var first_name = document.getElementById('first_name').value;
+          var last_name = document.getElementById('last_name').value;
 
-      let passwordInput2 = document.getElementById('password_signup'),
-        togglePass2 = document.getElementById('btnToggle2'),
-        icon2 = document.getElementById('eyeIcon1');
-
-      function togglePassword2() {
-        if (passwordInput2.type === 'password') {
-          passwordInput2.type = 'text';
-          icon2.classList.remove('fa-eye-slash');
-          icon2.classList.add('fa-eye');
-        } else {
-          passwordInput2.type = 'password';
-          icon2.classList.remove('fa-eye');
-          icon2.classList.add('fa-eye-slash');
+          webAuth.redirect.signupAndLogin(
+            {
+              connection: databaseConnection,
+              email: email,
+              password: password,
+              user_metadata: {first_name: first_name, last_name: last_name},
+            },
+            function(err) {
+              if (err) displayError(err);
+            },
+          );
         }
-      }
 
-      togglePass2.addEventListener('click', togglePassword2, false);
+        function loginWithGoogle() {
+          webAuth.authorize(
+            {
+              connection: 'google-oauth2',
+            },
+            function(err) {
+              if (err) displayError(err);
+            },
+          );
+        }
 
-      const registerForm = document.querySelector('.register-container');
-      const loginForm = document.querySelector('.login-container');
-      const googleLoginButton = document.querySelector('#btn-google-login');
-      const facebookLoginButton = document.querySelector('#btn-facebook-login');
-      const googleSignupButton = document.querySelector('#btn-google-signup');
-      const facebookSignupButton = document.querySelector(
-        '#btn-facebook-signup',
-      );
+        function loginWithFacebook() {
+          webAuth.authorize(
+            {
+              connection: 'facebook',
+            },
+            function(err) {
+              if (err) displayError(err);
+              alert(JSON.stringify(err));
+            },
+          );
+        }
 
-      const realLogin = document.querySelector('#btn-real-login');
-      const realSignup = document.querySelector('#btn-real-signup');
+        let passwordInput = document.getElementById('password'),
+          togglePass = document.getElementById('btnToggle'),
+          icon = document.getElementById('eyeIcon');
 
-      const loginButton = document.getElementById('btn-login');
-      const signupButton = document.getElementById('btn-signup');
-      const signinButton = document.getElementById('btn-login');
+        function togglePassword() {
+          if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+          } else {
+            passwordInput.type = 'password';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+          }
+        }
 
-      const goback = document.querySelector('#goback');
+        togglePass.addEventListener('click', togglePassword, false);
 
-      function toggle() {
-        registerForm.classList.toggle('hide');
-        loginForm.classList.toggle('hide');
-        loginButton.classList.toggle('hide');
-        signupButton.classList.toggle('hide');
-        signinButton.classList.toggle('hide');
-      }
+        let passwordInput2 = document.getElementById('password_signup'),
+          togglePass2 = document.getElementById('btnToggle2'),
+          icon2 = document.getElementById('eyeIcon1');
 
-      function displayError(err) {
-        var errorMessage = document.getElementById('error-message');
-        errorMessage.innerHTML = err.description;
-        errorMessage.style.display = 'block';
-      }
+        function togglePassword2() {
+          if (passwordInput2.type === 'password') {
+            passwordInput2.type = 'text';
+            icon2.classList.remove('fa-eye-slash');
+            icon2.classList.add('fa-eye');
+          } else {
+            passwordInput2.type = 'password';
+            icon2.classList.remove('fa-eye');
+            icon2.classList.add('fa-eye-slash');
+          }
+        }
 
-      loginButton.addEventListener('click', toggle);
-      signupButton.addEventListener('click', toggle);
-      signinButton.addEventListener('click', toggle);
-      googleLoginButton.addEventListener('click', loginWithGoogle);
-      googleSignupButton.addEventListener('click', loginWithGoogle);
-      facebookLoginButton.addEventListener('click', loginWithFacebook);
-      facebookSignupButton.addEventListener('click', loginWithFacebook);
-      realLogin.addEventListener('click', login);
-      realSignup.addEventListener('click', signup);
-      goback.addEventListener('click', goBack);
+        togglePass2.addEventListener('click', togglePassword2, false);
+
+        const registerForm = document.querySelector('.register-container');
+        const loginForm = document.querySelector('.login-container');
+        const googleLoginButton = document.querySelector('#btn-google-login');
+        const facebookLoginButton = document.querySelector(
+          '#btn-facebook-login',
+        );
+        const googleSignupButton = document.querySelector('#btn-google-signup');
+        const facebookSignupButton = document.querySelector(
+          '#btn-facebook-signup',
+        );
+
+        const realLogin = document.querySelector('#btn-real-login');
+        const realSignup = document.querySelector('#btn-real-signup');
+
+        const loginButton = document.getElementById('btn-login');
+        const signupButton = document.getElementById('btn-signup');
+        const signinButton = document.getElementById('btn-login');
+
+        const goback = document.querySelector('#goback');
+
+        function toggle() {
+          registerForm.classList.toggle('hide');
+          loginForm.classList.toggle('hide');
+          loginButton.classList.toggle('hide');
+          signupButton.classList.toggle('hide');
+          signinButton.classList.toggle('hide');
+        }
+
+        function displayError(err) {
+          var errorMessage = document.getElementById('error-message');
+          errorMessage.innerHTML = err.description;
+          errorMessage.style.display = 'block';
+        }
+
+        loginButton.addEventListener('click', toggle);
+        signupButton.addEventListener('click', toggle);
+        signinButton.addEventListener('click', toggle);
+        googleLoginButton.addEventListener('click', loginWithGoogle);
+        googleSignupButton.addEventListener('click', loginWithGoogle);
+        facebookLoginButton.addEventListener('click', loginWithFacebook);
+        facebookSignupButton.addEventListener('click', loginWithFacebook);
+        realLogin.addEventListener('click', login);
+        realSignup.addEventListener('click', signup);
+        goback.addEventListener('click', goBack);
       });
     </script>
   </body>
