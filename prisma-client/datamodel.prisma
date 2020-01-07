@@ -21,6 +21,7 @@ type Event {
   urls: [Event_Url!] @relation(name: "EventUrls", link: TABLE, onDelete: CASCADE)
   admins: [User!] @relation(name: "EventsAdmins")
   locations: [Location!] @relation(name: "EventsLocations", link: TABLE, onDelete: CASCADE)
+  tags: [Event_Tag!] @relation(name: "EventTags", link: TABLE, onDelete: CASCADE)
 }
 
 type Event_Image {
@@ -33,6 +34,12 @@ type Event_Url {
   id: ID! @id
   url: String!
   event: Event! @relation(name: "EventUrls")
+}
+
+type Event_Tag{
+  id: ID! @id
+  title: String!
+  event: Event! @relation(name: "EventTags")
 }
 
 type Location {

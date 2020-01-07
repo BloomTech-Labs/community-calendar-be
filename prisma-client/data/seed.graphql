@@ -1,31 +1,19 @@
 mutation {
   createUser(
-    data: {
-      auth0_id: "testid1"
-      first_name: "Detroit Experience Factory"
-    }
+    data: {auth0_id: "testid1", first_name: "Detroit Experience Factory"}
   ) {
     id
   }
 }
 mutation {
   createUser(
-    data: {
-      auth0_id: "testid2"
-      first_name: "Mary"
-      last_name: "Sheffield"
-    }
+    data: {auth0_id: "testid2", first_name: "Mary", last_name: "Sheffield"}
   ) {
     id
   }
 }
 mutation {
-  createUser(
-    data: {
-      auth0_id: "testid3"
-      first_name: "Detroit Skating Club"
-    }
-  ) {
+  createUser(data: {auth0_id: "testid3", first_name: "Detroit Skating Club"}) {
     id
   }
 }
@@ -41,20 +29,14 @@ mutation {
 }
 mutation {
   createUser(
-    data: {
-      auth0_id: "testid5"
-      first_name: "Detroit Public Library"
-    }
+    data: {auth0_id: "testid5", first_name: "Detroit Public Library"}
   ) {
     id
   }
 }
 mutation {
   createUser(
-    data: {
-      auth0_id: "testid6"
-      first_name: "Eastern Market Partnership"
-    }
+    data: {auth0_id: "testid6", first_name: "Eastern Market Partnership"}
   ) {
     id
   }
@@ -69,12 +51,16 @@ mutation {
       creator: {connect: {auth0_id: "testid1"}}
       event_images: {
         create: [
-          {url: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F69917729%2F89373299245%2F1%2Foriginal.jpg?w=800&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C693%2C4000%2C2000&s=94184073d91c25306d22d1b0401cfea9"}
+          {
+            url: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F69917729%2F89373299245%2F1%2Foriginal.jpg?w=800&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C693%2C4000%2C2000&s=94184073d91c25306d22d1b0401cfea9"
+          }
         ]
       }
       urls: {
         create: [
-          {url: "https://www.eventbrite.com/e/art-architecture-downtown-walking-tour-tickets-70525424443"}
+          {
+            url: "https://www.eventbrite.com/e/art-architecture-downtown-walking-tour-tickets-70525424443"
+          }
         ]
       }
       admins: {connect: [{auth0_id: "testid1"}]}
@@ -87,6 +73,14 @@ mutation {
             zipcode: 48202
             state: "MI"
           }
+        ]
+      }
+      tags: {
+        create: [
+          {title: "art"}
+          {title: "history"}
+          {title: "downtown"}
+          {title: "architecture"}
         ]
       }
     }
@@ -104,12 +98,16 @@ mutation {
       creator: {connect: {auth0_id: "testid1"}}
       event_images: {
         create: [
-          {url: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F85140001%2F89373299245%2F1%2Foriginal.20191219-193513?w=800&auto=format%2Ccompress&q=75&sharp=10&rect=220%2C0%2C1880%2C940&s=5c24d24ce75c0a170c95f533542b323f"}
+          {
+            url: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F85140001%2F89373299245%2F1%2Foriginal.20191219-193513?w=800&auto=format%2Ccompress&q=75&sharp=10&rect=220%2C0%2C1880%2C940&s=5c24d24ce75c0a170c95f533542b323f"
+          }
         ]
       }
       urls: {
         create: [
-          {url: "https://www.eventbrite.com/e/downtown-winter-wonderland-lights-walk-tickets-86842691829"}
+          {
+            url: "https://www.eventbrite.com/e/downtown-winter-wonderland-lights-walk-tickets-86842691829"
+          }
         ]
       }
       admins: {connect: [{auth0_id: "testid1"}]}
@@ -124,6 +122,7 @@ mutation {
           }
         ]
       }
+      tags: {create: [{title: "lights"}, {title: "holidays"}]}
     }
   ) {
     id
@@ -139,12 +138,16 @@ mutation {
       creator: {connect: {auth0_id: "testid2"}}
       event_images: {
         create: [
-          {url: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F85046743%2F5763501059%2F1%2Foriginal.20191219-001336?w=800&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C64%2C1080%2C540&s=946121ba79ce53ba2459153c2741b52a"}
+          {
+            url: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F85046743%2F5763501059%2F1%2Foriginal.20191219-001336?w=800&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C64%2C1080%2C540&s=946121ba79ce53ba2459153c2741b52a"
+          }
         ]
       }
       urls: {
         create: [
-          {url: "https://www.eventbrite.com/e/2020-shift-tap-in-w-mary-sheffield-tickets-86524496097"}
+          {
+            url: "https://www.eventbrite.com/e/2020-shift-tap-in-w-mary-sheffield-tickets-86524496097"
+          }
         ]
       }
       admins: {connect: [{auth0_id: "testid2"}]}
@@ -157,6 +160,13 @@ mutation {
             zipcode: 48226
             state: "MI"
           }
+        ]
+      }
+      tags: {
+        create: [
+          {title: "community"}
+          {title: "cocktails"}
+          {title: "nightlife"}
         ]
       }
     }
@@ -174,14 +184,12 @@ mutation {
       creator: {connect: {auth0_id: "testid3"}}
       event_images: {
         create: [
-          {url: "https://dscclub.com/wp/wp-content/uploads/2014/02/IceShowPage.png"}
+          {
+            url: "https://dscclub.com/wp/wp-content/uploads/2014/02/IceShowPage.png"
+          }
         ]
       }
-      urls: {
-        create: [
-          {url: "https://dscclub.com/"}
-        ]
-      }
+      urls: {create: [{url: "https://dscclub.com/"}]}
       admins: {connect: [{auth0_id: "testid3"}]}
       locations: {
         create: [
@@ -193,6 +201,9 @@ mutation {
             state: "MI"
           }
         ]
+      }
+      tags: {
+        create: [{title: "kids"}, {title: "iceskating"}, {title: "family"}]
       }
     }
   ) {
@@ -209,12 +220,16 @@ mutation {
       creator: {connect: {auth0_id: "testid4"}}
       event_images: {
         create: [
-          {url: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F83852725%2F88642988607%2F1%2Foriginal.jpg?w=800&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C0%2C800%2C400&s=634757517829d19f5fb6128818867f9f"}
+          {
+            url: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F83852725%2F88642988607%2F1%2Foriginal.jpg?w=800&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C0%2C800%2C400&s=634757517829d19f5fb6128818867f9f"
+          }
         ]
       }
       urls: {
         create: [
-          {url: "https://www.eventbrite.com/e/kwanzaa-tour-at-the-charles-h-wright-museum-tickets-85347868773"}
+          {
+            url: "https://www.eventbrite.com/e/kwanzaa-tour-at-the-charles-h-wright-museum-tickets-85347868773"
+          }
         ]
       }
       admins: {connect: [{auth0_id: "testid4"}]}
@@ -227,6 +242,16 @@ mutation {
             zipcode: 48201
             state: "MI"
           }
+        ]
+      }
+      tags: {
+        create: [
+          {title: "kids"}
+          {title: "kwanzaa"}
+          {title: "family"}
+          {title: "africanamerican"}
+          {title: "history"}
+          {title: "heritage"}
         ]
       }
     }
@@ -244,12 +269,16 @@ mutation {
       creator: {connect: {auth0_id: "testid5"}}
       event_images: {
         create: [
-          {url: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F84135113%2F293621734690%2F1%2Foriginal.20191210-171159?w=800&auto=format%2Ccompress&q=75&sharp=10&rect=1%2C84%2C224%2C112&s=cf869634d7a67a925a7db1b8ad861f53"}
+          {
+            url: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F84135113%2F293621734690%2F1%2Foriginal.20191210-171159?w=800&auto=format%2Ccompress&q=75&sharp=10&rect=1%2C84%2C224%2C112&s=cf869634d7a67a925a7db1b8ad861f53"
+          }
         ]
       }
       urls: {
         create: [
-          {url: "https://www.eventbrite.com/e/3d-design-with-tinkercad-tickets-85556223969"}
+          {
+            url: "https://www.eventbrite.com/e/3d-design-with-tinkercad-tickets-85556223969"
+          }
         ]
       }
       admins: {connect: [{auth0_id: "testid5"}]}
@@ -262,6 +291,16 @@ mutation {
             zipcode: 48202
             state: "MI"
           }
+        ]
+      }
+      tags: {
+        create: [
+          {title: "kids"}
+          {title: "teenagers"}
+          {title: "STEM"}
+          {title: "tinkerCAD"}
+          {title: "CAD"}
+          {title: "engineering"}
         ]
       }
     }
@@ -279,12 +318,16 @@ mutation {
       creator: {connect: {auth0_id: "testid6"}}
       event_images: {
         create: [
-          {url: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F68668427%2F145956314054%2F1%2Foriginal.20190814-194752?w=800&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C397%2C3456%2C1728&s=1344cbac19465528c33d117ec245f5ba"}
+          {
+            url: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F68668427%2F145956314054%2F1%2Foriginal.20190814-194752?w=800&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C397%2C3456%2C1728&s=1344cbac19465528c33d117ec245f5ba"
+          }
         ]
       }
       urls: {
         create: [
-          {url: "https://www.eventbrite.com/e/detroit-lions-eastern-market-tailgating-tickets-69230968691"}
+          {
+            url: "https://www.eventbrite.com/e/detroit-lions-eastern-market-tailgating-tickets-69230968691"
+          }
         ]
       }
       admins: {connect: [{auth0_id: "testid6"}]}
@@ -297,6 +340,15 @@ mutation {
             zipcode: 48208
             state: "MI"
           }
+        ]
+      }
+      tags: {
+        create: [
+          {title: "sports"}
+          {title: "footbal"}
+          {title: "lions"}
+          {title: "party"}
+          {title: "tailgating"}
         ]
       }
     }

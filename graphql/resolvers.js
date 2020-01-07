@@ -11,6 +11,7 @@ const resolvers = {
     admins: (parent, args, {prisma}) => prisma.event({id: parent.id}).admins(),
     locations: (parent, args, {prisma}) =>
       prisma.event({id: parent.id}).locations(),
+    tags: (parent, args, {prisma}) => prisma.event({id: parent.id}).tags(),
   },
   Query: {
     users: async (root, args, {prisma, req}, info) => {
@@ -37,7 +38,6 @@ const resolvers = {
       }
     },
     events: async (root, args, {prisma, req}, info) => {
-
       return await prisma.events({...args});
     },
   },
