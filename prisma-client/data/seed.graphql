@@ -345,7 +345,7 @@ mutation {
       tags: {
         create: [
           {title: "sports"}
-          {title: "footbal"}
+          {title: "football"}
           {title: "lions"}
           {title: "party"}
           {title: "tailgating"}
