@@ -13,15 +13,15 @@ var models = [
     embedded: false
   },
   {
+    name: "Tag",
+    embedded: false
+  },
+  {
     name: "Event_Image",
     embedded: false
   },
   {
     name: "Event_Url",
-    embedded: false
-  },
-  {
-    name: "Event_Tag",
     embedded: false
   },
   {
