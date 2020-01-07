@@ -11,10 +11,6 @@ type AggregateEvent_Image {
   count: Int!
 }
 
-type AggregateEvent_Tag {
-  count: Int!
-}
-
 type AggregateEvent_Url {
   count: Int!
 }
@@ -32,6 +28,10 @@ type AggregateNeighborhood {
 }
 
 type AggregateOrganization {
+  count: Int!
+}
+
+type AggregateTag {
   count: Int!
 }
 
@@ -57,7 +57,7 @@ type Event {
   urls(where: Event_UrlWhereInput, orderBy: Event_UrlOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event_Url!]
   admins(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   locations(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Location!]
-  tags(where: Event_TagWhereInput, orderBy: Event_TagOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event_Tag!]
+  tags(where: TagWhereInput, orderBy: TagOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Tag!]
 }
 
 type Event_Image {
@@ -238,187 +238,6 @@ input Event_ImageWhereInput {
 }
 
 input Event_ImageWhereUniqueInput {
-  id: ID
-}
-
-type Event_Tag {
-  id: ID!
-  title: String!
-  event: Event!
-}
-
-type Event_TagConnection {
-  pageInfo: PageInfo!
-  edges: [Event_TagEdge]!
-  aggregate: AggregateEvent_Tag!
-}
-
-input Event_TagCreateInput {
-  id: ID
-  title: String!
-  event: EventCreateOneWithoutTagsInput!
-}
-
-input Event_TagCreateManyWithoutEventInput {
-  create: [Event_TagCreateWithoutEventInput!]
-  connect: [Event_TagWhereUniqueInput!]
-}
-
-input Event_TagCreateWithoutEventInput {
-  id: ID
-  title: String!
-}
-
-type Event_TagEdge {
-  node: Event_Tag!
-  cursor: String!
-}
-
-enum Event_TagOrderByInput {
-  id_ASC
-  id_DESC
-  title_ASC
-  title_DESC
-}
-
-type Event_TagPreviousValues {
-  id: ID!
-  title: String!
-}
-
-input Event_TagScalarWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
-  title: String
-  title_not: String
-  title_in: [String!]
-  title_not_in: [String!]
-  title_lt: String
-  title_lte: String
-  title_gt: String
-  title_gte: String
-  title_contains: String
-  title_not_contains: String
-  title_starts_with: String
-  title_not_starts_with: String
-  title_ends_with: String
-  title_not_ends_with: String
-  AND: [Event_TagScalarWhereInput!]
-  OR: [Event_TagScalarWhereInput!]
-  NOT: [Event_TagScalarWhereInput!]
-}
-
-type Event_TagSubscriptionPayload {
-  mutation: MutationType!
-  node: Event_Tag
-  updatedFields: [String!]
-  previousValues: Event_TagPreviousValues
-}
-
-input Event_TagSubscriptionWhereInput {
-  mutation_in: [MutationType!]
-  updatedFields_contains: String
-  updatedFields_contains_every: [String!]
-  updatedFields_contains_some: [String!]
-  node: Event_TagWhereInput
-  AND: [Event_TagSubscriptionWhereInput!]
-  OR: [Event_TagSubscriptionWhereInput!]
-  NOT: [Event_TagSubscriptionWhereInput!]
-}
-
-input Event_TagUpdateInput {
-  title: String
-  event: EventUpdateOneRequiredWithoutTagsInput
-}
-
-input Event_TagUpdateManyDataInput {
-  title: String
-}
-
-input Event_TagUpdateManyMutationInput {
-  title: String
-}
-
-input Event_TagUpdateManyWithoutEventInput {
-  create: [Event_TagCreateWithoutEventInput!]
-  delete: [Event_TagWhereUniqueInput!]
-  connect: [Event_TagWhereUniqueInput!]
-  set: [Event_TagWhereUniqueInput!]
-  disconnect: [Event_TagWhereUniqueInput!]
-  update: [Event_TagUpdateWithWhereUniqueWithoutEventInput!]
-  upsert: [Event_TagUpsertWithWhereUniqueWithoutEventInput!]
-  deleteMany: [Event_TagScalarWhereInput!]
-  updateMany: [Event_TagUpdateManyWithWhereNestedInput!]
-}
-
-input Event_TagUpdateManyWithWhereNestedInput {
-  where: Event_TagScalarWhereInput!
-  data: Event_TagUpdateManyDataInput!
-}
-
-input Event_TagUpdateWithoutEventDataInput {
-  title: String
-}
-
-input Event_TagUpdateWithWhereUniqueWithoutEventInput {
-  where: Event_TagWhereUniqueInput!
-  data: Event_TagUpdateWithoutEventDataInput!
-}
-
-input Event_TagUpsertWithWhereUniqueWithoutEventInput {
-  where: Event_TagWhereUniqueInput!
-  update: Event_TagUpdateWithoutEventDataInput!
-  create: Event_TagCreateWithoutEventInput!
-}
-
-input Event_TagWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
-  title: String
-  title_not: String
-  title_in: [String!]
-  title_not_in: [String!]
-  title_lt: String
-  title_lte: String
-  title_gt: String
-  title_gte: String
-  title_contains: String
-  title_not_contains: String
-  title_starts_with: String
-  title_not_starts_with: String
-  title_ends_with: String
-  title_not_ends_with: String
-  event: EventWhereInput
-  AND: [Event_TagWhereInput!]
-  OR: [Event_TagWhereInput!]
-  NOT: [Event_TagWhereInput!]
-}
-
-input Event_TagWhereUniqueInput {
   id: ID
 }
 
@@ -621,7 +440,7 @@ input EventCreateInput {
   urls: Event_UrlCreateManyWithoutEventInput
   admins: UserCreateManyWithoutAdmin_forInput
   locations: LocationCreateManyWithoutEventInput
-  tags: Event_TagCreateManyWithoutEventInput
+  tags: TagCreateManyWithoutEventsInput
 }
 
 input EventCreateManyWithoutAdminsInput {
@@ -639,6 +458,11 @@ input EventCreateManyWithoutRsvpsInput {
   connect: [EventWhereUniqueInput!]
 }
 
+input EventCreateManyWithoutTagsInput {
+  create: [EventCreateWithoutTagsInput!]
+  connect: [EventWhereUniqueInput!]
+}
+
 input EventCreateOneWithoutEvent_imagesInput {
   create: EventCreateWithoutEvent_imagesInput
   connect: EventWhereUniqueInput
@@ -646,11 +470,6 @@ input EventCreateOneWithoutEvent_imagesInput {
 
 input EventCreateOneWithoutLocationsInput {
   create: EventCreateWithoutLocationsInput
-  connect: EventWhereUniqueInput
-}
-
-input EventCreateOneWithoutTagsInput {
-  create: EventCreateWithoutTagsInput
   connect: EventWhereUniqueInput
 }
 
@@ -670,7 +489,7 @@ input EventCreateWithoutAdminsInput {
   rsvps: UserCreateManyWithoutRsvpsInput
   urls: Event_UrlCreateManyWithoutEventInput
   locations: LocationCreateManyWithoutEventInput
-  tags: Event_TagCreateManyWithoutEventInput
+  tags: TagCreateManyWithoutEventsInput
 }
 
 input EventCreateWithoutCreatorInput {
@@ -684,7 +503,7 @@ input EventCreateWithoutCreatorInput {
   urls: Event_UrlCreateManyWithoutEventInput
   admins: UserCreateManyWithoutAdmin_forInput
   locations: LocationCreateManyWithoutEventInput
-  tags: Event_TagCreateManyWithoutEventInput
+  tags: TagCreateManyWithoutEventsInput
 }
 
 input EventCreateWithoutEvent_imagesInput {
@@ -698,7 +517,7 @@ input EventCreateWithoutEvent_imagesInput {
   urls: Event_UrlCreateManyWithoutEventInput
   admins: UserCreateManyWithoutAdmin_forInput
   locations: LocationCreateManyWithoutEventInput
-  tags: Event_TagCreateManyWithoutEventInput
+  tags: TagCreateManyWithoutEventsInput
 }
 
 input EventCreateWithoutLocationsInput {
@@ -712,7 +531,7 @@ input EventCreateWithoutLocationsInput {
   rsvps: UserCreateManyWithoutRsvpsInput
   urls: Event_UrlCreateManyWithoutEventInput
   admins: UserCreateManyWithoutAdmin_forInput
-  tags: Event_TagCreateManyWithoutEventInput
+  tags: TagCreateManyWithoutEventsInput
 }
 
 input EventCreateWithoutRsvpsInput {
@@ -726,7 +545,7 @@ input EventCreateWithoutRsvpsInput {
   urls: Event_UrlCreateManyWithoutEventInput
   admins: UserCreateManyWithoutAdmin_forInput
   locations: LocationCreateManyWithoutEventInput
-  tags: Event_TagCreateManyWithoutEventInput
+  tags: TagCreateManyWithoutEventsInput
 }
 
 input EventCreateWithoutTagsInput {
@@ -754,7 +573,7 @@ input EventCreateWithoutUrlsInput {
   rsvps: UserCreateManyWithoutRsvpsInput
   admins: UserCreateManyWithoutAdmin_forInput
   locations: LocationCreateManyWithoutEventInput
-  tags: Event_TagCreateManyWithoutEventInput
+  tags: TagCreateManyWithoutEventsInput
 }
 
 type EventEdge {
@@ -876,7 +695,7 @@ input EventUpdateInput {
   urls: Event_UrlUpdateManyWithoutEventInput
   admins: UserUpdateManyWithoutAdmin_forInput
   locations: LocationUpdateManyWithoutEventInput
-  tags: Event_TagUpdateManyWithoutEventInput
+  tags: TagUpdateManyWithoutEventsInput
 }
 
 input EventUpdateManyDataInput {
@@ -929,6 +748,18 @@ input EventUpdateManyWithoutRsvpsInput {
   updateMany: [EventUpdateManyWithWhereNestedInput!]
 }
 
+input EventUpdateManyWithoutTagsInput {
+  create: [EventCreateWithoutTagsInput!]
+  delete: [EventWhereUniqueInput!]
+  connect: [EventWhereUniqueInput!]
+  set: [EventWhereUniqueInput!]
+  disconnect: [EventWhereUniqueInput!]
+  update: [EventUpdateWithWhereUniqueWithoutTagsInput!]
+  upsert: [EventUpsertWithWhereUniqueWithoutTagsInput!]
+  deleteMany: [EventScalarWhereInput!]
+  updateMany: [EventUpdateManyWithWhereNestedInput!]
+}
+
 input EventUpdateManyWithWhereNestedInput {
   where: EventScalarWhereInput!
   data: EventUpdateManyDataInput!
@@ -945,13 +776,6 @@ input EventUpdateOneRequiredWithoutLocationsInput {
   create: EventCreateWithoutLocationsInput
   update: EventUpdateWithoutLocationsDataInput
   upsert: EventUpsertWithoutLocationsInput
-  connect: EventWhereUniqueInput
-}
-
-input EventUpdateOneRequiredWithoutTagsInput {
-  create: EventCreateWithoutTagsInput
-  update: EventUpdateWithoutTagsDataInput
-  upsert: EventUpsertWithoutTagsInput
   connect: EventWhereUniqueInput
 }
 
@@ -972,7 +796,7 @@ input EventUpdateWithoutAdminsDataInput {
   rsvps: UserUpdateManyWithoutRsvpsInput
   urls: Event_UrlUpdateManyWithoutEventInput
   locations: LocationUpdateManyWithoutEventInput
-  tags: Event_TagUpdateManyWithoutEventInput
+  tags: TagUpdateManyWithoutEventsInput
 }
 
 input EventUpdateWithoutCreatorDataInput {
@@ -985,7 +809,7 @@ input EventUpdateWithoutCreatorDataInput {
   urls: Event_UrlUpdateManyWithoutEventInput
   admins: UserUpdateManyWithoutAdmin_forInput
   locations: LocationUpdateManyWithoutEventInput
-  tags: Event_TagUpdateManyWithoutEventInput
+  tags: TagUpdateManyWithoutEventsInput
 }
 
 input EventUpdateWithoutEvent_imagesDataInput {
@@ -998,7 +822,7 @@ input EventUpdateWithoutEvent_imagesDataInput {
   urls: Event_UrlUpdateManyWithoutEventInput
   admins: UserUpdateManyWithoutAdmin_forInput
   locations: LocationUpdateManyWithoutEventInput
-  tags: Event_TagUpdateManyWithoutEventInput
+  tags: TagUpdateManyWithoutEventsInput
 }
 
 input EventUpdateWithoutLocationsDataInput {
@@ -1011,7 +835,7 @@ input EventUpdateWithoutLocationsDataInput {
   rsvps: UserUpdateManyWithoutRsvpsInput
   urls: Event_UrlUpdateManyWithoutEventInput
   admins: UserUpdateManyWithoutAdmin_forInput
-  tags: Event_TagUpdateManyWithoutEventInput
+  tags: TagUpdateManyWithoutEventsInput
 }
 
 input EventUpdateWithoutRsvpsDataInput {
@@ -1024,7 +848,7 @@ input EventUpdateWithoutRsvpsDataInput {
   urls: Event_UrlUpdateManyWithoutEventInput
   admins: UserUpdateManyWithoutAdmin_forInput
   locations: LocationUpdateManyWithoutEventInput
-  tags: Event_TagUpdateManyWithoutEventInput
+  tags: TagUpdateManyWithoutEventsInput
 }
 
 input EventUpdateWithoutTagsDataInput {
@@ -1050,7 +874,7 @@ input EventUpdateWithoutUrlsDataInput {
   rsvps: UserUpdateManyWithoutRsvpsInput
   admins: UserUpdateManyWithoutAdmin_forInput
   locations: LocationUpdateManyWithoutEventInput
-  tags: Event_TagUpdateManyWithoutEventInput
+  tags: TagUpdateManyWithoutEventsInput
 }
 
 input EventUpdateWithWhereUniqueWithoutAdminsInput {
@@ -1068,6 +892,11 @@ input EventUpdateWithWhereUniqueWithoutRsvpsInput {
   data: EventUpdateWithoutRsvpsDataInput!
 }
 
+input EventUpdateWithWhereUniqueWithoutTagsInput {
+  where: EventWhereUniqueInput!
+  data: EventUpdateWithoutTagsDataInput!
+}
+
 input EventUpsertWithoutEvent_imagesInput {
   update: EventUpdateWithoutEvent_imagesDataInput!
   create: EventCreateWithoutEvent_imagesInput!
@@ -1076,11 +905,6 @@ input EventUpsertWithoutEvent_imagesInput {
 input EventUpsertWithoutLocationsInput {
   update: EventUpdateWithoutLocationsDataInput!
   create: EventCreateWithoutLocationsInput!
-}
-
-input EventUpsertWithoutTagsInput {
-  update: EventUpdateWithoutTagsDataInput!
-  create: EventCreateWithoutTagsInput!
 }
 
 input EventUpsertWithoutUrlsInput {
@@ -1104,6 +928,12 @@ input EventUpsertWithWhereUniqueWithoutRsvpsInput {
   where: EventWhereUniqueInput!
   update: EventUpdateWithoutRsvpsDataInput!
   create: EventCreateWithoutRsvpsInput!
+}
+
+input EventUpsertWithWhereUniqueWithoutTagsInput {
+  where: EventWhereUniqueInput!
+  update: EventUpdateWithoutTagsDataInput!
+  create: EventCreateWithoutTagsInput!
 }
 
 input EventWhereInput {
@@ -1181,9 +1011,9 @@ input EventWhereInput {
   locations_every: LocationWhereInput
   locations_some: LocationWhereInput
   locations_none: LocationWhereInput
-  tags_every: Event_TagWhereInput
-  tags_some: Event_TagWhereInput
-  tags_none: Event_TagWhereInput
+  tags_every: TagWhereInput
+  tags_some: TagWhereInput
+  tags_none: TagWhereInput
   AND: [EventWhereInput!]
   OR: [EventWhereInput!]
   NOT: [EventWhereInput!]
@@ -1829,12 +1659,6 @@ type Mutation {
   upsertEvent_Image(where: Event_ImageWhereUniqueInput!, create: Event_ImageCreateInput!, update: Event_ImageUpdateInput!): Event_Image!
   deleteEvent_Image(where: Event_ImageWhereUniqueInput!): Event_Image
   deleteManyEvent_Images(where: Event_ImageWhereInput): BatchPayload!
-  createEvent_Tag(data: Event_TagCreateInput!): Event_Tag!
-  updateEvent_Tag(data: Event_TagUpdateInput!, where: Event_TagWhereUniqueInput!): Event_Tag
-  updateManyEvent_Tags(data: Event_TagUpdateManyMutationInput!, where: Event_TagWhereInput): BatchPayload!
-  upsertEvent_Tag(where: Event_TagWhereUniqueInput!, create: Event_TagCreateInput!, update: Event_TagUpdateInput!): Event_Tag!
-  deleteEvent_Tag(where: Event_TagWhereUniqueInput!): Event_Tag
-  deleteManyEvent_Tags(where: Event_TagWhereInput): BatchPayload!
   createEvent_Url(data: Event_UrlCreateInput!): Event_Url!
   updateEvent_Url(data: Event_UrlUpdateInput!, where: Event_UrlWhereUniqueInput!): Event_Url
   updateManyEvent_Urls(data: Event_UrlUpdateManyMutationInput!, where: Event_UrlWhereInput): BatchPayload!
@@ -1864,6 +1688,12 @@ type Mutation {
   upsertOrganization(where: OrganizationWhereUniqueInput!, create: OrganizationCreateInput!, update: OrganizationUpdateInput!): Organization!
   deleteOrganization(where: OrganizationWhereUniqueInput!): Organization
   deleteManyOrganizations(where: OrganizationWhereInput): BatchPayload!
+  createTag(data: TagCreateInput!): Tag!
+  updateTag(data: TagUpdateInput!, where: TagWhereUniqueInput!): Tag
+  updateManyTags(data: TagUpdateManyMutationInput!, where: TagWhereInput): BatchPayload!
+  upsertTag(where: TagWhereUniqueInput!, create: TagCreateInput!, update: TagUpdateInput!): Tag!
+  deleteTag(where: TagWhereUniqueInput!): Tag
+  deleteManyTags(where: TagWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
@@ -2330,9 +2160,6 @@ type Query {
   eventImage(where: Event_ImageWhereUniqueInput!): Event_Image
   eventImages(where: Event_ImageWhereInput, orderBy: Event_ImageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event_Image]!
   eventImagesConnection(where: Event_ImageWhereInput, orderBy: Event_ImageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): Event_ImageConnection!
-  eventTag(where: Event_TagWhereUniqueInput!): Event_Tag
-  eventTags(where: Event_TagWhereInput, orderBy: Event_TagOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event_Tag]!
-  eventTagsConnection(where: Event_TagWhereInput, orderBy: Event_TagOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): Event_TagConnection!
   eventUrl(where: Event_UrlWhereUniqueInput!): Event_Url
   eventUrls(where: Event_UrlWhereInput, orderBy: Event_UrlOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event_Url]!
   eventUrlsConnection(where: Event_UrlWhereInput, orderBy: Event_UrlOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): Event_UrlConnection!
@@ -2348,6 +2175,9 @@ type Query {
   organization(where: OrganizationWhereUniqueInput!): Organization
   organizations(where: OrganizationWhereInput, orderBy: OrganizationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Organization]!
   organizationsConnection(where: OrganizationWhereInput, orderBy: OrganizationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): OrganizationConnection!
+  tag(where: TagWhereUniqueInput!): Tag
+  tags(where: TagWhereInput, orderBy: TagOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Tag]!
+  tagsConnection(where: TagWhereInput, orderBy: TagOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TagConnection!
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
@@ -2357,13 +2187,197 @@ type Query {
 type Subscription {
   event(where: EventSubscriptionWhereInput): EventSubscriptionPayload
   eventImage(where: Event_ImageSubscriptionWhereInput): Event_ImageSubscriptionPayload
-  eventTag(where: Event_TagSubscriptionWhereInput): Event_TagSubscriptionPayload
   eventUrl(where: Event_UrlSubscriptionWhereInput): Event_UrlSubscriptionPayload
   geoJson(where: Geo_JsonSubscriptionWhereInput): Geo_JsonSubscriptionPayload
   location(where: LocationSubscriptionWhereInput): LocationSubscriptionPayload
   neighborhood(where: NeighborhoodSubscriptionWhereInput): NeighborhoodSubscriptionPayload
   organization(where: OrganizationSubscriptionWhereInput): OrganizationSubscriptionPayload
+  tag(where: TagSubscriptionWhereInput): TagSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
+}
+
+type Tag {
+  id: ID!
+  title: String!
+  events(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event!]
+}
+
+type TagConnection {
+  pageInfo: PageInfo!
+  edges: [TagEdge]!
+  aggregate: AggregateTag!
+}
+
+input TagCreateInput {
+  id: ID
+  title: String!
+  events: EventCreateManyWithoutTagsInput
+}
+
+input TagCreateManyWithoutEventsInput {
+  create: [TagCreateWithoutEventsInput!]
+  connect: [TagWhereUniqueInput!]
+}
+
+input TagCreateWithoutEventsInput {
+  id: ID
+  title: String!
+}
+
+type TagEdge {
+  node: Tag!
+  cursor: String!
+}
+
+enum TagOrderByInput {
+  id_ASC
+  id_DESC
+  title_ASC
+  title_DESC
+}
+
+type TagPreviousValues {
+  id: ID!
+  title: String!
+}
+
+input TagScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  title: String
+  title_not: String
+  title_in: [String!]
+  title_not_in: [String!]
+  title_lt: String
+  title_lte: String
+  title_gt: String
+  title_gte: String
+  title_contains: String
+  title_not_contains: String
+  title_starts_with: String
+  title_not_starts_with: String
+  title_ends_with: String
+  title_not_ends_with: String
+  AND: [TagScalarWhereInput!]
+  OR: [TagScalarWhereInput!]
+  NOT: [TagScalarWhereInput!]
+}
+
+type TagSubscriptionPayload {
+  mutation: MutationType!
+  node: Tag
+  updatedFields: [String!]
+  previousValues: TagPreviousValues
+}
+
+input TagSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: TagWhereInput
+  AND: [TagSubscriptionWhereInput!]
+  OR: [TagSubscriptionWhereInput!]
+  NOT: [TagSubscriptionWhereInput!]
+}
+
+input TagUpdateInput {
+  title: String
+  events: EventUpdateManyWithoutTagsInput
+}
+
+input TagUpdateManyDataInput {
+  title: String
+}
+
+input TagUpdateManyMutationInput {
+  title: String
+}
+
+input TagUpdateManyWithoutEventsInput {
+  create: [TagCreateWithoutEventsInput!]
+  delete: [TagWhereUniqueInput!]
+  connect: [TagWhereUniqueInput!]
+  set: [TagWhereUniqueInput!]
+  disconnect: [TagWhereUniqueInput!]
+  update: [TagUpdateWithWhereUniqueWithoutEventsInput!]
+  upsert: [TagUpsertWithWhereUniqueWithoutEventsInput!]
+  deleteMany: [TagScalarWhereInput!]
+  updateMany: [TagUpdateManyWithWhereNestedInput!]
+}
+
+input TagUpdateManyWithWhereNestedInput {
+  where: TagScalarWhereInput!
+  data: TagUpdateManyDataInput!
+}
+
+input TagUpdateWithoutEventsDataInput {
+  title: String
+}
+
+input TagUpdateWithWhereUniqueWithoutEventsInput {
+  where: TagWhereUniqueInput!
+  data: TagUpdateWithoutEventsDataInput!
+}
+
+input TagUpsertWithWhereUniqueWithoutEventsInput {
+  where: TagWhereUniqueInput!
+  update: TagUpdateWithoutEventsDataInput!
+  create: TagCreateWithoutEventsInput!
+}
+
+input TagWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  title: String
+  title_not: String
+  title_in: [String!]
+  title_not_in: [String!]
+  title_lt: String
+  title_lte: String
+  title_gt: String
+  title_gte: String
+  title_contains: String
+  title_not_contains: String
+  title_starts_with: String
+  title_not_starts_with: String
+  title_ends_with: String
+  title_not_ends_with: String
+  events_every: EventWhereInput
+  events_some: EventWhereInput
+  events_none: EventWhereInput
+  AND: [TagWhereInput!]
+  OR: [TagWhereInput!]
+  NOT: [TagWhereInput!]
+}
+
+input TagWhereUniqueInput {
+  id: ID
+  title: String
 }
 
 type User {

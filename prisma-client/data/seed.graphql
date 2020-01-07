@@ -245,12 +245,10 @@ mutation {
         ]
       }
       tags: {
+        connect: [{title: "kids"}, {title: "family"}, {title: "history"}]
         create: [
-          {title: "kids"}
           {title: "kwanzaa"}
-          {title: "family"}
           {title: "africanamerican"}
-          {title: "history"}
           {title: "heritage"}
         ]
       }
@@ -294,8 +292,8 @@ mutation {
         ]
       }
       tags: {
+        connect: [{title: "kids"}]
         create: [
-          {title: "kids"}
           {title: "teenagers"}
           {title: "STEM"}
           {title: "tinkerCAD"}
