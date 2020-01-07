@@ -15,7 +15,11 @@ input EventCreateInput {
   urls: Event_UrlCreateManyWithoutEventInput
   admin: UserCreateManyWithoutAdmin_forInput
   locations: LocationCreateManyWithoutEventInput
-  tags: Event_TagCreateManyWithoutEventInput
+  tags: TagCreateManyWithoutEventsInput
+}
+
+input EventIdInput {
+  id: ID!
 }
 
 type Query {
@@ -45,4 +49,6 @@ type Mutation {
   addEvent(data: EventCreateInput!): Event!
   updateEvent(data: EventUpdateInput!, where: EventWhereUniqueInput!): Event
   deleteEvent(where: EventWhereUniqueInput!): Event
+  addRsvp(event: EventIdInput!): User
+  removeRsvp(event: EventIdInput!): User
 }
