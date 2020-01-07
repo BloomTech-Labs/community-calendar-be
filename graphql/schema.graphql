@@ -15,6 +15,7 @@ input EventCreateInput {
   urls: Event_UrlCreateManyWithoutEventInput
   admin: UserCreateManyWithoutAdmin_forInput
   locations: LocationCreateManyWithoutEventInput
+  tags: Event_TagCreateManyWithoutEventInput
 }
 
 type Query {
