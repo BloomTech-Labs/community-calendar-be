@@ -12,10 +12,13 @@ const resolvers = {
     locations: (parent, args, {prisma}) =>
       prisma.event({id: parent.id}).locations(),
   },
+  User: {
+    rsvps: (parent, args, {prisma}) => prisma.user({id: parent.id}).rsvps(),
+  },
   Query: {
     users: async (root, args, {prisma, req}, info) => {
       try {
-        const decoded = await decodedToken(req);
+        // const decoded = await decodedToken(req);
         return prisma.users({...args});
       } catch (err) {
         throw err;
@@ -37,7 +40,6 @@ const resolvers = {
       }
     },
     events: async (root, args, {prisma, req}, info) => {
-
       return await prisma.events({...args});
     },
   },
@@ -86,6 +88,34 @@ const resolvers = {
         } else {
           throw 'You do not have permission to delete this event.';
         }
+      } catch (err) {
+        throw err;
+      }
+    },
+    addRsvp: async (root, args, {prisma, req}, info) => {
+      try {
+        const decoded = await decodedToken(req);
+        const {
+          event: {id},
+        } = args;
+        return prisma.updateUser({
+          where: {id: decoded['http://cc_id']},
+          data: {rsvps: {connect: {id}}},
+        });
+      } catch (err) {
+        throw err;
+      }
+    },
+    removeRsvp: async (root, args, {prisma, req}, info) => {
+      try {
+        const decoded = await decodedToken(req);
+        const {
+          event: {id},
+        } = args;
+        return prisma.updateUser({
+          where: {id: decoded['http://cc_id']},
+          data: {rsvps: {disconnect: {id}}},
+        });
       } catch (err) {
         throw err;
       }

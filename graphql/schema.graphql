@@ -17,10 +17,30 @@ input EventCreateInput {
   locations: LocationCreateManyWithoutEventInput
 }
 
+input EventIdInput {
+  id: ID!
+}
+
 type Query {
-  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
+  users(
+    where: UserWhereInput
+    orderBy: UserOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [User!]
   checkId(data: UserCheckIdInput!): [User]
-  events(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event!]
+  events(
+    where: EventWhereInput
+    orderBy: EventOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Event!]
 }
 
 type Mutation {
@@ -28,4 +48,6 @@ type Mutation {
   addEvent(data: EventCreateInput!): Event!
   updateEvent(data: EventUpdateInput!, where: EventWhereUniqueInput!): Event
   deleteEvent(where: EventWhereUniqueInput!): Event
+  addRsvp(event: EventIdInput!): User
+  removeRsvp(event: EventIdInput!): User
 }
