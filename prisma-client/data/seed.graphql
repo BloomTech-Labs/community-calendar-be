@@ -1,53 +1,86 @@
 mutation {
-  createUser(data: {auth0_id: "testid1"}) {
+  createUser(
+    data: {auth0_id: "testid1", first_name: "Detroit Experience Factory"}
+  ) {
     id
   }
 }
 mutation {
-  createUser(data: {auth0_id: "testid2"}) {
+  createUser(
+    data: {auth0_id: "testid2", first_name: "Mary", last_name: "Sheffield"}
+  ) {
     id
   }
 }
 mutation {
-  createUser(data: {auth0_id: "testid3"}) {
+  createUser(data: {auth0_id: "testid3", first_name: "Detroit Skating Club"}) {
     id
   }
 }
 mutation {
-  createUser(data: {auth0_id: "testid4"}) {
+  createUser(
+    data: {
+      auth0_id: "testid4"
+      first_name: "Black Scroll Network History & Tours"
+    }
+  ) {
     id
   }
 }
 mutation {
-  createUser(data: {auth0_id: "testid5"}) {
+  createUser(
+    data: {auth0_id: "testid5", first_name: "Detroit Public Library"}
+  ) {
     id
   }
 }
-
+mutation {
+  createUser(
+    data: {auth0_id: "testid6", first_name: "Eastern Market Partnership"}
+  ) {
+    id
+  }
+}
 mutation {
   createEvent(
     data: {
-      title: "Councilperson Sheffield Town Hall"
-      description: "Join Council President Pro Tem Sheffield and the City Assessor for an in depth discussion on Neighborhood Enterprise Zones and what they mean to you!"
-      start: "2019-11-21T18:00:00-0500"
-      end: "2019-11-21T20:00:00-0500"
+      title: "Art & Architecture - Downtown Walking Tour"
+      description: "Detroit is a city rich in history, grand buildings, and vibrant art surrounding public spaces. Walk with Detroit Experience Factory through the downtown area as we explore some of the great contributions of both prolific architects and emerging artists."
+      start: "2019-12-22T12:00:00-0500"
+      end: "2019-12-22T14:30:00-0500"
       creator: {connect: {auth0_id: "testid1"}}
       event_images: {
         create: [
-          {url: "https://detroitmi.gov/themes/custom/detroitmi/logo.png"}
+          {
+            url: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F69917729%2F89373299245%2F1%2Foriginal.jpg?w=800&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C693%2C4000%2C2000&s=94184073d91c25306d22d1b0401cfea9"
+          }
         ]
       }
-      urls: {create: [{url: "https://detroitmi.gov"}]}
+      urls: {
+        create: [
+          {
+            url: "https://www.eventbrite.com/e/art-architecture-downtown-walking-tour-tickets-70525424443"
+          }
+        ]
+      }
       admins: {connect: [{auth0_id: "testid1"}]}
       locations: {
         create: [
           {
-            name: "Metropolitain United Methodist Church"
-            street_address: "8000 Woodward Ave"
+            name: "Roasting Plant"
+            street_address: "600 Woodward Avenue"
             city: "Detroit"
             zipcode: 48202
             state: "MI"
           }
+        ]
+      }
+      tags: {
+        create: [
+          {title: "art"}
+          {title: "history"}
+          {title: "downtown"}
+          {title: "architecture"}
         ]
       }
     }
@@ -58,22 +91,82 @@ mutation {
 mutation {
   createEvent(
     data: {
-      title: "Trunk-or-Treat with the Lower North End Block Club"
-      description: "Bring your friends and family to enjoy a night of fright on the Michigan Urban Farming Initiative's Campus! There will be handy, hot dog roasting, and a Zombie Walk for the kids."
-      start: "2019-10-31T18:00:00-0500"
-      end: "2019-10-31T20:00:00-0500"
+      title: "Downtown Winter Wonderland Lights Walk"
+      description: "The winter magic isn't over yet - join us for a walk among downtown's gorgeous parks and public spaces, twinkling with lights throughout the winter season. We'll stop to hear from some of the people behind the park lighting."
+      start: "2020-01-11T19:00:00-0500"
+      end: "2020-01-11T21:00:00-0500"
+      creator: {connect: {auth0_id: "testid1"}}
+      event_images: {
+        create: [
+          {
+            url: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F85140001%2F89373299245%2F1%2Foriginal.20191219-193513?w=800&auto=format%2Ccompress&q=75&sharp=10&rect=220%2C0%2C1880%2C940&s=5c24d24ce75c0a170c95f533542b323f"
+          }
+        ]
+      }
+      urls: {
+        create: [
+          {
+            url: "https://www.eventbrite.com/e/downtown-winter-wonderland-lights-walk-tickets-86842691829"
+          }
+        ]
+      }
+      admins: {connect: [{auth0_id: "testid1"}]}
+      locations: {
+        create: [
+          {
+            name: "Roasting Plant"
+            street_address: "600 Woodward Avenue"
+            city: "Detroit"
+            zipcode: 48202
+            state: "MI"
+          }
+        ]
+      }
+      tags: {create: [{title: "lights"}, {title: "holidays"}]}
+    }
+  ) {
+    id
+  }
+}
+mutation {
+  createEvent(
+    data: {
+      title: "2020 Shift Tap In w/ Mary Sheffield"
+      description: "Join Mary Sheffield and friends for an intimate conversation about purpose, mindset, vision and much more. Let's talk, heal, connect and set our intentions for the 2020 Shift!!"
+      start: "2019-12-27T18:00:00-0500"
+      end: "2019-12-27T20:00:00-0500"
       creator: {connect: {auth0_id: "testid2"}}
-      event_images: {create: [{url: "https://i.ibb.co/hK3St7F/LNE-TOT.png"}]}
+      event_images: {
+        create: [
+          {
+            url: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F85046743%2F5763501059%2F1%2Foriginal.20191219-001336?w=800&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C64%2C1080%2C540&s=946121ba79ce53ba2459153c2741b52a"
+          }
+        ]
+      }
+      urls: {
+        create: [
+          {
+            url: "https://www.eventbrite.com/e/2020-shift-tap-in-w-mary-sheffield-tickets-86524496097"
+          }
+        ]
+      }
       admins: {connect: [{auth0_id: "testid2"}]}
       locations: {
         create: [
           {
-            name: "Michigan Urban Farming Initiative"
-            street_address: "7432 Brush St"
+            name: "Trust Cocktails, Shareables & Nightlife"
+            street_address: "205 West Congress Street"
             city: "Detroit"
-            zipcode: 48202
+            zipcode: 48226
             state: "MI"
           }
+        ]
+      }
+      tags: {
+        create: [
+          {title: "community"}
+          {title: "cocktails"}
+          {title: "nightlife"}
         ]
       }
     }
@@ -84,30 +177,33 @@ mutation {
 mutation {
   createEvent(
     data: {
-      title: "Historic North End Alliance Monthly Meeting"
-      description: "Monthly meeting for the HNEA including a property valuation and tax assessment workshop from Alvin Horhn of the City Assessor's Office!"
-      start: "2019-10-31T18:00:00-0500"
-      end: "2019-10-31T20:00:00-0500"
+      title: "Detroit Skating Club's 21st Annual Ice Show"
+      description: "Another Magical Evening!"
+      start: "2020-01-05T19:00:00-0500"
+      end: "2020-01-05T22:00:00-0500"
       creator: {connect: {auth0_id: "testid3"}}
       event_images: {
         create: [
           {
-            url: "https://detroitmi.gov/sites/detroitmi.localhost/files/2018-11/Mary-Sheffield.jpg"
+            url: "https://dscclub.com/wp/wp-content/uploads/2014/02/IceShowPage.png"
           }
         ]
       }
-      urls: {create: [{url: "https://detroitmi.gov/"}]}
+      urls: {create: [{url: "https://dscclub.com/"}]}
       admins: {connect: [{auth0_id: "testid3"}]}
       locations: {
         create: [
           {
-            name: "Metropolitain United Methodist Church"
-            street_address: "8000 Woodward ave"
-            city: "Detroit"
-            zipcode: 48202
+            name: "Detroit Skating Club"
+            street_address: "888 Denison Ct"
+            city: "Bloomfield Hills"
+            zipcode: 48302
             state: "MI"
           }
         ]
+      }
+      tags: {
+        create: [{title: "kids"}, {title: "iceskating"}, {title: "family"}]
       }
     }
   ) {
@@ -117,29 +213,45 @@ mutation {
 mutation {
   createEvent(
     data: {
-      title: "Detroit People's Food Co-op \"Movie Night\""
-      description: "Movie Night on Friday, will be an opportunity to purchase ownership into the Co-op. The Co-op will open on Euclid and Woodward. Membership is $200."
-      start: "2019-10-31T18:00:00-0500"
-      end: "2019-10-31T20:00:00-0500"
+      title: "Kwanzaa Tour at the Charles H. Wright Museum"
+      description: "Kwanzaa is an African American seven-day cultural celebration first celebrated in 1966. Each day honors one of seven principles - the Nguzo Saba. This tour is on Day 1 and highlights African American history connected to the principle of Umoja - Unity."
+      start: "2019-12-26T12:00:00-0500"
+      end: "2019-12-22T14:00:00-0500"
       creator: {connect: {auth0_id: "testid4"}}
       event_images: {
         create: [
           {
-            url: "https://detroitmi.gov/sites/detroitmi.localhost/files/2018-11/Mary-Sheffield.jpg"
+            url: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F83852725%2F88642988607%2F1%2Foriginal.jpg?w=800&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C0%2C800%2C400&s=634757517829d19f5fb6128818867f9f"
           }
         ]
       }
-      urls: {create: [{url: "https://detroitmi.gov/"}]}
+      urls: {
+        create: [
+          {
+            url: "https://www.eventbrite.com/e/kwanzaa-tour-at-the-charles-h-wright-museum-tickets-85347868773"
+          }
+        ]
+      }
       admins: {connect: [{auth0_id: "testid4"}]}
       locations: {
         create: [
           {
-            name: "Metropolitain United Methodist Church"
-            street_address: "8000 Woodward ave"
+            name: "Charles H. Wright Museum of African American History"
+            street_address: "315 East Warren Avenue"
             city: "Detroit"
-            zipcode: 48202
+            zipcode: 48201
             state: "MI"
           }
+        ]
+      }
+      tags: {
+        create: [
+          {title: "kids"}
+          {title: "kwanzaa"}
+          {title: "family"}
+          {title: "africanamerican"}
+          {title: "history"}
+          {title: "heritage"}
         ]
       }
     }
@@ -150,29 +262,93 @@ mutation {
 mutation {
   createEvent(
     data: {
-      title: "North End Fall Harvest Fest"
-      description: "Vanguard CDC presents a free vent especially for children 4-12 years old, but all ages are welcome. There will be a Fire Safety Presentation for children and adults."
-      start: "2019-10-31T18:00:00-0500"
-      end: "2019-10-31T20:00:00-0500"
+      title: "3D Design with TinkerCAD"
+      description: "Use TinkerCAD modeling software to create objects that can be 3D printed. 3D printers build up thin layers of plastic to form objects. Free program for youth ages 8-14, Call 313-481-1409 for more information"
+      start: "2020-01-04T13:30:00-0500"
+      end: "2020-01-04T15:00:00-0500"
       creator: {connect: {auth0_id: "testid5"}}
       event_images: {
         create: [
           {
-            url: "https://detroitmi.gov/sites/detroitmi.localhost/files/2018-11/Mary-Sheffield.jpg"
+            url: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F84135113%2F293621734690%2F1%2Foriginal.20191210-171159?w=800&auto=format%2Ccompress&q=75&sharp=10&rect=1%2C84%2C224%2C112&s=cf869634d7a67a925a7db1b8ad861f53"
           }
         ]
       }
-      urls: {create: [{url: "https://detroitmi.gov/"}]}
+      urls: {
+        create: [
+          {
+            url: "https://www.eventbrite.com/e/3d-design-with-tinkercad-tickets-85556223969"
+          }
+        ]
+      }
       admins: {connect: [{auth0_id: "testid5"}]}
       locations: {
         create: [
           {
-            name: "Metropolitain United Methodist Church"
-            street_address: "8000 Woodward ave"
+            name: "Detroit Main Library, Children's Room"
+            street_address: "5201 Woodward Avenue"
             city: "Detroit"
             zipcode: 48202
             state: "MI"
           }
+        ]
+      }
+      tags: {
+        create: [
+          {title: "kids"}
+          {title: "teenagers"}
+          {title: "STEM"}
+          {title: "tinkerCAD"}
+          {title: "CAD"}
+          {title: "engineering"}
+        ]
+      }
+    }
+  ) {
+    id
+  }
+}
+mutation {
+  createEvent(
+    data: {
+      title: "Detroit Lions Eastern Market Tailgating"
+      description: "Proceeds made from tailgating go to support our mission of operating our markets, providing greater access to good food, and growing local food businesses. $45 – $180 depending on location per car"
+      start: "2019-12-29T07:00:00-0500"
+      end: "2019-12-29T19:00:00-0500"
+      creator: {connect: {auth0_id: "testid6"}}
+      event_images: {
+        create: [
+          {
+            url: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F68668427%2F145956314054%2F1%2Foriginal.20190814-194752?w=800&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C397%2C3456%2C1728&s=1344cbac19465528c33d117ec245f5ba"
+          }
+        ]
+      }
+      urls: {
+        create: [
+          {
+            url: "https://www.eventbrite.com/e/detroit-lions-eastern-market-tailgating-tickets-69230968691"
+          }
+        ]
+      }
+      admins: {connect: [{auth0_id: "testid6"}]}
+      locations: {
+        create: [
+          {
+            name: "Eastern Market"
+            street_address: "Eastern Market"
+            city: "Detroit"
+            zipcode: 48208
+            state: "MI"
+          }
+        ]
+      }
+      tags: {
+        create: [
+          {title: "sports"}
+          {title: "football"}
+          {title: "lions"}
+          {title: "party"}
+          {title: "tailgating"}
         ]
       }
     }

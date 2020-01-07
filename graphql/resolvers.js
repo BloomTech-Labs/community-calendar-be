@@ -11,6 +11,7 @@ const resolvers = {
     admins: (parent, args, {prisma}) => prisma.event({id: parent.id}).admins(),
     locations: (parent, args, {prisma}) =>
       prisma.event({id: parent.id}).locations(),
+    tags: (parent, args, {prisma}) => prisma.event({id: parent.id}).tags(),
   },
   User: {
     rsvps: (parent, args, {prisma}) => prisma.user({id: parent.id}).rsvps(),
