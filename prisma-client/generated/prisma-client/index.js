@@ -13,6 +13,10 @@ var models = [
     embedded: false
   },
   {
+    name: "Tag",
+    embedded: false
+  },
+  {
     name: "Event_Image",
     embedded: false
   },

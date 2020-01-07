@@ -23,6 +23,7 @@ export interface Exists {
   location: (where?: LocationWhereInput) => Promise<boolean>;
   neighborhood: (where?: NeighborhoodWhereInput) => Promise<boolean>;
   organization: (where?: OrganizationWhereInput) => Promise<boolean>;
+  tag: (where?: TagWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
 }
 
@@ -184,6 +185,25 @@ export interface Prisma {
     first?: Int;
     last?: Int;
   }) => OrganizationConnectionPromise;
+  tag: (where: TagWhereUniqueInput) => TagNullablePromise;
+  tags: (args?: {
+    where?: TagWhereInput;
+    orderBy?: TagOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Tag>;
+  tagsConnection: (args?: {
+    where?: TagWhereInput;
+    orderBy?: TagOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => TagConnectionPromise;
   user: (where: UserWhereUniqueInput) => UserNullablePromise;
   users: (args?: {
     where?: UserWhereInput;
@@ -327,6 +347,22 @@ export interface Prisma {
   deleteManyOrganizations: (
     where?: OrganizationWhereInput
   ) => BatchPayloadPromise;
+  createTag: (data: TagCreateInput) => TagPromise;
+  updateTag: (args: {
+    data: TagUpdateInput;
+    where: TagWhereUniqueInput;
+  }) => TagPromise;
+  updateManyTags: (args: {
+    data: TagUpdateManyMutationInput;
+    where?: TagWhereInput;
+  }) => BatchPayloadPromise;
+  upsertTag: (args: {
+    where: TagWhereUniqueInput;
+    create: TagCreateInput;
+    update: TagUpdateInput;
+  }) => TagPromise;
+  deleteTag: (where: TagWhereUniqueInput) => TagPromise;
+  deleteManyTags: (where?: TagWhereInput) => BatchPayloadPromise;
   createUser: (data: UserCreateInput) => UserPromise;
   updateUser: (args: {
     data: UserUpdateInput;
@@ -373,6 +409,9 @@ export interface Subscription {
   organization: (
     where?: OrganizationSubscriptionWhereInput
   ) => OrganizationSubscriptionPayloadSubscription;
+  tag: (
+    where?: TagSubscriptionWhereInput
+  ) => TagSubscriptionPayloadSubscription;
   user: (
     where?: UserSubscriptionWhereInput
   ) => UserSubscriptionPayloadSubscription;
@@ -451,6 +490,8 @@ export type LocationOrderByInput =
   | "latitude_DESC"
   | "longitude_ASC"
   | "longitude_DESC";
+
+export type TagOrderByInput = "id_ASC" | "id_DESC" | "title_ASC" | "title_DESC";
 
 export type Geo_JsonOrderByInput =
   | "id_ASC"
@@ -694,6 +735,9 @@ export interface EventWhereInput {
   locations_every?: Maybe<LocationWhereInput>;
   locations_some?: Maybe<LocationWhereInput>;
   locations_none?: Maybe<LocationWhereInput>;
+  tags_every?: Maybe<TagWhereInput>;
+  tags_some?: Maybe<TagWhereInput>;
+  tags_none?: Maybe<TagWhereInput>;
   AND?: Maybe<EventWhereInput[] | EventWhereInput>;
   OR?: Maybe<EventWhereInput[] | EventWhereInput>;
   NOT?: Maybe<EventWhereInput[] | EventWhereInput>;
@@ -956,6 +1000,43 @@ export interface Geo_JsonWhereInput {
   NOT?: Maybe<Geo_JsonWhereInput[] | Geo_JsonWhereInput>;
 }
 
+export interface TagWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  title?: Maybe<String>;
+  title_not?: Maybe<String>;
+  title_in?: Maybe<String[] | String>;
+  title_not_in?: Maybe<String[] | String>;
+  title_lt?: Maybe<String>;
+  title_lte?: Maybe<String>;
+  title_gt?: Maybe<String>;
+  title_gte?: Maybe<String>;
+  title_contains?: Maybe<String>;
+  title_not_contains?: Maybe<String>;
+  title_starts_with?: Maybe<String>;
+  title_not_starts_with?: Maybe<String>;
+  title_ends_with?: Maybe<String>;
+  title_not_ends_with?: Maybe<String>;
+  events_every?: Maybe<EventWhereInput>;
+  events_some?: Maybe<EventWhereInput>;
+  events_none?: Maybe<EventWhereInput>;
+  AND?: Maybe<TagWhereInput[] | TagWhereInput>;
+  OR?: Maybe<TagWhereInput[] | TagWhereInput>;
+  NOT?: Maybe<TagWhereInput[] | TagWhereInput>;
+}
+
 export type Event_ImageWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
@@ -980,6 +1061,11 @@ export type OrganizationWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
+export type TagWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+  title?: Maybe<String>;
+}>;
+
 export type UserWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
   auth0_id?: Maybe<String>;
@@ -997,6 +1083,7 @@ export interface EventCreateInput {
   urls?: Maybe<Event_UrlCreateManyWithoutEventInput>;
   admins?: Maybe<UserCreateManyWithoutAdmin_forInput>;
   locations?: Maybe<LocationCreateManyWithoutEventInput>;
+  tags?: Maybe<TagCreateManyWithoutEventsInput>;
 }
 
 export interface UserCreateOneWithoutCreated_eventsInput {
@@ -1047,6 +1134,7 @@ export interface EventCreateWithoutRsvpsInput {
   urls?: Maybe<Event_UrlCreateManyWithoutEventInput>;
   admins?: Maybe<UserCreateManyWithoutAdmin_forInput>;
   locations?: Maybe<LocationCreateManyWithoutEventInput>;
+  tags?: Maybe<TagCreateManyWithoutEventsInput>;
 }
 
 export interface Event_ImageCreateManyWithoutEventInput {
@@ -1108,6 +1196,7 @@ export interface EventCreateWithoutCreatorInput {
   urls?: Maybe<Event_UrlCreateManyWithoutEventInput>;
   admins?: Maybe<UserCreateManyWithoutAdmin_forInput>;
   locations?: Maybe<LocationCreateManyWithoutEventInput>;
+  tags?: Maybe<TagCreateManyWithoutEventsInput>;
 }
 
 export interface UserCreateManyWithoutRsvpsInput {
@@ -1143,6 +1232,7 @@ export interface EventCreateWithoutAdminsInput {
   rsvps?: Maybe<UserCreateManyWithoutRsvpsInput>;
   urls?: Maybe<Event_UrlCreateManyWithoutEventInput>;
   locations?: Maybe<LocationCreateManyWithoutEventInput>;
+  tags?: Maybe<TagCreateManyWithoutEventsInput>;
 }
 
 export interface LocationCreateManyWithoutEventInput {
@@ -1185,6 +1275,16 @@ export interface Geo_JsonCreateWithoutNeighborhoodInput {
   geo_json: String;
 }
 
+export interface TagCreateManyWithoutEventsInput {
+  create?: Maybe<TagCreateWithoutEventsInput[] | TagCreateWithoutEventsInput>;
+  connect?: Maybe<TagWhereUniqueInput[] | TagWhereUniqueInput>;
+}
+
+export interface TagCreateWithoutEventsInput {
+  id?: Maybe<ID_Input>;
+  title: String;
+}
+
 export interface EventUpdateInput {
   title?: Maybe<String>;
   description?: Maybe<String>;
@@ -1196,6 +1296,7 @@ export interface EventUpdateInput {
   urls?: Maybe<Event_UrlUpdateManyWithoutEventInput>;
   admins?: Maybe<UserUpdateManyWithoutAdmin_forInput>;
   locations?: Maybe<LocationUpdateManyWithoutEventInput>;
+  tags?: Maybe<TagUpdateManyWithoutEventsInput>;
 }
 
 export interface UserUpdateOneWithoutCreated_eventsInput {
@@ -1386,6 +1487,7 @@ export interface EventUpdateWithoutRsvpsDataInput {
   urls?: Maybe<Event_UrlUpdateManyWithoutEventInput>;
   admins?: Maybe<UserUpdateManyWithoutAdmin_forInput>;
   locations?: Maybe<LocationUpdateManyWithoutEventInput>;
+  tags?: Maybe<TagUpdateManyWithoutEventsInput>;
 }
 
 export interface Event_ImageUpdateManyWithoutEventInput {
@@ -1627,6 +1729,7 @@ export interface EventUpdateWithoutCreatorDataInput {
   urls?: Maybe<Event_UrlUpdateManyWithoutEventInput>;
   admins?: Maybe<UserUpdateManyWithoutAdmin_forInput>;
   locations?: Maybe<LocationUpdateManyWithoutEventInput>;
+  tags?: Maybe<TagUpdateManyWithoutEventsInput>;
 }
 
 export interface UserUpdateManyWithoutRsvpsInput {
@@ -1700,6 +1803,7 @@ export interface EventUpdateWithoutAdminsDataInput {
   rsvps?: Maybe<UserUpdateManyWithoutRsvpsInput>;
   urls?: Maybe<Event_UrlUpdateManyWithoutEventInput>;
   locations?: Maybe<LocationUpdateManyWithoutEventInput>;
+  tags?: Maybe<TagUpdateManyWithoutEventsInput>;
 }
 
 export interface LocationUpdateManyWithoutEventInput {
@@ -1924,6 +2028,84 @@ export interface LocationUpdateManyDataInput {
   longitude?: Maybe<String>;
 }
 
+export interface TagUpdateManyWithoutEventsInput {
+  create?: Maybe<TagCreateWithoutEventsInput[] | TagCreateWithoutEventsInput>;
+  delete?: Maybe<TagWhereUniqueInput[] | TagWhereUniqueInput>;
+  connect?: Maybe<TagWhereUniqueInput[] | TagWhereUniqueInput>;
+  set?: Maybe<TagWhereUniqueInput[] | TagWhereUniqueInput>;
+  disconnect?: Maybe<TagWhereUniqueInput[] | TagWhereUniqueInput>;
+  update?: Maybe<
+    | TagUpdateWithWhereUniqueWithoutEventsInput[]
+    | TagUpdateWithWhereUniqueWithoutEventsInput
+  >;
+  upsert?: Maybe<
+    | TagUpsertWithWhereUniqueWithoutEventsInput[]
+    | TagUpsertWithWhereUniqueWithoutEventsInput
+  >;
+  deleteMany?: Maybe<TagScalarWhereInput[] | TagScalarWhereInput>;
+  updateMany?: Maybe<
+    TagUpdateManyWithWhereNestedInput[] | TagUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface TagUpdateWithWhereUniqueWithoutEventsInput {
+  where: TagWhereUniqueInput;
+  data: TagUpdateWithoutEventsDataInput;
+}
+
+export interface TagUpdateWithoutEventsDataInput {
+  title?: Maybe<String>;
+}
+
+export interface TagUpsertWithWhereUniqueWithoutEventsInput {
+  where: TagWhereUniqueInput;
+  update: TagUpdateWithoutEventsDataInput;
+  create: TagCreateWithoutEventsInput;
+}
+
+export interface TagScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  title?: Maybe<String>;
+  title_not?: Maybe<String>;
+  title_in?: Maybe<String[] | String>;
+  title_not_in?: Maybe<String[] | String>;
+  title_lt?: Maybe<String>;
+  title_lte?: Maybe<String>;
+  title_gt?: Maybe<String>;
+  title_gte?: Maybe<String>;
+  title_contains?: Maybe<String>;
+  title_not_contains?: Maybe<String>;
+  title_starts_with?: Maybe<String>;
+  title_not_starts_with?: Maybe<String>;
+  title_ends_with?: Maybe<String>;
+  title_not_ends_with?: Maybe<String>;
+  AND?: Maybe<TagScalarWhereInput[] | TagScalarWhereInput>;
+  OR?: Maybe<TagScalarWhereInput[] | TagScalarWhereInput>;
+  NOT?: Maybe<TagScalarWhereInput[] | TagScalarWhereInput>;
+}
+
+export interface TagUpdateManyWithWhereNestedInput {
+  where: TagScalarWhereInput;
+  data: TagUpdateManyDataInput;
+}
+
+export interface TagUpdateManyDataInput {
+  title?: Maybe<String>;
+}
+
 export interface EventUpsertWithWhereUniqueWithoutAdminsInput {
   where: EventWhereUniqueInput;
   update: EventUpdateWithoutAdminsDataInput;
@@ -2137,6 +2319,7 @@ export interface EventCreateWithoutEvent_imagesInput {
   urls?: Maybe<Event_UrlCreateManyWithoutEventInput>;
   admins?: Maybe<UserCreateManyWithoutAdmin_forInput>;
   locations?: Maybe<LocationCreateManyWithoutEventInput>;
+  tags?: Maybe<TagCreateManyWithoutEventsInput>;
 }
 
 export interface Event_ImageUpdateInput {
@@ -2161,6 +2344,7 @@ export interface EventUpdateWithoutEvent_imagesDataInput {
   urls?: Maybe<Event_UrlUpdateManyWithoutEventInput>;
   admins?: Maybe<UserUpdateManyWithoutAdmin_forInput>;
   locations?: Maybe<LocationUpdateManyWithoutEventInput>;
+  tags?: Maybe<TagUpdateManyWithoutEventsInput>;
 }
 
 export interface EventUpsertWithoutEvent_imagesInput {
@@ -2194,6 +2378,7 @@ export interface EventCreateWithoutUrlsInput {
   rsvps?: Maybe<UserCreateManyWithoutRsvpsInput>;
   admins?: Maybe<UserCreateManyWithoutAdmin_forInput>;
   locations?: Maybe<LocationCreateManyWithoutEventInput>;
+  tags?: Maybe<TagCreateManyWithoutEventsInput>;
 }
 
 export interface Event_UrlUpdateInput {
@@ -2218,6 +2403,7 @@ export interface EventUpdateWithoutUrlsDataInput {
   rsvps?: Maybe<UserUpdateManyWithoutRsvpsInput>;
   admins?: Maybe<UserUpdateManyWithoutAdmin_forInput>;
   locations?: Maybe<LocationUpdateManyWithoutEventInput>;
+  tags?: Maybe<TagUpdateManyWithoutEventsInput>;
 }
 
 export interface EventUpsertWithoutUrlsInput {
@@ -2282,6 +2468,7 @@ export interface EventCreateWithoutLocationsInput {
   rsvps?: Maybe<UserCreateManyWithoutRsvpsInput>;
   urls?: Maybe<Event_UrlCreateManyWithoutEventInput>;
   admins?: Maybe<UserCreateManyWithoutAdmin_forInput>;
+  tags?: Maybe<TagCreateManyWithoutEventsInput>;
 }
 
 export interface Geo_JsonUpdateInput {
@@ -2358,6 +2545,7 @@ export interface EventUpdateWithoutLocationsDataInput {
   rsvps?: Maybe<UserUpdateManyWithoutRsvpsInput>;
   urls?: Maybe<Event_UrlUpdateManyWithoutEventInput>;
   admins?: Maybe<UserUpdateManyWithoutAdmin_forInput>;
+  tags?: Maybe<TagUpdateManyWithoutEventsInput>;
 }
 
 export interface EventUpsertWithoutLocationsInput {
@@ -2512,6 +2700,84 @@ export interface OrganizationUpdateManyMutationInput {
   email?: Maybe<String>;
 }
 
+export interface TagCreateInput {
+  id?: Maybe<ID_Input>;
+  title: String;
+  events?: Maybe<EventCreateManyWithoutTagsInput>;
+}
+
+export interface EventCreateManyWithoutTagsInput {
+  create?: Maybe<EventCreateWithoutTagsInput[] | EventCreateWithoutTagsInput>;
+  connect?: Maybe<EventWhereUniqueInput[] | EventWhereUniqueInput>;
+}
+
+export interface EventCreateWithoutTagsInput {
+  id?: Maybe<ID_Input>;
+  title: String;
+  description: String;
+  start: DateTimeInput;
+  end: DateTimeInput;
+  creator?: Maybe<UserCreateOneWithoutCreated_eventsInput>;
+  event_images?: Maybe<Event_ImageCreateManyWithoutEventInput>;
+  rsvps?: Maybe<UserCreateManyWithoutRsvpsInput>;
+  urls?: Maybe<Event_UrlCreateManyWithoutEventInput>;
+  admins?: Maybe<UserCreateManyWithoutAdmin_forInput>;
+  locations?: Maybe<LocationCreateManyWithoutEventInput>;
+}
+
+export interface TagUpdateInput {
+  title?: Maybe<String>;
+  events?: Maybe<EventUpdateManyWithoutTagsInput>;
+}
+
+export interface EventUpdateManyWithoutTagsInput {
+  create?: Maybe<EventCreateWithoutTagsInput[] | EventCreateWithoutTagsInput>;
+  delete?: Maybe<EventWhereUniqueInput[] | EventWhereUniqueInput>;
+  connect?: Maybe<EventWhereUniqueInput[] | EventWhereUniqueInput>;
+  set?: Maybe<EventWhereUniqueInput[] | EventWhereUniqueInput>;
+  disconnect?: Maybe<EventWhereUniqueInput[] | EventWhereUniqueInput>;
+  update?: Maybe<
+    | EventUpdateWithWhereUniqueWithoutTagsInput[]
+    | EventUpdateWithWhereUniqueWithoutTagsInput
+  >;
+  upsert?: Maybe<
+    | EventUpsertWithWhereUniqueWithoutTagsInput[]
+    | EventUpsertWithWhereUniqueWithoutTagsInput
+  >;
+  deleteMany?: Maybe<EventScalarWhereInput[] | EventScalarWhereInput>;
+  updateMany?: Maybe<
+    EventUpdateManyWithWhereNestedInput[] | EventUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface EventUpdateWithWhereUniqueWithoutTagsInput {
+  where: EventWhereUniqueInput;
+  data: EventUpdateWithoutTagsDataInput;
+}
+
+export interface EventUpdateWithoutTagsDataInput {
+  title?: Maybe<String>;
+  description?: Maybe<String>;
+  start?: Maybe<DateTimeInput>;
+  end?: Maybe<DateTimeInput>;
+  creator?: Maybe<UserUpdateOneWithoutCreated_eventsInput>;
+  event_images?: Maybe<Event_ImageUpdateManyWithoutEventInput>;
+  rsvps?: Maybe<UserUpdateManyWithoutRsvpsInput>;
+  urls?: Maybe<Event_UrlUpdateManyWithoutEventInput>;
+  admins?: Maybe<UserUpdateManyWithoutAdmin_forInput>;
+  locations?: Maybe<LocationUpdateManyWithoutEventInput>;
+}
+
+export interface EventUpsertWithWhereUniqueWithoutTagsInput {
+  where: EventWhereUniqueInput;
+  update: EventUpdateWithoutTagsDataInput;
+  create: EventCreateWithoutTagsInput;
+}
+
+export interface TagUpdateManyMutationInput {
+  title?: Maybe<String>;
+}
+
 export interface UserCreateInput {
   id?: Maybe<ID_Input>;
   first_name?: Maybe<String>;
@@ -2648,6 +2914,17 @@ export interface OrganizationSubscriptionWhereInput {
   >;
 }
 
+export interface TagSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<TagWhereInput>;
+  AND?: Maybe<TagSubscriptionWhereInput[] | TagSubscriptionWhereInput>;
+  OR?: Maybe<TagSubscriptionWhereInput[] | TagSubscriptionWhereInput>;
+  NOT?: Maybe<TagSubscriptionWhereInput[] | TagSubscriptionWhereInput>;
+}
+
 export interface UserSubscriptionWhereInput {
   mutation_in?: Maybe<MutationType[] | MutationType>;
   updatedFields_contains?: Maybe<String>;
@@ -2723,6 +3000,15 @@ export interface EventPromise extends Promise<Event>, Fragmentable {
     first?: Int;
     last?: Int;
   }) => T;
+  tags: <T = FragmentableArray<Tag>>(args?: {
+    where?: TagWhereInput;
+    orderBy?: TagOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface EventSubscription
@@ -2779,6 +3065,15 @@ export interface EventSubscription
     first?: Int;
     last?: Int;
   }) => T;
+  tags: <T = Promise<AsyncIterator<TagSubscription>>>(args?: {
+    where?: TagWhereInput;
+    orderBy?: TagOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface EventNullablePromise
@@ -2829,6 +3124,15 @@ export interface EventNullablePromise
   locations: <T = FragmentableArray<Location>>(args?: {
     where?: LocationWhereInput;
     orderBy?: LocationOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  tags: <T = FragmentableArray<Tag>>(args?: {
+    where?: TagWhereInput;
+    orderBy?: TagOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
@@ -3231,6 +3535,55 @@ export interface Geo_JsonNullablePromise
   id: () => Promise<ID_Output>;
   geo_json: () => Promise<String>;
   neighborhood: <T = NeighborhoodPromise>() => T;
+}
+
+export interface Tag {
+  id: ID_Output;
+  title: String;
+}
+
+export interface TagPromise extends Promise<Tag>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  title: () => Promise<String>;
+  events: <T = FragmentableArray<Event>>(args?: {
+    where?: EventWhereInput;
+    orderBy?: EventOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface TagSubscription
+  extends Promise<AsyncIterator<Tag>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  title: () => Promise<AsyncIterator<String>>;
+  events: <T = Promise<AsyncIterator<EventSubscription>>>(args?: {
+    where?: EventWhereInput;
+    orderBy?: EventOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface TagNullablePromise extends Promise<Tag | null>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  title: () => Promise<String>;
+  events: <T = FragmentableArray<Event>>(args?: {
+    where?: EventWhereInput;
+    orderBy?: EventOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface EventConnection {
@@ -3642,6 +3995,60 @@ export interface AggregateOrganizationPromise
 
 export interface AggregateOrganizationSubscription
   extends Promise<AsyncIterator<AggregateOrganization>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface TagConnection {
+  pageInfo: PageInfo;
+  edges: TagEdge[];
+}
+
+export interface TagConnectionPromise
+  extends Promise<TagConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<TagEdge>>() => T;
+  aggregate: <T = AggregateTagPromise>() => T;
+}
+
+export interface TagConnectionSubscription
+  extends Promise<AsyncIterator<TagConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<TagEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateTagSubscription>() => T;
+}
+
+export interface TagEdge {
+  node: Tag;
+  cursor: String;
+}
+
+export interface TagEdgePromise extends Promise<TagEdge>, Fragmentable {
+  node: <T = TagPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface TagEdgeSubscription
+  extends Promise<AsyncIterator<TagEdge>>,
+    Fragmentable {
+  node: <T = TagSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateTag {
+  count: Int;
+}
+
+export interface AggregateTagPromise
+  extends Promise<AggregateTag>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateTagSubscription
+  extends Promise<AsyncIterator<AggregateTag>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
 }
@@ -4060,6 +4467,50 @@ export interface OrganizationPreviousValuesSubscription
   email: () => Promise<AsyncIterator<String>>;
 }
 
+export interface TagSubscriptionPayload {
+  mutation: MutationType;
+  node: Tag;
+  updatedFields: String[];
+  previousValues: TagPreviousValues;
+}
+
+export interface TagSubscriptionPayloadPromise
+  extends Promise<TagSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = TagPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = TagPreviousValuesPromise>() => T;
+}
+
+export interface TagSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<TagSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = TagSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = TagPreviousValuesSubscription>() => T;
+}
+
+export interface TagPreviousValues {
+  id: ID_Output;
+  title: String;
+}
+
+export interface TagPreviousValuesPromise
+  extends Promise<TagPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  title: () => Promise<String>;
+}
+
+export interface TagPreviousValuesSubscription
+  extends Promise<AsyncIterator<TagPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  title: () => Promise<AsyncIterator<String>>;
+}
+
 export interface UserSubscriptionPayload {
   mutation: MutationType;
   node: User;
@@ -4154,6 +4605,10 @@ export const models: Model[] = [
   },
   {
     name: "Event",
+    embedded: false
+  },
+  {
+    name: "Tag",
     embedded: false
   },
   {
