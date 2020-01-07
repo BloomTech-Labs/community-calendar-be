@@ -19,7 +19,7 @@ const resolvers = {
   Query: {
     users: async (root, args, {prisma, req}, info) => {
       try {
-        // const decoded = await decodedToken(req);
+        const decoded = await decodedToken(req);
         return prisma.users({...args});
       } catch (err) {
         throw err;
