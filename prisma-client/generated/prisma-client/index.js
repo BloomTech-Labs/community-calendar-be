@@ -21,6 +21,10 @@ var models = [
     embedded: false
   },
   {
+    name: "Event_Tag",
+    embedded: false
+  },
+  {
     name: "Location",
     embedded: false
   },
