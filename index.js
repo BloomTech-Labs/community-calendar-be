@@ -7,10 +7,12 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   context: ({req}) => ({
+    //store prisma in context to use prisma in resolvers
     prisma: new Prisma({
       secret: process.env.SECRET,
       endpoint: process.env.PRISMA,
     }),
+    //necessary to get user token from header
     req,
   }),
   introspection: true,
