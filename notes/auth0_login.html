@@ -448,8 +448,11 @@
           );
         }
 
+        var urlParams = new URLSearchParams(window.location.search);
+        var callbackUrl = urlParams.get('redirect_uri');
+
         function goBack() {
-          webAuth.logout();
+          webAuth.logout({returnTo: callbackUrl});
         }
 
         function signup() {
