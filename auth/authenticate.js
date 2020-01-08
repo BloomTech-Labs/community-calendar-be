@@ -27,6 +27,7 @@ const decodedToken = (req, requireAuth = true) => {
     throw 'No token was found in header.';
   }
 
+  //verify token with auth0
   const decoded = new Promise((resolve, reject) => {
     jwt.verify(token, getKey, options, (err, decoded) => {
       if (err) {

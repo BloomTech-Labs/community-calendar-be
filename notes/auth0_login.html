@@ -161,8 +161,8 @@
       transform: translateY(-50%);
     }
 
-    #error-message {
-      display: none;
+    .error {
+      margin: 2rem;
     }
 
     .buttonRow {
@@ -256,7 +256,7 @@
           </div>
         </div>
         <div class="login-header"></div>
-        <div id="error-message" class="alert alert-danger"></div>
+        <div id="error-message-signin" class="alert alert-danger error hide"></div>
         <form onsubmit="return false;" method="post">
           <div class="row .buttonRow" style="margin: 20px auto 0 auto">
             <div
@@ -324,7 +324,7 @@
           </div>
         </div>
         <div class="login-header"></div>
-        <div id="error-message" class="alert alert-danger"></div>
+        <div id="error-message-signup" class="alert alert-danger error hide"></div>
         <form onsubmit="return false;" method="post">
           <div class="row" style="margin: 20px auto 0 auto">
             <div
@@ -436,6 +436,18 @@
           e.preventDefault();
           var username = document.getElementById('email').value;
           var password = document.getElementById('password').value;
+
+          if(!username.length && !password.length){
+            displayErrorSignin({description: 'usernamepassword'});
+            return;
+          }else if(!username.length){
+            displayErrorSignin({description: 'username'});
+            return;
+          }else if(!password.length){
+            displayErrorSignin({description: 'password'});
+            return;
+          }
+
           webAuth.login(
             {
               realm: databaseConnection,
@@ -443,7 +455,7 @@
               password: password,
             },
             function(err) {
-              if (err) displayError(err);
+              if (err) displayErrorSignin(err);
             },
           );
         }
@@ -460,6 +472,26 @@
           var password = document.getElementById('password_signup').value;
           var first_name = document.getElementById('first_name').value;
           var last_name = document.getElementById('last_name').value;
+          const passwordValidation = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/;
+
+
+
+          if(!first_name.length && !last_name.length){
+            displayErrorSignup({description: 'firstlast'})
+            return;
+          }else if(!first_name.length){
+            displayErrorSignup({description: 'first'})
+            return;
+          }else if(!last_name.length){
+            displayErrorSignup({description: 'last'})
+            return;
+          }else if(!password.length){
+            displayErrorSignup({description: 'password'});
+            return;
+          }else if(!passwordValidation.test(password)){
+            displayErrorSignup({description: 'passwordformat'})
+            return;
+          }
 
           webAuth.redirect.signupAndLogin(
             {
@@ -469,7 +501,7 @@
               user_metadata: {first_name: first_name, last_name: last_name},
             },
             function(err) {
-              if (err) displayError(err);
+              if (err) displayErrorSignup(err);
             },
           );
         }
@@ -480,7 +512,8 @@
               connection: 'google-oauth2',
             },
             function(err) {
-              if (err) displayError(err);
+              if (err) displayErrorSignup(err);
+              if (err) displayErrorSignin(err);
             },
           );
         }
@@ -491,8 +524,8 @@
               connection: 'facebook',
             },
             function(err) {
-              if (err) displayError(err);
-              alert(JSON.stringify(err));
+              if (err) displayErrorSignup(err);
+              if (err) displayErrorSignin(err);
             },
           );
         }
@@ -561,8 +594,50 @@
           signinButton.classList.toggle('hide');
         }
 
-        function displayError(err) {
-          var errorMessage = document.getElementById('error-message');
+        function displayErrorSignup(err) {
+          if(err.description && err.description.slice(0, 14) === 'error in email'){
+            err.description = 'Invalid email format.'
+          }else{
+            switch(err.description){
+              case 'firstlast':
+                err.description = 'Please enter first and last name.';
+                break;
+              case 'first':
+                err.description = 'Please enter first name.';
+                break;
+              case 'last':
+                err.description = 'Please enter last name.';
+                break;
+              case 'password':
+                err.description = 'Please enter a password.';
+                break;
+              case 'passwordformat':
+                err.description = 'Password must be at least 8 characters and contain 1 lowercase, uppercase, number, and special character.';
+                break;
+            }  
+          }
+
+          var errorMessage = document.getElementById('error-message-signup');
+          errorMessage.classList.remove('hide');
+          errorMessage.innerHTML = err.description;
+          errorMessage.style.display = 'block';
+        }
+
+        function displayErrorSignin(err) {
+          switch(err.description){
+            case 'usernamepassword':
+              err.description = 'Please enter email and password.'
+              break;
+            case 'username':
+              err.description = 'Please enter email.'
+              break;
+            case 'password':
+            err.description = 'Please enter password.'
+              break;
+          }
+
+          var errorMessage = document.getElementById('error-message-signin');
+          errorMessage.classList.remove('hide');
           errorMessage.innerHTML = err.description;
           errorMessage.style.display = 'block';
         }
