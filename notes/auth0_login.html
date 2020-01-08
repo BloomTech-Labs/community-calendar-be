@@ -617,7 +617,6 @@
             }  
           }
 
-          console.log(err.description);
           var errorMessage = document.getElementById('error-message-signup');
           errorMessage.classList.remove('hide');
           errorMessage.innerHTML = err.description;
@@ -636,7 +635,7 @@
             err.description = 'Please enter password.'
               break;
           }
-          console.log(err.description);
+
           var errorMessage = document.getElementById('error-message-signin');
           errorMessage.classList.remove('hide');
           errorMessage.innerHTML = err.description;
