@@ -1,5 +1,3 @@
-const {decodedToken} = require('../auth/authenticate');
-
 const resolvers = {
   Event: {
     creator: (parent, args, {prisma}) =>
@@ -17,7 +15,7 @@ const resolvers = {
     rsvps: (parent, args, {prisma}) => prisma.user({id: parent.id}).rsvps(),
   },
   Query: {
-    users: async (root, args, {prisma, req}, info) => {
+    users: async (root, args, {prisma, req, decodedToken}, info) => {
       try {
         const decoded = await decodedToken(req);
         return prisma.users({...args});
@@ -55,7 +53,7 @@ const resolvers = {
         throw err;
       }
     },
-    addEvent: async (root, args, {prisma, req}, info) => {
+    addEvent: async (root, args, {prisma, req, decodedToken}, info) => {
       const {data} = args;
       try {
         const decoded = await decodedToken(req);
@@ -65,7 +63,7 @@ const resolvers = {
         throw err;
       }
     },
-    updateEvent: async (root, args, {prisma, req}, info) => {
+    updateEvent: async (root, args, {prisma, req, decodedToken}, info) => {
       const {data, where} = args;
       try {
         const [{creator}] = await prisma.events({where}).creator();
@@ -79,7 +77,7 @@ const resolvers = {
         throw err;
       }
     },
-    deleteEvent: async (root, args, {prisma, req}, info) => {
+    deleteEvent: async (root, args, {prisma, req, decodedToken}, info) => {
       const {where} = args;
       try {
         const [{creator}] = await prisma.events({where}).creator();
@@ -93,7 +91,7 @@ const resolvers = {
         throw err;
       }
     },
-    addRsvp: async (root, args, {prisma, req}, info) => {
+    addRsvp: async (root, args, {prisma, req, decodedToken}, info) => {
       try {
         const decoded = await decodedToken(req);
         const {
@@ -107,7 +105,7 @@ const resolvers = {
         throw err;
       }
     },
-    removeRsvp: async (root, args, {prisma, req}, info) => {
+    removeRsvp: async (root, args, {prisma, req, decodedToken}, info) => {
       try {
         const decoded = await decodedToken(req);
         const {
