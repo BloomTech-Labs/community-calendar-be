@@ -55,12 +55,36 @@ const resolvers = {
         throw err;
       }
     },
+
     addEvent: async (root, args, {prisma, req, decodedToken}, info) => {
       const {data} = args;
       try {
         const decoded = await decodedToken(req); //requires token to be sent in authorization headers
+        const tagsInDb = await prisma.tags(); //array of tags objects from the database
+        const foundTags = [];
+        const newTags = [];
+        const tags = {};
+
+        data.tags && data.tags.forEach(tag => {
+          tag.title = tag.title.toLowerCase();
+          tagsInDb.findIndex(obj => {
+             return obj.title === tag.title
+           }) === -1
+           ? newTags.push(tag)
+           : foundTags.push(tag);
+        })
+
+        if(foundTags.length){
+          tags.connect = foundTags;
+        }
+
+        if(newTags.length){
+          tags.create = newTags;
+        }
+        
         data['creator'] = {connect: {id: decoded['http://cc_id']}};
-        return await prisma.createEvent(data);
+        
+        return await prisma.createEvent({...data, tags});
       } catch (err) {
         throw err;
       }

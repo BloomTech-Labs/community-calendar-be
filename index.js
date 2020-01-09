@@ -32,13 +32,8 @@ if (process.env.NODE_ENV !== 'testing') {
 
 // export all the important pieces for integration/e2e tests to use
 module.exports = {
-  // dataSources,
-  // context,
   typeDefs,
   resolvers,
   ApolloServer,
-  // LaunchAPI,
-  // UserAPI,
-  // store,
   server,
 };

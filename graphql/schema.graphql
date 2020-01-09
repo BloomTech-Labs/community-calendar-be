@@ -4,6 +4,10 @@ input UserCheckIdInput {
   auth0_id: String!
 }
 
+input EventCreateTagInput {
+  title: String!
+}
+
 input EventCreateInput {
   id: ID
   title: String!
@@ -15,7 +19,7 @@ input EventCreateInput {
   urls: Event_UrlCreateManyWithoutEventInput
   admin: UserCreateManyWithoutAdmin_forInput
   locations: LocationCreateManyWithoutEventInput
-  tags: TagCreateManyWithoutEventsInput
+  tags: [EventCreateTagInput!]
 }
 
 input EventIdInput {
