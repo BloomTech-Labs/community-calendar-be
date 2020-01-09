@@ -8,10 +8,12 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   context: ({req}) => ({
+    //store prisma in context to use prisma in resolvers
     prisma: new Prisma({
       secret: process.env.SECRET,
       endpoint: process.env.PRISMA,
     }),
+    //necessary to get user token from header
     req,
     decodedToken
   }),
@@ -30,13 +32,8 @@ if (process.env.NODE_ENV !== 'testing') {
 
 // export all the important pieces for integration/e2e tests to use
 module.exports = {
-  // dataSources,
-  // context,
   typeDefs,
   resolvers,
   ApolloServer,
-  // LaunchAPI,
-  // UserAPI,
-  // store,
   server,
 };

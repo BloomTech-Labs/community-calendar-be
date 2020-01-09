@@ -1,4 +1,5 @@
 const resolvers = {
+  //prisma bindings, otherwise fields would be null in queries/mutations
   Event: {
     creator: (parent, args, {prisma}) =>
       prisma.event({id: parent.id}).creator(),
@@ -17,12 +18,13 @@ const resolvers = {
   Query: {
     users: async (root, args, {prisma, req, decodedToken}, info) => {
       try {
-        const decoded = await decodedToken(req);
+        const decoded = await decodedToken(req); //requires token to be sent in authorization headers
         return prisma.users({...args});
       } catch (err) {
         throw err;
       }
     },
+    //check if auth0 id is in the database
     checkId: async (root, args, {prisma}, info) => {
       const {
         data: {auth0_id},
@@ -53,12 +55,36 @@ const resolvers = {
         throw err;
       }
     },
+
     addEvent: async (root, args, {prisma, req, decodedToken}, info) => {
       const {data} = args;
       try {
-        const decoded = await decodedToken(req);
+        const decoded = await decodedToken(req); //requires token to be sent in authorization headers
+        const tagsInDb = await prisma.tags(); //array of tags objects from the database
+        const foundTags = [];
+        const newTags = [];
+        const tags = {};
+
+        data.tags && data.tags.forEach(tag => {
+          tag.title = tag.title.toLowerCase();
+          tagsInDb.findIndex(obj => {
+             return obj.title === tag.title
+           }) === -1
+           ? newTags.push(tag)
+           : foundTags.push(tag);
+        })
+
+        if(foundTags.length){
+          tags.connect = foundTags;
+        }
+
+        if(newTags.length){
+          tags.create = newTags;
+        }
+        
         data['creator'] = {connect: {id: decoded['http://cc_id']}};
-        return await prisma.createEvent(data);
+        
+        return await prisma.createEvent({...data, tags});
       } catch (err) {
         throw err;
       }
@@ -67,8 +93,8 @@ const resolvers = {
       const {data, where} = args;
       try {
         const [{creator}] = await prisma.events({where}).creator();
-        const decoded = await decodedToken(req);
-        if (decoded['http://cc_id'] === creator.id) {
+        const decoded = await decodedToken(req); //requires token to be sent in authorization headers
+        if (decoded['http://cc_id'] === creator.id) { //check if logged in user created the event
           return await prisma.updateEvent(where, data);
         } else {
           throw 'You do not have permission to update this event.';
@@ -81,8 +107,8 @@ const resolvers = {
       const {where} = args;
       try {
         const [{creator}] = await prisma.events({where}).creator();
-        const decoded = await decodedToken(req);
-        if (decoded['http://cc_id'] === creator.id) {
+        const decoded = await decodedToken(req); //requires token to be sent in authorization headers
+        if (decoded['http://cc_id'] === creator.id) { //check if logged in user created the event
           return await prisma.deleteEvent(where);
         } else {
           throw 'You do not have permission to delete this event.';
@@ -93,12 +119,12 @@ const resolvers = {
     },
     addRsvp: async (root, args, {prisma, req, decodedToken}, info) => {
       try {
-        const decoded = await decodedToken(req);
+        const decoded = await decodedToken(req); //requires token to be sent in authorization headers
         const {
           event: {id},
         } = args;
         return prisma.updateUser({
-          where: {id: decoded['http://cc_id']},
+          where: {id: decoded['http://cc_id']}, 
           data: {rsvps: {connect: {id}}},
         });
       } catch (err) {

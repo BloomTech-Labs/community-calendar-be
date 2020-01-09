@@ -474,8 +474,6 @@
           var last_name = document.getElementById('last_name').value;
           const passwordValidation = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/;
 
-
-
           if(!first_name.length && !last_name.length){
             displayErrorSignup({description: 'firstlast'})
             return;
