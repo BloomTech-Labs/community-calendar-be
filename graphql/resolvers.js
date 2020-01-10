@@ -15,11 +15,21 @@ const resolvers = {
   User: {
     rsvps: (parent, args, {prisma}) => prisma.user({id: parent.id}).rsvps(),
   },
+  Tag: {
+    events: (parent, args, {prisma}) => prisma.tag({id: parent.id}).events(),
+  },
   Query: {
     users: async (root, args, {prisma, req, decodedToken}, info) => {
       try {
         const decoded = await decodedToken(req); //requires token to be sent in authorization headers
         return prisma.users({...args});
+      } catch (err) {
+        throw err;
+      }
+    },
+    tags: async (root, args, {prisma}, info) => {
+      try {
+        return prisma.tags({...args});
       } catch (err) {
         throw err;
       }

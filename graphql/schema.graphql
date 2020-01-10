@@ -1,4 +1,4 @@
-#import User, Location, Event  from "../prisma-client/generated/prisma.graphql"
+#import User, Location, Event, Tags  from "../prisma-client/generated/prisma.graphql"
 
 input UserCheckIdInput {
   auth0_id: String!
@@ -46,6 +46,7 @@ type Query {
     first: Int
     last: Int
   ): [Event!]
+  tags(where: TagWhereInput, orderBy: TagOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Tag]!
 }
 
 type Mutation {
