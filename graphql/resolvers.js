@@ -1,3 +1,8 @@
+const {
+  convertTags,
+  tagsToRemove
+} = require('./helpers');
+
 const resolvers = {
   //prisma bindings, otherwise fields would be null in queries/mutations
   Event: {
@@ -71,30 +76,14 @@ const resolvers = {
       try {
         const decoded = await decodedToken(req); //requires token to be sent in authorization headers
         const tagsInDb = await prisma.tags(); //array of tags objects from the database
-        const foundTags = [];
-        const newTags = [];
-        const tags = {};
-
-        data.tags && data.tags.forEach(tag => {
-          tag.title = tag.title.toLowerCase();
-          tagsInDb.findIndex(obj => {
-             return obj.title === tag.title
-           }) === -1
-           ? newTags.push(tag)
-           : foundTags.push(tag);
-        })
-
-        if(foundTags.length){
-          tags.connect = foundTags;
-        }
-
-        if(newTags.length){
-          tags.create = newTags;
+        if(data.tags){
+          data.tags = convertTags(data.tags, tagsInDb);
         }
         
-        data['creator'] = {connect: {id: decoded['http://cc_id']}};
+        // data['creator'] = {connect: {id: decoded['http://cc_id']}};
+        data['creator'] = {connect: {id: 'ck54gh4m9000y0758k2u3qgow'}};
         
-        return await prisma.createEvent({...data, tags});
+        return await prisma.createEvent(data);
       } catch (err) {
         throw err;
       }
@@ -104,12 +93,26 @@ const resolvers = {
       try {
         const [{creator}] = await prisma.events({where}).creator();
         const decoded = await decodedToken(req); //requires token to be sent in authorization headers
+        
+    
         if (decoded['http://cc_id'] === creator.id) { //check if logged in user created the event
+          const tagsInDb = await prisma.tags(); //array of tags objects from the database
+          const tags = await prisma.event({id: where.id}).tags();
+
+          if(data.tags.length){
+            const disconnect = tagsToRemove(tags, data.tags);
+            data.tags = convertTags(data.tags, tagsInDb);
+
+            if(disconnect.length){
+              data.tags.disconnect = disconnect;
+            }
+          }
           return await prisma.updateEvent(where, data);
         } else {
           throw 'You do not have permission to update this event.';
         }
       } catch (err) {
+        console.log(err);
         throw err;
       }
     },
