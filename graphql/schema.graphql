@@ -22,6 +22,20 @@ input EventCreateInput {
   tags: [EventCreateTagInput!]
 }
 
+input EventUpdateInput {
+  title: String
+  description: String
+  start: DateTime
+  end: DateTime
+  creator: UserUpdateOneWithoutCreated_eventsInput
+  event_images: Event_ImageUpdateManyWithoutEventInput
+  rsvps: UserUpdateManyWithoutRsvpsInput
+  urls: Event_UrlUpdateManyWithoutEventInput
+  admins: UserUpdateManyWithoutAdmin_forInput
+  locations: LocationUpdateManyWithoutEventInput
+  tags: [EventCreateTagInput!]
+}
+
 input EventIdInput {
   id: ID!
 }
