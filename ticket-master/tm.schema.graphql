@@ -1,0 +1,105 @@
+type TMEvent {
+  page: TMPage
+  _links: TMLink
+  _embedded: TMEvents
+}
+
+# //////////////////////////////////
+# ////// Links ///////
+# //////////////////////////////////
+type TMLink {
+  self: TMLink_Self
+  next: TMLink_Next
+  prev: TMLink_Prev
+  last: TMLink_Last
+}
+
+type TMLink_Self {
+  href: String!
+  templated: Boolean
+}
+
+type TMLink_Next {
+  href: String!
+  templated: Boolean
+}
+
+type TMLink_Prev {
+  href: String!
+  templated: Boolean
+}
+
+type TMLink_Last {
+  href: String!
+  templated: Boolean
+}
+
+# //////////////////////////////////
+# ////// Event Venue ///////
+# //////////////////////////////////
+type TMVenue {
+  name: String!
+  images: [TMImage!]
+  distance: Float
+  units: String!
+  postalCode: String!
+  city: TMCity
+  state: TMState!
+  address: TMAddress!
+  location: TMLocation!
+}
+
+type TMCity {
+  name: String!
+}
+
+type TMState {
+  name: String!
+  stateCode: String!
+}
+
+type TMAddress {
+  line1: String!
+  line2: String
+}
+
+type TMLocation {
+  longitude: String!
+  latitude: String!
+}
+
+# //////////////////////////////////
+# ////// Event Image ///////
+# //////////////////////////////////
+type TMImage {
+  ratio: String!
+  url: String!
+  width: Int!
+  height: Int!
+  fallback: Boolean
+}
+
+# //////////////////////////////////
+# ////// Page ///////
+# //////////////////////////////////
+type TMPage {
+  size: Int!
+  totalElements: Int!
+  totalPages: Int!
+  number: Int!
+}
+
+# //////////////////////////////////
+# ////// Events ///////
+# //////////////////////////////////
+type TMEvent {
+  id: String!
+  name: String!
+  url: String!
+  images: [TMImage!]!
+  venue: TMVenue!
+}
+
+type TMEvents {
+  events: [TMEvent!]
+}

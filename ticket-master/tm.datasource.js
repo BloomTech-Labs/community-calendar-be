@@ -5,6 +5,8 @@ class TicketMasterAPI extends RESTDataSource {
     super();
     this.baseURL = 'https://app.ticketmaster.com';
   }
+
+  // Add ticket master API key to params of every request from all instances of this class
   willSendRequest(req) {
     req.params.set('apikey', this.context.tm_key);
   }

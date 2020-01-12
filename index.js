@@ -9,6 +9,7 @@ const {decodedToken} = require('./auth/authenticate');
 // REST data sources
 const TicketMasterAPI = require('./ticket-master/tm.datasource');
 
+// Schema Configuration
 const server = new ApolloServer({
   typeDefs,
   resolvers,
@@ -28,6 +29,7 @@ const server = new ApolloServer({
     //necessary to get user token from header
     req,
     decodedToken,
+    // Ticket Master API key
     tm_key: process.env.TICKET_MASTER,
   }),
   introspection: true,
