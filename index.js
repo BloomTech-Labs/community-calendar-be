@@ -12,6 +12,12 @@ const TicketMasterAPI = require('./ticket-master/tm.datasource');
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  // Classes used to fetch data from REST apis
+  dataSources: () => {
+    return {
+      ticketMasterAPI: new TicketMasterAPI(),
+    };
+  },
   context: ({req}) => ({
     //store prisma in context to use prisma in resolvers
     prisma: new Prisma({
@@ -19,12 +25,7 @@ const server = new ApolloServer({
       endpoint: process.env.PRISMA,
       ticketMasterKey: process.env.TICKET_MASTER,
     }),
-    // Classes used to fetch data from REST apis
-    dataSources: () => {
-      return {
-        ticketMasterAPI: new TicketMasterAPI(),
-      };
-    },
+
     //necessary to get user token from header
     req,
     decodedToken,

@@ -55,12 +55,8 @@ const resolvers = {
     events: async (root, args, {prisma, req}, info) => {
       return await prisma.events({...args});
     },
-    ticketMasterEvents: async (
-      root,
-      args,
-      {dataSources: {ticketMasterAPI}},
-    ) => {
-      return await ticketMasterAPI.getEvents(args);
+    ticketMasterEvents: async (root, args, {dataSources}) => {
+      return await dataSources.ticketMasterAPI.getEvents({...args});
     },
   },
 
