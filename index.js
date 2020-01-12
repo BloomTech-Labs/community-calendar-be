@@ -23,12 +23,12 @@ const server = new ApolloServer({
     prisma: new Prisma({
       secret: process.env.SECRET,
       endpoint: process.env.PRISMA,
-      ticketMasterKey: process.env.TICKET_MASTER,
     }),
 
     //necessary to get user token from header
     req,
     decodedToken,
+    tm_key: process.env.TICKET_MASTER,
   }),
   introspection: true,
   playground: true,

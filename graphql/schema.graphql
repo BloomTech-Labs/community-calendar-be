@@ -41,6 +41,10 @@ input EventIdInput {
 }
 
 type TMEvent {
+  page: TMPage!
+}
+
+type TMEventOld {
   id: String!
   name: String!
   url: String!
@@ -86,6 +90,13 @@ type TMLocation {
   latitude: String!
 }
 
+type TMPage {
+  size: Int!
+  totalElements: Int!
+  totalPages: Int!
+  number: Int!
+}
+
 type Query {
   users(
     where: UserWhereInput
@@ -121,7 +132,7 @@ type Query {
     size: Int
     keyword: String
     latlong: String!
-  ): [TMEvent!]
+  ): TMEvent
 }
 
 type Mutation {

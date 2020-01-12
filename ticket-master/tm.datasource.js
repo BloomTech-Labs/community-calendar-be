@@ -5,9 +5,8 @@ class TicketMasterAPI extends RESTDataSource {
     super();
     this.baseURL = 'https://app.ticketmaster.com';
   }
-
   willSendRequest(req) {
-    req.params.set('apikey', this.context.ticketMasterKey);
+    req.params.set('apikey', this.context.tm_key);
   }
 
   async getEvents({
@@ -22,8 +21,8 @@ class TicketMasterAPI extends RESTDataSource {
       options['keyword'] = keyword;
     }
 
-    const data = await this.get('/discovery/v2/events', options);
-    return data.results;
+    const data = await this.get('/discovery/v2/events.json', options);
+    return data;
   }
 }
 
