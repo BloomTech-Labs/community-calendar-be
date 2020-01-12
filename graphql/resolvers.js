@@ -60,7 +60,7 @@ const resolvers = {
       args,
       {dataSources: {ticketMasterAPI}},
     ) => {
-      return ticketMasterAPI.getEvents({...args});
+      return await ticketMasterAPI.getEvents(args);
     },
   },
 

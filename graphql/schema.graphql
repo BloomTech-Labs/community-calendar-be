@@ -119,6 +119,7 @@ type Query {
     radius: Int
     unit: String
     size: Int
+    keyword: String
     latlong: String!
   ): [TMEvent!]
 }
