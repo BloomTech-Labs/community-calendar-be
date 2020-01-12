@@ -40,7 +40,7 @@ input EventIdInput {
   id: ID!
 }
 
-type TMEvent{
+type TMEvent {
   id: String!
   name: String!
   url: String!
@@ -48,7 +48,7 @@ type TMEvent{
   venue: TMVenue!
 }
 
-type TMVenue{
+type TMVenue {
   name: String!
   images: [TMImage!]
   distance: Float!
@@ -59,33 +59,32 @@ type TMVenue{
   address: TMAddress!
 }
 
-type TMImage{
+type TMImage {
   ratio: String!
   url: String!
-  width: Int! 
+  width: Int!
   height: Int!
   fallback: Boolean
 }
 
-type TMCity{
+type TMCity {
   name: String!
 }
 
-type TMState{
+type TMState {
   name: String!
   stateCode: String!
 }
 
-type TMAddress{
+type TMAddress {
   line1: String!
   line2: String
 }
 
-type TMLocation{
+type TMLocation {
   longitude: String!
   latitude: String!
 }
-Type
 
 type Query {
   users(
@@ -107,8 +106,21 @@ type Query {
     first: Int
     last: Int
   ): [Event!]
-  tags(where: TagWhereInput, orderBy: TagOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Tag!]
-  ticketMasterEvents(radius: Int, unit: String, size: Int, latlong: String!):[TMEvent!]
+  tags(
+    where: TagWhereInput
+    orderBy: TagOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Tag!]
+  ticketMasterEvents(
+    radius: Int
+    unit: String
+    size: Int
+    latlong: String!
+  ): [TMEvent!]
 }
 
 type Mutation {
