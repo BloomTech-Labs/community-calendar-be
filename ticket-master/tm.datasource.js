@@ -1,6 +1,6 @@
 const {RESTDataSource} = require('apollo-datasource-rest');
 
-export default class TicketMasterAPI extends RESTDataSource {
+class TicketMasterAPI extends RESTDataSource {
   constructor() {
     super();
     this.baseURL = 'https://app.ticketmaster.com';
@@ -20,3 +20,5 @@ export default class TicketMasterAPI extends RESTDataSource {
     return data.results;
   }
 }
+
+module.exports = TicketMasterAPI;
