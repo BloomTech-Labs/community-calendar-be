@@ -10,11 +10,12 @@ export default class TicketMasterAPI extends RESTDataSource {
     req.params.set('apikey', this.context.ticketMasterKey);
   }
 
-  async getEvents(radius = 20, unit = 'miles', size = 5) {
+  async getEvents(radius = 20, unit = 'miles', size = 5, latlong) {
     const data = await this.get('/discovery/v2/events', {
       radius,
       unit,
       size,
+      latlong,
     });
     return data.results;
   }
