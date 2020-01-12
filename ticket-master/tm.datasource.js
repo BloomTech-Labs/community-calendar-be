@@ -1,4 +1,4 @@
-import {RESTDataSource} from 'apollo-datasource-rest';
+const {RESTDataSource} = require('apollo-datasource-rest');
 
 export default class TicketMasterAPI extends RESTDataSource {
   constructor() {
