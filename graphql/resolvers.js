@@ -1,7 +1,4 @@
-const {
-  convertTags,
-  tagsToRemove
-} = require('./helpers');
+const {convertTags, tagsToRemove} = require('./helpers');
 
 const resolvers = {
   //prisma bindings, otherwise fields would be null in queries/mutations
@@ -58,6 +55,13 @@ const resolvers = {
     events: async (root, args, {prisma, req}, info) => {
       return await prisma.events({...args});
     },
+    ticketMasterEvents: async (
+      root,
+      args,
+      {dataSources: {ticketMasterAPI}},
+    ) => {
+      return ticketMasterAPI.getEvents({...args});
+    },
   },
 
   Mutation: {
@@ -76,13 +80,13 @@ const resolvers = {
       try {
         const decoded = await decodedToken(req); //requires token to be sent in authorization headers
         const tagsInDb = await prisma.tags(); //array of tags objects from the database
-        if(data.tags){
+        if (data.tags) {
           data.tags = convertTags(data.tags, tagsInDb);
         }
-        
+
         // data['creator'] = {connect: {id: decoded['http://cc_id']}};
         data['creator'] = {connect: {id: 'ck54gh4m9000y0758k2u3qgow'}};
-        
+
         return await prisma.createEvent(data);
       } catch (err) {
         throw err;
@@ -93,17 +97,17 @@ const resolvers = {
       try {
         const [{creator}] = await prisma.events({where}).creator();
         const decoded = await decodedToken(req); //requires token to be sent in authorization headers
-        
-    
-        if (decoded['http://cc_id'] === creator.id) { //check if logged in user created the event
+
+        if (decoded['http://cc_id'] === creator.id) {
+          //check if logged in user created the event
           const tagsInDb = await prisma.tags(); //array of tags objects from the database
           const tags = await prisma.event({id: where.id}).tags();
 
-          if(data.tags.length){
+          if (data.tags.length) {
             const disconnect = tagsToRemove(tags, data.tags);
             data.tags = convertTags(data.tags, tagsInDb);
 
-            if(disconnect.length){
+            if (disconnect.length) {
               data.tags.disconnect = disconnect;
             }
           }
@@ -121,7 +125,8 @@ const resolvers = {
       try {
         const [{creator}] = await prisma.events({where}).creator();
         const decoded = await decodedToken(req); //requires token to be sent in authorization headers
-        if (decoded['http://cc_id'] === creator.id) { //check if logged in user created the event
+        if (decoded['http://cc_id'] === creator.id) {
+          //check if logged in user created the event
           return await prisma.deleteEvent(where);
         } else {
           throw 'You do not have permission to delete this event.';
@@ -137,7 +142,7 @@ const resolvers = {
           event: {id},
         } = args;
         return prisma.updateUser({
-          where: {id: decoded['http://cc_id']}, 
+          where: {id: decoded['http://cc_id']},
           data: {rsvps: {connect: {id}}},
         });
       } catch (err) {

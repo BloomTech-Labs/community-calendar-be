@@ -6,6 +6,9 @@ const typeDefs = require('./graphql/schema');
 const resolvers = require('./graphql/resolvers');
 const {decodedToken} = require('./auth/authenticate');
 
+// REST data sources
+const TicketMasterAPI = require('./ticket-master/tm.datasource');
+
 const server = new ApolloServer({
   typeDefs,
   resolvers,
@@ -14,10 +17,17 @@ const server = new ApolloServer({
     prisma: new Prisma({
       secret: process.env.SECRET,
       endpoint: process.env.PRISMA,
+      ticketMasterKey: process.env.TICKET_MASTER,
     }),
+    // Classes used to fetch data from REST apis
+    dataSources: () => {
+      return {
+        ticketMasterAPI: new TicketMasterAPI(),
+      };
+    },
     //necessary to get user token from header
     req,
-    decodedToken
+    decodedToken,
   }),
   introspection: true,
   playground: true,
