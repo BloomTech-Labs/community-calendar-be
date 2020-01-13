@@ -72,10 +72,19 @@ type Query {
   ): [Tag!]
   ticketMasterEvents(
     radius: Int
+    # "miles" or "km"
     unit: String
+    #number of events per page
     size: Int
     keyword: String
-    latlong: String!
+    #Point to search for events from "30.00,-67.00" . NO SPACES
+    latlong: String
+    startDateTime: DateTime
+    endDateTime: DateTime
+    city: String
+    countryCode: String
+    stateCode: String
+    postalCode: String
   ): TMResults
 }
 

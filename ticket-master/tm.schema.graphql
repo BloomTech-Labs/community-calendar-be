@@ -1,4 +1,4 @@
-type TMEvent {
+type TMResults {
   page: TMPage
   _links: TMLink
   _embedded: TMEvents
@@ -97,9 +97,50 @@ type TMEvent {
   name: String!
   url: String!
   images: [TMImage!]!
-  venue: TMVenue!
+  _embedded: TMEventEmbedded!
+  description: String
+  info: String
+  additionalInfo: String
+  location: TMLocation
+  distance: Float
+  dates: TMDate!
+}
+
+type TMEventEmbedded {
+  venues: [TMVenue!]
 }
 
 type TMEvents {
   events: [TMEvent!]
+}
+
+# //////////////////////////////////
+# ////// Events Dates///////
+# //////////////////////////////////
+type TMDate {
+  start: TMDateStart!
+  end: TMDateStart!
+  timezone: String!
+}
+
+type TMDateStart {
+  localDate: String!
+  dateTime: String!
+}
+
+# //////////////////////////////////
+# ////// Events Place///////
+# //////////////////////////////////
+type TMPlace {
+  area: TMPlaceArea
+  address: TMAddress
+  location: TMLocation
+  city: TMCity
+  state: TMState
+  postalCode: String
+  name: String
+}
+
+type TMPlaceArea {
+  name: String
 }

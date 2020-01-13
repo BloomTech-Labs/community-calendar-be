@@ -11,17 +11,8 @@ class TicketMasterAPI extends RESTDataSource {
     req.params.set('apikey', this.context.tm_key);
   }
 
-  async getEvents({
-    radius = 20,
-    unit = 'miles',
-    size = 5,
-    keyword = undefined,
-    latlong,
-  }) {
-    let options = {radius, unit, size, latlong};
-    if (keyword) {
-      options['keyword'] = keyword;
-    }
+  async getEvents({radius = 20, unit = 'miles', size = 5, ...rest}) {
+    let options = {radius, unit, size, ...rest};
 
     const data = await this.get('/discovery/v2/events.json', options);
     return data;
