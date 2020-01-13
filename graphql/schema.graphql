@@ -1,4 +1,5 @@
 #import User, Location, Event, Tags  from "../prisma-client/generated/prisma.graphql"
+# import TMEvent from "../ticket-master/tm.schema.graphql"
 
 input UserCheckIdInput {
   auth0_id: String!
@@ -60,7 +61,49 @@ type Query {
     first: Int
     last: Int
   ): [Event!]
-  tags(where: TagWhereInput, orderBy: TagOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Tag!]
+  tags(
+    where: TagWhereInput
+    orderBy: TagOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Tag!]
+  ticketMasterEvents(
+    radius: Int
+    # "miles" or "km"
+    unit: String
+    #number of events per page
+    size: Int
+    page: String
+    keyword: String
+    #Point to search for events from "30.00,-67.00" . NO SPACES
+    latlong: String
+    startDateTime: DateTime
+    endDateTime: DateTime
+    city: String
+    countryCode: String
+    stateCode: String
+    postalCode: String
+  ): TMResults
+  ticketMasterEventsAlt(
+    radius: Int
+    # "miles" or "km"
+    unit: String
+    #number of events per page
+    size: Int
+    page: String
+    keyword: String
+    #Point to search for events from "30.00,-67.00" . NO SPACES
+    latlong: String
+    startDateTime: DateTime
+    endDateTime: DateTime
+    city: String
+    countryCode: String
+    stateCode: String
+    postalCode: String
+  ): TMResultsAlt
 }
 
 type Mutation {
