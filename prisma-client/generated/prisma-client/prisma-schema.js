@@ -1158,8 +1158,8 @@ type Location {
   city: String!
   zipcode: Int!
   state: String!
-  latitude: String
-  longitude: String
+  latitude: Float
+  longitude: Float
   event: Event!
   neighborhood: Neighborhood
 }
@@ -1178,8 +1178,8 @@ input LocationCreateInput {
   city: String!
   zipcode: Int!
   state: String!
-  latitude: String
-  longitude: String
+  latitude: Float
+  longitude: Float
   event: EventCreateOneWithoutLocationsInput!
   neighborhood: NeighborhoodCreateOneWithoutLocationsInput
 }
@@ -1202,8 +1202,8 @@ input LocationCreateWithoutEventInput {
   city: String!
   zipcode: Int!
   state: String!
-  latitude: String
-  longitude: String
+  latitude: Float
+  longitude: Float
   neighborhood: NeighborhoodCreateOneWithoutLocationsInput
 }
 
@@ -1215,8 +1215,8 @@ input LocationCreateWithoutNeighborhoodInput {
   city: String!
   zipcode: Int!
   state: String!
-  latitude: String
-  longitude: String
+  latitude: Float
+  longitude: Float
   event: EventCreateOneWithoutLocationsInput!
 }
 
@@ -1254,8 +1254,8 @@ type LocationPreviousValues {
   city: String!
   zipcode: Int!
   state: String!
-  latitude: String
-  longitude: String
+  latitude: Float
+  longitude: Float
 }
 
 input LocationScalarWhereInput {
@@ -1351,34 +1351,22 @@ input LocationScalarWhereInput {
   state_not_starts_with: String
   state_ends_with: String
   state_not_ends_with: String
-  latitude: String
-  latitude_not: String
-  latitude_in: [String!]
-  latitude_not_in: [String!]
-  latitude_lt: String
-  latitude_lte: String
-  latitude_gt: String
-  latitude_gte: String
-  latitude_contains: String
-  latitude_not_contains: String
-  latitude_starts_with: String
-  latitude_not_starts_with: String
-  latitude_ends_with: String
-  latitude_not_ends_with: String
-  longitude: String
-  longitude_not: String
-  longitude_in: [String!]
-  longitude_not_in: [String!]
-  longitude_lt: String
-  longitude_lte: String
-  longitude_gt: String
-  longitude_gte: String
-  longitude_contains: String
-  longitude_not_contains: String
-  longitude_starts_with: String
-  longitude_not_starts_with: String
-  longitude_ends_with: String
-  longitude_not_ends_with: String
+  latitude: Float
+  latitude_not: Float
+  latitude_in: [Float!]
+  latitude_not_in: [Float!]
+  latitude_lt: Float
+  latitude_lte: Float
+  latitude_gt: Float
+  latitude_gte: Float
+  longitude: Float
+  longitude_not: Float
+  longitude_in: [Float!]
+  longitude_not_in: [Float!]
+  longitude_lt: Float
+  longitude_lte: Float
+  longitude_gt: Float
+  longitude_gte: Float
   AND: [LocationScalarWhereInput!]
   OR: [LocationScalarWhereInput!]
   NOT: [LocationScalarWhereInput!]
@@ -1409,8 +1397,8 @@ input LocationUpdateInput {
   city: String
   zipcode: Int
   state: String
-  latitude: String
-  longitude: String
+  latitude: Float
+  longitude: Float
   event: EventUpdateOneRequiredWithoutLocationsInput
   neighborhood: NeighborhoodUpdateOneWithoutLocationsInput
 }
@@ -1422,8 +1410,8 @@ input LocationUpdateManyDataInput {
   city: String
   zipcode: Int
   state: String
-  latitude: String
-  longitude: String
+  latitude: Float
+  longitude: Float
 }
 
 input LocationUpdateManyMutationInput {
@@ -1433,8 +1421,8 @@ input LocationUpdateManyMutationInput {
   city: String
   zipcode: Int
   state: String
-  latitude: String
-  longitude: String
+  latitude: Float
+  longitude: Float
 }
 
 input LocationUpdateManyWithoutEventInput {
@@ -1473,8 +1461,8 @@ input LocationUpdateWithoutEventDataInput {
   city: String
   zipcode: Int
   state: String
-  latitude: String
-  longitude: String
+  latitude: Float
+  longitude: Float
   neighborhood: NeighborhoodUpdateOneWithoutLocationsInput
 }
 
@@ -1485,8 +1473,8 @@ input LocationUpdateWithoutNeighborhoodDataInput {
   city: String
   zipcode: Int
   state: String
-  latitude: String
-  longitude: String
+  latitude: Float
+  longitude: Float
   event: EventUpdateOneRequiredWithoutLocationsInput
 }
 
@@ -1605,34 +1593,22 @@ input LocationWhereInput {
   state_not_starts_with: String
   state_ends_with: String
   state_not_ends_with: String
-  latitude: String
-  latitude_not: String
-  latitude_in: [String!]
-  latitude_not_in: [String!]
-  latitude_lt: String
-  latitude_lte: String
-  latitude_gt: String
-  latitude_gte: String
-  latitude_contains: String
-  latitude_not_contains: String
-  latitude_starts_with: String
-  latitude_not_starts_with: String
-  latitude_ends_with: String
-  latitude_not_ends_with: String
-  longitude: String
-  longitude_not: String
-  longitude_in: [String!]
-  longitude_not_in: [String!]
-  longitude_lt: String
-  longitude_lte: String
-  longitude_gt: String
-  longitude_gte: String
-  longitude_contains: String
-  longitude_not_contains: String
-  longitude_starts_with: String
-  longitude_not_starts_with: String
-  longitude_ends_with: String
-  longitude_not_ends_with: String
+  latitude: Float
+  latitude_not: Float
+  latitude_in: [Float!]
+  latitude_not_in: [Float!]
+  latitude_lt: Float
+  latitude_lte: Float
+  latitude_gt: Float
+  latitude_gte: Float
+  longitude: Float
+  longitude_not: Float
+  longitude_in: [Float!]
+  longitude_not_in: [Float!]
+  longitude_lt: Float
+  longitude_lte: Float
+  longitude_gt: Float
+  longitude_gte: Float
   event: EventWhereInput
   neighborhood: NeighborhoodWhereInput
   AND: [LocationWhereInput!]
