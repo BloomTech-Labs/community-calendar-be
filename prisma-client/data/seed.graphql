@@ -72,6 +72,8 @@ mutation {
             city: "Detroit"
             zipcode: 48202
             state: "MI"
+            latitude: -83.045427
+            longitude: 42.330511
           }
         ]
       }
@@ -119,6 +121,8 @@ mutation {
             city: "Detroit"
             zipcode: 48202
             state: "MI"
+            latitude: -83.045427
+            longitude: 42.330511
           }
         ]
       }
@@ -159,6 +163,8 @@ mutation {
             city: "Detroit"
             zipcode: 48226
             state: "MI"
+            latitude: -83.048084
+            longitude: 42.328923
           }
         ]
       }
@@ -199,6 +205,8 @@ mutation {
             city: "Bloomfield Hills"
             zipcode: 48302
             state: "MI"
+            latitude: -83.291038
+            longitude: 42.607574
           }
         ]
       }
@@ -241,6 +249,8 @@ mutation {
             city: "Detroit"
             zipcode: 48201
             state: "MI"
+            latitude: -83.060526
+            longitude: 42.358328
           }
         ]
       }
@@ -288,6 +298,8 @@ mutation {
             city: "Detroit"
             zipcode: 48202
             state: "MI"
+            latitude: -83.066701
+            longitude: 42.358385
           }
         ]
       }
@@ -337,6 +349,8 @@ mutation {
             city: "Detroit"
             zipcode: 48208
             state: "MI"
+            latitude: -83.040027
+            longitude: 42.346801
           }
         ]
       }
