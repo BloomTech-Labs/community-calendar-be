@@ -1,4 +1,5 @@
 const distance = require('@turf/distance');
+const { point } = require('@turf/helpers');
 
 const {convertTags, tagsToRemove} = require('./helpers');
 
@@ -62,8 +63,8 @@ const resolvers = {
         // loop through the events and calculate distance between event and user, using their lat/longs
         eventsFromDatabase
           .forEach(event => {
-            let userLocation = [userLatitude, userLongitude];
-            let eventLocation = [event.locations[0].latitude, event.locations[0].longitude];
+            let userLocation = turf.point([userLatitude, userLongitude]);
+            let eventLocation = turf.point([event.locations[0].latitude, event.locations[0].longitude]);
             let options = { units: distanceUnit };
 
             // add distanceFromUser property to each event object
