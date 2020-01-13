@@ -104,6 +104,7 @@ type TMEvent {
   location: TMLocation
   distance: Float
   dates: TMDate!
+  place: TMPlace
 }
 
 type TMEventEmbedded {
@@ -119,12 +120,13 @@ type TMEvents {
 # //////////////////////////////////
 type TMDate {
   start: TMDateStart!
-  end: TMDateStart!
-  timezone: String!
+  end: TMDateStart
+  timezone: String
 }
 
 type TMDateStart {
   localDate: String!
+  localTime: String
   dateTime: String!
 }
 
