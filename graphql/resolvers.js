@@ -1,4 +1,4 @@
-import turf from '@turf/distance'
+const distance = require('@turf/distance');
 
 const {convertTags, tagsToRemove} = require('./helpers');
 
