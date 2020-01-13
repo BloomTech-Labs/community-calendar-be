@@ -50,8 +50,8 @@ type Location {
   city: String!
   zipcode: Int!
   state: String!
-  latitude: String
-  longitude: String
+  latitude: Float
+  longitude: Float
   event: Event! @relation(name: "EventsLocations")
   neighborhood: Neighborhood @relation(name: "OrganizationLocations",link: TABLE)
 }
