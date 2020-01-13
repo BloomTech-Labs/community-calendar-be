@@ -161,6 +161,8 @@ type TMEventAlt {
   title: String!
   start: String!
   end: String
+  description: String
+  info: String
   event_images: [TMImage!]
   urls: [TMEventAltUrl!]
   locations: [TMLocationAlt!]
