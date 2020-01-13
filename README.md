@@ -2,16 +2,13 @@
 
 # Community Calendar Back End
 
-We create incredible neighborhoods and community spaces through meaningful shared events.  You can find the deployed project at [Community Calendar](https://www.communitycalendar.xyz).
+We create incredible neighborhoods and community spaces through meaningful shared events. You can find the deployed project at [Community Calendar](https://www.communitycalendar.xyz).
 
 This back end API is consumed by three clients:
 
 1. Web application at [React Front End Repository](https://github.com/Lambda-School-Labs/community-calendar-fe).
 2. iOS application at [iOS Application Repository](https://github.com/Lambda-School-Labs/community-calendar-ios).
 3. Android application at [Android Application Repository](https://github.com/Lambda-School-Labs/community-calendar-android).
-
-
-
 
 ## Contributors
 
@@ -55,6 +52,7 @@ We chose an Apollo GraphQL server of a RESTful API for the two reasons:
 Our server relies on Auth0 and another Prisma/PostgreSQL deployment to function correctly. If you would like to get your own local Community Calendar server running, clone this repo and follow [this guide here](https://github.com/Lambda-School-Labs/community-calendar-be/blob/master/notes/prisma_auth0.md).
 
 Once **Auth0** and **Prisma** is configured:
+
 - `npm install` to install all required dependencies
 - `npm run dev` to start the local server
 - vist your endpoint URL to interact with your server through the GraphQL Playground
@@ -64,12 +62,13 @@ Once **Auth0** and **Prisma** is configured:
 In order for the app to function correctly, the user must set up their own environment variables.
 
 Create a .env file that includes the following:
-    
-    *  AUTH0_DOMAIN - Auth0 domain for your Auth0 application.
-    *  API_AUDIENCE - Auth0 API Audience
-    *  NODE_ENV - Not required for local environment.  Set to "production" when deploying.
-    *  PRISMA - This is the endpoint for the Prisma deployment.
-    *  SECRET - Secret used for Prisma service.
+  
+ _ AUTH0_DOMAIN - Auth0 domain for your Auth0 application.
+_ API_AUDIENCE - Auth0 API Audience
+_ NODE_ENV - Not required for local environment. Set to "production" when deploying.
+_ PRISMA - This is the endpoint for the Prisma deployment.
+_ SECRET - Secret used for Prisma service.
+_ TICKET_MASTER - Ticket Master API key.
 
 ## Endpoints
 
@@ -77,20 +76,20 @@ The GraphQL API consists of a single endpoint. In addition to the built-in docum
 
 ### Queries
 
-| Query Name          | Access Control      | Description                                  |
-| ------------------- | ------------------- | -------------------------------------------- |
-| `users (...)`       | authenticated users | Returns a list of users.                     |
-| `checkId (...)`     | auth0 service       | Verify whether a user already exists.        |
-| `events (...)`      | all users           | Returns a list of community events.          |
+| Query Name      | Access Control      | Description                           |
+| --------------- | ------------------- | ------------------------------------- |
+| `users (...)`   | authenticated users | Returns a list of users.              |
+| `checkId (...)` | auth0 service       | Verify whether a user already exists. |
+| `events (...)`  | all users           | Returns a list of community events.   |
 
 ### Mutations
 
-| Mutation Name       | Access Control      | Description                                  |
-| ------------------- | ------------------- | -------------------------------------------- |
-| `addUser (...)`     | auth0 service       | Creates a newly registered user.             |
-| `addEvent (...)`    | authenticated users | Create a community event.                    |
-| `updateEvent (...)` | event creator       | Update community event details.              |
-| `deleteEvent (...)` | event creator       | Remove a community event from the databsae.  |
+| Mutation Name       | Access Control      | Description                                 |
+| ------------------- | ------------------- | ------------------------------------------- |
+| `addUser (...)`     | auth0 service       | Creates a newly registered user.            |
+| `addEvent (...)`    | authenticated users | Create a community event.                   |
+| `updateEvent (...)` | event creator       | Update community event details.             |
+| `deleteEvent (...)` | event creator       | Remove a community event from the databsae. |
 
 ## Contributing
 
