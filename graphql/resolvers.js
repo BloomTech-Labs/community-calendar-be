@@ -1,3 +1,5 @@
+import turf from '@turf/distance'
+
 const {convertTags, tagsToRemove} = require('./helpers');
 
 const resolvers = {
@@ -52,8 +54,42 @@ const resolvers = {
         throw err;
       }
     },
-    events: async (root, args, {prisma, req}, info) => {
-      return await prisma.events({...args});
+    events: async (root, { userLatitude, userLongitude, maxDistance = null, distanceUnit = "miles", ...args }, {prisma, req}, info) => {
+      // get all events from the database
+      const eventsFromDatabase = await prisma.events({...args});
+      let events = []
+      if (userLatitude && userLongitude){
+        // loop through the events and calculate distance between event and user, using their lat/longs
+        eventsFromDatabase
+          .forEach(event => {
+            let userLocation = [userLatitude, userLongitude];
+            let eventLocation = [event.locations[0].latitude, event.locations[0].longitude];
+            let options = { units: distanceUnit };
+
+            // add distanceFromUser property to each event object
+            event.distance = turf.distance(userLocation, eventLocation, options);
+
+            // add distanceUnit to each event object, which will default to miles when args declared above
+            event.distanceUnit = distanceUnit;
+
+            // if maxDistance exists, filter events that are too far away
+            if(maxDistance){
+              // only push events closer than the max distance
+              if (event.distance <= maxDistance){
+              events.push(event);
+              }
+              // restart forEach on next event if event is too far away
+              return 
+            } else {
+              // if no maxDistance, do not filter
+              events.push(event);
+              return
+            } 
+          }) //end forEach
+      } else {
+        events = eventsFromDatabase
+      }
+      return  events
     },
     ticketMasterEvents: async (root, args, {dataSources}) => {
       return await dataSources.ticketMasterAPI.getEvents({...args});

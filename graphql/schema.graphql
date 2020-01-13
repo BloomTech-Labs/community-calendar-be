@@ -41,6 +41,22 @@ input EventIdInput {
   id: ID!
 }
 
+type Location {
+  id: ID!
+  name: String!
+  street_address: String!
+  street_address_2: String
+  city: String!
+  zipcode: Int!
+  state: String!
+  latitude: Float
+  longitude: Float
+  distanceFromUser: Float
+  distanceUnit: String
+  event: Event!
+  neighborhood: Neighborhood
+}
+
 type Query {
   users(
     where: UserWhereInput
@@ -60,6 +76,10 @@ type Query {
     before: String
     first: Int
     last: Int
+    userLatitude: Float
+    userLongitude: Float
+    maxDistance: Float
+    distanceUnit: String
   ): [Event!]
   tags(
     where: TagWhereInput
