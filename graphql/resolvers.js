@@ -63,12 +63,12 @@ const resolvers = {
         // loop through the events and calculate distance between event and user, using their lat/longs
         eventsFromDatabase
           .forEach(event => {
-            let userLocation = turf.point([userLatitude, userLongitude]);
-            let eventLocation = turf.point([event.locations[0].latitude, event.locations[0].longitude]);
+            let userLocation = point([userLatitude, userLongitude]);
+            let eventLocation = point([event.locations[0].latitude, event.locations[0].longitude]);
             let options = { units: distanceUnit };
 
             // add distanceFromUser property to each event object
-            event.distance = turf.distance(userLocation, eventLocation, options);
+            event.distance = distance(userLocation, eventLocation, options);
 
             // add distanceUnit to each event object, which will default to miles when args declared above
             event.distanceUnit = distanceUnit;
