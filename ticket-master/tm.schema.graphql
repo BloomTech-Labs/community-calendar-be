@@ -119,12 +119,12 @@ type TMEvents {
 # ////// Events Dates///////
 # //////////////////////////////////
 type TMDate {
-  start: TMDateStart!
-  end: TMDateStart
+  start: TMDateObj!
+  end: TMDateObj
   timezone: String
 }
 
-type TMDateStart {
+type TMDateObj {
   localDate: String!
   localTime: String
   dateTime: String!
@@ -145,4 +145,40 @@ type TMPlace {
 
 type TMPlaceArea {
   name: String
+}
+
+# //////////////////////////////////
+# ////// Alt Formatting For CC ///////
+# //////////////////////////////////
+
+type TMResultsAlt {
+  page: TMPage!
+  events: [TMEventAlt]
+}
+
+type TMEventAlt {
+  id: String!
+  title: String!
+  start: String!
+  end: String
+  event_images: [TMImage!]
+  urls: [TMEventAltUrl!]
+  locations: [TMLocationAlt!]
+}
+
+type TMLocationAlt {
+  neighborhood: String
+  name: String!
+  street_address: String!
+  street_address_2: String
+  city: String!
+  zipcode: String!
+  state: String!
+  latitude: String
+  longitude: String
+  distance: Float
+}
+
+type TMEventAltUrl {
+  url: String!
 }
