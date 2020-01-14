@@ -103,8 +103,7 @@ const resolvers = {
           data.tags = convertTags(data.tags, tagsInDb);
         }
 
-        // data['creator'] = {connect: {id: decoded['http://cc_id']}};
-        data['creator'] = {connect: {id: 'ck54gh4m9000y0758k2u3qgow'}};
+        data['creator'] = {connect: {id: decoded['http://cc_id']}};
 
         return await prisma.createEvent(data);
       } catch (err) {
