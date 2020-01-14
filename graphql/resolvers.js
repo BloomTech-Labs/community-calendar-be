@@ -13,7 +13,7 @@ const resolvers = {
     rsvps: (parent, args, {prisma}) => prisma.event({id: parent.id}).rsvps(),
     urls: (parent, args, {prisma}) => prisma.event({id: parent.id}).urls(),
     admins: (parent, args, {prisma}) => prisma.event({id: parent.id}).admins(),
-    locations: async (parent, {userLatitude, userLongitude, maxDistance = null, distanceUnit = "miles", ...args}, {prisma}) => {
+    locations: async (parent, {userLatitude, userLongitude, distanceUnit = "miles", ...args}, {prisma}) => {
       // find the locations for the current event
       const location = await prisma.event({id: parent.id}).locations();
       if (userLatitude && userLongitude) {

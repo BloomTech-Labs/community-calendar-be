@@ -80,6 +80,8 @@ type Event {
     # userLatitude and userLongitude args used to calculate distance to event
     userLatitude: Float,
     userLongitude: Float,
+    # distanceUnit for event is "miles" or "kilometers" to comply with turf requirements
+    distanceUnit: String
     ): [Location!]
   tags(where: TagWhereInput, orderBy: TagOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Tag!]
 }
