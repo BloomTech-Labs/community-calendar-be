@@ -1,4 +1,4 @@
-const distance = require('@turf/distance');
+const distance = require('@turf/distance').default;
 const { point } = require('@turf/helpers');
 
 const {convertTags, tagsToRemove} = require('./helpers');
@@ -13,8 +13,23 @@ const resolvers = {
     rsvps: (parent, args, {prisma}) => prisma.event({id: parent.id}).rsvps(),
     urls: (parent, args, {prisma}) => prisma.event({id: parent.id}).urls(),
     admins: (parent, args, {prisma}) => prisma.event({id: parent.id}).admins(),
-    locations: (parent, args, {prisma}) =>
-      prisma.event({id: parent.id}).locations(),
+    locations: async (parent, {userLatitude, userLongitude, maxDistance = null, distanceUnit = "miles", ...args}, {prisma}) => {
+      // find the locations for the current event
+      const location = await prisma.event({id: parent.id}).locations();
+      if (userLatitude && userLongitude) {
+        let userLocation = point([userLatitude, userLongitude]);
+        let eventLocation = point([location[0].latitude, location[0].longitude])
+        let options = { units: distanceUnit };
+        
+        // calculate and add distanceFromUser property to each location object
+        location[0].distanceFromUser = distance(userLocation, eventLocation, options);
+
+        // add distanceUnit to each location object, which will default to miles
+        location[0].distanceUnit = distanceUnit;
+ 
+          } 
+      return location
+    },
     tags: (parent, args, {prisma}) => prisma.event({id: parent.id}).tags(),
   },
   User: {
@@ -55,43 +70,11 @@ const resolvers = {
         throw err;
       }
     },
-    events: async (root, { userLatitude, userLongitude, maxDistance = null, distanceUnit = "miles", ...args }, {prisma, req}, info) => {
-      // get all events from the database
-      const eventsFromDatabase = await prisma.events({...args});
-      let events = []
-      if (userLatitude && userLongitude){
-        // loop through the events and calculate distance between event and user, using their lat/longs
-        eventsFromDatabase
-          .forEach(event => {
-            let userLocation = point([userLatitude, userLongitude]);
-            let eventLocation = point([event.locations[0].latitude, event.locations[0].longitude]);
-            let options = { units: distanceUnit };
 
-            // add distanceFromUser property to each event object
-            event.distance = distance(userLocation, eventLocation, options);
-
-            // add distanceUnit to each event object, which will default to miles when args declared above
-            event.distanceUnit = distanceUnit;
-
-            // if maxDistance exists, filter events that are too far away
-            if(maxDistance){
-              // only push events closer than the max distance
-              if (event.distance <= maxDistance){
-              events.push(event);
-              }
-              // restart forEach on next event if event is too far away
-              return 
-            } else {
-              // if no maxDistance, do not filter
-              events.push(event);
-              return
-            } 
-          }) //end forEach
-      } else {
-        events = eventsFromDatabase
-      }
-      return  events
+    events: async (root, args, {prisma, req}, info) => {
+      return await prisma.events({...args})
     },
+
     ticketMasterEvents: async (root, args, {dataSources}) => {
       return await dataSources.ticketMasterAPI.getEvents({...args});
     },
