@@ -41,6 +41,51 @@ input EventIdInput {
   id: ID!
 }
 
+type Location {
+  id: ID!
+  name: String!
+  street_address: String!
+  street_address_2: String
+  city: String!
+  zipcode: Int!
+  state: String!
+  latitude: Float
+  longitude: Float
+  distanceFromUser: Float
+  distanceUnit: String
+  event: Event!
+  neighborhood: Neighborhood
+}
+
+type Event {
+  id: ID!
+  title: String!
+  description: String!
+  start: DateTime!
+  end: DateTime!
+  creator: User
+  # distanceFromUser: Float
+  # distanceUnit: String
+  event_images(where: Event_ImageWhereInput, orderBy: Event_ImageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event_Image!]
+  rsvps(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
+  urls(where: Event_UrlWhereInput, orderBy: Event_UrlOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event_Url!]
+  admins(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
+  locations(
+    where: LocationWhereInput, 
+    orderBy: LocationOrderByInput, 
+    skip: Int, after: String, 
+    before: String, 
+    first: Int, 
+    last: Int, 
+    # userLatitude and userLongitude args used to calculate distance to event
+    userLatitude: Float,
+    userLongitude: Float,
+    # distanceUnit for event is "miles" or "kilometers" to comply with turf requirements
+    distanceUnit: String
+    ): [Location!]
+  tags(where: TagWhereInput, orderBy: TagOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Tag!]
+}
+
 type Query {
   users(
     where: UserWhereInput

@@ -1,3 +1,6 @@
+const distance = require('@turf/distance').default;
+const { point } = require('@turf/helpers');
+
 const {convertTags, tagsToRemove} = require('./helpers');
 
 const resolvers = {
@@ -10,8 +13,23 @@ const resolvers = {
     rsvps: (parent, args, {prisma}) => prisma.event({id: parent.id}).rsvps(),
     urls: (parent, args, {prisma}) => prisma.event({id: parent.id}).urls(),
     admins: (parent, args, {prisma}) => prisma.event({id: parent.id}).admins(),
-    locations: (parent, args, {prisma}) =>
-      prisma.event({id: parent.id}).locations(),
+    locations: async (parent, {userLatitude, userLongitude, distanceUnit = "miles", ...args}, {prisma}) => {
+      // find the locations for the current event
+      const location = await prisma.event({id: parent.id}).locations();
+      if (userLatitude && userLongitude) {
+        let userLocation = point([userLatitude, userLongitude]);
+        let eventLocation = point([location[0].latitude, location[0].longitude])
+        let options = { units: distanceUnit };
+        
+        // calculate and add distanceFromUser property to each location object
+        location[0].distanceFromUser = distance(userLocation, eventLocation, options);
+
+        // add distanceUnit to each location object, which will default to miles
+        location[0].distanceUnit = distanceUnit;
+ 
+          } 
+      return location
+    },
     tags: (parent, args, {prisma}) => prisma.event({id: parent.id}).tags(),
   },
   User: {
@@ -52,9 +70,11 @@ const resolvers = {
         throw err;
       }
     },
+
     events: async (root, args, {prisma, req}, info) => {
-      return await prisma.events({...args});
+      return await prisma.events({...args})
     },
+
     ticketMasterEvents: async (root, args, {dataSources}) => {
       return await dataSources.ticketMasterAPI.getEvents({...args});
     },
