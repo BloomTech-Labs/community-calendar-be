@@ -15,6 +15,7 @@ type Event {
   description: String!
   start: DateTime!
   end: DateTime!
+  ticketType: TicketType!
   creator: User @relation(name: "CreatedEvents")
   event_images: [Event_Image!] @relation(name: "EventsImages", link: TABLE, onDelete: CASCADE)
   rsvps: [User!] @relation(name: "UsersRsvps")
@@ -75,4 +76,9 @@ type Geo_Json {
   id: ID! @id
   geo_json: String!
   neighborhood: Neighborhood! @relation(name: "NeighborhoodGeo", onDelete: CASCADE)
+}
+
+enum TicketType {
+  PAID
+  FREE
 }
