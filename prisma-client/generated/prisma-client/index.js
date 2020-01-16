@@ -39,6 +39,10 @@ var models = [
   {
     name: "Geo_Json",
     embedded: false
+  },
+  {
+    name: "TicketType",
+    embedded: false
   }
 ];
 exports.Prisma = prisma_lib_1.makePrismaClientClass({

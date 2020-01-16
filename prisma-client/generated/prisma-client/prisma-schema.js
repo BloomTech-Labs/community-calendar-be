@@ -51,6 +51,7 @@ type Event {
   description: String!
   start: DateTime!
   end: DateTime!
+  ticketType: TicketType!
   creator: User
   event_images(where: Event_ImageWhereInput, orderBy: Event_ImageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event_Image!]
   rsvps(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
@@ -434,6 +435,7 @@ input EventCreateInput {
   description: String!
   start: DateTime!
   end: DateTime!
+  ticketType: TicketType!
   creator: UserCreateOneWithoutCreated_eventsInput
   event_images: Event_ImageCreateManyWithoutEventInput
   rsvps: UserCreateManyWithoutRsvpsInput
@@ -484,6 +486,7 @@ input EventCreateWithoutAdminsInput {
   description: String!
   start: DateTime!
   end: DateTime!
+  ticketType: TicketType!
   creator: UserCreateOneWithoutCreated_eventsInput
   event_images: Event_ImageCreateManyWithoutEventInput
   rsvps: UserCreateManyWithoutRsvpsInput
@@ -498,6 +501,7 @@ input EventCreateWithoutCreatorInput {
   description: String!
   start: DateTime!
   end: DateTime!
+  ticketType: TicketType!
   event_images: Event_ImageCreateManyWithoutEventInput
   rsvps: UserCreateManyWithoutRsvpsInput
   urls: Event_UrlCreateManyWithoutEventInput
@@ -512,6 +516,7 @@ input EventCreateWithoutEvent_imagesInput {
   description: String!
   start: DateTime!
   end: DateTime!
+  ticketType: TicketType!
   creator: UserCreateOneWithoutCreated_eventsInput
   rsvps: UserCreateManyWithoutRsvpsInput
   urls: Event_UrlCreateManyWithoutEventInput
@@ -526,6 +531,7 @@ input EventCreateWithoutLocationsInput {
   description: String!
   start: DateTime!
   end: DateTime!
+  ticketType: TicketType!
   creator: UserCreateOneWithoutCreated_eventsInput
   event_images: Event_ImageCreateManyWithoutEventInput
   rsvps: UserCreateManyWithoutRsvpsInput
@@ -540,6 +546,7 @@ input EventCreateWithoutRsvpsInput {
   description: String!
   start: DateTime!
   end: DateTime!
+  ticketType: TicketType!
   creator: UserCreateOneWithoutCreated_eventsInput
   event_images: Event_ImageCreateManyWithoutEventInput
   urls: Event_UrlCreateManyWithoutEventInput
@@ -554,6 +561,7 @@ input EventCreateWithoutTagsInput {
   description: String!
   start: DateTime!
   end: DateTime!
+  ticketType: TicketType!
   creator: UserCreateOneWithoutCreated_eventsInput
   event_images: Event_ImageCreateManyWithoutEventInput
   rsvps: UserCreateManyWithoutRsvpsInput
@@ -568,6 +576,7 @@ input EventCreateWithoutUrlsInput {
   description: String!
   start: DateTime!
   end: DateTime!
+  ticketType: TicketType!
   creator: UserCreateOneWithoutCreated_eventsInput
   event_images: Event_ImageCreateManyWithoutEventInput
   rsvps: UserCreateManyWithoutRsvpsInput
@@ -592,6 +601,8 @@ enum EventOrderByInput {
   start_DESC
   end_ASC
   end_DESC
+  ticketType_ASC
+  ticketType_DESC
 }
 
 type EventPreviousValues {
@@ -600,6 +611,7 @@ type EventPreviousValues {
   description: String!
   start: DateTime!
   end: DateTime!
+  ticketType: TicketType!
 }
 
 input EventScalarWhereInput {
@@ -661,6 +673,10 @@ input EventScalarWhereInput {
   end_lte: DateTime
   end_gt: DateTime
   end_gte: DateTime
+  ticketType: TicketType
+  ticketType_not: TicketType
+  ticketType_in: [TicketType!]
+  ticketType_not_in: [TicketType!]
   AND: [EventScalarWhereInput!]
   OR: [EventScalarWhereInput!]
   NOT: [EventScalarWhereInput!]
@@ -689,6 +705,7 @@ input EventUpdateInput {
   description: String
   start: DateTime
   end: DateTime
+  ticketType: TicketType
   creator: UserUpdateOneWithoutCreated_eventsInput
   event_images: Event_ImageUpdateManyWithoutEventInput
   rsvps: UserUpdateManyWithoutRsvpsInput
@@ -703,6 +720,7 @@ input EventUpdateManyDataInput {
   description: String
   start: DateTime
   end: DateTime
+  ticketType: TicketType
 }
 
 input EventUpdateManyMutationInput {
@@ -710,6 +728,7 @@ input EventUpdateManyMutationInput {
   description: String
   start: DateTime
   end: DateTime
+  ticketType: TicketType
 }
 
 input EventUpdateManyWithoutAdminsInput {
@@ -791,6 +810,7 @@ input EventUpdateWithoutAdminsDataInput {
   description: String
   start: DateTime
   end: DateTime
+  ticketType: TicketType
   creator: UserUpdateOneWithoutCreated_eventsInput
   event_images: Event_ImageUpdateManyWithoutEventInput
   rsvps: UserUpdateManyWithoutRsvpsInput
@@ -804,6 +824,7 @@ input EventUpdateWithoutCreatorDataInput {
   description: String
   start: DateTime
   end: DateTime
+  ticketType: TicketType
   event_images: Event_ImageUpdateManyWithoutEventInput
   rsvps: UserUpdateManyWithoutRsvpsInput
   urls: Event_UrlUpdateManyWithoutEventInput
@@ -817,6 +838,7 @@ input EventUpdateWithoutEvent_imagesDataInput {
   description: String
   start: DateTime
   end: DateTime
+  ticketType: TicketType
   creator: UserUpdateOneWithoutCreated_eventsInput
   rsvps: UserUpdateManyWithoutRsvpsInput
   urls: Event_UrlUpdateManyWithoutEventInput
@@ -830,6 +852,7 @@ input EventUpdateWithoutLocationsDataInput {
   description: String
   start: DateTime
   end: DateTime
+  ticketType: TicketType
   creator: UserUpdateOneWithoutCreated_eventsInput
   event_images: Event_ImageUpdateManyWithoutEventInput
   rsvps: UserUpdateManyWithoutRsvpsInput
@@ -843,6 +866,7 @@ input EventUpdateWithoutRsvpsDataInput {
   description: String
   start: DateTime
   end: DateTime
+  ticketType: TicketType
   creator: UserUpdateOneWithoutCreated_eventsInput
   event_images: Event_ImageUpdateManyWithoutEventInput
   urls: Event_UrlUpdateManyWithoutEventInput
@@ -856,6 +880,7 @@ input EventUpdateWithoutTagsDataInput {
   description: String
   start: DateTime
   end: DateTime
+  ticketType: TicketType
   creator: UserUpdateOneWithoutCreated_eventsInput
   event_images: Event_ImageUpdateManyWithoutEventInput
   rsvps: UserUpdateManyWithoutRsvpsInput
@@ -869,6 +894,7 @@ input EventUpdateWithoutUrlsDataInput {
   description: String
   start: DateTime
   end: DateTime
+  ticketType: TicketType
   creator: UserUpdateOneWithoutCreated_eventsInput
   event_images: Event_ImageUpdateManyWithoutEventInput
   rsvps: UserUpdateManyWithoutRsvpsInput
@@ -995,6 +1021,10 @@ input EventWhereInput {
   end_lte: DateTime
   end_gt: DateTime
   end_gte: DateTime
+  ticketType: TicketType
+  ticketType_not: TicketType
+  ticketType_in: [TicketType!]
+  ticketType_not_in: [TicketType!]
   creator: UserWhereInput
   event_images_every: Event_ImageWhereInput
   event_images_some: Event_ImageWhereInput
@@ -2354,6 +2384,11 @@ input TagWhereInput {
 input TagWhereUniqueInput {
   id: ID
   title: String
+}
+
+enum TicketType {
+  PAID
+  FREE
 }
 
 type User {
