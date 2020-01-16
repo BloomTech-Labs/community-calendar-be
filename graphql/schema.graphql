@@ -74,8 +74,7 @@ type Event {
   start: DateTime!
   end: DateTime!
   creator: User
-  # distanceFromUser: Float
-  # distanceUnit: String
+  ticketType: TicketType!
   event_images(where: Event_ImageWhereInput, orderBy: Event_ImageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event_Image!]
   rsvps(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   urls(where: Event_UrlWhereInput, orderBy: Event_UrlOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event_Url!]
