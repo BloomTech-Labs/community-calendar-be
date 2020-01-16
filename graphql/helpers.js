@@ -1,6 +1,8 @@
 module.exports = {
     convertTags,
-    tagsToRemove
+    tagsToRemove,
+    convertImages,
+    imagesToRemove
 }
 
 function convertTags(dataTags, tagsInDb) {
@@ -35,4 +37,37 @@ function tagsToRemove(oldTags, newTags) {
             }) === -1
       })
       .map(tag => ({id: tag.id}))
+}
+
+function convertImages(dataImages, imagesInDb) {
+  const foundImages = [];
+  const newImages = [];
+  const images = {};
+
+  dataImages.forEach(image => {
+    imagesInDb.findIndex(obj => {
+       return obj.url === image.url
+     }) === -1
+     ? newImages.push(image)
+     : foundImages.push(image);
+  })
+
+  if(foundImages.length){
+    images.connect = foundImages;
+  }
+
+  if(newImages.length){
+    images.create = newImages;
+  }
+
+  return images;
+}
+
+function imagesToRemove(oldImages, newImages) {
+  return oldImages.filter(oldImage => {
+         return newImages.findIndex(newImage => {
+             return oldImage.url === newImage.url
+           }) === -1
+     })
+     .map(image => ({id: image.id}))
 }

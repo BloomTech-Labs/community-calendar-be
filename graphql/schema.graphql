@@ -9,13 +9,23 @@ input EventCreateTagInput {
   title: String!
 }
 
+input EventCreateImageInput {
+  url: String!
+}
+
+type File {
+  filename: String!
+  mimetype: String!
+  encoding: String!
+}
+
 input EventCreateInput {
   id: ID
   title: String!
   description: String!
   start: DateTime!
   end: DateTime!
-  event_images: Event_ImageCreateManyWithoutEventInput
+  event_images: [EventCreateImageInput!]
   rsvps: UserCreateManyWithoutRsvpsInput
   urls: Event_UrlCreateManyWithoutEventInput
   admin: UserCreateManyWithoutAdmin_forInput
@@ -153,8 +163,6 @@ type Query {
 
 type Mutation {
   addUser(data: UserCreateInput!): User!
-  addEvent(data: EventCreateInput!): Event!
-  updateEvent(data: EventUpdateInput!, where: EventWhereUniqueInput!): Event
   deleteEvent(where: EventWhereUniqueInput!): Event
   addRsvp(event: EventIdInput!): User
   removeRsvp(event: EventIdInput!): User

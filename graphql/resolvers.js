@@ -1,7 +1,19 @@
 const distance = require('@turf/distance').default;
 const { point } = require('@turf/helpers');
+const cloudinary = require('cloudinary').v2;
 
-const {convertTags, tagsToRemove} = require('./helpers');
+const {
+  convertTags,
+  tagsToRemove,
+  convertImages,
+  imagesToRemove
+} = require('./helpers');
+
+cloudinary.config({
+  cloud_name: 'communitycalendar',
+  api_key: '753187575421813',
+  api_secret: 'VFmv2qxP9sT9_oKI8R_Zqhx5U9U'
+})
 
 const resolvers = {
   //prisma bindings, otherwise fields would be null in queries/mutations
@@ -72,6 +84,7 @@ const resolvers = {
     },
 
     events: async (root, args, {prisma, req}, info) => {
+      console.log('lol');
       return await prisma.events({...args})
     },
 
@@ -85,6 +98,7 @@ const resolvers = {
 
   Mutation: {
     addUser: async (root, args, {prisma}, info) => {
+      console.log('dfdfdf');
       try {
         const {data} = args;
         const user = await prisma.createUser(data);
@@ -95,12 +109,45 @@ const resolvers = {
     },
 
     addEvent: async (root, args, {prisma, req, decodedToken}, info) => {
-      const {data} = args;
+      const {data, images} = args;
       try {
         const decoded = await decodedToken(req); //requires token to be sent in authorization headers
-        const tagsInDb = await prisma.tags(); //array of tags objects from the database
-        if (data.tags) {
+        const tagsInDb = await prisma.tags(); //array of tag objects from the database
+        const imagesInDb = await prisma.images(); //array of image objects from the database
+        
+        if(data.tags) {
           data.tags = convertTags(data.tags, tagsInDb);
+        }
+
+        if(images.length){
+          const promises = args.images.map(file => (file.then(async file => {
+            const {createReadStream} = file;
+            try {
+              const result = await new Promise((resolve, reject) => {
+                createReadStream().pipe(
+                  cloudinary.uploader.upload_stream((err, result) => {
+                    if(err){
+                      reject(err);
+                    }
+                    resolve(result);
+                  })
+                )
+              });
+    
+              console.log(result.secure_url);
+              return result.secure_url;
+            }catch(err){
+              console.log(err);
+            }
+          })));
+          console.log(promises);
+          const urls = await Promise.all(promises);
+          const newImages = urls.map(url => ({url}));
+          data.images = data.images.length ? [...data.images, ...newImages] : newImages;
+        }
+
+        if(data.images){
+          data.images = convertImages(data.images, imagesInDb);
         }
 
         data['creator'] = {connect: {id: decoded['http://cc_id']}};
@@ -180,6 +227,32 @@ const resolvers = {
       } catch (err) {
         throw err;
       }
+    },
+    uploadImages: async (root, args, {prisma, req, decodedToken}, info) => {
+      const promises = args.images.map(file => (file.then(async file => {
+        const {createReadStream, filename, mimetype} = file;
+        try {
+          const result = await new Promise((resolve, reject) => {
+            createReadStream().pipe(
+              cloudinary.uploader.upload_stream((err, result) => {
+                if(err){
+                  reject(err);
+                }
+                resolve(result);
+              })
+            )
+          });
+
+          console.log(result.secure_url);
+          return result.secure_url;
+        }catch(err){
+          console.log(err);
+        }
+      })));
+      console.log(promises);
+      const urls = await Promise.all(promises);
+      console.log(urls);
+      return {filename: "fddffdf"};
     },
   },
 };
