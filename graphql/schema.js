@@ -1,5 +1,14 @@
 const {importSchema} = require('graphql-import');
+const gql = require('graphql-tag');
 
-const typeDefs = importSchema('./graphql/schema.graphql');
+const basicDefs = importSchema('./graphql/schema.graphql'); 
+
+const mutationDefs = gql`
+    extend type Mutation {
+        addEvent(data: EventCreateInput!, images: [Upload!]): Event!
+        updateEvent(data: EventUpdateInput!, where: EventWhereUniqueInput!, images: [Upload!]): Event
+    }
+`
+const typeDefs = [basicDefs, mutationDefs];
 
 module.exports = typeDefs;

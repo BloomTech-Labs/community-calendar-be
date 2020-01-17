@@ -1,12 +1,12 @@
 type User {
   id: ID! @id
-  first_name: String
-  last_name: String
-  auth0_id: String! @unique
+  firstName: String
+  lastName: String
+  auth0Id: String! @unique
   organizations: [Organization!] @relation(name: "UsersOrganizations", link: TABLE)
   rsvps: [Event!] @relation(name: "UsersRsvps", link: TABLE)
-  admin_for: [Event!] @relation(name: "EventsAdmins", link: TABLE)
-  created_events: [Event!] @relation(name: "CreatedEvents", link: TABLE, onDelete: CASCADE)
+  adminFor: [Event!] @relation(name: "EventsAdmins", link: TABLE)
+  createdEvents: [Event!] @relation(name: "CreatedEvents", link: TABLE, onDelete: CASCADE)
 }
 
 type Event {
@@ -17,27 +17,27 @@ type Event {
   end: DateTime!
   ticketType: TicketType!
   creator: User @relation(name: "CreatedEvents")
-  event_images: [Event_Image!] @relation(name: "EventsImages", link: TABLE, onDelete: CASCADE)
+  eventImages: [EventImage!] @relation(name: "EventsImages", link: TABLE, onDelete: CASCADE)
   rsvps: [User!] @relation(name: "UsersRsvps")
-  urls: [Event_Url!] @relation(name: "EventUrls", link: TABLE, onDelete: CASCADE)
+  urls: [EventUrl!] @relation(name: "EventUrls", link: TABLE, onDelete: CASCADE)
   admins: [User!] @relation(name: "EventsAdmins")
   locations: [Location!] @relation(name: "EventsLocations", link: TABLE, onDelete: CASCADE)
-  tags: [Tag!] @relation(name: "Event_Tags", link: TABLE )
+  tags: [Tag!] @relation(name: "EventTags", link: TABLE )
 }
 
 type Tag{
   id: ID! @id
   title: String! @unique
-  events: [Event!] @relation(name:"Event_Tags")
+  events: [Event!] @relation(name:"EventTags")
 }
 
-type Event_Image {
+type EventImage {
   id: ID! @id
   event: Event! @relation(name: "EventsImages")
   url: String!
 }
 
-type Event_Url {
+type EventUrl {
   id: ID! @id
   url: String!
   event: Event! @relation(name: "EventUrls")
@@ -46,8 +46,8 @@ type Event_Url {
 type Location {
   id: ID! @id
   name: String!
-  street_address: String!
-  street_address_2: String  
+  streetAddress: String!
+  streetAddress2: String  
   city: String!
   zipcode: Int!
   state: String!
@@ -68,13 +68,13 @@ type Organization {
 
 type Neighborhood {
   id: ID! @id
-  geo_json: Geo_Json! @relation(name: "NeighborhoodGeo",link: INLINE, onDelete: CASCADE)
+  geoJson: GeoJson! @relation(name: "NeighborhoodGeo",link: INLINE, onDelete: CASCADE)
   locations: [Location!] @relation(name: "OrganizationLocations")
 }
 
-type Geo_Json {
+type GeoJson {
   id: ID! @id
-  geo_json: String!
+  geoJson: String!
   neighborhood: Neighborhood! @relation(name: "NeighborhoodGeo", onDelete: CASCADE)
 }
 

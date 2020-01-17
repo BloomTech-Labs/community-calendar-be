@@ -1,27 +1,27 @@
 mutation {
   createUser(
-    data: {auth0_id: "testid1", first_name: "Detroit Experience Factory"}
+    data: {auth0Id: "testid1", firstName: "Detroit Experience Factory"}
   ) {
     id
   }
 }
 mutation {
   createUser(
-    data: {auth0_id: "testid2", first_name: "Mary", last_name: "Sheffield"}
+    data: {auth0Id: "testid2", firstName: "Mary", lastName: "Sheffield"}
   ) {
     id
   }
 }
 mutation {
-  createUser(data: {auth0_id: "testid3", first_name: "Detroit Skating Club"}) {
+  createUser(data: {auth0Id: "testid3", firstName: "Detroit Skating Club"}) {
     id
   }
 }
 mutation {
   createUser(
     data: {
-      auth0_id: "testid4"
-      first_name: "Black Scroll Network History & Tours"
+      auth0Id: "testid4"
+      firstName: "Black Scroll Network History & Tours"
     }
   ) {
     id
@@ -29,14 +29,14 @@ mutation {
 }
 mutation {
   createUser(
-    data: {auth0_id: "testid5", first_name: "Detroit Public Library"}
+    data: {auth0Id: "testid5", firstName: "Detroit Public Library"}
   ) {
     id
   }
 }
 mutation {
   createUser(
-    data: {auth0_id: "testid6", first_name: "Eastern Market Partnership"}
+    data: {auth0Id: "testid6", firstName: "Eastern Market Partnership"}
   ) {
     id
   }
@@ -49,8 +49,8 @@ mutation {
       start: "2020-01-22T12:00:00-0500"
       end: "2020-01-22T14:30:00-0500" 
       ticketType: FREE
-      creator: {connect: {auth0_id: "testid1"}}
-      event_images: {
+      creator: {connect: {auth0Id: "testid1"}}
+      eventImages: {
         create: [
           {
             url: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F69917729%2F89373299245%2F1%2Foriginal.jpg?w=800&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C693%2C4000%2C2000&s=94184073d91c25306d22d1b0401cfea9"
@@ -64,12 +64,12 @@ mutation {
           }
         ]
       }
-      admins: {connect: [{auth0_id: "testid1"}]}
+      admins: {connect: [{auth0Id: "testid1"}]}
       locations: {
         create: [
           {
             name: "Roasting Plant"
-            street_address: "600 Woodward Avenue"
+            streetAddress: "600 Woodward Avenue"
             city: "Detroit"
             zipcode: 48202
             state: "MI"
@@ -99,8 +99,8 @@ mutation {
       start: "2020-01-11T19:00:00-0500"
       end: "2020-01-11T21:00:00-0500"
       ticketType: FREE
-      creator: {connect: {auth0_id: "testid1"}}
-      event_images: {
+      creator: {connect: {auth0Id: "testid1"}}
+      eventImages: {
         create: [
           {
             url: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F85140001%2F89373299245%2F1%2Foriginal.20191219-193513?w=800&auto=format%2Ccompress&q=75&sharp=10&rect=220%2C0%2C1880%2C940&s=5c24d24ce75c0a170c95f533542b323f"
@@ -114,12 +114,12 @@ mutation {
           }
         ]
       }
-      admins: {connect: [{auth0_id: "testid1"}]}
+      admins: {connect: [{auth0Id: "testid1"}]}
       locations: {
         create: [
           {
             name: "Roasting Plant"
-            street_address: "600 Woodward Avenue"
+            streetAddress: "600 Woodward Avenue"
             city: "Detroit"
             zipcode: 48202
             state: "MI"
@@ -142,8 +142,8 @@ mutation {
       start: "2020-01-27T18:00:00-0500"
       end: "2020-01-27T20:00:00-0500"
       ticketType: FREE
-      creator: {connect: {auth0_id: "testid2"}}
-      event_images: {
+      creator: {connect: {auth0Id: "testid2"}}
+      eventImages: {
         create: [
           {
             url: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F85046743%2F5763501059%2F1%2Foriginal.20191219-001336?w=800&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C64%2C1080%2C540&s=946121ba79ce53ba2459153c2741b52a"
@@ -157,12 +157,12 @@ mutation {
           }
         ]
       }
-      admins: {connect: [{auth0_id: "testid2"}]}
+      admins: {connect: [{auth0Id: "testid2"}]}
       locations: {
         create: [
           {
             name: "Trust Cocktails, Shareables & Nightlife"
-            street_address: "205 West Congress Street"
+            streetAddress: "205 West Congress Street"
             city: "Detroit"
             zipcode: 48226
             state: "MI"
@@ -191,8 +191,8 @@ mutation {
       start: "2020-02-05T19:00:00-0500"
       end: "2020-02-05T22:00:00-0500"
       ticketType: FREE
-      creator: {connect: {auth0_id: "testid3"}}
-      event_images: {
+      creator: {connect: {auth0Id: "testid3"}}
+      eventImages: {
         create: [
           {
             url: "https://dscclub.com/wp/wp-content/uploads/2014/02/IceShowPage.png"
@@ -200,12 +200,12 @@ mutation {
         ]
       }
       urls: {create: [{url: "https://dscclub.com/"}]}
-      admins: {connect: [{auth0_id: "testid3"}]}
+      admins: {connect: [{auth0Id: "testid3"}]}
       locations: {
         create: [
           {
             name: "Detroit Skating Club"
-            street_address: "888 Denison Ct"
+            streetAddress: "888 Denison Ct"
             city: "Bloomfield Hills"
             zipcode: 48302
             state: "MI"
@@ -230,8 +230,8 @@ mutation {
       start: "2020-01-26T12:00:00-0500"
       end: "2020-01-22T14:00:00-0500"
       ticketType: FREE
-      creator: {connect: {auth0_id: "testid4"}}
-      event_images: {
+      creator: {connect: {auth0Id: "testid4"}}
+      eventImages: {
         create: [
           {
             url: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F83852725%2F88642988607%2F1%2Foriginal.jpg?w=800&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C0%2C800%2C400&s=634757517829d19f5fb6128818867f9f"
@@ -245,12 +245,12 @@ mutation {
           }
         ]
       }
-      admins: {connect: [{auth0_id: "testid4"}]}
+      admins: {connect: [{auth0Id: "testid4"}]}
       locations: {
         create: [
           {
             name: "Charles H. Wright Museum of African American History"
-            street_address: "315 East Warren Avenue"
+            streetAddress: "315 East Warren Avenue"
             city: "Detroit"
             zipcode: 48201
             state: "MI"
@@ -280,8 +280,8 @@ mutation {
       start: "2020-02-04T13:30:00-0500"
       end: "2020-02-04T15:00:00-0500"
       ticketType: FREE
-      creator: {connect: {auth0_id: "testid5"}}
-      event_images: {
+      creator: {connect: {auth0Id: "testid5"}}
+      eventImages: {
         create: [
           {
             url: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F84135113%2F293621734690%2F1%2Foriginal.20191210-171159?w=800&auto=format%2Ccompress&q=75&sharp=10&rect=1%2C84%2C224%2C112&s=cf869634d7a67a925a7db1b8ad861f53"
@@ -295,12 +295,12 @@ mutation {
           }
         ]
       }
-      admins: {connect: [{auth0_id: "testid5"}]}
+      admins: {connect: [{auth0Id: "testid5"}]}
       locations: {
         create: [
           {
             name: "Detroit Main Library, Children's Room"
-            street_address: "5201 Woodward Avenue"
+            streetAddress: "5201 Woodward Avenue"
             city: "Detroit"
             zipcode: 48202
             state: "MI"
@@ -332,8 +332,8 @@ mutation {
       start: "2020-01-29T07:00:00-0500"
       end: "2020-01-29T19:00:00-0500"
       ticketType: FREE
-      creator: {connect: {auth0_id: "testid6"}}
-      event_images: {
+      creator: {connect: {auth0Id: "testid6"}}
+      eventImages: {
         create: [
           {
             url: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F68668427%2F145956314054%2F1%2Foriginal.20190814-194752?w=800&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C397%2C3456%2C1728&s=1344cbac19465528c33d117ec245f5ba"
@@ -347,12 +347,12 @@ mutation {
           }
         ]
       }
-      admins: {connect: [{auth0_id: "testid6"}]}
+      admins: {connect: [{auth0Id: "testid6"}]}
       locations: {
         create: [
           {
             name: "Eastern Market"
-            street_address: "Eastern Market"
+            streetAddress: "Eastern Market"
             city: "Detroit"
             zipcode: 48208
             state: "MI"

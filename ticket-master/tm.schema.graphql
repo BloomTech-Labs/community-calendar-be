@@ -8,28 +8,28 @@ type TMResults {
 # ////// Links ///////
 # //////////////////////////////////
 type TMLink {
-  self: TMLink_Self
-  next: TMLink_Next
-  prev: TMLink_Prev
-  last: TMLink_Last
+  self: TMLinkSelf
+  next: TMLinkNext
+  prev: TMLinkPrev
+  last: TMLinkLast
 }
 
-type TMLink_Self {
+type TMLinkSelf {
   href: String!
   templated: Boolean
 }
 
-type TMLink_Next {
+type TMLinkNext {
   href: String!
   templated: Boolean
 }
 
-type TMLink_Prev {
+type TMLinkPrev {
   href: String!
   templated: Boolean
 }
 
-type TMLink_Last {
+type TMLinkLast {
   href: String!
   templated: Boolean
 }
@@ -163,7 +163,7 @@ type TMEventAlt {
   end: String
   description: String
   info: String
-  event_images: [TMImage!]
+  eventImages: [TMImage!]
   urls: [TMEventAltUrl!]
   locations: [TMLocationAlt!]
 }
@@ -171,8 +171,8 @@ type TMEventAlt {
 type TMLocationAlt {
   neighborhood: String
   name: String!
-  street_address: String!
-  street_address_2: String
+  streetAddress: String!
+  streetAddress2: String
   city: String!
   zipcode: String!
   state: String!

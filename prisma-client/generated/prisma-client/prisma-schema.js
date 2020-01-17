@@ -7,15 +7,15 @@ module.exports = {
   count: Int!
 }
 
-type AggregateEvent_Image {
+type AggregateEventImage {
   count: Int!
 }
 
-type AggregateEvent_Url {
+type AggregateEventUrl {
   count: Int!
 }
 
-type AggregateGeo_Json {
+type AggregateGeoJson {
   count: Int!
 }
 
@@ -53,374 +53,12 @@ type Event {
   end: DateTime!
   ticketType: TicketType!
   creator: User
-  event_images(where: Event_ImageWhereInput, orderBy: Event_ImageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event_Image!]
+  eventImages(where: EventImageWhereInput, orderBy: EventImageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [EventImage!]
   rsvps(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
-  urls(where: Event_UrlWhereInput, orderBy: Event_UrlOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event_Url!]
+  urls(where: EventUrlWhereInput, orderBy: EventUrlOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [EventUrl!]
   admins(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   locations(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Location!]
   tags(where: TagWhereInput, orderBy: TagOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Tag!]
-}
-
-type Event_Image {
-  id: ID!
-  event: Event!
-  url: String!
-}
-
-type Event_ImageConnection {
-  pageInfo: PageInfo!
-  edges: [Event_ImageEdge]!
-  aggregate: AggregateEvent_Image!
-}
-
-input Event_ImageCreateInput {
-  id: ID
-  event: EventCreateOneWithoutEvent_imagesInput!
-  url: String!
-}
-
-input Event_ImageCreateManyWithoutEventInput {
-  create: [Event_ImageCreateWithoutEventInput!]
-  connect: [Event_ImageWhereUniqueInput!]
-}
-
-input Event_ImageCreateWithoutEventInput {
-  id: ID
-  url: String!
-}
-
-type Event_ImageEdge {
-  node: Event_Image!
-  cursor: String!
-}
-
-enum Event_ImageOrderByInput {
-  id_ASC
-  id_DESC
-  url_ASC
-  url_DESC
-}
-
-type Event_ImagePreviousValues {
-  id: ID!
-  url: String!
-}
-
-input Event_ImageScalarWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
-  url: String
-  url_not: String
-  url_in: [String!]
-  url_not_in: [String!]
-  url_lt: String
-  url_lte: String
-  url_gt: String
-  url_gte: String
-  url_contains: String
-  url_not_contains: String
-  url_starts_with: String
-  url_not_starts_with: String
-  url_ends_with: String
-  url_not_ends_with: String
-  AND: [Event_ImageScalarWhereInput!]
-  OR: [Event_ImageScalarWhereInput!]
-  NOT: [Event_ImageScalarWhereInput!]
-}
-
-type Event_ImageSubscriptionPayload {
-  mutation: MutationType!
-  node: Event_Image
-  updatedFields: [String!]
-  previousValues: Event_ImagePreviousValues
-}
-
-input Event_ImageSubscriptionWhereInput {
-  mutation_in: [MutationType!]
-  updatedFields_contains: String
-  updatedFields_contains_every: [String!]
-  updatedFields_contains_some: [String!]
-  node: Event_ImageWhereInput
-  AND: [Event_ImageSubscriptionWhereInput!]
-  OR: [Event_ImageSubscriptionWhereInput!]
-  NOT: [Event_ImageSubscriptionWhereInput!]
-}
-
-input Event_ImageUpdateInput {
-  event: EventUpdateOneRequiredWithoutEvent_imagesInput
-  url: String
-}
-
-input Event_ImageUpdateManyDataInput {
-  url: String
-}
-
-input Event_ImageUpdateManyMutationInput {
-  url: String
-}
-
-input Event_ImageUpdateManyWithoutEventInput {
-  create: [Event_ImageCreateWithoutEventInput!]
-  delete: [Event_ImageWhereUniqueInput!]
-  connect: [Event_ImageWhereUniqueInput!]
-  set: [Event_ImageWhereUniqueInput!]
-  disconnect: [Event_ImageWhereUniqueInput!]
-  update: [Event_ImageUpdateWithWhereUniqueWithoutEventInput!]
-  upsert: [Event_ImageUpsertWithWhereUniqueWithoutEventInput!]
-  deleteMany: [Event_ImageScalarWhereInput!]
-  updateMany: [Event_ImageUpdateManyWithWhereNestedInput!]
-}
-
-input Event_ImageUpdateManyWithWhereNestedInput {
-  where: Event_ImageScalarWhereInput!
-  data: Event_ImageUpdateManyDataInput!
-}
-
-input Event_ImageUpdateWithoutEventDataInput {
-  url: String
-}
-
-input Event_ImageUpdateWithWhereUniqueWithoutEventInput {
-  where: Event_ImageWhereUniqueInput!
-  data: Event_ImageUpdateWithoutEventDataInput!
-}
-
-input Event_ImageUpsertWithWhereUniqueWithoutEventInput {
-  where: Event_ImageWhereUniqueInput!
-  update: Event_ImageUpdateWithoutEventDataInput!
-  create: Event_ImageCreateWithoutEventInput!
-}
-
-input Event_ImageWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
-  event: EventWhereInput
-  url: String
-  url_not: String
-  url_in: [String!]
-  url_not_in: [String!]
-  url_lt: String
-  url_lte: String
-  url_gt: String
-  url_gte: String
-  url_contains: String
-  url_not_contains: String
-  url_starts_with: String
-  url_not_starts_with: String
-  url_ends_with: String
-  url_not_ends_with: String
-  AND: [Event_ImageWhereInput!]
-  OR: [Event_ImageWhereInput!]
-  NOT: [Event_ImageWhereInput!]
-}
-
-input Event_ImageWhereUniqueInput {
-  id: ID
-}
-
-type Event_Url {
-  id: ID!
-  url: String!
-  event: Event!
-}
-
-type Event_UrlConnection {
-  pageInfo: PageInfo!
-  edges: [Event_UrlEdge]!
-  aggregate: AggregateEvent_Url!
-}
-
-input Event_UrlCreateInput {
-  id: ID
-  url: String!
-  event: EventCreateOneWithoutUrlsInput!
-}
-
-input Event_UrlCreateManyWithoutEventInput {
-  create: [Event_UrlCreateWithoutEventInput!]
-  connect: [Event_UrlWhereUniqueInput!]
-}
-
-input Event_UrlCreateWithoutEventInput {
-  id: ID
-  url: String!
-}
-
-type Event_UrlEdge {
-  node: Event_Url!
-  cursor: String!
-}
-
-enum Event_UrlOrderByInput {
-  id_ASC
-  id_DESC
-  url_ASC
-  url_DESC
-}
-
-type Event_UrlPreviousValues {
-  id: ID!
-  url: String!
-}
-
-input Event_UrlScalarWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
-  url: String
-  url_not: String
-  url_in: [String!]
-  url_not_in: [String!]
-  url_lt: String
-  url_lte: String
-  url_gt: String
-  url_gte: String
-  url_contains: String
-  url_not_contains: String
-  url_starts_with: String
-  url_not_starts_with: String
-  url_ends_with: String
-  url_not_ends_with: String
-  AND: [Event_UrlScalarWhereInput!]
-  OR: [Event_UrlScalarWhereInput!]
-  NOT: [Event_UrlScalarWhereInput!]
-}
-
-type Event_UrlSubscriptionPayload {
-  mutation: MutationType!
-  node: Event_Url
-  updatedFields: [String!]
-  previousValues: Event_UrlPreviousValues
-}
-
-input Event_UrlSubscriptionWhereInput {
-  mutation_in: [MutationType!]
-  updatedFields_contains: String
-  updatedFields_contains_every: [String!]
-  updatedFields_contains_some: [String!]
-  node: Event_UrlWhereInput
-  AND: [Event_UrlSubscriptionWhereInput!]
-  OR: [Event_UrlSubscriptionWhereInput!]
-  NOT: [Event_UrlSubscriptionWhereInput!]
-}
-
-input Event_UrlUpdateInput {
-  url: String
-  event: EventUpdateOneRequiredWithoutUrlsInput
-}
-
-input Event_UrlUpdateManyDataInput {
-  url: String
-}
-
-input Event_UrlUpdateManyMutationInput {
-  url: String
-}
-
-input Event_UrlUpdateManyWithoutEventInput {
-  create: [Event_UrlCreateWithoutEventInput!]
-  delete: [Event_UrlWhereUniqueInput!]
-  connect: [Event_UrlWhereUniqueInput!]
-  set: [Event_UrlWhereUniqueInput!]
-  disconnect: [Event_UrlWhereUniqueInput!]
-  update: [Event_UrlUpdateWithWhereUniqueWithoutEventInput!]
-  upsert: [Event_UrlUpsertWithWhereUniqueWithoutEventInput!]
-  deleteMany: [Event_UrlScalarWhereInput!]
-  updateMany: [Event_UrlUpdateManyWithWhereNestedInput!]
-}
-
-input Event_UrlUpdateManyWithWhereNestedInput {
-  where: Event_UrlScalarWhereInput!
-  data: Event_UrlUpdateManyDataInput!
-}
-
-input Event_UrlUpdateWithoutEventDataInput {
-  url: String
-}
-
-input Event_UrlUpdateWithWhereUniqueWithoutEventInput {
-  where: Event_UrlWhereUniqueInput!
-  data: Event_UrlUpdateWithoutEventDataInput!
-}
-
-input Event_UrlUpsertWithWhereUniqueWithoutEventInput {
-  where: Event_UrlWhereUniqueInput!
-  update: Event_UrlUpdateWithoutEventDataInput!
-  create: Event_UrlCreateWithoutEventInput!
-}
-
-input Event_UrlWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
-  url: String
-  url_not: String
-  url_in: [String!]
-  url_not_in: [String!]
-  url_lt: String
-  url_lte: String
-  url_gt: String
-  url_gte: String
-  url_contains: String
-  url_not_contains: String
-  url_starts_with: String
-  url_not_starts_with: String
-  url_ends_with: String
-  url_not_ends_with: String
-  event: EventWhereInput
-  AND: [Event_UrlWhereInput!]
-  OR: [Event_UrlWhereInput!]
-  NOT: [Event_UrlWhereInput!]
-}
-
-input Event_UrlWhereUniqueInput {
-  id: ID
 }
 
 type EventConnection {
@@ -436,11 +74,11 @@ input EventCreateInput {
   start: DateTime!
   end: DateTime!
   ticketType: TicketType!
-  creator: UserCreateOneWithoutCreated_eventsInput
-  event_images: Event_ImageCreateManyWithoutEventInput
+  creator: UserCreateOneWithoutCreatedEventsInput
+  eventImages: EventImageCreateManyWithoutEventInput
   rsvps: UserCreateManyWithoutRsvpsInput
-  urls: Event_UrlCreateManyWithoutEventInput
-  admins: UserCreateManyWithoutAdmin_forInput
+  urls: EventUrlCreateManyWithoutEventInput
+  admins: UserCreateManyWithoutAdminForInput
   locations: LocationCreateManyWithoutEventInput
   tags: TagCreateManyWithoutEventsInput
 }
@@ -465,8 +103,8 @@ input EventCreateManyWithoutTagsInput {
   connect: [EventWhereUniqueInput!]
 }
 
-input EventCreateOneWithoutEvent_imagesInput {
-  create: EventCreateWithoutEvent_imagesInput
+input EventCreateOneWithoutEventImagesInput {
+  create: EventCreateWithoutEventImagesInput
   connect: EventWhereUniqueInput
 }
 
@@ -487,10 +125,10 @@ input EventCreateWithoutAdminsInput {
   start: DateTime!
   end: DateTime!
   ticketType: TicketType!
-  creator: UserCreateOneWithoutCreated_eventsInput
-  event_images: Event_ImageCreateManyWithoutEventInput
+  creator: UserCreateOneWithoutCreatedEventsInput
+  eventImages: EventImageCreateManyWithoutEventInput
   rsvps: UserCreateManyWithoutRsvpsInput
-  urls: Event_UrlCreateManyWithoutEventInput
+  urls: EventUrlCreateManyWithoutEventInput
   locations: LocationCreateManyWithoutEventInput
   tags: TagCreateManyWithoutEventsInput
 }
@@ -502,25 +140,25 @@ input EventCreateWithoutCreatorInput {
   start: DateTime!
   end: DateTime!
   ticketType: TicketType!
-  event_images: Event_ImageCreateManyWithoutEventInput
+  eventImages: EventImageCreateManyWithoutEventInput
   rsvps: UserCreateManyWithoutRsvpsInput
-  urls: Event_UrlCreateManyWithoutEventInput
-  admins: UserCreateManyWithoutAdmin_forInput
+  urls: EventUrlCreateManyWithoutEventInput
+  admins: UserCreateManyWithoutAdminForInput
   locations: LocationCreateManyWithoutEventInput
   tags: TagCreateManyWithoutEventsInput
 }
 
-input EventCreateWithoutEvent_imagesInput {
+input EventCreateWithoutEventImagesInput {
   id: ID
   title: String!
   description: String!
   start: DateTime!
   end: DateTime!
   ticketType: TicketType!
-  creator: UserCreateOneWithoutCreated_eventsInput
+  creator: UserCreateOneWithoutCreatedEventsInput
   rsvps: UserCreateManyWithoutRsvpsInput
-  urls: Event_UrlCreateManyWithoutEventInput
-  admins: UserCreateManyWithoutAdmin_forInput
+  urls: EventUrlCreateManyWithoutEventInput
+  admins: UserCreateManyWithoutAdminForInput
   locations: LocationCreateManyWithoutEventInput
   tags: TagCreateManyWithoutEventsInput
 }
@@ -532,11 +170,11 @@ input EventCreateWithoutLocationsInput {
   start: DateTime!
   end: DateTime!
   ticketType: TicketType!
-  creator: UserCreateOneWithoutCreated_eventsInput
-  event_images: Event_ImageCreateManyWithoutEventInput
+  creator: UserCreateOneWithoutCreatedEventsInput
+  eventImages: EventImageCreateManyWithoutEventInput
   rsvps: UserCreateManyWithoutRsvpsInput
-  urls: Event_UrlCreateManyWithoutEventInput
-  admins: UserCreateManyWithoutAdmin_forInput
+  urls: EventUrlCreateManyWithoutEventInput
+  admins: UserCreateManyWithoutAdminForInput
   tags: TagCreateManyWithoutEventsInput
 }
 
@@ -547,10 +185,10 @@ input EventCreateWithoutRsvpsInput {
   start: DateTime!
   end: DateTime!
   ticketType: TicketType!
-  creator: UserCreateOneWithoutCreated_eventsInput
-  event_images: Event_ImageCreateManyWithoutEventInput
-  urls: Event_UrlCreateManyWithoutEventInput
-  admins: UserCreateManyWithoutAdmin_forInput
+  creator: UserCreateOneWithoutCreatedEventsInput
+  eventImages: EventImageCreateManyWithoutEventInput
+  urls: EventUrlCreateManyWithoutEventInput
+  admins: UserCreateManyWithoutAdminForInput
   locations: LocationCreateManyWithoutEventInput
   tags: TagCreateManyWithoutEventsInput
 }
@@ -562,11 +200,11 @@ input EventCreateWithoutTagsInput {
   start: DateTime!
   end: DateTime!
   ticketType: TicketType!
-  creator: UserCreateOneWithoutCreated_eventsInput
-  event_images: Event_ImageCreateManyWithoutEventInput
+  creator: UserCreateOneWithoutCreatedEventsInput
+  eventImages: EventImageCreateManyWithoutEventInput
   rsvps: UserCreateManyWithoutRsvpsInput
-  urls: Event_UrlCreateManyWithoutEventInput
-  admins: UserCreateManyWithoutAdmin_forInput
+  urls: EventUrlCreateManyWithoutEventInput
+  admins: UserCreateManyWithoutAdminForInput
   locations: LocationCreateManyWithoutEventInput
 }
 
@@ -577,10 +215,10 @@ input EventCreateWithoutUrlsInput {
   start: DateTime!
   end: DateTime!
   ticketType: TicketType!
-  creator: UserCreateOneWithoutCreated_eventsInput
-  event_images: Event_ImageCreateManyWithoutEventInput
+  creator: UserCreateOneWithoutCreatedEventsInput
+  eventImages: EventImageCreateManyWithoutEventInput
   rsvps: UserCreateManyWithoutRsvpsInput
-  admins: UserCreateManyWithoutAdmin_forInput
+  admins: UserCreateManyWithoutAdminForInput
   locations: LocationCreateManyWithoutEventInput
   tags: TagCreateManyWithoutEventsInput
 }
@@ -588,6 +226,187 @@ input EventCreateWithoutUrlsInput {
 type EventEdge {
   node: Event!
   cursor: String!
+}
+
+type EventImage {
+  id: ID!
+  event: Event!
+  url: String!
+}
+
+type EventImageConnection {
+  pageInfo: PageInfo!
+  edges: [EventImageEdge]!
+  aggregate: AggregateEventImage!
+}
+
+input EventImageCreateInput {
+  id: ID
+  event: EventCreateOneWithoutEventImagesInput!
+  url: String!
+}
+
+input EventImageCreateManyWithoutEventInput {
+  create: [EventImageCreateWithoutEventInput!]
+  connect: [EventImageWhereUniqueInput!]
+}
+
+input EventImageCreateWithoutEventInput {
+  id: ID
+  url: String!
+}
+
+type EventImageEdge {
+  node: EventImage!
+  cursor: String!
+}
+
+enum EventImageOrderByInput {
+  id_ASC
+  id_DESC
+  url_ASC
+  url_DESC
+}
+
+type EventImagePreviousValues {
+  id: ID!
+  url: String!
+}
+
+input EventImageScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  url: String
+  url_not: String
+  url_in: [String!]
+  url_not_in: [String!]
+  url_lt: String
+  url_lte: String
+  url_gt: String
+  url_gte: String
+  url_contains: String
+  url_not_contains: String
+  url_starts_with: String
+  url_not_starts_with: String
+  url_ends_with: String
+  url_not_ends_with: String
+  AND: [EventImageScalarWhereInput!]
+  OR: [EventImageScalarWhereInput!]
+  NOT: [EventImageScalarWhereInput!]
+}
+
+type EventImageSubscriptionPayload {
+  mutation: MutationType!
+  node: EventImage
+  updatedFields: [String!]
+  previousValues: EventImagePreviousValues
+}
+
+input EventImageSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: EventImageWhereInput
+  AND: [EventImageSubscriptionWhereInput!]
+  OR: [EventImageSubscriptionWhereInput!]
+  NOT: [EventImageSubscriptionWhereInput!]
+}
+
+input EventImageUpdateInput {
+  event: EventUpdateOneRequiredWithoutEventImagesInput
+  url: String
+}
+
+input EventImageUpdateManyDataInput {
+  url: String
+}
+
+input EventImageUpdateManyMutationInput {
+  url: String
+}
+
+input EventImageUpdateManyWithoutEventInput {
+  create: [EventImageCreateWithoutEventInput!]
+  delete: [EventImageWhereUniqueInput!]
+  connect: [EventImageWhereUniqueInput!]
+  set: [EventImageWhereUniqueInput!]
+  disconnect: [EventImageWhereUniqueInput!]
+  update: [EventImageUpdateWithWhereUniqueWithoutEventInput!]
+  upsert: [EventImageUpsertWithWhereUniqueWithoutEventInput!]
+  deleteMany: [EventImageScalarWhereInput!]
+  updateMany: [EventImageUpdateManyWithWhereNestedInput!]
+}
+
+input EventImageUpdateManyWithWhereNestedInput {
+  where: EventImageScalarWhereInput!
+  data: EventImageUpdateManyDataInput!
+}
+
+input EventImageUpdateWithoutEventDataInput {
+  url: String
+}
+
+input EventImageUpdateWithWhereUniqueWithoutEventInput {
+  where: EventImageWhereUniqueInput!
+  data: EventImageUpdateWithoutEventDataInput!
+}
+
+input EventImageUpsertWithWhereUniqueWithoutEventInput {
+  where: EventImageWhereUniqueInput!
+  update: EventImageUpdateWithoutEventDataInput!
+  create: EventImageCreateWithoutEventInput!
+}
+
+input EventImageWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  event: EventWhereInput
+  url: String
+  url_not: String
+  url_in: [String!]
+  url_not_in: [String!]
+  url_lt: String
+  url_lte: String
+  url_gt: String
+  url_gte: String
+  url_contains: String
+  url_not_contains: String
+  url_starts_with: String
+  url_not_starts_with: String
+  url_ends_with: String
+  url_not_ends_with: String
+  AND: [EventImageWhereInput!]
+  OR: [EventImageWhereInput!]
+  NOT: [EventImageWhereInput!]
+}
+
+input EventImageWhereUniqueInput {
+  id: ID
 }
 
 enum EventOrderByInput {
@@ -706,11 +525,11 @@ input EventUpdateInput {
   start: DateTime
   end: DateTime
   ticketType: TicketType
-  creator: UserUpdateOneWithoutCreated_eventsInput
-  event_images: Event_ImageUpdateManyWithoutEventInput
+  creator: UserUpdateOneWithoutCreatedEventsInput
+  eventImages: EventImageUpdateManyWithoutEventInput
   rsvps: UserUpdateManyWithoutRsvpsInput
-  urls: Event_UrlUpdateManyWithoutEventInput
-  admins: UserUpdateManyWithoutAdmin_forInput
+  urls: EventUrlUpdateManyWithoutEventInput
+  admins: UserUpdateManyWithoutAdminForInput
   locations: LocationUpdateManyWithoutEventInput
   tags: TagUpdateManyWithoutEventsInput
 }
@@ -784,10 +603,10 @@ input EventUpdateManyWithWhereNestedInput {
   data: EventUpdateManyDataInput!
 }
 
-input EventUpdateOneRequiredWithoutEvent_imagesInput {
-  create: EventCreateWithoutEvent_imagesInput
-  update: EventUpdateWithoutEvent_imagesDataInput
-  upsert: EventUpsertWithoutEvent_imagesInput
+input EventUpdateOneRequiredWithoutEventImagesInput {
+  create: EventCreateWithoutEventImagesInput
+  update: EventUpdateWithoutEventImagesDataInput
+  upsert: EventUpsertWithoutEventImagesInput
   connect: EventWhereUniqueInput
 }
 
@@ -811,10 +630,10 @@ input EventUpdateWithoutAdminsDataInput {
   start: DateTime
   end: DateTime
   ticketType: TicketType
-  creator: UserUpdateOneWithoutCreated_eventsInput
-  event_images: Event_ImageUpdateManyWithoutEventInput
+  creator: UserUpdateOneWithoutCreatedEventsInput
+  eventImages: EventImageUpdateManyWithoutEventInput
   rsvps: UserUpdateManyWithoutRsvpsInput
-  urls: Event_UrlUpdateManyWithoutEventInput
+  urls: EventUrlUpdateManyWithoutEventInput
   locations: LocationUpdateManyWithoutEventInput
   tags: TagUpdateManyWithoutEventsInput
 }
@@ -825,24 +644,24 @@ input EventUpdateWithoutCreatorDataInput {
   start: DateTime
   end: DateTime
   ticketType: TicketType
-  event_images: Event_ImageUpdateManyWithoutEventInput
+  eventImages: EventImageUpdateManyWithoutEventInput
   rsvps: UserUpdateManyWithoutRsvpsInput
-  urls: Event_UrlUpdateManyWithoutEventInput
-  admins: UserUpdateManyWithoutAdmin_forInput
+  urls: EventUrlUpdateManyWithoutEventInput
+  admins: UserUpdateManyWithoutAdminForInput
   locations: LocationUpdateManyWithoutEventInput
   tags: TagUpdateManyWithoutEventsInput
 }
 
-input EventUpdateWithoutEvent_imagesDataInput {
+input EventUpdateWithoutEventImagesDataInput {
   title: String
   description: String
   start: DateTime
   end: DateTime
   ticketType: TicketType
-  creator: UserUpdateOneWithoutCreated_eventsInput
+  creator: UserUpdateOneWithoutCreatedEventsInput
   rsvps: UserUpdateManyWithoutRsvpsInput
-  urls: Event_UrlUpdateManyWithoutEventInput
-  admins: UserUpdateManyWithoutAdmin_forInput
+  urls: EventUrlUpdateManyWithoutEventInput
+  admins: UserUpdateManyWithoutAdminForInput
   locations: LocationUpdateManyWithoutEventInput
   tags: TagUpdateManyWithoutEventsInput
 }
@@ -853,11 +672,11 @@ input EventUpdateWithoutLocationsDataInput {
   start: DateTime
   end: DateTime
   ticketType: TicketType
-  creator: UserUpdateOneWithoutCreated_eventsInput
-  event_images: Event_ImageUpdateManyWithoutEventInput
+  creator: UserUpdateOneWithoutCreatedEventsInput
+  eventImages: EventImageUpdateManyWithoutEventInput
   rsvps: UserUpdateManyWithoutRsvpsInput
-  urls: Event_UrlUpdateManyWithoutEventInput
-  admins: UserUpdateManyWithoutAdmin_forInput
+  urls: EventUrlUpdateManyWithoutEventInput
+  admins: UserUpdateManyWithoutAdminForInput
   tags: TagUpdateManyWithoutEventsInput
 }
 
@@ -867,10 +686,10 @@ input EventUpdateWithoutRsvpsDataInput {
   start: DateTime
   end: DateTime
   ticketType: TicketType
-  creator: UserUpdateOneWithoutCreated_eventsInput
-  event_images: Event_ImageUpdateManyWithoutEventInput
-  urls: Event_UrlUpdateManyWithoutEventInput
-  admins: UserUpdateManyWithoutAdmin_forInput
+  creator: UserUpdateOneWithoutCreatedEventsInput
+  eventImages: EventImageUpdateManyWithoutEventInput
+  urls: EventUrlUpdateManyWithoutEventInput
+  admins: UserUpdateManyWithoutAdminForInput
   locations: LocationUpdateManyWithoutEventInput
   tags: TagUpdateManyWithoutEventsInput
 }
@@ -881,11 +700,11 @@ input EventUpdateWithoutTagsDataInput {
   start: DateTime
   end: DateTime
   ticketType: TicketType
-  creator: UserUpdateOneWithoutCreated_eventsInput
-  event_images: Event_ImageUpdateManyWithoutEventInput
+  creator: UserUpdateOneWithoutCreatedEventsInput
+  eventImages: EventImageUpdateManyWithoutEventInput
   rsvps: UserUpdateManyWithoutRsvpsInput
-  urls: Event_UrlUpdateManyWithoutEventInput
-  admins: UserUpdateManyWithoutAdmin_forInput
+  urls: EventUrlUpdateManyWithoutEventInput
+  admins: UserUpdateManyWithoutAdminForInput
   locations: LocationUpdateManyWithoutEventInput
 }
 
@@ -895,10 +714,10 @@ input EventUpdateWithoutUrlsDataInput {
   start: DateTime
   end: DateTime
   ticketType: TicketType
-  creator: UserUpdateOneWithoutCreated_eventsInput
-  event_images: Event_ImageUpdateManyWithoutEventInput
+  creator: UserUpdateOneWithoutCreatedEventsInput
+  eventImages: EventImageUpdateManyWithoutEventInput
   rsvps: UserUpdateManyWithoutRsvpsInput
-  admins: UserUpdateManyWithoutAdmin_forInput
+  admins: UserUpdateManyWithoutAdminForInput
   locations: LocationUpdateManyWithoutEventInput
   tags: TagUpdateManyWithoutEventsInput
 }
@@ -923,9 +742,9 @@ input EventUpdateWithWhereUniqueWithoutTagsInput {
   data: EventUpdateWithoutTagsDataInput!
 }
 
-input EventUpsertWithoutEvent_imagesInput {
-  update: EventUpdateWithoutEvent_imagesDataInput!
-  create: EventCreateWithoutEvent_imagesInput!
+input EventUpsertWithoutEventImagesInput {
+  update: EventUpdateWithoutEventImagesDataInput!
+  create: EventCreateWithoutEventImagesInput!
 }
 
 input EventUpsertWithoutLocationsInput {
@@ -960,6 +779,187 @@ input EventUpsertWithWhereUniqueWithoutTagsInput {
   where: EventWhereUniqueInput!
   update: EventUpdateWithoutTagsDataInput!
   create: EventCreateWithoutTagsInput!
+}
+
+type EventUrl {
+  id: ID!
+  url: String!
+  event: Event!
+}
+
+type EventUrlConnection {
+  pageInfo: PageInfo!
+  edges: [EventUrlEdge]!
+  aggregate: AggregateEventUrl!
+}
+
+input EventUrlCreateInput {
+  id: ID
+  url: String!
+  event: EventCreateOneWithoutUrlsInput!
+}
+
+input EventUrlCreateManyWithoutEventInput {
+  create: [EventUrlCreateWithoutEventInput!]
+  connect: [EventUrlWhereUniqueInput!]
+}
+
+input EventUrlCreateWithoutEventInput {
+  id: ID
+  url: String!
+}
+
+type EventUrlEdge {
+  node: EventUrl!
+  cursor: String!
+}
+
+enum EventUrlOrderByInput {
+  id_ASC
+  id_DESC
+  url_ASC
+  url_DESC
+}
+
+type EventUrlPreviousValues {
+  id: ID!
+  url: String!
+}
+
+input EventUrlScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  url: String
+  url_not: String
+  url_in: [String!]
+  url_not_in: [String!]
+  url_lt: String
+  url_lte: String
+  url_gt: String
+  url_gte: String
+  url_contains: String
+  url_not_contains: String
+  url_starts_with: String
+  url_not_starts_with: String
+  url_ends_with: String
+  url_not_ends_with: String
+  AND: [EventUrlScalarWhereInput!]
+  OR: [EventUrlScalarWhereInput!]
+  NOT: [EventUrlScalarWhereInput!]
+}
+
+type EventUrlSubscriptionPayload {
+  mutation: MutationType!
+  node: EventUrl
+  updatedFields: [String!]
+  previousValues: EventUrlPreviousValues
+}
+
+input EventUrlSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: EventUrlWhereInput
+  AND: [EventUrlSubscriptionWhereInput!]
+  OR: [EventUrlSubscriptionWhereInput!]
+  NOT: [EventUrlSubscriptionWhereInput!]
+}
+
+input EventUrlUpdateInput {
+  url: String
+  event: EventUpdateOneRequiredWithoutUrlsInput
+}
+
+input EventUrlUpdateManyDataInput {
+  url: String
+}
+
+input EventUrlUpdateManyMutationInput {
+  url: String
+}
+
+input EventUrlUpdateManyWithoutEventInput {
+  create: [EventUrlCreateWithoutEventInput!]
+  delete: [EventUrlWhereUniqueInput!]
+  connect: [EventUrlWhereUniqueInput!]
+  set: [EventUrlWhereUniqueInput!]
+  disconnect: [EventUrlWhereUniqueInput!]
+  update: [EventUrlUpdateWithWhereUniqueWithoutEventInput!]
+  upsert: [EventUrlUpsertWithWhereUniqueWithoutEventInput!]
+  deleteMany: [EventUrlScalarWhereInput!]
+  updateMany: [EventUrlUpdateManyWithWhereNestedInput!]
+}
+
+input EventUrlUpdateManyWithWhereNestedInput {
+  where: EventUrlScalarWhereInput!
+  data: EventUrlUpdateManyDataInput!
+}
+
+input EventUrlUpdateWithoutEventDataInput {
+  url: String
+}
+
+input EventUrlUpdateWithWhereUniqueWithoutEventInput {
+  where: EventUrlWhereUniqueInput!
+  data: EventUrlUpdateWithoutEventDataInput!
+}
+
+input EventUrlUpsertWithWhereUniqueWithoutEventInput {
+  where: EventUrlWhereUniqueInput!
+  update: EventUrlUpdateWithoutEventDataInput!
+  create: EventUrlCreateWithoutEventInput!
+}
+
+input EventUrlWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  url: String
+  url_not: String
+  url_in: [String!]
+  url_not_in: [String!]
+  url_lt: String
+  url_lte: String
+  url_gt: String
+  url_gte: String
+  url_contains: String
+  url_not_contains: String
+  url_starts_with: String
+  url_not_starts_with: String
+  url_ends_with: String
+  url_not_ends_with: String
+  event: EventWhereInput
+  AND: [EventUrlWhereInput!]
+  OR: [EventUrlWhereInput!]
+  NOT: [EventUrlWhereInput!]
+}
+
+input EventUrlWhereUniqueInput {
+  id: ID
 }
 
 input EventWhereInput {
@@ -1026,15 +1026,15 @@ input EventWhereInput {
   ticketType_in: [TicketType!]
   ticketType_not_in: [TicketType!]
   creator: UserWhereInput
-  event_images_every: Event_ImageWhereInput
-  event_images_some: Event_ImageWhereInput
-  event_images_none: Event_ImageWhereInput
+  eventImages_every: EventImageWhereInput
+  eventImages_some: EventImageWhereInput
+  eventImages_none: EventImageWhereInput
   rsvps_every: UserWhereInput
   rsvps_some: UserWhereInput
   rsvps_none: UserWhereInput
-  urls_every: Event_UrlWhereInput
-  urls_some: Event_UrlWhereInput
-  urls_none: Event_UrlWhereInput
+  urls_every: EventUrlWhereInput
+  urls_some: EventUrlWhereInput
+  urls_none: EventUrlWhereInput
   admins_every: UserWhereInput
   admins_some: UserWhereInput
   admins_none: UserWhereInput
@@ -1053,95 +1053,95 @@ input EventWhereUniqueInput {
   id: ID
 }
 
-type Geo_Json {
+type GeoJson {
   id: ID!
-  geo_json: String!
+  geoJson: String!
   neighborhood: Neighborhood!
 }
 
-type Geo_JsonConnection {
+type GeoJsonConnection {
   pageInfo: PageInfo!
-  edges: [Geo_JsonEdge]!
-  aggregate: AggregateGeo_Json!
+  edges: [GeoJsonEdge]!
+  aggregate: AggregateGeoJson!
 }
 
-input Geo_JsonCreateInput {
+input GeoJsonCreateInput {
   id: ID
-  geo_json: String!
-  neighborhood: NeighborhoodCreateOneWithoutGeo_jsonInput!
+  geoJson: String!
+  neighborhood: NeighborhoodCreateOneWithoutGeoJsonInput!
 }
 
-input Geo_JsonCreateOneWithoutNeighborhoodInput {
-  create: Geo_JsonCreateWithoutNeighborhoodInput
-  connect: Geo_JsonWhereUniqueInput
+input GeoJsonCreateOneWithoutNeighborhoodInput {
+  create: GeoJsonCreateWithoutNeighborhoodInput
+  connect: GeoJsonWhereUniqueInput
 }
 
-input Geo_JsonCreateWithoutNeighborhoodInput {
+input GeoJsonCreateWithoutNeighborhoodInput {
   id: ID
-  geo_json: String!
+  geoJson: String!
 }
 
-type Geo_JsonEdge {
-  node: Geo_Json!
+type GeoJsonEdge {
+  node: GeoJson!
   cursor: String!
 }
 
-enum Geo_JsonOrderByInput {
+enum GeoJsonOrderByInput {
   id_ASC
   id_DESC
-  geo_json_ASC
-  geo_json_DESC
+  geoJson_ASC
+  geoJson_DESC
 }
 
-type Geo_JsonPreviousValues {
+type GeoJsonPreviousValues {
   id: ID!
-  geo_json: String!
+  geoJson: String!
 }
 
-type Geo_JsonSubscriptionPayload {
+type GeoJsonSubscriptionPayload {
   mutation: MutationType!
-  node: Geo_Json
+  node: GeoJson
   updatedFields: [String!]
-  previousValues: Geo_JsonPreviousValues
+  previousValues: GeoJsonPreviousValues
 }
 
-input Geo_JsonSubscriptionWhereInput {
+input GeoJsonSubscriptionWhereInput {
   mutation_in: [MutationType!]
   updatedFields_contains: String
   updatedFields_contains_every: [String!]
   updatedFields_contains_some: [String!]
-  node: Geo_JsonWhereInput
-  AND: [Geo_JsonSubscriptionWhereInput!]
-  OR: [Geo_JsonSubscriptionWhereInput!]
-  NOT: [Geo_JsonSubscriptionWhereInput!]
+  node: GeoJsonWhereInput
+  AND: [GeoJsonSubscriptionWhereInput!]
+  OR: [GeoJsonSubscriptionWhereInput!]
+  NOT: [GeoJsonSubscriptionWhereInput!]
 }
 
-input Geo_JsonUpdateInput {
-  geo_json: String
-  neighborhood: NeighborhoodUpdateOneRequiredWithoutGeo_jsonInput
+input GeoJsonUpdateInput {
+  geoJson: String
+  neighborhood: NeighborhoodUpdateOneRequiredWithoutGeoJsonInput
 }
 
-input Geo_JsonUpdateManyMutationInput {
-  geo_json: String
+input GeoJsonUpdateManyMutationInput {
+  geoJson: String
 }
 
-input Geo_JsonUpdateOneRequiredWithoutNeighborhoodInput {
-  create: Geo_JsonCreateWithoutNeighborhoodInput
-  update: Geo_JsonUpdateWithoutNeighborhoodDataInput
-  upsert: Geo_JsonUpsertWithoutNeighborhoodInput
-  connect: Geo_JsonWhereUniqueInput
+input GeoJsonUpdateOneRequiredWithoutNeighborhoodInput {
+  create: GeoJsonCreateWithoutNeighborhoodInput
+  update: GeoJsonUpdateWithoutNeighborhoodDataInput
+  upsert: GeoJsonUpsertWithoutNeighborhoodInput
+  connect: GeoJsonWhereUniqueInput
 }
 
-input Geo_JsonUpdateWithoutNeighborhoodDataInput {
-  geo_json: String
+input GeoJsonUpdateWithoutNeighborhoodDataInput {
+  geoJson: String
 }
 
-input Geo_JsonUpsertWithoutNeighborhoodInput {
-  update: Geo_JsonUpdateWithoutNeighborhoodDataInput!
-  create: Geo_JsonCreateWithoutNeighborhoodInput!
+input GeoJsonUpsertWithoutNeighborhoodInput {
+  update: GeoJsonUpdateWithoutNeighborhoodDataInput!
+  create: GeoJsonCreateWithoutNeighborhoodInput!
 }
 
-input Geo_JsonWhereInput {
+input GeoJsonWhereInput {
   id: ID
   id_not: ID
   id_in: [ID!]
@@ -1156,35 +1156,35 @@ input Geo_JsonWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  geo_json: String
-  geo_json_not: String
-  geo_json_in: [String!]
-  geo_json_not_in: [String!]
-  geo_json_lt: String
-  geo_json_lte: String
-  geo_json_gt: String
-  geo_json_gte: String
-  geo_json_contains: String
-  geo_json_not_contains: String
-  geo_json_starts_with: String
-  geo_json_not_starts_with: String
-  geo_json_ends_with: String
-  geo_json_not_ends_with: String
+  geoJson: String
+  geoJson_not: String
+  geoJson_in: [String!]
+  geoJson_not_in: [String!]
+  geoJson_lt: String
+  geoJson_lte: String
+  geoJson_gt: String
+  geoJson_gte: String
+  geoJson_contains: String
+  geoJson_not_contains: String
+  geoJson_starts_with: String
+  geoJson_not_starts_with: String
+  geoJson_ends_with: String
+  geoJson_not_ends_with: String
   neighborhood: NeighborhoodWhereInput
-  AND: [Geo_JsonWhereInput!]
-  OR: [Geo_JsonWhereInput!]
-  NOT: [Geo_JsonWhereInput!]
+  AND: [GeoJsonWhereInput!]
+  OR: [GeoJsonWhereInput!]
+  NOT: [GeoJsonWhereInput!]
 }
 
-input Geo_JsonWhereUniqueInput {
+input GeoJsonWhereUniqueInput {
   id: ID
 }
 
 type Location {
   id: ID!
   name: String!
-  street_address: String!
-  street_address_2: String
+  streetAddress: String!
+  streetAddress2: String
   city: String!
   zipcode: Int!
   state: String!
@@ -1203,8 +1203,8 @@ type LocationConnection {
 input LocationCreateInput {
   id: ID
   name: String!
-  street_address: String!
-  street_address_2: String
+  streetAddress: String!
+  streetAddress2: String
   city: String!
   zipcode: Int!
   state: String!
@@ -1227,8 +1227,8 @@ input LocationCreateManyWithoutNeighborhoodInput {
 input LocationCreateWithoutEventInput {
   id: ID
   name: String!
-  street_address: String!
-  street_address_2: String
+  streetAddress: String!
+  streetAddress2: String
   city: String!
   zipcode: Int!
   state: String!
@@ -1240,8 +1240,8 @@ input LocationCreateWithoutEventInput {
 input LocationCreateWithoutNeighborhoodInput {
   id: ID
   name: String!
-  street_address: String!
-  street_address_2: String
+  streetAddress: String!
+  streetAddress2: String
   city: String!
   zipcode: Int!
   state: String!
@@ -1260,10 +1260,10 @@ enum LocationOrderByInput {
   id_DESC
   name_ASC
   name_DESC
-  street_address_ASC
-  street_address_DESC
-  street_address_2_ASC
-  street_address_2_DESC
+  streetAddress_ASC
+  streetAddress_DESC
+  streetAddress2_ASC
+  streetAddress2_DESC
   city_ASC
   city_DESC
   zipcode_ASC
@@ -1279,8 +1279,8 @@ enum LocationOrderByInput {
 type LocationPreviousValues {
   id: ID!
   name: String!
-  street_address: String!
-  street_address_2: String
+  streetAddress: String!
+  streetAddress2: String
   city: String!
   zipcode: Int!
   state: String!
@@ -1317,34 +1317,34 @@ input LocationScalarWhereInput {
   name_not_starts_with: String
   name_ends_with: String
   name_not_ends_with: String
-  street_address: String
-  street_address_not: String
-  street_address_in: [String!]
-  street_address_not_in: [String!]
-  street_address_lt: String
-  street_address_lte: String
-  street_address_gt: String
-  street_address_gte: String
-  street_address_contains: String
-  street_address_not_contains: String
-  street_address_starts_with: String
-  street_address_not_starts_with: String
-  street_address_ends_with: String
-  street_address_not_ends_with: String
-  street_address_2: String
-  street_address_2_not: String
-  street_address_2_in: [String!]
-  street_address_2_not_in: [String!]
-  street_address_2_lt: String
-  street_address_2_lte: String
-  street_address_2_gt: String
-  street_address_2_gte: String
-  street_address_2_contains: String
-  street_address_2_not_contains: String
-  street_address_2_starts_with: String
-  street_address_2_not_starts_with: String
-  street_address_2_ends_with: String
-  street_address_2_not_ends_with: String
+  streetAddress: String
+  streetAddress_not: String
+  streetAddress_in: [String!]
+  streetAddress_not_in: [String!]
+  streetAddress_lt: String
+  streetAddress_lte: String
+  streetAddress_gt: String
+  streetAddress_gte: String
+  streetAddress_contains: String
+  streetAddress_not_contains: String
+  streetAddress_starts_with: String
+  streetAddress_not_starts_with: String
+  streetAddress_ends_with: String
+  streetAddress_not_ends_with: String
+  streetAddress2: String
+  streetAddress2_not: String
+  streetAddress2_in: [String!]
+  streetAddress2_not_in: [String!]
+  streetAddress2_lt: String
+  streetAddress2_lte: String
+  streetAddress2_gt: String
+  streetAddress2_gte: String
+  streetAddress2_contains: String
+  streetAddress2_not_contains: String
+  streetAddress2_starts_with: String
+  streetAddress2_not_starts_with: String
+  streetAddress2_ends_with: String
+  streetAddress2_not_ends_with: String
   city: String
   city_not: String
   city_in: [String!]
@@ -1422,8 +1422,8 @@ input LocationSubscriptionWhereInput {
 
 input LocationUpdateInput {
   name: String
-  street_address: String
-  street_address_2: String
+  streetAddress: String
+  streetAddress2: String
   city: String
   zipcode: Int
   state: String
@@ -1435,8 +1435,8 @@ input LocationUpdateInput {
 
 input LocationUpdateManyDataInput {
   name: String
-  street_address: String
-  street_address_2: String
+  streetAddress: String
+  streetAddress2: String
   city: String
   zipcode: Int
   state: String
@@ -1446,8 +1446,8 @@ input LocationUpdateManyDataInput {
 
 input LocationUpdateManyMutationInput {
   name: String
-  street_address: String
-  street_address_2: String
+  streetAddress: String
+  streetAddress2: String
   city: String
   zipcode: Int
   state: String
@@ -1486,8 +1486,8 @@ input LocationUpdateManyWithWhereNestedInput {
 
 input LocationUpdateWithoutEventDataInput {
   name: String
-  street_address: String
-  street_address_2: String
+  streetAddress: String
+  streetAddress2: String
   city: String
   zipcode: Int
   state: String
@@ -1498,8 +1498,8 @@ input LocationUpdateWithoutEventDataInput {
 
 input LocationUpdateWithoutNeighborhoodDataInput {
   name: String
-  street_address: String
-  street_address_2: String
+  streetAddress: String
+  streetAddress2: String
   city: String
   zipcode: Int
   state: String
@@ -1559,34 +1559,34 @@ input LocationWhereInput {
   name_not_starts_with: String
   name_ends_with: String
   name_not_ends_with: String
-  street_address: String
-  street_address_not: String
-  street_address_in: [String!]
-  street_address_not_in: [String!]
-  street_address_lt: String
-  street_address_lte: String
-  street_address_gt: String
-  street_address_gte: String
-  street_address_contains: String
-  street_address_not_contains: String
-  street_address_starts_with: String
-  street_address_not_starts_with: String
-  street_address_ends_with: String
-  street_address_not_ends_with: String
-  street_address_2: String
-  street_address_2_not: String
-  street_address_2_in: [String!]
-  street_address_2_not_in: [String!]
-  street_address_2_lt: String
-  street_address_2_lte: String
-  street_address_2_gt: String
-  street_address_2_gte: String
-  street_address_2_contains: String
-  street_address_2_not_contains: String
-  street_address_2_starts_with: String
-  street_address_2_not_starts_with: String
-  street_address_2_ends_with: String
-  street_address_2_not_ends_with: String
+  streetAddress: String
+  streetAddress_not: String
+  streetAddress_in: [String!]
+  streetAddress_not_in: [String!]
+  streetAddress_lt: String
+  streetAddress_lte: String
+  streetAddress_gt: String
+  streetAddress_gte: String
+  streetAddress_contains: String
+  streetAddress_not_contains: String
+  streetAddress_starts_with: String
+  streetAddress_not_starts_with: String
+  streetAddress_ends_with: String
+  streetAddress_not_ends_with: String
+  streetAddress2: String
+  streetAddress2_not: String
+  streetAddress2_in: [String!]
+  streetAddress2_not_in: [String!]
+  streetAddress2_lt: String
+  streetAddress2_lte: String
+  streetAddress2_gt: String
+  streetAddress2_gte: String
+  streetAddress2_contains: String
+  streetAddress2_not_contains: String
+  streetAddress2_starts_with: String
+  streetAddress2_not_starts_with: String
+  streetAddress2_ends_with: String
+  streetAddress2_not_ends_with: String
   city: String
   city_not: String
   city_in: [String!]
@@ -1659,24 +1659,24 @@ type Mutation {
   upsertEvent(where: EventWhereUniqueInput!, create: EventCreateInput!, update: EventUpdateInput!): Event!
   deleteEvent(where: EventWhereUniqueInput!): Event
   deleteManyEvents(where: EventWhereInput): BatchPayload!
-  createEvent_Image(data: Event_ImageCreateInput!): Event_Image!
-  updateEvent_Image(data: Event_ImageUpdateInput!, where: Event_ImageWhereUniqueInput!): Event_Image
-  updateManyEvent_Images(data: Event_ImageUpdateManyMutationInput!, where: Event_ImageWhereInput): BatchPayload!
-  upsertEvent_Image(where: Event_ImageWhereUniqueInput!, create: Event_ImageCreateInput!, update: Event_ImageUpdateInput!): Event_Image!
-  deleteEvent_Image(where: Event_ImageWhereUniqueInput!): Event_Image
-  deleteManyEvent_Images(where: Event_ImageWhereInput): BatchPayload!
-  createEvent_Url(data: Event_UrlCreateInput!): Event_Url!
-  updateEvent_Url(data: Event_UrlUpdateInput!, where: Event_UrlWhereUniqueInput!): Event_Url
-  updateManyEvent_Urls(data: Event_UrlUpdateManyMutationInput!, where: Event_UrlWhereInput): BatchPayload!
-  upsertEvent_Url(where: Event_UrlWhereUniqueInput!, create: Event_UrlCreateInput!, update: Event_UrlUpdateInput!): Event_Url!
-  deleteEvent_Url(where: Event_UrlWhereUniqueInput!): Event_Url
-  deleteManyEvent_Urls(where: Event_UrlWhereInput): BatchPayload!
-  createGeo_Json(data: Geo_JsonCreateInput!): Geo_Json!
-  updateGeo_Json(data: Geo_JsonUpdateInput!, where: Geo_JsonWhereUniqueInput!): Geo_Json
-  updateManyGeo_Jsons(data: Geo_JsonUpdateManyMutationInput!, where: Geo_JsonWhereInput): BatchPayload!
-  upsertGeo_Json(where: Geo_JsonWhereUniqueInput!, create: Geo_JsonCreateInput!, update: Geo_JsonUpdateInput!): Geo_Json!
-  deleteGeo_Json(where: Geo_JsonWhereUniqueInput!): Geo_Json
-  deleteManyGeo_Jsons(where: Geo_JsonWhereInput): BatchPayload!
+  createEventImage(data: EventImageCreateInput!): EventImage!
+  updateEventImage(data: EventImageUpdateInput!, where: EventImageWhereUniqueInput!): EventImage
+  updateManyEventImages(data: EventImageUpdateManyMutationInput!, where: EventImageWhereInput): BatchPayload!
+  upsertEventImage(where: EventImageWhereUniqueInput!, create: EventImageCreateInput!, update: EventImageUpdateInput!): EventImage!
+  deleteEventImage(where: EventImageWhereUniqueInput!): EventImage
+  deleteManyEventImages(where: EventImageWhereInput): BatchPayload!
+  createEventUrl(data: EventUrlCreateInput!): EventUrl!
+  updateEventUrl(data: EventUrlUpdateInput!, where: EventUrlWhereUniqueInput!): EventUrl
+  updateManyEventUrls(data: EventUrlUpdateManyMutationInput!, where: EventUrlWhereInput): BatchPayload!
+  upsertEventUrl(where: EventUrlWhereUniqueInput!, create: EventUrlCreateInput!, update: EventUrlUpdateInput!): EventUrl!
+  deleteEventUrl(where: EventUrlWhereUniqueInput!): EventUrl
+  deleteManyEventUrls(where: EventUrlWhereInput): BatchPayload!
+  createGeoJson(data: GeoJsonCreateInput!): GeoJson!
+  updateGeoJson(data: GeoJsonUpdateInput!, where: GeoJsonWhereUniqueInput!): GeoJson
+  updateManyGeoJsons(data: GeoJsonUpdateManyMutationInput!, where: GeoJsonWhereInput): BatchPayload!
+  upsertGeoJson(where: GeoJsonWhereUniqueInput!, create: GeoJsonCreateInput!, update: GeoJsonUpdateInput!): GeoJson!
+  deleteGeoJson(where: GeoJsonWhereUniqueInput!): GeoJson
+  deleteManyGeoJsons(where: GeoJsonWhereInput): BatchPayload!
   createLocation(data: LocationCreateInput!): Location!
   updateLocation(data: LocationUpdateInput!, where: LocationWhereUniqueInput!): Location
   updateManyLocations(data: LocationUpdateManyMutationInput!, where: LocationWhereInput): BatchPayload!
@@ -1716,7 +1716,7 @@ enum MutationType {
 
 type Neighborhood {
   id: ID!
-  geo_json: Geo_Json!
+  geoJson: GeoJson!
   locations(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Location!]
 }
 
@@ -1728,12 +1728,12 @@ type NeighborhoodConnection {
 
 input NeighborhoodCreateInput {
   id: ID
-  geo_json: Geo_JsonCreateOneWithoutNeighborhoodInput!
+  geoJson: GeoJsonCreateOneWithoutNeighborhoodInput!
   locations: LocationCreateManyWithoutNeighborhoodInput
 }
 
-input NeighborhoodCreateOneWithoutGeo_jsonInput {
-  create: NeighborhoodCreateWithoutGeo_jsonInput
+input NeighborhoodCreateOneWithoutGeoJsonInput {
+  create: NeighborhoodCreateWithoutGeoJsonInput
   connect: NeighborhoodWhereUniqueInput
 }
 
@@ -1742,14 +1742,14 @@ input NeighborhoodCreateOneWithoutLocationsInput {
   connect: NeighborhoodWhereUniqueInput
 }
 
-input NeighborhoodCreateWithoutGeo_jsonInput {
+input NeighborhoodCreateWithoutGeoJsonInput {
   id: ID
   locations: LocationCreateManyWithoutNeighborhoodInput
 }
 
 input NeighborhoodCreateWithoutLocationsInput {
   id: ID
-  geo_json: Geo_JsonCreateOneWithoutNeighborhoodInput!
+  geoJson: GeoJsonCreateOneWithoutNeighborhoodInput!
 }
 
 type NeighborhoodEdge {
@@ -1785,14 +1785,14 @@ input NeighborhoodSubscriptionWhereInput {
 }
 
 input NeighborhoodUpdateInput {
-  geo_json: Geo_JsonUpdateOneRequiredWithoutNeighborhoodInput
+  geoJson: GeoJsonUpdateOneRequiredWithoutNeighborhoodInput
   locations: LocationUpdateManyWithoutNeighborhoodInput
 }
 
-input NeighborhoodUpdateOneRequiredWithoutGeo_jsonInput {
-  create: NeighborhoodCreateWithoutGeo_jsonInput
-  update: NeighborhoodUpdateWithoutGeo_jsonDataInput
-  upsert: NeighborhoodUpsertWithoutGeo_jsonInput
+input NeighborhoodUpdateOneRequiredWithoutGeoJsonInput {
+  create: NeighborhoodCreateWithoutGeoJsonInput
+  update: NeighborhoodUpdateWithoutGeoJsonDataInput
+  upsert: NeighborhoodUpsertWithoutGeoJsonInput
   connect: NeighborhoodWhereUniqueInput
 }
 
@@ -1805,17 +1805,17 @@ input NeighborhoodUpdateOneWithoutLocationsInput {
   connect: NeighborhoodWhereUniqueInput
 }
 
-input NeighborhoodUpdateWithoutGeo_jsonDataInput {
+input NeighborhoodUpdateWithoutGeoJsonDataInput {
   locations: LocationUpdateManyWithoutNeighborhoodInput
 }
 
 input NeighborhoodUpdateWithoutLocationsDataInput {
-  geo_json: Geo_JsonUpdateOneRequiredWithoutNeighborhoodInput
+  geoJson: GeoJsonUpdateOneRequiredWithoutNeighborhoodInput
 }
 
-input NeighborhoodUpsertWithoutGeo_jsonInput {
-  update: NeighborhoodUpdateWithoutGeo_jsonDataInput!
-  create: NeighborhoodCreateWithoutGeo_jsonInput!
+input NeighborhoodUpsertWithoutGeoJsonInput {
+  update: NeighborhoodUpdateWithoutGeoJsonDataInput!
+  create: NeighborhoodCreateWithoutGeoJsonInput!
 }
 
 input NeighborhoodUpsertWithoutLocationsInput {
@@ -1838,7 +1838,7 @@ input NeighborhoodWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  geo_json: Geo_JsonWhereInput
+  geoJson: GeoJsonWhereInput
   locations_every: LocationWhereInput
   locations_some: LocationWhereInput
   locations_none: LocationWhereInput
@@ -2163,15 +2163,15 @@ type Query {
   event(where: EventWhereUniqueInput!): Event
   events(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event]!
   eventsConnection(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): EventConnection!
-  eventImage(where: Event_ImageWhereUniqueInput!): Event_Image
-  eventImages(where: Event_ImageWhereInput, orderBy: Event_ImageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event_Image]!
-  eventImagesConnection(where: Event_ImageWhereInput, orderBy: Event_ImageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): Event_ImageConnection!
-  eventUrl(where: Event_UrlWhereUniqueInput!): Event_Url
-  eventUrls(where: Event_UrlWhereInput, orderBy: Event_UrlOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event_Url]!
-  eventUrlsConnection(where: Event_UrlWhereInput, orderBy: Event_UrlOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): Event_UrlConnection!
-  geoJson(where: Geo_JsonWhereUniqueInput!): Geo_Json
-  geoJsons(where: Geo_JsonWhereInput, orderBy: Geo_JsonOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Geo_Json]!
-  geoJsonsConnection(where: Geo_JsonWhereInput, orderBy: Geo_JsonOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): Geo_JsonConnection!
+  eventImage(where: EventImageWhereUniqueInput!): EventImage
+  eventImages(where: EventImageWhereInput, orderBy: EventImageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [EventImage]!
+  eventImagesConnection(where: EventImageWhereInput, orderBy: EventImageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): EventImageConnection!
+  eventUrl(where: EventUrlWhereUniqueInput!): EventUrl
+  eventUrls(where: EventUrlWhereInput, orderBy: EventUrlOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [EventUrl]!
+  eventUrlsConnection(where: EventUrlWhereInput, orderBy: EventUrlOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): EventUrlConnection!
+  geoJson(where: GeoJsonWhereUniqueInput!): GeoJson
+  geoJsons(where: GeoJsonWhereInput, orderBy: GeoJsonOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [GeoJson]!
+  geoJsonsConnection(where: GeoJsonWhereInput, orderBy: GeoJsonOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): GeoJsonConnection!
   location(where: LocationWhereUniqueInput!): Location
   locations(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Location]!
   locationsConnection(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LocationConnection!
@@ -2192,9 +2192,9 @@ type Query {
 
 type Subscription {
   event(where: EventSubscriptionWhereInput): EventSubscriptionPayload
-  eventImage(where: Event_ImageSubscriptionWhereInput): Event_ImageSubscriptionPayload
-  eventUrl(where: Event_UrlSubscriptionWhereInput): Event_UrlSubscriptionPayload
-  geoJson(where: Geo_JsonSubscriptionWhereInput): Geo_JsonSubscriptionPayload
+  eventImage(where: EventImageSubscriptionWhereInput): EventImageSubscriptionPayload
+  eventUrl(where: EventUrlSubscriptionWhereInput): EventUrlSubscriptionPayload
+  geoJson(where: GeoJsonSubscriptionWhereInput): GeoJsonSubscriptionPayload
   location(where: LocationSubscriptionWhereInput): LocationSubscriptionPayload
   neighborhood(where: NeighborhoodSubscriptionWhereInput): NeighborhoodSubscriptionPayload
   organization(where: OrganizationSubscriptionWhereInput): OrganizationSubscriptionPayload
@@ -2393,13 +2393,13 @@ enum TicketType {
 
 type User {
   id: ID!
-  first_name: String
-  last_name: String
-  auth0_id: String!
+  firstName: String
+  lastName: String
+  auth0Id: String!
   organizations(where: OrganizationWhereInput, orderBy: OrganizationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Organization!]
   rsvps(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event!]
-  admin_for(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event!]
-  created_events(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event!]
+  adminFor(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event!]
+  createdEvents(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event!]
 }
 
 type UserConnection {
@@ -2410,17 +2410,17 @@ type UserConnection {
 
 input UserCreateInput {
   id: ID
-  first_name: String
-  last_name: String
-  auth0_id: String!
+  firstName: String
+  lastName: String
+  auth0Id: String!
   organizations: OrganizationCreateManyWithoutUsersInput
   rsvps: EventCreateManyWithoutRsvpsInput
-  admin_for: EventCreateManyWithoutAdminsInput
-  created_events: EventCreateManyWithoutCreatorInput
+  adminFor: EventCreateManyWithoutAdminsInput
+  createdEvents: EventCreateManyWithoutCreatorInput
 }
 
-input UserCreateManyWithoutAdmin_forInput {
-  create: [UserCreateWithoutAdmin_forInput!]
+input UserCreateManyWithoutAdminForInput {
+  create: [UserCreateWithoutAdminForInput!]
   connect: [UserWhereUniqueInput!]
 }
 
@@ -2434,49 +2434,49 @@ input UserCreateManyWithoutRsvpsInput {
   connect: [UserWhereUniqueInput!]
 }
 
-input UserCreateOneWithoutCreated_eventsInput {
-  create: UserCreateWithoutCreated_eventsInput
+input UserCreateOneWithoutCreatedEventsInput {
+  create: UserCreateWithoutCreatedEventsInput
   connect: UserWhereUniqueInput
 }
 
-input UserCreateWithoutAdmin_forInput {
+input UserCreateWithoutAdminForInput {
   id: ID
-  first_name: String
-  last_name: String
-  auth0_id: String!
+  firstName: String
+  lastName: String
+  auth0Id: String!
   organizations: OrganizationCreateManyWithoutUsersInput
   rsvps: EventCreateManyWithoutRsvpsInput
-  created_events: EventCreateManyWithoutCreatorInput
+  createdEvents: EventCreateManyWithoutCreatorInput
 }
 
-input UserCreateWithoutCreated_eventsInput {
+input UserCreateWithoutCreatedEventsInput {
   id: ID
-  first_name: String
-  last_name: String
-  auth0_id: String!
+  firstName: String
+  lastName: String
+  auth0Id: String!
   organizations: OrganizationCreateManyWithoutUsersInput
   rsvps: EventCreateManyWithoutRsvpsInput
-  admin_for: EventCreateManyWithoutAdminsInput
+  adminFor: EventCreateManyWithoutAdminsInput
 }
 
 input UserCreateWithoutOrganizationsInput {
   id: ID
-  first_name: String
-  last_name: String
-  auth0_id: String!
+  firstName: String
+  lastName: String
+  auth0Id: String!
   rsvps: EventCreateManyWithoutRsvpsInput
-  admin_for: EventCreateManyWithoutAdminsInput
-  created_events: EventCreateManyWithoutCreatorInput
+  adminFor: EventCreateManyWithoutAdminsInput
+  createdEvents: EventCreateManyWithoutCreatorInput
 }
 
 input UserCreateWithoutRsvpsInput {
   id: ID
-  first_name: String
-  last_name: String
-  auth0_id: String!
+  firstName: String
+  lastName: String
+  auth0Id: String!
   organizations: OrganizationCreateManyWithoutUsersInput
-  admin_for: EventCreateManyWithoutAdminsInput
-  created_events: EventCreateManyWithoutCreatorInput
+  adminFor: EventCreateManyWithoutAdminsInput
+  createdEvents: EventCreateManyWithoutCreatorInput
 }
 
 type UserEdge {
@@ -2487,19 +2487,19 @@ type UserEdge {
 enum UserOrderByInput {
   id_ASC
   id_DESC
-  first_name_ASC
-  first_name_DESC
-  last_name_ASC
-  last_name_DESC
-  auth0_id_ASC
-  auth0_id_DESC
+  firstName_ASC
+  firstName_DESC
+  lastName_ASC
+  lastName_DESC
+  auth0Id_ASC
+  auth0Id_DESC
 }
 
 type UserPreviousValues {
   id: ID!
-  first_name: String
-  last_name: String
-  auth0_id: String!
+  firstName: String
+  lastName: String
+  auth0Id: String!
 }
 
 input UserScalarWhereInput {
@@ -2517,48 +2517,48 @@ input UserScalarWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  first_name: String
-  first_name_not: String
-  first_name_in: [String!]
-  first_name_not_in: [String!]
-  first_name_lt: String
-  first_name_lte: String
-  first_name_gt: String
-  first_name_gte: String
-  first_name_contains: String
-  first_name_not_contains: String
-  first_name_starts_with: String
-  first_name_not_starts_with: String
-  first_name_ends_with: String
-  first_name_not_ends_with: String
-  last_name: String
-  last_name_not: String
-  last_name_in: [String!]
-  last_name_not_in: [String!]
-  last_name_lt: String
-  last_name_lte: String
-  last_name_gt: String
-  last_name_gte: String
-  last_name_contains: String
-  last_name_not_contains: String
-  last_name_starts_with: String
-  last_name_not_starts_with: String
-  last_name_ends_with: String
-  last_name_not_ends_with: String
-  auth0_id: String
-  auth0_id_not: String
-  auth0_id_in: [String!]
-  auth0_id_not_in: [String!]
-  auth0_id_lt: String
-  auth0_id_lte: String
-  auth0_id_gt: String
-  auth0_id_gte: String
-  auth0_id_contains: String
-  auth0_id_not_contains: String
-  auth0_id_starts_with: String
-  auth0_id_not_starts_with: String
-  auth0_id_ends_with: String
-  auth0_id_not_ends_with: String
+  firstName: String
+  firstName_not: String
+  firstName_in: [String!]
+  firstName_not_in: [String!]
+  firstName_lt: String
+  firstName_lte: String
+  firstName_gt: String
+  firstName_gte: String
+  firstName_contains: String
+  firstName_not_contains: String
+  firstName_starts_with: String
+  firstName_not_starts_with: String
+  firstName_ends_with: String
+  firstName_not_ends_with: String
+  lastName: String
+  lastName_not: String
+  lastName_in: [String!]
+  lastName_not_in: [String!]
+  lastName_lt: String
+  lastName_lte: String
+  lastName_gt: String
+  lastName_gte: String
+  lastName_contains: String
+  lastName_not_contains: String
+  lastName_starts_with: String
+  lastName_not_starts_with: String
+  lastName_ends_with: String
+  lastName_not_ends_with: String
+  auth0Id: String
+  auth0Id_not: String
+  auth0Id_in: [String!]
+  auth0Id_not_in: [String!]
+  auth0Id_lt: String
+  auth0Id_lte: String
+  auth0Id_gt: String
+  auth0Id_gte: String
+  auth0Id_contains: String
+  auth0Id_not_contains: String
+  auth0Id_starts_with: String
+  auth0Id_not_starts_with: String
+  auth0Id_ends_with: String
+  auth0Id_not_ends_with: String
   AND: [UserScalarWhereInput!]
   OR: [UserScalarWhereInput!]
   NOT: [UserScalarWhereInput!]
@@ -2583,35 +2583,35 @@ input UserSubscriptionWhereInput {
 }
 
 input UserUpdateInput {
-  first_name: String
-  last_name: String
-  auth0_id: String
+  firstName: String
+  lastName: String
+  auth0Id: String
   organizations: OrganizationUpdateManyWithoutUsersInput
   rsvps: EventUpdateManyWithoutRsvpsInput
-  admin_for: EventUpdateManyWithoutAdminsInput
-  created_events: EventUpdateManyWithoutCreatorInput
+  adminFor: EventUpdateManyWithoutAdminsInput
+  createdEvents: EventUpdateManyWithoutCreatorInput
 }
 
 input UserUpdateManyDataInput {
-  first_name: String
-  last_name: String
-  auth0_id: String
+  firstName: String
+  lastName: String
+  auth0Id: String
 }
 
 input UserUpdateManyMutationInput {
-  first_name: String
-  last_name: String
-  auth0_id: String
+  firstName: String
+  lastName: String
+  auth0Id: String
 }
 
-input UserUpdateManyWithoutAdmin_forInput {
-  create: [UserCreateWithoutAdmin_forInput!]
+input UserUpdateManyWithoutAdminForInput {
+  create: [UserCreateWithoutAdminForInput!]
   delete: [UserWhereUniqueInput!]
   connect: [UserWhereUniqueInput!]
   set: [UserWhereUniqueInput!]
   disconnect: [UserWhereUniqueInput!]
-  update: [UserUpdateWithWhereUniqueWithoutAdmin_forInput!]
-  upsert: [UserUpsertWithWhereUniqueWithoutAdmin_forInput!]
+  update: [UserUpdateWithWhereUniqueWithoutAdminForInput!]
+  upsert: [UserUpsertWithWhereUniqueWithoutAdminForInput!]
   deleteMany: [UserScalarWhereInput!]
   updateMany: [UserUpdateManyWithWhereNestedInput!]
 }
@@ -2645,54 +2645,54 @@ input UserUpdateManyWithWhereNestedInput {
   data: UserUpdateManyDataInput!
 }
 
-input UserUpdateOneWithoutCreated_eventsInput {
-  create: UserCreateWithoutCreated_eventsInput
-  update: UserUpdateWithoutCreated_eventsDataInput
-  upsert: UserUpsertWithoutCreated_eventsInput
+input UserUpdateOneWithoutCreatedEventsInput {
+  create: UserCreateWithoutCreatedEventsInput
+  update: UserUpdateWithoutCreatedEventsDataInput
+  upsert: UserUpsertWithoutCreatedEventsInput
   delete: Boolean
   disconnect: Boolean
   connect: UserWhereUniqueInput
 }
 
-input UserUpdateWithoutAdmin_forDataInput {
-  first_name: String
-  last_name: String
-  auth0_id: String
+input UserUpdateWithoutAdminForDataInput {
+  firstName: String
+  lastName: String
+  auth0Id: String
   organizations: OrganizationUpdateManyWithoutUsersInput
   rsvps: EventUpdateManyWithoutRsvpsInput
-  created_events: EventUpdateManyWithoutCreatorInput
+  createdEvents: EventUpdateManyWithoutCreatorInput
 }
 
-input UserUpdateWithoutCreated_eventsDataInput {
-  first_name: String
-  last_name: String
-  auth0_id: String
+input UserUpdateWithoutCreatedEventsDataInput {
+  firstName: String
+  lastName: String
+  auth0Id: String
   organizations: OrganizationUpdateManyWithoutUsersInput
   rsvps: EventUpdateManyWithoutRsvpsInput
-  admin_for: EventUpdateManyWithoutAdminsInput
+  adminFor: EventUpdateManyWithoutAdminsInput
 }
 
 input UserUpdateWithoutOrganizationsDataInput {
-  first_name: String
-  last_name: String
-  auth0_id: String
+  firstName: String
+  lastName: String
+  auth0Id: String
   rsvps: EventUpdateManyWithoutRsvpsInput
-  admin_for: EventUpdateManyWithoutAdminsInput
-  created_events: EventUpdateManyWithoutCreatorInput
+  adminFor: EventUpdateManyWithoutAdminsInput
+  createdEvents: EventUpdateManyWithoutCreatorInput
 }
 
 input UserUpdateWithoutRsvpsDataInput {
-  first_name: String
-  last_name: String
-  auth0_id: String
+  firstName: String
+  lastName: String
+  auth0Id: String
   organizations: OrganizationUpdateManyWithoutUsersInput
-  admin_for: EventUpdateManyWithoutAdminsInput
-  created_events: EventUpdateManyWithoutCreatorInput
+  adminFor: EventUpdateManyWithoutAdminsInput
+  createdEvents: EventUpdateManyWithoutCreatorInput
 }
 
-input UserUpdateWithWhereUniqueWithoutAdmin_forInput {
+input UserUpdateWithWhereUniqueWithoutAdminForInput {
   where: UserWhereUniqueInput!
-  data: UserUpdateWithoutAdmin_forDataInput!
+  data: UserUpdateWithoutAdminForDataInput!
 }
 
 input UserUpdateWithWhereUniqueWithoutOrganizationsInput {
@@ -2705,15 +2705,15 @@ input UserUpdateWithWhereUniqueWithoutRsvpsInput {
   data: UserUpdateWithoutRsvpsDataInput!
 }
 
-input UserUpsertWithoutCreated_eventsInput {
-  update: UserUpdateWithoutCreated_eventsDataInput!
-  create: UserCreateWithoutCreated_eventsInput!
+input UserUpsertWithoutCreatedEventsInput {
+  update: UserUpdateWithoutCreatedEventsDataInput!
+  create: UserCreateWithoutCreatedEventsInput!
 }
 
-input UserUpsertWithWhereUniqueWithoutAdmin_forInput {
+input UserUpsertWithWhereUniqueWithoutAdminForInput {
   where: UserWhereUniqueInput!
-  update: UserUpdateWithoutAdmin_forDataInput!
-  create: UserCreateWithoutAdmin_forInput!
+  update: UserUpdateWithoutAdminForDataInput!
+  create: UserCreateWithoutAdminForInput!
 }
 
 input UserUpsertWithWhereUniqueWithoutOrganizationsInput {
@@ -2743,60 +2743,60 @@ input UserWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  first_name: String
-  first_name_not: String
-  first_name_in: [String!]
-  first_name_not_in: [String!]
-  first_name_lt: String
-  first_name_lte: String
-  first_name_gt: String
-  first_name_gte: String
-  first_name_contains: String
-  first_name_not_contains: String
-  first_name_starts_with: String
-  first_name_not_starts_with: String
-  first_name_ends_with: String
-  first_name_not_ends_with: String
-  last_name: String
-  last_name_not: String
-  last_name_in: [String!]
-  last_name_not_in: [String!]
-  last_name_lt: String
-  last_name_lte: String
-  last_name_gt: String
-  last_name_gte: String
-  last_name_contains: String
-  last_name_not_contains: String
-  last_name_starts_with: String
-  last_name_not_starts_with: String
-  last_name_ends_with: String
-  last_name_not_ends_with: String
-  auth0_id: String
-  auth0_id_not: String
-  auth0_id_in: [String!]
-  auth0_id_not_in: [String!]
-  auth0_id_lt: String
-  auth0_id_lte: String
-  auth0_id_gt: String
-  auth0_id_gte: String
-  auth0_id_contains: String
-  auth0_id_not_contains: String
-  auth0_id_starts_with: String
-  auth0_id_not_starts_with: String
-  auth0_id_ends_with: String
-  auth0_id_not_ends_with: String
+  firstName: String
+  firstName_not: String
+  firstName_in: [String!]
+  firstName_not_in: [String!]
+  firstName_lt: String
+  firstName_lte: String
+  firstName_gt: String
+  firstName_gte: String
+  firstName_contains: String
+  firstName_not_contains: String
+  firstName_starts_with: String
+  firstName_not_starts_with: String
+  firstName_ends_with: String
+  firstName_not_ends_with: String
+  lastName: String
+  lastName_not: String
+  lastName_in: [String!]
+  lastName_not_in: [String!]
+  lastName_lt: String
+  lastName_lte: String
+  lastName_gt: String
+  lastName_gte: String
+  lastName_contains: String
+  lastName_not_contains: String
+  lastName_starts_with: String
+  lastName_not_starts_with: String
+  lastName_ends_with: String
+  lastName_not_ends_with: String
+  auth0Id: String
+  auth0Id_not: String
+  auth0Id_in: [String!]
+  auth0Id_not_in: [String!]
+  auth0Id_lt: String
+  auth0Id_lte: String
+  auth0Id_gt: String
+  auth0Id_gte: String
+  auth0Id_contains: String
+  auth0Id_not_contains: String
+  auth0Id_starts_with: String
+  auth0Id_not_starts_with: String
+  auth0Id_ends_with: String
+  auth0Id_not_ends_with: String
   organizations_every: OrganizationWhereInput
   organizations_some: OrganizationWhereInput
   organizations_none: OrganizationWhereInput
   rsvps_every: EventWhereInput
   rsvps_some: EventWhereInput
   rsvps_none: EventWhereInput
-  admin_for_every: EventWhereInput
-  admin_for_some: EventWhereInput
-  admin_for_none: EventWhereInput
-  created_events_every: EventWhereInput
-  created_events_some: EventWhereInput
-  created_events_none: EventWhereInput
+  adminFor_every: EventWhereInput
+  adminFor_some: EventWhereInput
+  adminFor_none: EventWhereInput
+  createdEvents_every: EventWhereInput
+  createdEvents_some: EventWhereInput
+  createdEvents_none: EventWhereInput
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]
@@ -2804,7 +2804,7 @@ input UserWhereInput {
 
 input UserWhereUniqueInput {
   id: ID
-  auth0_id: String
+  auth0Id: String
 }
 `
       }
