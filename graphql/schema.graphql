@@ -2,7 +2,7 @@
 # import TMEvent from "../ticket-master/tm.schema.graphql"
 
 input UserCheckIdInput {
-  auth0_id: String!
+  auth0Id: String!
 }
 
 input EventCreateTagInput {
@@ -25,12 +25,13 @@ input EventCreateInput {
   description: String!
   start: DateTime!
   end: DateTime!
-  event_images: [EventCreateImageInput!]
+  eventImages: [EventCreateImageInput!]
   rsvps: UserCreateManyWithoutRsvpsInput
-  urls: Event_UrlCreateManyWithoutEventInput
-  admin: UserCreateManyWithoutAdmin_forInput
+  urls: EventUrlCreateManyWithoutEventInput
+  admin: UserCreateManyWithoutAdminForInput
   locations: LocationCreateManyWithoutEventInput
   tags: [EventCreateTagInput!]
+  ticketType: TicketType!
 }
 
 input EventUpdateInput {
@@ -38,11 +39,11 @@ input EventUpdateInput {
   description: String
   start: DateTime
   end: DateTime
-  creator: UserUpdateOneWithoutCreated_eventsInput
-  event_images: Event_ImageUpdateManyWithoutEventInput
+  creator: UserUpdateOneWithoutCreatedEventsInput
+  eventImages: EventImageUpdateManyWithoutEventInput
   rsvps: UserUpdateManyWithoutRsvpsInput
-  urls: Event_UrlUpdateManyWithoutEventInput
-  admins: UserUpdateManyWithoutAdmin_forInput
+  urls: EventUrlUpdateManyWithoutEventInput
+  admins: UserUpdateManyWithoutAdminForInput
   locations: LocationUpdateManyWithoutEventInput
   tags: [EventCreateTagInput!]
 }
@@ -54,8 +55,8 @@ input EventIdInput {
 type Location {
   id: ID!
   name: String!
-  street_address: String!
-  street_address_2: String
+  streetAddress: String!
+  streetAddress2: String
   city: String!
   zipcode: Int!
   state: String!
@@ -75,9 +76,9 @@ type Event {
   end: DateTime!
   creator: User
   ticketType: TicketType!
-  event_images(where: Event_ImageWhereInput, orderBy: Event_ImageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event_Image!]
+  eventImages(where: EventImageWhereInput, orderBy: EventImageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [EventImage!]
   rsvps(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
-  urls(where: Event_UrlWhereInput, orderBy: Event_UrlOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event_Url!]
+  urls(where: EventUrlWhereInput, orderBy: EventUrlOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [EventUrl!]
   admins(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   locations(
     where: LocationWhereInput, 

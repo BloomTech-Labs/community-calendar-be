@@ -10,9 +10,9 @@ const {
 } = require('./helpers');
 
 cloudinary.config({
-  cloud_name: 'communitycalendar',
-  api_key: '753187575421813',
-  api_secret: 'VFmv2qxP9sT9_oKI8R_Zqhx5U9U'
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
 })
 
 const resolvers = {
@@ -20,8 +20,8 @@ const resolvers = {
   Event: {
     creator: (parent, args, {prisma}) =>
       prisma.event({id: parent.id}).creator(),
-    event_images: (parent, args, {prisma}) =>
-      prisma.event({id: parent.id}).event_images(),
+    eventImages: (parent, args, {prisma}) =>
+      prisma.event({id: parent.id}).eventImages(),
     rsvps: (parent, args, {prisma}) => prisma.event({id: parent.id}).rsvps(),
     urls: (parent, args, {prisma}) => prisma.event({id: parent.id}).urls(),
     admins: (parent, args, {prisma}) => prisma.event({id: parent.id}).admins(),
@@ -29,6 +29,7 @@ const resolvers = {
       // find the locations for the current event
       const location = await prisma.event({id: parent.id}).locations();
       if (userLatitude && userLongitude) {
+        if(location[0].latitude && location[0].longitude){
         let userLocation = point([userLatitude, userLongitude]);
         let eventLocation = point([location[0].latitude, location[0].longitude])
         let options = { units: distanceUnit };
@@ -38,6 +39,10 @@ const resolvers = {
 
         // add distanceUnit to each location object, which will default to miles
         location[0].distanceUnit = distanceUnit;
+        } else{
+        location[0].distanceFromUser = null;
+        location[0].distanceUnit = null;
+        }
  
           } 
       return location
@@ -56,7 +61,7 @@ const resolvers = {
         const decoded = await decodedToken(req); //requires token to be sent in authorization headers
         return prisma.users({...args});
       } catch (err) {
-        throw err;
+        throw err
       }
     },
     tags: async (root, args, {prisma}, info) => {
@@ -69,12 +74,12 @@ const resolvers = {
     //check if auth0 id is in the database
     checkId: async (root, args, {prisma}, info) => {
       const {
-        data: {auth0_id},
+        data: {auth0ID},
       } = args;
       try {
         const user = await prisma.users({
           where: {
-            auth0_id: auth0_id,
+            auth0ID: auth0ID,
           },
         });
         return user;
@@ -84,7 +89,6 @@ const resolvers = {
     },
 
     events: async (root, args, {prisma, req}, info) => {
-      console.log('lol');
       return await prisma.events({...args})
     },
 
@@ -113,7 +117,7 @@ const resolvers = {
       try {
         const decoded = await decodedToken(req); //requires token to be sent in authorization headers
         const tagsInDb = await prisma.tags(); //array of tag objects from the database
-        const imagesInDb = await prisma.images(); //array of image objects from the database
+        const imagesInDb = await prisma.eventImages(); //array of image objects from the database
         
         if(data.tags) {
           data.tags = convertTags(data.tags, tagsInDb);
@@ -134,22 +138,21 @@ const resolvers = {
                 )
               });
     
-              console.log(result.secure_url);
               return result.secure_url;
             }catch(err){
               console.log(err);
             }
           })));
-          console.log(promises);
+          
           const urls = await Promise.all(promises);
           const newImages = urls.map(url => ({url}));
-          data.images = data.images.length ? [...data.images, ...newImages] : newImages;
+          data.eventImages = data.eventImages && data.eventImages.length ? [...data.eventImages, ...newImages] : newImages;
         }
 
-        if(data.images){
-          data.images = convertImages(data.images, imagesInDb);
+        if(data.eventImages){
+          data.eventImages = convertImages(data.eventImages, imagesInDb);
         }
-
+        console.log(decoded['http://cc_id']);
         data['creator'] = {connect: {id: decoded['http://cc_id']}};
 
         return await prisma.createEvent(data);
@@ -227,32 +230,6 @@ const resolvers = {
       } catch (err) {
         throw err;
       }
-    },
-    uploadImages: async (root, args, {prisma, req, decodedToken}, info) => {
-      const promises = args.images.map(file => (file.then(async file => {
-        const {createReadStream, filename, mimetype} = file;
-        try {
-          const result = await new Promise((resolve, reject) => {
-            createReadStream().pipe(
-              cloudinary.uploader.upload_stream((err, result) => {
-                if(err){
-                  reject(err);
-                }
-                resolve(result);
-              })
-            )
-          });
-
-          console.log(result.secure_url);
-          return result.secure_url;
-        }catch(err){
-          console.log(err);
-        }
-      })));
-      console.log(promises);
-      const urls = await Promise.all(promises);
-      console.log(urls);
-      return {filename: "fddffdf"};
     },
   },
 };

@@ -44,7 +44,7 @@ class TicketMasterAPI extends RESTDataSource {
         newEvent.info = event.info;
         newEvent.start = event.dates.start.dateTime;
         newEvent.end = event.dates.end ? event.dates.end.dateTime : null;
-        newEvent.event_images = [...event.images];
+        newEvent.eventImages = [...event.images];
         newEvent.urls = [{url: event.url}];
         // determine location
         let eventPlace;
@@ -52,8 +52,8 @@ class TicketMasterAPI extends RESTDataSource {
           eventPlace = {
             name: event.place.name,
             neighborhood: event.place.area ? event.place.area.name : null,
-            street_address: event.place.address.line1,
-            street_address_2: event.place.address.line2,
+            streetAddress: event.place.address.line1,
+            streetAddress2: event.place.address.line2,
             city: event.place.city.name,
             zipcode: event.place.postalCode,
             state: event.place.state.stateCode,
@@ -65,8 +65,8 @@ class TicketMasterAPI extends RESTDataSource {
           eventPlace = {
             neighborhood: null,
             name: event._embedded.venues[0].name,
-            street_address: event._embedded.venues[0].address.line1,
-            street_address_2: event._embedded.venues[0].address.line2,
+            streetAddress: event._embedded.venues[0].address.line1,
+            streetAddress2: event._embedded.venues[0].address.line2,
             city: event._embedded.venues[0].city.name,
             zipcode: event._embedded.venues[0].postalCode,
             state: event._embedded.venues[0].state.stateCode,

@@ -17,11 +17,11 @@ var models = [
     embedded: false
   },
   {
-    name: "Event_Image",
+    name: "EventImage",
     embedded: false
   },
   {
-    name: "Event_Url",
+    name: "EventUrl",
     embedded: false
   },
   {
@@ -37,7 +37,7 @@ var models = [
     embedded: false
   },
   {
-    name: "Geo_Json",
+    name: "GeoJson",
     embedded: false
   },
   {
