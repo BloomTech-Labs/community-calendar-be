@@ -1,19 +1,19 @@
 const distance = require('@turf/distance').default;
-const { point } = require('@turf/helpers');
+const {point} = require('@turf/helpers');
 const cloudinary = require('cloudinary').v2;
 
 const {
   convertTags,
   tagsToRemove,
   convertImages,
-  imagesToRemove
+  imagesToRemove,
 } = require('./helpers');
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET
-})
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 const resolvers = {
   //prisma bindings, otherwise fields would be null in queries/mutations
@@ -25,27 +25,37 @@ const resolvers = {
     rsvps: (parent, args, {prisma}) => prisma.event({id: parent.id}).rsvps(),
     urls: (parent, args, {prisma}) => prisma.event({id: parent.id}).urls(),
     admins: (parent, args, {prisma}) => prisma.event({id: parent.id}).admins(),
-    locations: async (parent, {userLatitude, userLongitude, distanceUnit = "miles", ...args}, {prisma}) => {
+    locations: async (
+      parent,
+      {userLatitude, userLongitude, distanceUnit = 'miles', ...args},
+      {prisma},
+    ) => {
       // find the locations for the current event
       const location = await prisma.event({id: parent.id}).locations();
       if (userLatitude && userLongitude) {
-        if(location[0].latitude && location[0].longitude){
-        let userLocation = point([userLatitude, userLongitude]);
-        let eventLocation = point([location[0].latitude, location[0].longitude])
-        let options = { units: distanceUnit };
-        
-        // calculate and add distanceFromUser property to each location object
-        location[0].distanceFromUser = distance(userLocation, eventLocation, options);
+        if (location[0].latitude && location[0].longitude) {
+          let userLocation = point([userLongitude, userLatitude]);
+          let eventLocation = point([
+            location[0].longitude,
+            location[0].latitude,
+          ]);
+          let options = {units: distanceUnit};
 
-        // add distanceUnit to each location object, which will default to miles
-        location[0].distanceUnit = distanceUnit;
-        } else{
-        location[0].distanceFromUser = null;
-        location[0].distanceUnit = null;
+          // calculate and add distanceFromUser property to each location object
+          location[0].distanceFromUser = distance(
+            userLocation,
+            eventLocation,
+            options,
+          );
+
+          // add distanceUnit to each location object, which will default to miles
+          location[0].distanceUnit = distanceUnit;
+        } else {
+          location[0].distanceFromUser = null;
+          location[0].distanceUnit = null;
         }
- 
-          } 
-      return location
+      }
+      return location;
     },
     tags: (parent, args, {prisma}) => prisma.event({id: parent.id}).tags(),
   },
@@ -61,7 +71,7 @@ const resolvers = {
         const decoded = await decodedToken(req); //requires token to be sent in authorization headers
         return prisma.users({...args});
       } catch (err) {
-        throw err
+        throw err;
       }
     },
     tags: async (root, args, {prisma}, info) => {
@@ -89,7 +99,7 @@ const resolvers = {
     },
 
     events: async (root, args, {prisma, req}, info) => {
-      return await prisma.events({...args})
+      return await prisma.events({...args});
     },
 
     ticketMasterEvents: async (root, args, {dataSources}) => {
@@ -118,38 +128,43 @@ const resolvers = {
         const decoded = await decodedToken(req); //requires token to be sent in authorization headers
         const tagsInDb = await prisma.tags(); //array of tag objects from the database
         const imagesInDb = await prisma.eventImages(); //array of image objects from the database
-        
-        if(data.tags) {
+
+        if (data.tags) {
           data.tags = convertTags(data.tags, tagsInDb);
         }
 
-        if(images.length){
-          const promises = args.images.map(file => (file.then(async file => {
-            const {createReadStream} = file;
-            try {
-              const result = await new Promise((resolve, reject) => {
-                createReadStream().pipe(
-                  cloudinary.uploader.upload_stream((err, result) => {
-                    if(err){
-                      reject(err);
-                    }
-                    resolve(result);
-                  })
-                )
-              });
-    
-              return result.secure_url;
-            }catch(err){
-              console.log(err);
-            }
-          })));
-          
+        if (images.length) {
+          const promises = args.images.map(file =>
+            file.then(async file => {
+              const {createReadStream} = file;
+              try {
+                const result = await new Promise((resolve, reject) => {
+                  createReadStream().pipe(
+                    cloudinary.uploader.upload_stream((err, result) => {
+                      if (err) {
+                        reject(err);
+                      }
+                      resolve(result);
+                    }),
+                  );
+                });
+
+                return result.secure_url;
+              } catch (err) {
+                console.log(err);
+              }
+            }),
+          );
+
           const urls = await Promise.all(promises);
           const newImages = urls.map(url => ({url}));
-          data.eventImages = data.eventImages && data.eventImages.length ? [...data.eventImages, ...newImages] : newImages;
+          data.eventImages =
+            data.eventImages && data.eventImages.length
+              ? [...data.eventImages, ...newImages]
+              : newImages;
         }
 
-        if(data.eventImages){
+        if (data.eventImages) {
           data.eventImages = convertImages(data.eventImages, imagesInDb);
         }
         console.log(decoded['http://cc_id']);
