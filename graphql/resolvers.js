@@ -160,7 +160,8 @@ const resolvers = {
     },
     updateEvent: async (root, args, {prisma, req, decodedToken}, info) => {
       const {data, where, images} = args;
-
+      let eventImages = data.eventImages;
+      data.eventImages = {};
       try {
         const [{creator}] = await prisma.events({where}).creator();
         const decoded = await decodedToken(req); //requires token to be sent in authorization headers
@@ -182,12 +183,12 @@ const resolvers = {
             data.tags.disconnect = tags.map(tag => ({id: tag.id}));
           }
 
-          if (data.eventImages && data.eventImages.length && imagesInDb.length) {
-            const disconnect = imagesToRemove(imagesInDb, data.eventImages);
+          if (eventImages && eventImages.length && imagesInDb.length) {
+            const disconnect = imagesToRemove(imagesInDb, eventImages);
             if (disconnect.length) {
               data.eventImages.disconnect = disconnect;
             }
-          } else if (data.eventImages && imagesInDb.length) {
+          } else if (eventImages && imagesInDb.length) {
             data.eventImages.disconnect = imagesInDb.map(image => ({
               id: image.id,
             }));
@@ -199,17 +200,17 @@ const resolvers = {
             );
             const urls = await Promise.all(promises);
             const newImages = urls.map(url => ({url}));
-            data.eventImages =
-              data.eventImages && data.eventImages.length
-                ? [...data.eventImages, ...newImages]
+            eventImages =
+              eventImages && eventImages.length
+                ? [...eventImages, ...newImages]
                 : newImages;
           }
 
-          if (data.eventImages) {
+          if (eventImages) {
             data.eventImages = {
               disconnect: data.eventImages.disconnect,
               ...convertImages(
-                data.eventImages,
+                eventImages,
                 imagesInDb,
                 decoded['http://cc_id'],
               ),
