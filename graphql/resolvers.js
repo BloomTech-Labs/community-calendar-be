@@ -7,6 +7,7 @@ const {
   tagsToRemove,
   convertImages,
   imagesToRemove,
+  cloudinaryImage,
 } = require('./helpers');
 
 cloudinary.config({
@@ -61,6 +62,8 @@ const resolvers = {
   },
   User: {
     rsvps: (parent, args, {prisma}) => prisma.user({id: parent.id}).rsvps(),
+    createdImages: (parent, args, {prisma}) =>
+      prisma.user({id: parent.id}).createdImages(),
   },
   Tag: {
     events: (parent, args, {prisma}) => prisma.tag({id: parent.id}).events(),
@@ -68,7 +71,7 @@ const resolvers = {
   Query: {
     users: async (root, args, {prisma, req, decodedToken}, info) => {
       try {
-        const decoded = await decodedToken(req); //requires token to be sent in authorization headers
+        //const decoded = await decodedToken(req); //requires token to be sent in authorization headers
         return prisma.users({...args});
       } catch (err) {
         throw err;
@@ -112,7 +115,6 @@ const resolvers = {
 
   Mutation: {
     addUser: async (root, args, {prisma}, info) => {
-      console.log('dfdfdf');
       try {
         const {data} = args;
         const user = await prisma.createUser(data);
@@ -133,29 +135,8 @@ const resolvers = {
           data.tags = convertTags(data.tags, tagsInDb);
         }
 
-        if (images.length) {
-          const promises = args.images.map(file =>
-            file.then(async file => {
-              const {createReadStream} = file;
-              try {
-                const result = await new Promise((resolve, reject) => {
-                  createReadStream().pipe(
-                    cloudinary.uploader.upload_stream((err, result) => {
-                      if (err) {
-                        reject(err);
-                      }
-                      resolve(result);
-                    }),
-                  );
-                });
-
-                return result.secure_url;
-              } catch (err) {
-                console.log(err);
-              }
-            }),
-          );
-
+        if (images && images.length) {
+          const promises = args.images.map(file => file.then(cloudinaryImage));
           const urls = await Promise.all(promises);
           const newImages = urls.map(url => ({url}));
           data.eventImages =
@@ -165,18 +146,21 @@ const resolvers = {
         }
 
         if (data.eventImages) {
-          data.eventImages = convertImages(data.eventImages, imagesInDb);
+          data.eventImages = convertImages(
+            data.eventImages,
+            imagesInDb,
+            decoded['http://cc_id'],
+          );
         }
-        console.log(decoded['http://cc_id']);
         data['creator'] = {connect: {id: decoded['http://cc_id']}};
-
         return await prisma.createEvent(data);
       } catch (err) {
         throw err;
       }
     },
     updateEvent: async (root, args, {prisma, req, decodedToken}, info) => {
-      const {data, where} = args;
+      const {data, where, images} = args;
+
       try {
         const [{creator}] = await prisma.events({where}).creator();
         const decoded = await decodedToken(req); //requires token to be sent in authorization headers
@@ -185,16 +169,54 @@ const resolvers = {
           //check if logged in user created the event
           const tagsInDb = await prisma.tags(); //array of tags objects from the database
           const tags = await prisma.event({id: where.id}).tags();
+          const imagesInDb = await prisma.event({id: where.id}).eventImages(); //array of event's image objects from the database
 
           if (data.tags.length) {
-            const disconnect = tagsToRemove(tags, data.tags);
+            const disconnect = tags.length && tagsToRemove(tags, data.tags);
             data.tags = convertTags(data.tags, tagsInDb);
 
             if (disconnect.length) {
               data.tags.disconnect = disconnect;
             }
+          } else if (data.tags && tags && tags.length) {
+            data.tags.disconnect = tags.map(tag => ({id: tag.id}));
           }
-          return await prisma.updateEvent(where, data);
+
+          if (data.eventImages.length && imagesInDb.length) {
+            const disconnect = imagesToRemove(imagesInDb, data.eventImages);
+            if (disconnect.length) {
+              data.eventImages.disconnect = disconnect;
+            }
+          } else if (data.eventImages && imagesInDb.length) {
+            data.eventImages.disconnect = imagesInDb.map(image => ({
+              id: image.id,
+            }));
+          }
+
+          if (images && images.length) {
+            const promises = args.images.map(file =>
+              file.then(cloudinaryImage),
+            );
+            const urls = await Promise.all(promises);
+            const newImages = urls.map(url => ({url}));
+            data.eventImages =
+              data.eventImages && data.eventImages.length
+                ? [...data.eventImages, ...newImages]
+                : newImages;
+          }
+
+          if (data.eventImages) {
+            data.eventImages = {
+              disconnect: data.eventImages.disconnect,
+              ...convertImages(
+                data.eventImages,
+                imagesInDb,
+                decoded['http://cc_id'],
+              ),
+            };
+          }
+
+          return await prisma.updateEvent({where, data});
         } else {
           throw 'You do not have permission to update this event.';
         }

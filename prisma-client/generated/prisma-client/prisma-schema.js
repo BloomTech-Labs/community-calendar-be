@@ -230,7 +230,8 @@ type EventEdge {
 
 type EventImage {
   id: ID!
-  event: Event!
+  creator: User!
+  event: Event
   url: String!
 }
 
@@ -242,8 +243,14 @@ type EventImageConnection {
 
 input EventImageCreateInput {
   id: ID
-  event: EventCreateOneWithoutEventImagesInput!
+  creator: UserCreateOneWithoutCreatedImagesInput!
+  event: EventCreateOneWithoutEventImagesInput
   url: String!
+}
+
+input EventImageCreateManyWithoutCreatorInput {
+  create: [EventImageCreateWithoutCreatorInput!]
+  connect: [EventImageWhereUniqueInput!]
 }
 
 input EventImageCreateManyWithoutEventInput {
@@ -251,8 +258,15 @@ input EventImageCreateManyWithoutEventInput {
   connect: [EventImageWhereUniqueInput!]
 }
 
+input EventImageCreateWithoutCreatorInput {
+  id: ID
+  event: EventCreateOneWithoutEventImagesInput
+  url: String!
+}
+
 input EventImageCreateWithoutEventInput {
   id: ID
+  creator: UserCreateOneWithoutCreatedImagesInput!
   url: String!
 }
 
@@ -326,7 +340,8 @@ input EventImageSubscriptionWhereInput {
 }
 
 input EventImageUpdateInput {
-  event: EventUpdateOneRequiredWithoutEventImagesInput
+  creator: UserUpdateOneRequiredWithoutCreatedImagesInput
+  event: EventUpdateOneWithoutEventImagesInput
   url: String
 }
 
@@ -336,6 +351,18 @@ input EventImageUpdateManyDataInput {
 
 input EventImageUpdateManyMutationInput {
   url: String
+}
+
+input EventImageUpdateManyWithoutCreatorInput {
+  create: [EventImageCreateWithoutCreatorInput!]
+  delete: [EventImageWhereUniqueInput!]
+  connect: [EventImageWhereUniqueInput!]
+  set: [EventImageWhereUniqueInput!]
+  disconnect: [EventImageWhereUniqueInput!]
+  update: [EventImageUpdateWithWhereUniqueWithoutCreatorInput!]
+  upsert: [EventImageUpsertWithWhereUniqueWithoutCreatorInput!]
+  deleteMany: [EventImageScalarWhereInput!]
+  updateMany: [EventImageUpdateManyWithWhereNestedInput!]
 }
 
 input EventImageUpdateManyWithoutEventInput {
@@ -355,13 +382,30 @@ input EventImageUpdateManyWithWhereNestedInput {
   data: EventImageUpdateManyDataInput!
 }
 
-input EventImageUpdateWithoutEventDataInput {
+input EventImageUpdateWithoutCreatorDataInput {
+  event: EventUpdateOneWithoutEventImagesInput
   url: String
+}
+
+input EventImageUpdateWithoutEventDataInput {
+  creator: UserUpdateOneRequiredWithoutCreatedImagesInput
+  url: String
+}
+
+input EventImageUpdateWithWhereUniqueWithoutCreatorInput {
+  where: EventImageWhereUniqueInput!
+  data: EventImageUpdateWithoutCreatorDataInput!
 }
 
 input EventImageUpdateWithWhereUniqueWithoutEventInput {
   where: EventImageWhereUniqueInput!
   data: EventImageUpdateWithoutEventDataInput!
+}
+
+input EventImageUpsertWithWhereUniqueWithoutCreatorInput {
+  where: EventImageWhereUniqueInput!
+  update: EventImageUpdateWithoutCreatorDataInput!
+  create: EventImageCreateWithoutCreatorInput!
 }
 
 input EventImageUpsertWithWhereUniqueWithoutEventInput {
@@ -385,6 +429,7 @@ input EventImageWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  creator: UserWhereInput
   event: EventWhereInput
   url: String
   url_not: String
@@ -603,13 +648,6 @@ input EventUpdateManyWithWhereNestedInput {
   data: EventUpdateManyDataInput!
 }
 
-input EventUpdateOneRequiredWithoutEventImagesInput {
-  create: EventCreateWithoutEventImagesInput
-  update: EventUpdateWithoutEventImagesDataInput
-  upsert: EventUpsertWithoutEventImagesInput
-  connect: EventWhereUniqueInput
-}
-
 input EventUpdateOneRequiredWithoutLocationsInput {
   create: EventCreateWithoutLocationsInput
   update: EventUpdateWithoutLocationsDataInput
@@ -621,6 +659,15 @@ input EventUpdateOneRequiredWithoutUrlsInput {
   create: EventCreateWithoutUrlsInput
   update: EventUpdateWithoutUrlsDataInput
   upsert: EventUpsertWithoutUrlsInput
+  connect: EventWhereUniqueInput
+}
+
+input EventUpdateOneWithoutEventImagesInput {
+  create: EventCreateWithoutEventImagesInput
+  update: EventUpdateWithoutEventImagesDataInput
+  upsert: EventUpsertWithoutEventImagesInput
+  delete: Boolean
+  disconnect: Boolean
   connect: EventWhereUniqueInput
 }
 
@@ -2400,6 +2447,7 @@ type User {
   rsvps(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event!]
   adminFor(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event!]
   createdEvents(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event!]
+  createdImages(where: EventImageWhereInput, orderBy: EventImageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [EventImage!]
 }
 
 type UserConnection {
@@ -2417,6 +2465,7 @@ input UserCreateInput {
   rsvps: EventCreateManyWithoutRsvpsInput
   adminFor: EventCreateManyWithoutAdminsInput
   createdEvents: EventCreateManyWithoutCreatorInput
+  createdImages: EventImageCreateManyWithoutCreatorInput
 }
 
 input UserCreateManyWithoutAdminForInput {
@@ -2439,6 +2488,11 @@ input UserCreateOneWithoutCreatedEventsInput {
   connect: UserWhereUniqueInput
 }
 
+input UserCreateOneWithoutCreatedImagesInput {
+  create: UserCreateWithoutCreatedImagesInput
+  connect: UserWhereUniqueInput
+}
+
 input UserCreateWithoutAdminForInput {
   id: ID
   firstName: String
@@ -2447,6 +2501,7 @@ input UserCreateWithoutAdminForInput {
   organizations: OrganizationCreateManyWithoutUsersInput
   rsvps: EventCreateManyWithoutRsvpsInput
   createdEvents: EventCreateManyWithoutCreatorInput
+  createdImages: EventImageCreateManyWithoutCreatorInput
 }
 
 input UserCreateWithoutCreatedEventsInput {
@@ -2457,6 +2512,18 @@ input UserCreateWithoutCreatedEventsInput {
   organizations: OrganizationCreateManyWithoutUsersInput
   rsvps: EventCreateManyWithoutRsvpsInput
   adminFor: EventCreateManyWithoutAdminsInput
+  createdImages: EventImageCreateManyWithoutCreatorInput
+}
+
+input UserCreateWithoutCreatedImagesInput {
+  id: ID
+  firstName: String
+  lastName: String
+  auth0Id: String!
+  organizations: OrganizationCreateManyWithoutUsersInput
+  rsvps: EventCreateManyWithoutRsvpsInput
+  adminFor: EventCreateManyWithoutAdminsInput
+  createdEvents: EventCreateManyWithoutCreatorInput
 }
 
 input UserCreateWithoutOrganizationsInput {
@@ -2467,6 +2534,7 @@ input UserCreateWithoutOrganizationsInput {
   rsvps: EventCreateManyWithoutRsvpsInput
   adminFor: EventCreateManyWithoutAdminsInput
   createdEvents: EventCreateManyWithoutCreatorInput
+  createdImages: EventImageCreateManyWithoutCreatorInput
 }
 
 input UserCreateWithoutRsvpsInput {
@@ -2477,6 +2545,7 @@ input UserCreateWithoutRsvpsInput {
   organizations: OrganizationCreateManyWithoutUsersInput
   adminFor: EventCreateManyWithoutAdminsInput
   createdEvents: EventCreateManyWithoutCreatorInput
+  createdImages: EventImageCreateManyWithoutCreatorInput
 }
 
 type UserEdge {
@@ -2590,6 +2659,7 @@ input UserUpdateInput {
   rsvps: EventUpdateManyWithoutRsvpsInput
   adminFor: EventUpdateManyWithoutAdminsInput
   createdEvents: EventUpdateManyWithoutCreatorInput
+  createdImages: EventImageUpdateManyWithoutCreatorInput
 }
 
 input UserUpdateManyDataInput {
@@ -2645,6 +2715,13 @@ input UserUpdateManyWithWhereNestedInput {
   data: UserUpdateManyDataInput!
 }
 
+input UserUpdateOneRequiredWithoutCreatedImagesInput {
+  create: UserCreateWithoutCreatedImagesInput
+  update: UserUpdateWithoutCreatedImagesDataInput
+  upsert: UserUpsertWithoutCreatedImagesInput
+  connect: UserWhereUniqueInput
+}
+
 input UserUpdateOneWithoutCreatedEventsInput {
   create: UserCreateWithoutCreatedEventsInput
   update: UserUpdateWithoutCreatedEventsDataInput
@@ -2661,6 +2738,7 @@ input UserUpdateWithoutAdminForDataInput {
   organizations: OrganizationUpdateManyWithoutUsersInput
   rsvps: EventUpdateManyWithoutRsvpsInput
   createdEvents: EventUpdateManyWithoutCreatorInput
+  createdImages: EventImageUpdateManyWithoutCreatorInput
 }
 
 input UserUpdateWithoutCreatedEventsDataInput {
@@ -2670,6 +2748,17 @@ input UserUpdateWithoutCreatedEventsDataInput {
   organizations: OrganizationUpdateManyWithoutUsersInput
   rsvps: EventUpdateManyWithoutRsvpsInput
   adminFor: EventUpdateManyWithoutAdminsInput
+  createdImages: EventImageUpdateManyWithoutCreatorInput
+}
+
+input UserUpdateWithoutCreatedImagesDataInput {
+  firstName: String
+  lastName: String
+  auth0Id: String
+  organizations: OrganizationUpdateManyWithoutUsersInput
+  rsvps: EventUpdateManyWithoutRsvpsInput
+  adminFor: EventUpdateManyWithoutAdminsInput
+  createdEvents: EventUpdateManyWithoutCreatorInput
 }
 
 input UserUpdateWithoutOrganizationsDataInput {
@@ -2679,6 +2768,7 @@ input UserUpdateWithoutOrganizationsDataInput {
   rsvps: EventUpdateManyWithoutRsvpsInput
   adminFor: EventUpdateManyWithoutAdminsInput
   createdEvents: EventUpdateManyWithoutCreatorInput
+  createdImages: EventImageUpdateManyWithoutCreatorInput
 }
 
 input UserUpdateWithoutRsvpsDataInput {
@@ -2688,6 +2778,7 @@ input UserUpdateWithoutRsvpsDataInput {
   organizations: OrganizationUpdateManyWithoutUsersInput
   adminFor: EventUpdateManyWithoutAdminsInput
   createdEvents: EventUpdateManyWithoutCreatorInput
+  createdImages: EventImageUpdateManyWithoutCreatorInput
 }
 
 input UserUpdateWithWhereUniqueWithoutAdminForInput {
@@ -2708,6 +2799,11 @@ input UserUpdateWithWhereUniqueWithoutRsvpsInput {
 input UserUpsertWithoutCreatedEventsInput {
   update: UserUpdateWithoutCreatedEventsDataInput!
   create: UserCreateWithoutCreatedEventsInput!
+}
+
+input UserUpsertWithoutCreatedImagesInput {
+  update: UserUpdateWithoutCreatedImagesDataInput!
+  create: UserCreateWithoutCreatedImagesInput!
 }
 
 input UserUpsertWithWhereUniqueWithoutAdminForInput {
@@ -2797,6 +2893,9 @@ input UserWhereInput {
   createdEvents_every: EventWhereInput
   createdEvents_some: EventWhereInput
   createdEvents_none: EventWhereInput
+  createdImages_every: EventImageWhereInput
+  createdImages_some: EventImageWhereInput
+  createdImages_none: EventImageWhereInput
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]

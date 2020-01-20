@@ -1,8 +1,11 @@
+const cloudinary = require('cloudinary').v2;
+
 module.exports = {
     convertTags,
     tagsToRemove,
     convertImages,
-    imagesToRemove
+    imagesToRemove,
+    cloudinaryImage
 }
 
 function convertTags(dataTags, tagsInDb) {
@@ -31,25 +34,28 @@ function convertTags(dataTags, tagsInDb) {
 }
 
 function tagsToRemove(oldTags, newTags) {
-   return oldTags.filter(oldTag => {
+   return newTags ? oldTags.filter(oldTag => {
           return newTags.findIndex(newTag => {
               return oldTag.title === newTag.title
             }) === -1
       })
-      .map(tag => ({id: tag.id}))
+      .map(tag => ({id: tag.id})) : oldTags.map(tag => ({id: tag.id}));
 }
 
-function convertImages(dataImages, imagesInDb) {
+function convertImages(dataImages, imagesInDb, creatorId) {
   const foundImages = [];
   const newImages = [];
   const images = {};
 
   dataImages.forEach(image => {
-    imagesInDb.findIndex(obj => {
+    const index = imagesInDb.findIndex(obj => {
        return obj.url === image.url
-     }) === -1
-     ? newImages.push(image)
-     : foundImages.push(image);
+     });
+     if(index === -1){
+      newImages.push({...image, creator: {connect: {id: creatorId}}})
+     }else{
+      foundImages.push({id: imagesInDb[index].id});
+     }
   })
 
   if(foundImages.length){
@@ -64,10 +70,31 @@ function convertImages(dataImages, imagesInDb) {
 }
 
 function imagesToRemove(oldImages, newImages) {
-  return oldImages.filter(oldImage => {
+  return newImages ? oldImages.filter(oldImage => {
          return newImages.findIndex(newImage => {
              return oldImage.url === newImage.url
            }) === -1
      })
-     .map(image => ({id: image.id}))
+     .map(image => ({id: image.id})) : oldImages.map(image => ({id: image.id}));
+}
+
+//cloudinary image upload
+async function cloudinaryImage(file){
+  const {createReadStream} = file;
+  try {
+    const result = await new Promise((resolve, reject) => {
+      createReadStream().pipe(
+        cloudinary.uploader.upload_stream((err, result) => {
+          if(err){
+            reject(err);
+          }
+          resolve(result);
+        })
+      )
+    });
+
+    return result.secure_url;
+  }catch(err){
+    console.log(err);
+  }
 }
