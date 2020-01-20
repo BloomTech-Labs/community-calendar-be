@@ -655,6 +655,9 @@ export interface UserWhereInput {
   createdEvents_every?: Maybe<EventWhereInput>;
   createdEvents_some?: Maybe<EventWhereInput>;
   createdEvents_none?: Maybe<EventWhereInput>;
+  createdImages_every?: Maybe<EventImageWhereInput>;
+  createdImages_some?: Maybe<EventImageWhereInput>;
+  createdImages_none?: Maybe<EventImageWhereInput>;
   AND?: Maybe<UserWhereInput[] | UserWhereInput>;
   OR?: Maybe<UserWhereInput[] | UserWhereInput>;
   NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
@@ -762,6 +765,7 @@ export interface EventImageWhereInput {
   id_not_starts_with?: Maybe<ID_Input>;
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
+  creator?: Maybe<UserWhereInput>;
   event?: Maybe<EventWhereInput>;
   url?: Maybe<String>;
   url_not?: Maybe<String>;
@@ -1092,6 +1096,7 @@ export interface UserCreateWithoutCreatedEventsInput {
   organizations?: Maybe<OrganizationCreateManyWithoutUsersInput>;
   rsvps?: Maybe<EventCreateManyWithoutRsvpsInput>;
   adminFor?: Maybe<EventCreateManyWithoutAdminsInput>;
+  createdImages?: Maybe<EventImageCreateManyWithoutCreatorInput>;
 }
 
 export interface OrganizationCreateManyWithoutUsersInput {
@@ -1140,7 +1145,84 @@ export interface EventImageCreateManyWithoutEventInput {
 
 export interface EventImageCreateWithoutEventInput {
   id?: Maybe<ID_Input>;
+  creator: UserCreateOneWithoutCreatedImagesInput;
   url: String;
+}
+
+export interface UserCreateOneWithoutCreatedImagesInput {
+  create?: Maybe<UserCreateWithoutCreatedImagesInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserCreateWithoutCreatedImagesInput {
+  id?: Maybe<ID_Input>;
+  firstName?: Maybe<String>;
+  lastName?: Maybe<String>;
+  auth0Id: String;
+  organizations?: Maybe<OrganizationCreateManyWithoutUsersInput>;
+  rsvps?: Maybe<EventCreateManyWithoutRsvpsInput>;
+  adminFor?: Maybe<EventCreateManyWithoutAdminsInput>;
+  createdEvents?: Maybe<EventCreateManyWithoutCreatorInput>;
+}
+
+export interface EventCreateManyWithoutAdminsInput {
+  create?: Maybe<
+    EventCreateWithoutAdminsInput[] | EventCreateWithoutAdminsInput
+  >;
+  connect?: Maybe<EventWhereUniqueInput[] | EventWhereUniqueInput>;
+}
+
+export interface EventCreateWithoutAdminsInput {
+  id?: Maybe<ID_Input>;
+  title: String;
+  description: String;
+  start: DateTimeInput;
+  end: DateTimeInput;
+  ticketType: TicketType;
+  creator?: Maybe<UserCreateOneWithoutCreatedEventsInput>;
+  eventImages?: Maybe<EventImageCreateManyWithoutEventInput>;
+  rsvps?: Maybe<UserCreateManyWithoutRsvpsInput>;
+  urls?: Maybe<EventUrlCreateManyWithoutEventInput>;
+  locations?: Maybe<LocationCreateManyWithoutEventInput>;
+  tags?: Maybe<TagCreateManyWithoutEventsInput>;
+}
+
+export interface UserCreateManyWithoutRsvpsInput {
+  create?: Maybe<UserCreateWithoutRsvpsInput[] | UserCreateWithoutRsvpsInput>;
+  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+}
+
+export interface UserCreateWithoutRsvpsInput {
+  id?: Maybe<ID_Input>;
+  firstName?: Maybe<String>;
+  lastName?: Maybe<String>;
+  auth0Id: String;
+  organizations?: Maybe<OrganizationCreateManyWithoutUsersInput>;
+  adminFor?: Maybe<EventCreateManyWithoutAdminsInput>;
+  createdEvents?: Maybe<EventCreateManyWithoutCreatorInput>;
+  createdImages?: Maybe<EventImageCreateManyWithoutCreatorInput>;
+}
+
+export interface EventCreateManyWithoutCreatorInput {
+  create?: Maybe<
+    EventCreateWithoutCreatorInput[] | EventCreateWithoutCreatorInput
+  >;
+  connect?: Maybe<EventWhereUniqueInput[] | EventWhereUniqueInput>;
+}
+
+export interface EventCreateWithoutCreatorInput {
+  id?: Maybe<ID_Input>;
+  title: String;
+  description: String;
+  start: DateTimeInput;
+  end: DateTimeInput;
+  ticketType: TicketType;
+  eventImages?: Maybe<EventImageCreateManyWithoutEventInput>;
+  rsvps?: Maybe<UserCreateManyWithoutRsvpsInput>;
+  urls?: Maybe<EventUrlCreateManyWithoutEventInput>;
+  admins?: Maybe<UserCreateManyWithoutAdminForInput>;
+  locations?: Maybe<LocationCreateManyWithoutEventInput>;
+  tags?: Maybe<TagCreateManyWithoutEventsInput>;
 }
 
 export interface EventUrlCreateManyWithoutEventInput {
@@ -1170,53 +1252,28 @@ export interface UserCreateWithoutAdminForInput {
   organizations?: Maybe<OrganizationCreateManyWithoutUsersInput>;
   rsvps?: Maybe<EventCreateManyWithoutRsvpsInput>;
   createdEvents?: Maybe<EventCreateManyWithoutCreatorInput>;
+  createdImages?: Maybe<EventImageCreateManyWithoutCreatorInput>;
 }
 
-export interface EventCreateManyWithoutCreatorInput {
+export interface EventImageCreateManyWithoutCreatorInput {
   create?: Maybe<
-    EventCreateWithoutCreatorInput[] | EventCreateWithoutCreatorInput
+    EventImageCreateWithoutCreatorInput[] | EventImageCreateWithoutCreatorInput
   >;
-  connect?: Maybe<EventWhereUniqueInput[] | EventWhereUniqueInput>;
+  connect?: Maybe<EventImageWhereUniqueInput[] | EventImageWhereUniqueInput>;
 }
 
-export interface EventCreateWithoutCreatorInput {
+export interface EventImageCreateWithoutCreatorInput {
   id?: Maybe<ID_Input>;
-  title: String;
-  description: String;
-  start: DateTimeInput;
-  end: DateTimeInput;
-  ticketType: TicketType;
-  eventImages?: Maybe<EventImageCreateManyWithoutEventInput>;
-  rsvps?: Maybe<UserCreateManyWithoutRsvpsInput>;
-  urls?: Maybe<EventUrlCreateManyWithoutEventInput>;
-  admins?: Maybe<UserCreateManyWithoutAdminForInput>;
-  locations?: Maybe<LocationCreateManyWithoutEventInput>;
-  tags?: Maybe<TagCreateManyWithoutEventsInput>;
+  event?: Maybe<EventCreateOneWithoutEventImagesInput>;
+  url: String;
 }
 
-export interface UserCreateManyWithoutRsvpsInput {
-  create?: Maybe<UserCreateWithoutRsvpsInput[] | UserCreateWithoutRsvpsInput>;
-  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+export interface EventCreateOneWithoutEventImagesInput {
+  create?: Maybe<EventCreateWithoutEventImagesInput>;
+  connect?: Maybe<EventWhereUniqueInput>;
 }
 
-export interface UserCreateWithoutRsvpsInput {
-  id?: Maybe<ID_Input>;
-  firstName?: Maybe<String>;
-  lastName?: Maybe<String>;
-  auth0Id: String;
-  organizations?: Maybe<OrganizationCreateManyWithoutUsersInput>;
-  adminFor?: Maybe<EventCreateManyWithoutAdminsInput>;
-  createdEvents?: Maybe<EventCreateManyWithoutCreatorInput>;
-}
-
-export interface EventCreateManyWithoutAdminsInput {
-  create?: Maybe<
-    EventCreateWithoutAdminsInput[] | EventCreateWithoutAdminsInput
-  >;
-  connect?: Maybe<EventWhereUniqueInput[] | EventWhereUniqueInput>;
-}
-
-export interface EventCreateWithoutAdminsInput {
+export interface EventCreateWithoutEventImagesInput {
   id?: Maybe<ID_Input>;
   title: String;
   description: String;
@@ -1224,9 +1281,9 @@ export interface EventCreateWithoutAdminsInput {
   end: DateTimeInput;
   ticketType: TicketType;
   creator?: Maybe<UserCreateOneWithoutCreatedEventsInput>;
-  eventImages?: Maybe<EventImageCreateManyWithoutEventInput>;
   rsvps?: Maybe<UserCreateManyWithoutRsvpsInput>;
   urls?: Maybe<EventUrlCreateManyWithoutEventInput>;
+  admins?: Maybe<UserCreateManyWithoutAdminForInput>;
   locations?: Maybe<LocationCreateManyWithoutEventInput>;
   tags?: Maybe<TagCreateManyWithoutEventsInput>;
 }
@@ -1312,6 +1369,7 @@ export interface UserUpdateWithoutCreatedEventsDataInput {
   organizations?: Maybe<OrganizationUpdateManyWithoutUsersInput>;
   rsvps?: Maybe<EventUpdateManyWithoutRsvpsInput>;
   adminFor?: Maybe<EventUpdateManyWithoutAdminsInput>;
+  createdImages?: Maybe<EventImageUpdateManyWithoutCreatorInput>;
 }
 
 export interface OrganizationUpdateManyWithoutUsersInput {
@@ -1517,56 +1575,142 @@ export interface EventImageUpdateWithWhereUniqueWithoutEventInput {
 }
 
 export interface EventImageUpdateWithoutEventDataInput {
+  creator?: Maybe<UserUpdateOneRequiredWithoutCreatedImagesInput>;
   url?: Maybe<String>;
 }
 
-export interface EventImageUpsertWithWhereUniqueWithoutEventInput {
-  where: EventImageWhereUniqueInput;
-  update: EventImageUpdateWithoutEventDataInput;
-  create: EventImageCreateWithoutEventInput;
+export interface UserUpdateOneRequiredWithoutCreatedImagesInput {
+  create?: Maybe<UserCreateWithoutCreatedImagesInput>;
+  update?: Maybe<UserUpdateWithoutCreatedImagesDataInput>;
+  upsert?: Maybe<UserUpsertWithoutCreatedImagesInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
 }
 
-export interface EventImageScalarWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  url?: Maybe<String>;
-  url_not?: Maybe<String>;
-  url_in?: Maybe<String[] | String>;
-  url_not_in?: Maybe<String[] | String>;
-  url_lt?: Maybe<String>;
-  url_lte?: Maybe<String>;
-  url_gt?: Maybe<String>;
-  url_gte?: Maybe<String>;
-  url_contains?: Maybe<String>;
-  url_not_contains?: Maybe<String>;
-  url_starts_with?: Maybe<String>;
-  url_not_starts_with?: Maybe<String>;
-  url_ends_with?: Maybe<String>;
-  url_not_ends_with?: Maybe<String>;
-  AND?: Maybe<EventImageScalarWhereInput[] | EventImageScalarWhereInput>;
-  OR?: Maybe<EventImageScalarWhereInput[] | EventImageScalarWhereInput>;
-  NOT?: Maybe<EventImageScalarWhereInput[] | EventImageScalarWhereInput>;
+export interface UserUpdateWithoutCreatedImagesDataInput {
+  firstName?: Maybe<String>;
+  lastName?: Maybe<String>;
+  auth0Id?: Maybe<String>;
+  organizations?: Maybe<OrganizationUpdateManyWithoutUsersInput>;
+  rsvps?: Maybe<EventUpdateManyWithoutRsvpsInput>;
+  adminFor?: Maybe<EventUpdateManyWithoutAdminsInput>;
+  createdEvents?: Maybe<EventUpdateManyWithoutCreatorInput>;
 }
 
-export interface EventImageUpdateManyWithWhereNestedInput {
-  where: EventImageScalarWhereInput;
-  data: EventImageUpdateManyDataInput;
+export interface EventUpdateManyWithoutAdminsInput {
+  create?: Maybe<
+    EventCreateWithoutAdminsInput[] | EventCreateWithoutAdminsInput
+  >;
+  delete?: Maybe<EventWhereUniqueInput[] | EventWhereUniqueInput>;
+  connect?: Maybe<EventWhereUniqueInput[] | EventWhereUniqueInput>;
+  set?: Maybe<EventWhereUniqueInput[] | EventWhereUniqueInput>;
+  disconnect?: Maybe<EventWhereUniqueInput[] | EventWhereUniqueInput>;
+  update?: Maybe<
+    | EventUpdateWithWhereUniqueWithoutAdminsInput[]
+    | EventUpdateWithWhereUniqueWithoutAdminsInput
+  >;
+  upsert?: Maybe<
+    | EventUpsertWithWhereUniqueWithoutAdminsInput[]
+    | EventUpsertWithWhereUniqueWithoutAdminsInput
+  >;
+  deleteMany?: Maybe<EventScalarWhereInput[] | EventScalarWhereInput>;
+  updateMany?: Maybe<
+    EventUpdateManyWithWhereNestedInput[] | EventUpdateManyWithWhereNestedInput
+  >;
 }
 
-export interface EventImageUpdateManyDataInput {
-  url?: Maybe<String>;
+export interface EventUpdateWithWhereUniqueWithoutAdminsInput {
+  where: EventWhereUniqueInput;
+  data: EventUpdateWithoutAdminsDataInput;
+}
+
+export interface EventUpdateWithoutAdminsDataInput {
+  title?: Maybe<String>;
+  description?: Maybe<String>;
+  start?: Maybe<DateTimeInput>;
+  end?: Maybe<DateTimeInput>;
+  ticketType?: Maybe<TicketType>;
+  creator?: Maybe<UserUpdateOneWithoutCreatedEventsInput>;
+  eventImages?: Maybe<EventImageUpdateManyWithoutEventInput>;
+  rsvps?: Maybe<UserUpdateManyWithoutRsvpsInput>;
+  urls?: Maybe<EventUrlUpdateManyWithoutEventInput>;
+  locations?: Maybe<LocationUpdateManyWithoutEventInput>;
+  tags?: Maybe<TagUpdateManyWithoutEventsInput>;
+}
+
+export interface UserUpdateManyWithoutRsvpsInput {
+  create?: Maybe<UserCreateWithoutRsvpsInput[] | UserCreateWithoutRsvpsInput>;
+  delete?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  set?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  disconnect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  update?: Maybe<
+    | UserUpdateWithWhereUniqueWithoutRsvpsInput[]
+    | UserUpdateWithWhereUniqueWithoutRsvpsInput
+  >;
+  upsert?: Maybe<
+    | UserUpsertWithWhereUniqueWithoutRsvpsInput[]
+    | UserUpsertWithWhereUniqueWithoutRsvpsInput
+  >;
+  deleteMany?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
+  updateMany?: Maybe<
+    UserUpdateManyWithWhereNestedInput[] | UserUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface UserUpdateWithWhereUniqueWithoutRsvpsInput {
+  where: UserWhereUniqueInput;
+  data: UserUpdateWithoutRsvpsDataInput;
+}
+
+export interface UserUpdateWithoutRsvpsDataInput {
+  firstName?: Maybe<String>;
+  lastName?: Maybe<String>;
+  auth0Id?: Maybe<String>;
+  organizations?: Maybe<OrganizationUpdateManyWithoutUsersInput>;
+  adminFor?: Maybe<EventUpdateManyWithoutAdminsInput>;
+  createdEvents?: Maybe<EventUpdateManyWithoutCreatorInput>;
+  createdImages?: Maybe<EventImageUpdateManyWithoutCreatorInput>;
+}
+
+export interface EventUpdateManyWithoutCreatorInput {
+  create?: Maybe<
+    EventCreateWithoutCreatorInput[] | EventCreateWithoutCreatorInput
+  >;
+  delete?: Maybe<EventWhereUniqueInput[] | EventWhereUniqueInput>;
+  connect?: Maybe<EventWhereUniqueInput[] | EventWhereUniqueInput>;
+  set?: Maybe<EventWhereUniqueInput[] | EventWhereUniqueInput>;
+  disconnect?: Maybe<EventWhereUniqueInput[] | EventWhereUniqueInput>;
+  update?: Maybe<
+    | EventUpdateWithWhereUniqueWithoutCreatorInput[]
+    | EventUpdateWithWhereUniqueWithoutCreatorInput
+  >;
+  upsert?: Maybe<
+    | EventUpsertWithWhereUniqueWithoutCreatorInput[]
+    | EventUpsertWithWhereUniqueWithoutCreatorInput
+  >;
+  deleteMany?: Maybe<EventScalarWhereInput[] | EventScalarWhereInput>;
+  updateMany?: Maybe<
+    EventUpdateManyWithWhereNestedInput[] | EventUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface EventUpdateWithWhereUniqueWithoutCreatorInput {
+  where: EventWhereUniqueInput;
+  data: EventUpdateWithoutCreatorDataInput;
+}
+
+export interface EventUpdateWithoutCreatorDataInput {
+  title?: Maybe<String>;
+  description?: Maybe<String>;
+  start?: Maybe<DateTimeInput>;
+  end?: Maybe<DateTimeInput>;
+  ticketType?: Maybe<TicketType>;
+  eventImages?: Maybe<EventImageUpdateManyWithoutEventInput>;
+  rsvps?: Maybe<UserUpdateManyWithoutRsvpsInput>;
+  urls?: Maybe<EventUrlUpdateManyWithoutEventInput>;
+  admins?: Maybe<UserUpdateManyWithoutAdminForInput>;
+  locations?: Maybe<LocationUpdateManyWithoutEventInput>;
+  tags?: Maybe<TagUpdateManyWithoutEventsInput>;
 }
 
 export interface EventUrlUpdateManyWithoutEventInput {
@@ -1684,120 +1828,61 @@ export interface UserUpdateWithoutAdminForDataInput {
   organizations?: Maybe<OrganizationUpdateManyWithoutUsersInput>;
   rsvps?: Maybe<EventUpdateManyWithoutRsvpsInput>;
   createdEvents?: Maybe<EventUpdateManyWithoutCreatorInput>;
+  createdImages?: Maybe<EventImageUpdateManyWithoutCreatorInput>;
 }
 
-export interface EventUpdateManyWithoutCreatorInput {
+export interface EventImageUpdateManyWithoutCreatorInput {
   create?: Maybe<
-    EventCreateWithoutCreatorInput[] | EventCreateWithoutCreatorInput
+    EventImageCreateWithoutCreatorInput[] | EventImageCreateWithoutCreatorInput
   >;
-  delete?: Maybe<EventWhereUniqueInput[] | EventWhereUniqueInput>;
-  connect?: Maybe<EventWhereUniqueInput[] | EventWhereUniqueInput>;
-  set?: Maybe<EventWhereUniqueInput[] | EventWhereUniqueInput>;
-  disconnect?: Maybe<EventWhereUniqueInput[] | EventWhereUniqueInput>;
+  delete?: Maybe<EventImageWhereUniqueInput[] | EventImageWhereUniqueInput>;
+  connect?: Maybe<EventImageWhereUniqueInput[] | EventImageWhereUniqueInput>;
+  set?: Maybe<EventImageWhereUniqueInput[] | EventImageWhereUniqueInput>;
+  disconnect?: Maybe<EventImageWhereUniqueInput[] | EventImageWhereUniqueInput>;
   update?: Maybe<
-    | EventUpdateWithWhereUniqueWithoutCreatorInput[]
-    | EventUpdateWithWhereUniqueWithoutCreatorInput
+    | EventImageUpdateWithWhereUniqueWithoutCreatorInput[]
+    | EventImageUpdateWithWhereUniqueWithoutCreatorInput
   >;
   upsert?: Maybe<
-    | EventUpsertWithWhereUniqueWithoutCreatorInput[]
-    | EventUpsertWithWhereUniqueWithoutCreatorInput
+    | EventImageUpsertWithWhereUniqueWithoutCreatorInput[]
+    | EventImageUpsertWithWhereUniqueWithoutCreatorInput
   >;
-  deleteMany?: Maybe<EventScalarWhereInput[] | EventScalarWhereInput>;
+  deleteMany?: Maybe<EventImageScalarWhereInput[] | EventImageScalarWhereInput>;
   updateMany?: Maybe<
-    EventUpdateManyWithWhereNestedInput[] | EventUpdateManyWithWhereNestedInput
+    | EventImageUpdateManyWithWhereNestedInput[]
+    | EventImageUpdateManyWithWhereNestedInput
   >;
 }
 
-export interface EventUpdateWithWhereUniqueWithoutCreatorInput {
-  where: EventWhereUniqueInput;
-  data: EventUpdateWithoutCreatorDataInput;
+export interface EventImageUpdateWithWhereUniqueWithoutCreatorInput {
+  where: EventImageWhereUniqueInput;
+  data: EventImageUpdateWithoutCreatorDataInput;
 }
 
-export interface EventUpdateWithoutCreatorDataInput {
-  title?: Maybe<String>;
-  description?: Maybe<String>;
-  start?: Maybe<DateTimeInput>;
-  end?: Maybe<DateTimeInput>;
-  ticketType?: Maybe<TicketType>;
-  eventImages?: Maybe<EventImageUpdateManyWithoutEventInput>;
-  rsvps?: Maybe<UserUpdateManyWithoutRsvpsInput>;
-  urls?: Maybe<EventUrlUpdateManyWithoutEventInput>;
-  admins?: Maybe<UserUpdateManyWithoutAdminForInput>;
-  locations?: Maybe<LocationUpdateManyWithoutEventInput>;
-  tags?: Maybe<TagUpdateManyWithoutEventsInput>;
+export interface EventImageUpdateWithoutCreatorDataInput {
+  event?: Maybe<EventUpdateOneWithoutEventImagesInput>;
+  url?: Maybe<String>;
 }
 
-export interface UserUpdateManyWithoutRsvpsInput {
-  create?: Maybe<UserCreateWithoutRsvpsInput[] | UserCreateWithoutRsvpsInput>;
-  delete?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
-  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
-  set?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
-  disconnect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
-  update?: Maybe<
-    | UserUpdateWithWhereUniqueWithoutRsvpsInput[]
-    | UserUpdateWithWhereUniqueWithoutRsvpsInput
-  >;
-  upsert?: Maybe<
-    | UserUpsertWithWhereUniqueWithoutRsvpsInput[]
-    | UserUpsertWithWhereUniqueWithoutRsvpsInput
-  >;
-  deleteMany?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
-  updateMany?: Maybe<
-    UserUpdateManyWithWhereNestedInput[] | UserUpdateManyWithWhereNestedInput
-  >;
+export interface EventUpdateOneWithoutEventImagesInput {
+  create?: Maybe<EventCreateWithoutEventImagesInput>;
+  update?: Maybe<EventUpdateWithoutEventImagesDataInput>;
+  upsert?: Maybe<EventUpsertWithoutEventImagesInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<EventWhereUniqueInput>;
 }
 
-export interface UserUpdateWithWhereUniqueWithoutRsvpsInput {
-  where: UserWhereUniqueInput;
-  data: UserUpdateWithoutRsvpsDataInput;
-}
-
-export interface UserUpdateWithoutRsvpsDataInput {
-  firstName?: Maybe<String>;
-  lastName?: Maybe<String>;
-  auth0Id?: Maybe<String>;
-  organizations?: Maybe<OrganizationUpdateManyWithoutUsersInput>;
-  adminFor?: Maybe<EventUpdateManyWithoutAdminsInput>;
-  createdEvents?: Maybe<EventUpdateManyWithoutCreatorInput>;
-}
-
-export interface EventUpdateManyWithoutAdminsInput {
-  create?: Maybe<
-    EventCreateWithoutAdminsInput[] | EventCreateWithoutAdminsInput
-  >;
-  delete?: Maybe<EventWhereUniqueInput[] | EventWhereUniqueInput>;
-  connect?: Maybe<EventWhereUniqueInput[] | EventWhereUniqueInput>;
-  set?: Maybe<EventWhereUniqueInput[] | EventWhereUniqueInput>;
-  disconnect?: Maybe<EventWhereUniqueInput[] | EventWhereUniqueInput>;
-  update?: Maybe<
-    | EventUpdateWithWhereUniqueWithoutAdminsInput[]
-    | EventUpdateWithWhereUniqueWithoutAdminsInput
-  >;
-  upsert?: Maybe<
-    | EventUpsertWithWhereUniqueWithoutAdminsInput[]
-    | EventUpsertWithWhereUniqueWithoutAdminsInput
-  >;
-  deleteMany?: Maybe<EventScalarWhereInput[] | EventScalarWhereInput>;
-  updateMany?: Maybe<
-    EventUpdateManyWithWhereNestedInput[] | EventUpdateManyWithWhereNestedInput
-  >;
-}
-
-export interface EventUpdateWithWhereUniqueWithoutAdminsInput {
-  where: EventWhereUniqueInput;
-  data: EventUpdateWithoutAdminsDataInput;
-}
-
-export interface EventUpdateWithoutAdminsDataInput {
+export interface EventUpdateWithoutEventImagesDataInput {
   title?: Maybe<String>;
   description?: Maybe<String>;
   start?: Maybe<DateTimeInput>;
   end?: Maybe<DateTimeInput>;
   ticketType?: Maybe<TicketType>;
   creator?: Maybe<UserUpdateOneWithoutCreatedEventsInput>;
-  eventImages?: Maybe<EventImageUpdateManyWithoutEventInput>;
   rsvps?: Maybe<UserUpdateManyWithoutRsvpsInput>;
   urls?: Maybe<EventUrlUpdateManyWithoutEventInput>;
+  admins?: Maybe<UserUpdateManyWithoutAdminForInput>;
   locations?: Maybe<LocationUpdateManyWithoutEventInput>;
   tags?: Maybe<TagUpdateManyWithoutEventsInput>;
 }
@@ -2090,10 +2175,143 @@ export interface TagUpdateManyDataInput {
   title?: Maybe<String>;
 }
 
-export interface EventUpsertWithWhereUniqueWithoutAdminsInput {
+export interface EventUpsertWithoutEventImagesInput {
+  update: EventUpdateWithoutEventImagesDataInput;
+  create: EventCreateWithoutEventImagesInput;
+}
+
+export interface EventImageUpsertWithWhereUniqueWithoutCreatorInput {
+  where: EventImageWhereUniqueInput;
+  update: EventImageUpdateWithoutCreatorDataInput;
+  create: EventImageCreateWithoutCreatorInput;
+}
+
+export interface EventImageScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  url?: Maybe<String>;
+  url_not?: Maybe<String>;
+  url_in?: Maybe<String[] | String>;
+  url_not_in?: Maybe<String[] | String>;
+  url_lt?: Maybe<String>;
+  url_lte?: Maybe<String>;
+  url_gt?: Maybe<String>;
+  url_gte?: Maybe<String>;
+  url_contains?: Maybe<String>;
+  url_not_contains?: Maybe<String>;
+  url_starts_with?: Maybe<String>;
+  url_not_starts_with?: Maybe<String>;
+  url_ends_with?: Maybe<String>;
+  url_not_ends_with?: Maybe<String>;
+  AND?: Maybe<EventImageScalarWhereInput[] | EventImageScalarWhereInput>;
+  OR?: Maybe<EventImageScalarWhereInput[] | EventImageScalarWhereInput>;
+  NOT?: Maybe<EventImageScalarWhereInput[] | EventImageScalarWhereInput>;
+}
+
+export interface EventImageUpdateManyWithWhereNestedInput {
+  where: EventImageScalarWhereInput;
+  data: EventImageUpdateManyDataInput;
+}
+
+export interface EventImageUpdateManyDataInput {
+  url?: Maybe<String>;
+}
+
+export interface UserUpsertWithWhereUniqueWithoutAdminForInput {
+  where: UserWhereUniqueInput;
+  update: UserUpdateWithoutAdminForDataInput;
+  create: UserCreateWithoutAdminForInput;
+}
+
+export interface UserScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  firstName?: Maybe<String>;
+  firstName_not?: Maybe<String>;
+  firstName_in?: Maybe<String[] | String>;
+  firstName_not_in?: Maybe<String[] | String>;
+  firstName_lt?: Maybe<String>;
+  firstName_lte?: Maybe<String>;
+  firstName_gt?: Maybe<String>;
+  firstName_gte?: Maybe<String>;
+  firstName_contains?: Maybe<String>;
+  firstName_not_contains?: Maybe<String>;
+  firstName_starts_with?: Maybe<String>;
+  firstName_not_starts_with?: Maybe<String>;
+  firstName_ends_with?: Maybe<String>;
+  firstName_not_ends_with?: Maybe<String>;
+  lastName?: Maybe<String>;
+  lastName_not?: Maybe<String>;
+  lastName_in?: Maybe<String[] | String>;
+  lastName_not_in?: Maybe<String[] | String>;
+  lastName_lt?: Maybe<String>;
+  lastName_lte?: Maybe<String>;
+  lastName_gt?: Maybe<String>;
+  lastName_gte?: Maybe<String>;
+  lastName_contains?: Maybe<String>;
+  lastName_not_contains?: Maybe<String>;
+  lastName_starts_with?: Maybe<String>;
+  lastName_not_starts_with?: Maybe<String>;
+  lastName_ends_with?: Maybe<String>;
+  lastName_not_ends_with?: Maybe<String>;
+  auth0Id?: Maybe<String>;
+  auth0Id_not?: Maybe<String>;
+  auth0Id_in?: Maybe<String[] | String>;
+  auth0Id_not_in?: Maybe<String[] | String>;
+  auth0Id_lt?: Maybe<String>;
+  auth0Id_lte?: Maybe<String>;
+  auth0Id_gt?: Maybe<String>;
+  auth0Id_gte?: Maybe<String>;
+  auth0Id_contains?: Maybe<String>;
+  auth0Id_not_contains?: Maybe<String>;
+  auth0Id_starts_with?: Maybe<String>;
+  auth0Id_not_starts_with?: Maybe<String>;
+  auth0Id_ends_with?: Maybe<String>;
+  auth0Id_not_ends_with?: Maybe<String>;
+  AND?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
+  OR?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
+  NOT?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
+}
+
+export interface UserUpdateManyWithWhereNestedInput {
+  where: UserScalarWhereInput;
+  data: UserUpdateManyDataInput;
+}
+
+export interface UserUpdateManyDataInput {
+  firstName?: Maybe<String>;
+  lastName?: Maybe<String>;
+  auth0Id?: Maybe<String>;
+}
+
+export interface EventUpsertWithWhereUniqueWithoutCreatorInput {
   where: EventWhereUniqueInput;
-  update: EventUpdateWithoutAdminsDataInput;
-  create: EventCreateWithoutAdminsInput;
+  update: EventUpdateWithoutCreatorDataInput;
+  create: EventCreateWithoutCreatorInput;
 }
 
 export interface EventScalarWhereInput {
@@ -2183,89 +2401,21 @@ export interface UserUpsertWithWhereUniqueWithoutRsvpsInput {
   create: UserCreateWithoutRsvpsInput;
 }
 
-export interface UserScalarWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  firstName?: Maybe<String>;
-  firstName_not?: Maybe<String>;
-  firstName_in?: Maybe<String[] | String>;
-  firstName_not_in?: Maybe<String[] | String>;
-  firstName_lt?: Maybe<String>;
-  firstName_lte?: Maybe<String>;
-  firstName_gt?: Maybe<String>;
-  firstName_gte?: Maybe<String>;
-  firstName_contains?: Maybe<String>;
-  firstName_not_contains?: Maybe<String>;
-  firstName_starts_with?: Maybe<String>;
-  firstName_not_starts_with?: Maybe<String>;
-  firstName_ends_with?: Maybe<String>;
-  firstName_not_ends_with?: Maybe<String>;
-  lastName?: Maybe<String>;
-  lastName_not?: Maybe<String>;
-  lastName_in?: Maybe<String[] | String>;
-  lastName_not_in?: Maybe<String[] | String>;
-  lastName_lt?: Maybe<String>;
-  lastName_lte?: Maybe<String>;
-  lastName_gt?: Maybe<String>;
-  lastName_gte?: Maybe<String>;
-  lastName_contains?: Maybe<String>;
-  lastName_not_contains?: Maybe<String>;
-  lastName_starts_with?: Maybe<String>;
-  lastName_not_starts_with?: Maybe<String>;
-  lastName_ends_with?: Maybe<String>;
-  lastName_not_ends_with?: Maybe<String>;
-  auth0Id?: Maybe<String>;
-  auth0Id_not?: Maybe<String>;
-  auth0Id_in?: Maybe<String[] | String>;
-  auth0Id_not_in?: Maybe<String[] | String>;
-  auth0Id_lt?: Maybe<String>;
-  auth0Id_lte?: Maybe<String>;
-  auth0Id_gt?: Maybe<String>;
-  auth0Id_gte?: Maybe<String>;
-  auth0Id_contains?: Maybe<String>;
-  auth0Id_not_contains?: Maybe<String>;
-  auth0Id_starts_with?: Maybe<String>;
-  auth0Id_not_starts_with?: Maybe<String>;
-  auth0Id_ends_with?: Maybe<String>;
-  auth0Id_not_ends_with?: Maybe<String>;
-  AND?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
-  OR?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
-  NOT?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
-}
-
-export interface UserUpdateManyWithWhereNestedInput {
-  where: UserScalarWhereInput;
-  data: UserUpdateManyDataInput;
-}
-
-export interface UserUpdateManyDataInput {
-  firstName?: Maybe<String>;
-  lastName?: Maybe<String>;
-  auth0Id?: Maybe<String>;
-}
-
-export interface EventUpsertWithWhereUniqueWithoutCreatorInput {
+export interface EventUpsertWithWhereUniqueWithoutAdminsInput {
   where: EventWhereUniqueInput;
-  update: EventUpdateWithoutCreatorDataInput;
-  create: EventCreateWithoutCreatorInput;
+  update: EventUpdateWithoutAdminsDataInput;
+  create: EventCreateWithoutAdminsInput;
 }
 
-export interface UserUpsertWithWhereUniqueWithoutAdminForInput {
-  where: UserWhereUniqueInput;
-  update: UserUpdateWithoutAdminForDataInput;
-  create: UserCreateWithoutAdminForInput;
+export interface UserUpsertWithoutCreatedImagesInput {
+  update: UserUpdateWithoutCreatedImagesDataInput;
+  create: UserCreateWithoutCreatedImagesInput;
+}
+
+export interface EventImageUpsertWithWhereUniqueWithoutEventInput {
+  where: EventImageWhereUniqueInput;
+  update: EventImageUpdateWithoutEventDataInput;
+  create: EventImageCreateWithoutEventInput;
 }
 
 export interface EventUpsertWithWhereUniqueWithoutRsvpsInput {
@@ -2289,59 +2439,15 @@ export interface EventUpdateManyMutationInput {
 
 export interface EventImageCreateInput {
   id?: Maybe<ID_Input>;
-  event: EventCreateOneWithoutEventImagesInput;
+  creator: UserCreateOneWithoutCreatedImagesInput;
+  event?: Maybe<EventCreateOneWithoutEventImagesInput>;
   url: String;
 }
 
-export interface EventCreateOneWithoutEventImagesInput {
-  create?: Maybe<EventCreateWithoutEventImagesInput>;
-  connect?: Maybe<EventWhereUniqueInput>;
-}
-
-export interface EventCreateWithoutEventImagesInput {
-  id?: Maybe<ID_Input>;
-  title: String;
-  description: String;
-  start: DateTimeInput;
-  end: DateTimeInput;
-  ticketType: TicketType;
-  creator?: Maybe<UserCreateOneWithoutCreatedEventsInput>;
-  rsvps?: Maybe<UserCreateManyWithoutRsvpsInput>;
-  urls?: Maybe<EventUrlCreateManyWithoutEventInput>;
-  admins?: Maybe<UserCreateManyWithoutAdminForInput>;
-  locations?: Maybe<LocationCreateManyWithoutEventInput>;
-  tags?: Maybe<TagCreateManyWithoutEventsInput>;
-}
-
 export interface EventImageUpdateInput {
-  event?: Maybe<EventUpdateOneRequiredWithoutEventImagesInput>;
+  creator?: Maybe<UserUpdateOneRequiredWithoutCreatedImagesInput>;
+  event?: Maybe<EventUpdateOneWithoutEventImagesInput>;
   url?: Maybe<String>;
-}
-
-export interface EventUpdateOneRequiredWithoutEventImagesInput {
-  create?: Maybe<EventCreateWithoutEventImagesInput>;
-  update?: Maybe<EventUpdateWithoutEventImagesDataInput>;
-  upsert?: Maybe<EventUpsertWithoutEventImagesInput>;
-  connect?: Maybe<EventWhereUniqueInput>;
-}
-
-export interface EventUpdateWithoutEventImagesDataInput {
-  title?: Maybe<String>;
-  description?: Maybe<String>;
-  start?: Maybe<DateTimeInput>;
-  end?: Maybe<DateTimeInput>;
-  ticketType?: Maybe<TicketType>;
-  creator?: Maybe<UserUpdateOneWithoutCreatedEventsInput>;
-  rsvps?: Maybe<UserUpdateManyWithoutRsvpsInput>;
-  urls?: Maybe<EventUrlUpdateManyWithoutEventInput>;
-  admins?: Maybe<UserUpdateManyWithoutAdminForInput>;
-  locations?: Maybe<LocationUpdateManyWithoutEventInput>;
-  tags?: Maybe<TagUpdateManyWithoutEventsInput>;
-}
-
-export interface EventUpsertWithoutEventImagesInput {
-  update: EventUpdateWithoutEventImagesDataInput;
-  create: EventCreateWithoutEventImagesInput;
 }
 
 export interface EventImageUpdateManyMutationInput {
@@ -2637,6 +2743,7 @@ export interface UserCreateWithoutOrganizationsInput {
   rsvps?: Maybe<EventCreateManyWithoutRsvpsInput>;
   adminFor?: Maybe<EventCreateManyWithoutAdminsInput>;
   createdEvents?: Maybe<EventCreateManyWithoutCreatorInput>;
+  createdImages?: Maybe<EventImageCreateManyWithoutCreatorInput>;
 }
 
 export interface OrganizationUpdateInput {
@@ -2681,6 +2788,7 @@ export interface UserUpdateWithoutOrganizationsDataInput {
   rsvps?: Maybe<EventUpdateManyWithoutRsvpsInput>;
   adminFor?: Maybe<EventUpdateManyWithoutAdminsInput>;
   createdEvents?: Maybe<EventUpdateManyWithoutCreatorInput>;
+  createdImages?: Maybe<EventImageUpdateManyWithoutCreatorInput>;
 }
 
 export interface UserUpsertWithWhereUniqueWithoutOrganizationsInput {
@@ -2785,6 +2893,7 @@ export interface UserCreateInput {
   rsvps?: Maybe<EventCreateManyWithoutRsvpsInput>;
   adminFor?: Maybe<EventCreateManyWithoutAdminsInput>;
   createdEvents?: Maybe<EventCreateManyWithoutCreatorInput>;
+  createdImages?: Maybe<EventImageCreateManyWithoutCreatorInput>;
 }
 
 export interface UserUpdateInput {
@@ -2795,6 +2904,7 @@ export interface UserUpdateInput {
   rsvps?: Maybe<EventUpdateManyWithoutRsvpsInput>;
   adminFor?: Maybe<EventUpdateManyWithoutAdminsInput>;
   createdEvents?: Maybe<EventUpdateManyWithoutCreatorInput>;
+  createdImages?: Maybe<EventImageUpdateManyWithoutCreatorInput>;
 }
 
 export interface UserUpdateManyMutationInput {
@@ -3185,6 +3295,15 @@ export interface UserPromise extends Promise<User>, Fragmentable {
     first?: Int;
     last?: Int;
   }) => T;
+  createdImages: <T = FragmentableArray<EventImage>>(args?: {
+    where?: EventImageWhereInput;
+    orderBy?: EventImageOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface UserSubscription
@@ -3230,6 +3349,15 @@ export interface UserSubscription
     first?: Int;
     last?: Int;
   }) => T;
+  createdImages: <T = Promise<AsyncIterator<EventImageSubscription>>>(args?: {
+    where?: EventImageWhereInput;
+    orderBy?: EventImageOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface UserNullablePromise
@@ -3269,6 +3397,15 @@ export interface UserNullablePromise
   createdEvents: <T = FragmentableArray<Event>>(args?: {
     where?: EventWhereInput;
     orderBy?: EventOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  createdImages: <T = FragmentableArray<EventImage>>(args?: {
+    where?: EventImageWhereInput;
+    orderBy?: EventImageOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
@@ -3349,6 +3486,7 @@ export interface EventImage {
 
 export interface EventImagePromise extends Promise<EventImage>, Fragmentable {
   id: () => Promise<ID_Output>;
+  creator: <T = UserPromise>() => T;
   event: <T = EventPromise>() => T;
   url: () => Promise<String>;
 }
@@ -3357,6 +3495,7 @@ export interface EventImageSubscription
   extends Promise<AsyncIterator<EventImage>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
+  creator: <T = UserSubscription>() => T;
   event: <T = EventSubscription>() => T;
   url: () => Promise<AsyncIterator<String>>;
 }
@@ -3365,6 +3504,7 @@ export interface EventImageNullablePromise
   extends Promise<EventImage | null>,
     Fragmentable {
   id: () => Promise<ID_Output>;
+  creator: <T = UserPromise>() => T;
   event: <T = EventPromise>() => T;
   url: () => Promise<String>;
 }

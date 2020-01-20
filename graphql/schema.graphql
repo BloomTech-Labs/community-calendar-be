@@ -39,13 +39,13 @@ input EventUpdateInput {
   description: String
   start: DateTime
   end: DateTime
-  creator: UserUpdateOneWithoutCreatedEventsInput
-  eventImages: EventImageUpdateManyWithoutEventInput
+  eventImages: [EventCreateImageInput!]
   rsvps: UserUpdateManyWithoutRsvpsInput
   urls: EventUrlUpdateManyWithoutEventInput
   admins: UserUpdateManyWithoutAdminForInput
   locations: LocationUpdateManyWithoutEventInput
   tags: [EventCreateTagInput!]
+  ticketType: TicketType!
 }
 
 input EventIdInput {

@@ -7,6 +7,7 @@ type User {
   rsvps: [Event!] @relation(name: "UsersRsvps", link: TABLE)
   adminFor: [Event!] @relation(name: "EventsAdmins", link: TABLE)
   createdEvents: [Event!] @relation(name: "CreatedEvents", link: TABLE, onDelete: CASCADE)
+  createdImages: [EventImage!] @relation(name: "CreatedImages", link: TABLE, onDelete: CASCADE)
 }
 
 type Event {
@@ -33,7 +34,8 @@ type Tag{
 
 type EventImage {
   id: ID! @id
-  event: Event! @relation(name: "EventsImages")
+  creator: User! @relation(name: "CreatedImages")
+  event: Event @relation(name: "EventsImages")
   url: String!
 }
 
