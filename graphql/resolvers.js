@@ -171,7 +171,7 @@ const resolvers = {
           const tagsInDb = await prisma.tags(); //array of tags objects from the database
           const tags = await prisma.event({id: where.id}).tags();
           const imagesInDb = await prisma.event({id: where.id}).eventImages(); //array of event's image objects from the database
-          console.log('tags', !!data.tags);
+          
           if (data.tags && data.tags.length) {
             const disconnect = tags.length && tagsToRemove(tags, data.tags);
             data.tags = convertTags(data.tags, tagsInDb);
