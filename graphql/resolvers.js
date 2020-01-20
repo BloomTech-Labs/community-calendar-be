@@ -171,7 +171,7 @@ const resolvers = {
           const tagsInDb = await prisma.tags(); //array of tags objects from the database
           const tags = await prisma.event({id: where.id}).tags();
           const imagesInDb = await prisma.event({id: where.id}).eventImages(); //array of event's image objects from the database
-
+          
           if (data.tags && data.tags.length) {
             const disconnect = tags.length && tagsToRemove(tags, data.tags);
             data.tags = convertTags(data.tags, tagsInDb);
@@ -181,6 +181,7 @@ const resolvers = {
             }
           } else if (data.tags && tags && tags.length) {
             data.tags.disconnect = tags.map(tag => ({id: tag.id}));
+            console.log('hello', data.tags.disconnect);
           }
 
           if (eventImages && eventImages.length && imagesInDb.length) {
@@ -216,7 +217,7 @@ const resolvers = {
               ),
             };
           }
-
+          data.tags = {...data.tags};
           return await prisma.updateEvent({where, data});
         } else {
           throw 'You do not have permission to update this event.';
