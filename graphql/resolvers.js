@@ -171,18 +171,18 @@ const resolvers = {
           const tags = await prisma.event({id: where.id}).tags();
           const imagesInDb = await prisma.event({id: where.id}).eventImages(); //array of event's image objects from the database
 
-          if (data.tags.length) {
+          if (data.tags && data.tags.length) {
             const disconnect = tags.length && tagsToRemove(tags, data.tags);
             data.tags = convertTags(data.tags, tagsInDb);
 
-            if (disconnect.length) {
+            if (disconnect && disconnect.length) {
               data.tags.disconnect = disconnect;
             }
           } else if (data.tags && tags && tags.length) {
             data.tags.disconnect = tags.map(tag => ({id: tag.id}));
           }
 
-          if (data.eventImages.length && imagesInDb.length) {
+          if (data.eventImages && data.eventImages.length && imagesInDb.length) {
             const disconnect = imagesToRemove(imagesInDb, data.eventImages);
             if (disconnect.length) {
               data.eventImages.disconnect = disconnect;
