@@ -32,32 +32,31 @@ const resolvers = {
       {prisma},
     ) => {
       // find the locations for the current event
-      const eventLocations = await prisma.event({id: parent.id}).locations();
-
+      const location = await prisma.event({id: parent.id}).locations();
       if (userLatitude && userLongitude) {
-        eventLocations.forEach(location => {
-          if (location.latitude && location.longitude) {
-            let userLocation = point([userLongitude, userLatitude]);
-            let eventLocation = point([location.longitude, location.latitude]);
-            let options = {units: distanceUnit};
+        if (location[0].latitude && location[0].longitude) {
+          let userLocation = point([userLongitude, userLatitude]);
+          let eventLocation = point([
+            location[0].longitude,
+            location[0].latitude,
+          ]);
+          let options = {units: distanceUnit};
 
-            // calculate and add distanceFromUser property to each location object
-            location.distanceFromUser = distance(
-              userLocation,
-              eventLocation,
-              options,
-            );
+          // calculate and add distanceFromUser property to each location object
+          location[0].distanceFromUser = distance(
+            userLocation,
+            eventLocation,
+            options,
+          );
 
-            // add distanceUnit to each location object, which will default to miles
-            location.distanceUnit = distanceUnit;
-          } else {
-            location.distanceFromUser = null;
-            location.distanceUnit = null;
-          }
-        });
+          // add distanceUnit to each location object, which will default to miles
+          location[0].distanceUnit = distanceUnit;
+        } else {
+          location[0].distanceFromUser = null;
+          location[0].distanceUnit = null;
+        }
       }
-
-      return eventLocations;
+      return location;
     },
     tags: (parent, args, {prisma}) => prisma.event({id: parent.id}).tags(),
   },
