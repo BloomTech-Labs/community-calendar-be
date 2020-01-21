@@ -87,12 +87,12 @@ const resolvers = {
     //check if auth0 id is in the database
     checkId: async (root, args, {prisma}, info) => {
       const {
-        data: {auth0ID},
+        data: {auth0Id},
       } = args;
       try {
         const user = await prisma.users({
           where: {
-            auth0ID: auth0ID,
+            auth0Id
           },
         });
         return user;
