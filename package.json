@@ -37,7 +37,8 @@
     "testPathIgnorePatterns": [
       "/node_modules/",
       "/__testutils",
-      "/__testQuery"
+      "/__testQuery",
+      "/__testMutation"
     ]
   }
 }
