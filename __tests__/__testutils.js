@@ -1,6 +1,3 @@
-// ensure SECRET and PRISMA are defined for the TEST ENVIRONMENT in the root .env file
-require('dotenv').config();
-
 // import ApolloServer and important pieces for creating test server
 const {
   typeDefs,
@@ -9,24 +6,33 @@ const {
 } = require('../index.js');
 
 // import Prisma to connect to test database
-const {Prisma} = require('../prisma-client/generated/prisma-client');
+const {Prisma} = require('../prisma-client/testing/generated/prisma-client');
 
-/**
- * Integration testing utils
- */
+// Create a server instance that can be used for each test suite
 const constructTestServer = () => {
+
+  // construct prismaServer outside of ApolloServer 
+  const prismaServer = new Prisma({
+    endpoint: "http://localhost:4466",
+  });
+
+  // construct apollo server
   const server = new ApolloServer({
     typeDefs,
     resolvers,
     context: ({req}) => ({
-      prisma: new Prisma({
-        secret: process.env.SECRET,
-        endpoint: process.env.PRISMA,
-      }),
+      prisma: prismaServer,
       req,
-      // decoded token id will be different each time database reseeded
-      decodedToken: async () => ({'http://cc_id': 'ck4d7l0vj00ff0784lxympdik'})
+      // query prisma directly for seeded user's unique id
+      // necesarry to mock auth0 functionality
+      decodedToken: async () => {
+        const user = await prismaServer.users().then(res => {
+          return res[0]
+        })
+        return {'http://cc_id': user.id}
+      }
     }),
+
   });
 
   return { server };
