@@ -1,5 +1,13 @@
 const gql = require('graphql-tag');
 
+const GET_TEST_USER = gql`
+  query {
+    users {
+      id
+    }
+  }
+`
+
 const EVENT_DETAIL_DATA = gql`
   fragment EventDetail on Event {
     id
@@ -12,8 +20,8 @@ const EVENT_DETAIL_DATA = gql`
 
 const ADDRESS_DETAIL_DATA = gql`
   fragment AddressDetail on Location {
-    street_address
-    street_address_2
+    streetAddress
+    streetAddress2
     city
     zipcode
     state
@@ -50,7 +58,7 @@ const GET_EVENTS = gql`
         name
         ...AddressDetail
       }
-      event_images {
+      eventImages {
         url
       }
       tags {
@@ -74,7 +82,7 @@ const GET_EVENT_BY_ID = gql`
         name
         ...AddressDetail
       }
-      event_images {
+      eventImages {
         url
       }
       tags{
@@ -87,6 +95,7 @@ const GET_EVENT_BY_ID = gql`
 `
 
 module.exports = {
+    GET_TEST_USER,
     GET_EVENTS,
     GET_EVENT_BY_ID,
     EVENT_DETAIL_DATA,
