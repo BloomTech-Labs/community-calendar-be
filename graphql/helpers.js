@@ -8,6 +8,15 @@ module.exports = {
     cloudinaryImage
 }
 
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+//convert array of tags to match prisma tags schema
+//connect tags that are already in the database
+//create new tags
 function convertTags(dataTags, tagsInDb) {
     const foundTags = [];
     const newTags = [];
@@ -33,6 +42,7 @@ function convertTags(dataTags, tagsInDb) {
     return tags;
 }
 
+//compare tags tied to an event with new tags array to determine which ones to disconnect from the event
 function tagsToRemove(oldTags, newTags) {
    return newTags ? oldTags.filter(oldTag => {
           return newTags.findIndex(newTag => {
@@ -42,6 +52,10 @@ function tagsToRemove(oldTags, newTags) {
       .map(tag => ({id: tag.id})) : oldTags.map(tag => ({id: tag.id}));
 }
 
+
+//convert array of image urls to match prisma create/update images schema
+//connect images that are already in the database
+//create new images
 function convertImages(dataImages, imagesInDb, creatorId) {
   const foundImages = [];
   const newImages = [];
@@ -69,6 +83,7 @@ function convertImages(dataImages, imagesInDb, creatorId) {
   return images;
 }
 
+//compare image urls tied to an event with new images array to determine which ones to disconnect from the event
 function imagesToRemove(oldImages, newImages) {
   return newImages ? oldImages.filter(oldImage => {
          return newImages.findIndex(newImage => {
@@ -78,7 +93,7 @@ function imagesToRemove(oldImages, newImages) {
      .map(image => ({id: image.id})) : oldImages.map(image => ({id: image.id}));
 }
 
-//cloudinary image upload
+//cloudinary image upload helper
 async function cloudinaryImage(file){
   const {createReadStream} = file;
   try {

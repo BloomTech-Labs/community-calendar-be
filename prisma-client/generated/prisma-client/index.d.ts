@@ -421,8 +421,6 @@ export interface ClientConstructor<T> {
  * Types
  */
 
-export type TicketType = "PAID" | "FREE";
-
 export type OrganizationOrderByInput =
   | "id_ASC"
   | "id_DESC"
@@ -456,8 +454,8 @@ export type EventOrderByInput =
   | "start_DESC"
   | "end_ASC"
   | "end_DESC"
-  | "ticketType_ASC"
-  | "ticketType_DESC";
+  | "ticketPrice_ASC"
+  | "ticketPrice_DESC";
 
 export type EventImageOrderByInput =
   | "id_ASC"
@@ -722,10 +720,14 @@ export interface EventWhereInput {
   end_lte?: Maybe<DateTimeInput>;
   end_gt?: Maybe<DateTimeInput>;
   end_gte?: Maybe<DateTimeInput>;
-  ticketType?: Maybe<TicketType>;
-  ticketType_not?: Maybe<TicketType>;
-  ticketType_in?: Maybe<TicketType[] | TicketType>;
-  ticketType_not_in?: Maybe<TicketType[] | TicketType>;
+  ticketPrice?: Maybe<Float>;
+  ticketPrice_not?: Maybe<Float>;
+  ticketPrice_in?: Maybe<Float[] | Float>;
+  ticketPrice_not_in?: Maybe<Float[] | Float>;
+  ticketPrice_lt?: Maybe<Float>;
+  ticketPrice_lte?: Maybe<Float>;
+  ticketPrice_gt?: Maybe<Float>;
+  ticketPrice_gte?: Maybe<Float>;
   creator?: Maybe<UserWhereInput>;
   eventImages_every?: Maybe<EventImageWhereInput>;
   eventImages_some?: Maybe<EventImageWhereInput>;
@@ -1073,7 +1075,7 @@ export interface EventCreateInput {
   description: String;
   start: DateTimeInput;
   end: DateTimeInput;
-  ticketType: TicketType;
+  ticketPrice: Float;
   creator?: Maybe<UserCreateOneWithoutCreatedEventsInput>;
   eventImages?: Maybe<EventImageCreateManyWithoutEventInput>;
   rsvps?: Maybe<UserCreateManyWithoutRsvpsInput>;
@@ -1127,7 +1129,7 @@ export interface EventCreateWithoutRsvpsInput {
   description: String;
   start: DateTimeInput;
   end: DateTimeInput;
-  ticketType: TicketType;
+  ticketPrice: Float;
   creator?: Maybe<UserCreateOneWithoutCreatedEventsInput>;
   eventImages?: Maybe<EventImageCreateManyWithoutEventInput>;
   urls?: Maybe<EventUrlCreateManyWithoutEventInput>;
@@ -1178,7 +1180,7 @@ export interface EventCreateWithoutAdminsInput {
   description: String;
   start: DateTimeInput;
   end: DateTimeInput;
-  ticketType: TicketType;
+  ticketPrice: Float;
   creator?: Maybe<UserCreateOneWithoutCreatedEventsInput>;
   eventImages?: Maybe<EventImageCreateManyWithoutEventInput>;
   rsvps?: Maybe<UserCreateManyWithoutRsvpsInput>;
@@ -1216,7 +1218,7 @@ export interface EventCreateWithoutCreatorInput {
   description: String;
   start: DateTimeInput;
   end: DateTimeInput;
-  ticketType: TicketType;
+  ticketPrice: Float;
   eventImages?: Maybe<EventImageCreateManyWithoutEventInput>;
   rsvps?: Maybe<UserCreateManyWithoutRsvpsInput>;
   urls?: Maybe<EventUrlCreateManyWithoutEventInput>;
@@ -1279,7 +1281,7 @@ export interface EventCreateWithoutEventImagesInput {
   description: String;
   start: DateTimeInput;
   end: DateTimeInput;
-  ticketType: TicketType;
+  ticketPrice: Float;
   creator?: Maybe<UserCreateOneWithoutCreatedEventsInput>;
   rsvps?: Maybe<UserCreateManyWithoutRsvpsInput>;
   urls?: Maybe<EventUrlCreateManyWithoutEventInput>;
@@ -1343,7 +1345,7 @@ export interface EventUpdateInput {
   description?: Maybe<String>;
   start?: Maybe<DateTimeInput>;
   end?: Maybe<DateTimeInput>;
-  ticketType?: Maybe<TicketType>;
+  ticketPrice?: Maybe<Float>;
   creator?: Maybe<UserUpdateOneWithoutCreatedEventsInput>;
   eventImages?: Maybe<EventImageUpdateManyWithoutEventInput>;
   rsvps?: Maybe<UserUpdateManyWithoutRsvpsInput>;
@@ -1537,7 +1539,7 @@ export interface EventUpdateWithoutRsvpsDataInput {
   description?: Maybe<String>;
   start?: Maybe<DateTimeInput>;
   end?: Maybe<DateTimeInput>;
-  ticketType?: Maybe<TicketType>;
+  ticketPrice?: Maybe<Float>;
   creator?: Maybe<UserUpdateOneWithoutCreatedEventsInput>;
   eventImages?: Maybe<EventImageUpdateManyWithoutEventInput>;
   urls?: Maybe<EventUrlUpdateManyWithoutEventInput>;
@@ -1628,7 +1630,7 @@ export interface EventUpdateWithoutAdminsDataInput {
   description?: Maybe<String>;
   start?: Maybe<DateTimeInput>;
   end?: Maybe<DateTimeInput>;
-  ticketType?: Maybe<TicketType>;
+  ticketPrice?: Maybe<Float>;
   creator?: Maybe<UserUpdateOneWithoutCreatedEventsInput>;
   eventImages?: Maybe<EventImageUpdateManyWithoutEventInput>;
   rsvps?: Maybe<UserUpdateManyWithoutRsvpsInput>;
@@ -1704,7 +1706,7 @@ export interface EventUpdateWithoutCreatorDataInput {
   description?: Maybe<String>;
   start?: Maybe<DateTimeInput>;
   end?: Maybe<DateTimeInput>;
-  ticketType?: Maybe<TicketType>;
+  ticketPrice?: Maybe<Float>;
   eventImages?: Maybe<EventImageUpdateManyWithoutEventInput>;
   rsvps?: Maybe<UserUpdateManyWithoutRsvpsInput>;
   urls?: Maybe<EventUrlUpdateManyWithoutEventInput>;
@@ -1878,7 +1880,7 @@ export interface EventUpdateWithoutEventImagesDataInput {
   description?: Maybe<String>;
   start?: Maybe<DateTimeInput>;
   end?: Maybe<DateTimeInput>;
-  ticketType?: Maybe<TicketType>;
+  ticketPrice?: Maybe<Float>;
   creator?: Maybe<UserUpdateOneWithoutCreatedEventsInput>;
   rsvps?: Maybe<UserUpdateManyWithoutRsvpsInput>;
   urls?: Maybe<EventUrlUpdateManyWithoutEventInput>;
@@ -2373,10 +2375,14 @@ export interface EventScalarWhereInput {
   end_lte?: Maybe<DateTimeInput>;
   end_gt?: Maybe<DateTimeInput>;
   end_gte?: Maybe<DateTimeInput>;
-  ticketType?: Maybe<TicketType>;
-  ticketType_not?: Maybe<TicketType>;
-  ticketType_in?: Maybe<TicketType[] | TicketType>;
-  ticketType_not_in?: Maybe<TicketType[] | TicketType>;
+  ticketPrice?: Maybe<Float>;
+  ticketPrice_not?: Maybe<Float>;
+  ticketPrice_in?: Maybe<Float[] | Float>;
+  ticketPrice_not_in?: Maybe<Float[] | Float>;
+  ticketPrice_lt?: Maybe<Float>;
+  ticketPrice_lte?: Maybe<Float>;
+  ticketPrice_gt?: Maybe<Float>;
+  ticketPrice_gte?: Maybe<Float>;
   AND?: Maybe<EventScalarWhereInput[] | EventScalarWhereInput>;
   OR?: Maybe<EventScalarWhereInput[] | EventScalarWhereInput>;
   NOT?: Maybe<EventScalarWhereInput[] | EventScalarWhereInput>;
@@ -2392,7 +2398,7 @@ export interface EventUpdateManyDataInput {
   description?: Maybe<String>;
   start?: Maybe<DateTimeInput>;
   end?: Maybe<DateTimeInput>;
-  ticketType?: Maybe<TicketType>;
+  ticketPrice?: Maybe<Float>;
 }
 
 export interface UserUpsertWithWhereUniqueWithoutRsvpsInput {
@@ -2434,7 +2440,7 @@ export interface EventUpdateManyMutationInput {
   description?: Maybe<String>;
   start?: Maybe<DateTimeInput>;
   end?: Maybe<DateTimeInput>;
-  ticketType?: Maybe<TicketType>;
+  ticketPrice?: Maybe<Float>;
 }
 
 export interface EventImageCreateInput {
@@ -2471,7 +2477,7 @@ export interface EventCreateWithoutUrlsInput {
   description: String;
   start: DateTimeInput;
   end: DateTimeInput;
-  ticketType: TicketType;
+  ticketPrice: Float;
   creator?: Maybe<UserCreateOneWithoutCreatedEventsInput>;
   eventImages?: Maybe<EventImageCreateManyWithoutEventInput>;
   rsvps?: Maybe<UserCreateManyWithoutRsvpsInput>;
@@ -2497,7 +2503,7 @@ export interface EventUpdateWithoutUrlsDataInput {
   description?: Maybe<String>;
   start?: Maybe<DateTimeInput>;
   end?: Maybe<DateTimeInput>;
-  ticketType?: Maybe<TicketType>;
+  ticketPrice?: Maybe<Float>;
   creator?: Maybe<UserUpdateOneWithoutCreatedEventsInput>;
   eventImages?: Maybe<EventImageUpdateManyWithoutEventInput>;
   rsvps?: Maybe<UserUpdateManyWithoutRsvpsInput>;
@@ -2563,7 +2569,7 @@ export interface EventCreateWithoutLocationsInput {
   description: String;
   start: DateTimeInput;
   end: DateTimeInput;
-  ticketType: TicketType;
+  ticketPrice: Float;
   creator?: Maybe<UserCreateOneWithoutCreatedEventsInput>;
   eventImages?: Maybe<EventImageCreateManyWithoutEventInput>;
   rsvps?: Maybe<UserCreateManyWithoutRsvpsInput>;
@@ -2641,7 +2647,7 @@ export interface EventUpdateWithoutLocationsDataInput {
   description?: Maybe<String>;
   start?: Maybe<DateTimeInput>;
   end?: Maybe<DateTimeInput>;
-  ticketType?: Maybe<TicketType>;
+  ticketPrice?: Maybe<Float>;
   creator?: Maybe<UserUpdateOneWithoutCreatedEventsInput>;
   eventImages?: Maybe<EventImageUpdateManyWithoutEventInput>;
   rsvps?: Maybe<UserUpdateManyWithoutRsvpsInput>;
@@ -2821,7 +2827,7 @@ export interface EventCreateWithoutTagsInput {
   description: String;
   start: DateTimeInput;
   end: DateTimeInput;
-  ticketType: TicketType;
+  ticketPrice: Float;
   creator?: Maybe<UserCreateOneWithoutCreatedEventsInput>;
   eventImages?: Maybe<EventImageCreateManyWithoutEventInput>;
   rsvps?: Maybe<UserCreateManyWithoutRsvpsInput>;
@@ -2865,7 +2871,7 @@ export interface EventUpdateWithoutTagsDataInput {
   description?: Maybe<String>;
   start?: Maybe<DateTimeInput>;
   end?: Maybe<DateTimeInput>;
-  ticketType?: Maybe<TicketType>;
+  ticketPrice?: Maybe<Float>;
   creator?: Maybe<UserUpdateOneWithoutCreatedEventsInput>;
   eventImages?: Maybe<EventImageUpdateManyWithoutEventInput>;
   rsvps?: Maybe<UserUpdateManyWithoutRsvpsInput>;
@@ -3048,7 +3054,7 @@ export interface Event {
   description: String;
   start: DateTimeOutput;
   end: DateTimeOutput;
-  ticketType: TicketType;
+  ticketPrice: Float;
 }
 
 export interface EventPromise extends Promise<Event>, Fragmentable {
@@ -3057,7 +3063,7 @@ export interface EventPromise extends Promise<Event>, Fragmentable {
   description: () => Promise<String>;
   start: () => Promise<DateTimeOutput>;
   end: () => Promise<DateTimeOutput>;
-  ticketType: () => Promise<TicketType>;
+  ticketPrice: () => Promise<Float>;
   creator: <T = UserPromise>() => T;
   eventImages: <T = FragmentableArray<EventImage>>(args?: {
     where?: EventImageWhereInput;
@@ -3123,7 +3129,7 @@ export interface EventSubscription
   description: () => Promise<AsyncIterator<String>>;
   start: () => Promise<AsyncIterator<DateTimeOutput>>;
   end: () => Promise<AsyncIterator<DateTimeOutput>>;
-  ticketType: () => Promise<AsyncIterator<TicketType>>;
+  ticketPrice: () => Promise<AsyncIterator<Float>>;
   creator: <T = UserSubscription>() => T;
   eventImages: <T = Promise<AsyncIterator<EventImageSubscription>>>(args?: {
     where?: EventImageWhereInput;
@@ -3189,7 +3195,7 @@ export interface EventNullablePromise
   description: () => Promise<String>;
   start: () => Promise<DateTimeOutput>;
   end: () => Promise<DateTimeOutput>;
-  ticketType: () => Promise<TicketType>;
+  ticketPrice: () => Promise<Float>;
   creator: <T = UserPromise>() => T;
   eventImages: <T = FragmentableArray<EventImage>>(args?: {
     where?: EventImageWhereInput;
@@ -4288,7 +4294,7 @@ export interface EventPreviousValues {
   description: String;
   start: DateTimeOutput;
   end: DateTimeOutput;
-  ticketType: TicketType;
+  ticketPrice: Float;
 }
 
 export interface EventPreviousValuesPromise
@@ -4299,7 +4305,7 @@ export interface EventPreviousValuesPromise
   description: () => Promise<String>;
   start: () => Promise<DateTimeOutput>;
   end: () => Promise<DateTimeOutput>;
-  ticketType: () => Promise<TicketType>;
+  ticketPrice: () => Promise<Float>;
 }
 
 export interface EventPreviousValuesSubscription
@@ -4310,7 +4316,7 @@ export interface EventPreviousValuesSubscription
   description: () => Promise<AsyncIterator<String>>;
   start: () => Promise<AsyncIterator<DateTimeOutput>>;
   end: () => Promise<AsyncIterator<DateTimeOutput>>;
-  ticketType: () => Promise<AsyncIterator<TicketType>>;
+  ticketPrice: () => Promise<AsyncIterator<Float>>;
 }
 
 export interface EventImageSubscriptionPayload {
@@ -4720,14 +4726,14 @@ DateTime scalar output type, which is always a string
 export type DateTimeOutput = string;
 
 /*
-The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
-*/
-export type Int = number;
-
-/*
 The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](https://en.wikipedia.org/wiki/IEEE_floating_point).
 */
 export type Float = number;
+
+/*
+The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
+*/
+export type Int = number;
 
 /*
 The `Boolean` scalar type represents `true` or `false`.
@@ -4775,10 +4781,6 @@ export const models: Model[] = [
   },
   {
     name: "GeoJson",
-    embedded: false
-  },
-  {
-    name: "TicketType",
     embedded: false
   }
 ];
