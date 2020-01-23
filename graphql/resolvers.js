@@ -1,6 +1,5 @@
 const distance = require('@turf/distance').default;
 const {point} = require('@turf/helpers');
-const cloudinary = require('cloudinary').v2;
 
 const {
   convertTags,
@@ -9,12 +8,6 @@ const {
   imagesToRemove,
   cloudinaryImage,
 } = require('./helpers');
-
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
 
 const resolvers = {
   //prisma bindings, otherwise fields would be null in queries/mutations
@@ -34,12 +27,13 @@ const resolvers = {
       // find the locations for the current event
       const eventLocations = await prisma.event({id: parent.id}).locations();
 
+      //if userLatitude and userLongitude are passed as arguments for location
       if (userLatitude && userLongitude) {
         eventLocations.forEach(location => {
           if (location.latitude && location.longitude) {
             let userLocation = point([userLongitude, userLatitude]);
             let eventLocation = point([location.longitude, location.latitude]);
-            let options = {units: distanceUnit};
+            let options = {units: distanceUnit};    //default miles
 
             // calculate and add distanceFromUser property to each location object
             location.distanceFromUser = distance(
@@ -133,10 +127,12 @@ const resolvers = {
         const imagesInDb = await prisma.eventImages(); //array of image objects from the database
 
         if (data.tags) {
+          //convert tags array to match prisma schema
           data.tags = convertTags(data.tags, tagsInDb);
         }
 
         if (images && images.length) {
+          //upload images to cloudinary and get secured image urls
           const promises = args.images.map(file => file.then(cloudinaryImage));
           const urls = await Promise.all(promises);
           const newImages = urls.map(url => ({url}));
@@ -146,6 +142,7 @@ const resolvers = {
               : newImages;
         }
 
+        //convert images array to match prisma schema and add user as the image creator
         if (data.eventImages) {
           data.eventImages = convertImages(
             data.eventImages,
@@ -153,6 +150,7 @@ const resolvers = {
             decoded['http://cc_id'],
           );
         }
+        //set user as event creator
         data['creator'] = {connect: {id: decoded['http://cc_id']}};
         return await prisma.createEvent(data);
       } catch (err) {
@@ -167,12 +165,14 @@ const resolvers = {
         const [{creator}] = await prisma.events({where}).creator();
         const decoded = await decodedToken(req); //requires token to be sent in authorization headers
 
+        //check if user created the event
         if (decoded['http://cc_id'] === creator.id) {
           //check if logged in user created the event
           const tagsInDb = await prisma.tags(); //array of tags objects from the database
           const tags = await prisma.event({id: where.id}).tags();
           const imagesInDb = await prisma.event({id: where.id}).eventImages(); //array of event's image objects from the database
 
+          //determine which tags to remove/connect/disconnect and convert tags array to match prisma schema
           if (data.tags && data.tags.length) {
             const disconnect = tags.length && tagsToRemove(tags, data.tags);
             data.tags = convertTags(data.tags, tagsInDb);
@@ -185,6 +185,7 @@ const resolvers = {
             console.log('hello', data.tags.disconnect);
           }
 
+          //determine which images to remove/connect/disconnect and convert images array to match prisma schema
           if (eventImages && eventImages.length && imagesInDb.length) {
             const disconnect = imagesToRemove(imagesInDb, eventImages);
             if (disconnect.length) {
@@ -196,6 +197,7 @@ const resolvers = {
             }));
           }
 
+          //upload image files to cloudinary and get secured urls
           if (images && images.length) {
             const promises = args.images.map(file =>
               file.then(cloudinaryImage),
@@ -211,6 +213,7 @@ const resolvers = {
           if (eventImages) {
             data.eventImages = {
               disconnect: data.eventImages.disconnect,
+              //convert images to match prisma schema
               ...convertImages(
                 eventImages,
                 imagesInDb,
@@ -218,6 +221,7 @@ const resolvers = {
               ),
             };
           }
+          //converts tags array to an object
           data.tags = {...data.tags};
           return await prisma.updateEvent({where, data});
         } else {
@@ -233,8 +237,8 @@ const resolvers = {
       try {
         const [{creator}] = await prisma.events({where}).creator();
         const decoded = await decodedToken(req); //requires token to be sent in authorization headers
+        //check if logged in user created the event
         if (decoded['http://cc_id'] === creator.id) {
-          //check if logged in user created the event
           return await prisma.deleteEvent(where);
         } else {
           throw 'You do not have permission to delete this event.';
@@ -249,6 +253,7 @@ const resolvers = {
         const {
           event: {id},
         } = args;
+        //connects the event to the user. rsvps will also show when querying event
         return prisma.updateUser({
           where: {id: decoded['http://cc_id']},
           data: {rsvps: {connect: {id}}},
@@ -263,6 +268,7 @@ const resolvers = {
         const {
           event: {id},
         } = args;
+        //removes event connection from user
         return prisma.updateUser({
           where: {id: decoded['http://cc_id']},
           data: {rsvps: {disconnect: {id}}},

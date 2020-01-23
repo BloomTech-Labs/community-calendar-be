@@ -5,6 +5,7 @@ const client = jwksClient({
   jwksUri: `https://${process.env.AUTH0_DOMAIN}/.well-known/jwks.json`,
 });
 
+//get RSA signing key from auth0 endpoint
 function getKey(header, cb) {
   client.getSigningKey(header.kid, function(err, key) {
     let signingKey = key.publicKey || key.rsaPublicKey;
@@ -18,7 +19,9 @@ const options = {
   algorithms: ['RS256'],
 };
 
+
 const decodedToken = (req, requireAuth = true) => {
+  //remove Bearer from authorization header
   const token =
     req.headers.authorization &&
     req.headers.authorization.replace('Bearer ', '');
@@ -27,7 +30,7 @@ const decodedToken = (req, requireAuth = true) => {
     throw 'No token was found in header.';
   }
 
-  //verify token with auth0
+  //verify token with auth0 and decode the token
   const decoded = new Promise((resolve, reject) => {
     jwt.verify(token, getKey, options, (err, decoded) => {
       if (err) {
@@ -38,6 +41,7 @@ const decodedToken = (req, requireAuth = true) => {
     });
   });
 
+  //return decoded token if token was valid
   if (token) {
     return decoded;
   }

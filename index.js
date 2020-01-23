@@ -1,4 +1,4 @@
-process.env.NODE_ENV === 'development' && require('dotenv').config();
+process.env.NODE_ENV === 'development' && require('dotenv').config(); //only use dotenv in development environment
 
 const {ApolloServer} = require('apollo-server');
 const {Prisma} = require('./prisma-client/generated/prisma-client');
@@ -26,9 +26,8 @@ const server = new ApolloServer({
       endpoint: process.env.PRISMA,
     }),
 
-    //necessary to get user token from header
-    req,
-    decodedToken,
+    req, //necessary to get user token from header
+    decodedToken, //used to verify token with auth0 and returns decoded token
     // Ticket Master API key
     tm_key: process.env.TICKET_MASTER,
   }),

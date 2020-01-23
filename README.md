@@ -63,12 +63,15 @@ In order for the app to function correctly, the user must set up their own envir
 
 Create a .env file that includes the following:
   
- _ AUTH0_DOMAIN - Auth0 domain for your Auth0 application.
-_ API_AUDIENCE - Auth0 API Audience
-_ NODE_ENV - Not required for local environment. Set to "production" when deploying.
-_ PRISMA - This is the endpoint for the Prisma deployment.
-_ SECRET - Secret used for Prisma service.
-_ TICKET_MASTER - Ticket Master API key.
+ - AUTH0_DOMAIN - Auth0 domain for your Auth0 application.
+- API_AUDIENCE - Auth0 API Audience
+- NODE_ENV - Not required for local environment. Set to "production" when deploying.
+- PRISMA - This is the endpoint for the Prisma deployment.
+- SECRET - Secret used for Prisma service.
+- TICKET_MASTER - Ticket Master API key.
+- CLOUDINARY_CLOUD_NAME - cloudinary cloud name
+- CLOUDINARY_API_KEY - cloudinary API key
+- CLOUDINARY_API_SECRET - cloudinary API secret
 
 ## Endpoints
 
@@ -81,6 +84,7 @@ The GraphQL API consists of a single endpoint. In addition to the built-in docum
 | `users (...)`   | authenticated users | Returns a list of users.              |
 | `checkId (...)` | auth0 service       | Verify whether a user already exists. |
 | `events (...)`  | all users           | Returns a list of community events.   |
+| `tags (...)`    | all users           | Returns a list of tags in the database|
 
 ### Mutations
 
@@ -89,7 +93,9 @@ The GraphQL API consists of a single endpoint. In addition to the built-in docum
 | `addUser (...)`     | auth0 service       | Creates a newly registered user.            |
 | `addEvent (...)`    | authenticated users | Create a community event.                   |
 | `updateEvent (...)` | event creator       | Update community event details.             |
-| `deleteEvent (...)` | event creator       | Remove a community event from the databsae. |
+| `deleteEvent (...)` | event creator       | Remove a community event from the database. |
+| `addRsvp (...)`     | authenticated users | Connect a user to event RSVPs               |
+| `removeRSVP (...)`  | authenticated users | Remove a user from event RSVPs              |
 
 ## Contributing
 

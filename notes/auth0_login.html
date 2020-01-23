@@ -1,3 +1,4 @@
+<!--- This code is entered in auth0 dashboard under Universal Login -> Login -> Custom Login Form -->
 <!DOCTYPE html>
 <html>
   <head>
@@ -474,6 +475,8 @@
           var last_name = document.getElementById('last_name').value;
           const passwordValidation = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/;
 
+
+
           if(!first_name.length && !last_name.length){
             displayErrorSignup({description: 'firstlast'})
             return;
@@ -610,11 +613,12 @@
                 err.description = 'Please enter a password.';
                 break;
               case 'passwordformat':
-                err.description = 'Password must be at least 8 characters and contain 1 lowercase, uppercase, number, and special character.';
+                err.description = 'Password must be at least 8 characters and contain 1 lowercase, uppercase, number, and a special character.';
                 break;
             }  
           }
 
+          console.log(err.description);
           var errorMessage = document.getElementById('error-message-signup');
           errorMessage.classList.remove('hide');
           errorMessage.innerHTML = err.description;
@@ -633,7 +637,7 @@
             err.description = 'Please enter password.'
               break;
           }
-
+          console.log(err.description);
           var errorMessage = document.getElementById('error-message-signin');
           errorMessage.classList.remove('hide');
           errorMessage.innerHTML = err.description;
