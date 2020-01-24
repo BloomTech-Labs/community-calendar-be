@@ -10,12 +10,12 @@ const {Prisma} = require('../prisma-client/testing/generated/prisma-client');
 
 // Create a prisma instance that can be used for directly modifying the
 // prisma ORM in tests
-const constructPrismaConnection = () => {
+const prismaConnection = () => {
   const prismaServer = new Prisma({
     endpoint: "http://localhost:4466",
   });
 
-  return {prismaServer}
+  return prismaServer
 }
 
 // Create a server instance that can be used for each test suite
@@ -34,10 +34,10 @@ const constructTestServer = (testUserId = null) => {
 
   });
 
-  return { server };
+  return server;
 };
 
 module.exports = {
   constructTestServer,
-  constructPrismaConnection
+  prismaConnection
 };
