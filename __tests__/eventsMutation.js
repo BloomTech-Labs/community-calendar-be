@@ -25,8 +25,9 @@ afterAll(() => {
 
 // tests
 describe('Mutations', () => {
-
+  // scope `newEvent` and `newEvent` to be used in all tests
   let newEventId
+  let newEvent
 
   it('creates an event', async () => {
     const server = constructTestServer(testUser.id);
@@ -37,7 +38,7 @@ describe('Mutations', () => {
       mutation: ADD_EVENT,
       variables: { 
         title: "test event title", 
-        description: 'test event description',
+        description: "test event description",
         start: "2020-01-22T17:00:00.000Z",
         end: "2020-01-22T19:30:00.000Z",
         placeName: "test placeName",
@@ -48,14 +49,14 @@ describe('Mutations', () => {
         ticketType: "FREE"
       }
     });
-    newEventId = addEventRes.data.addEvent.id
+    newEventId = addEventRes.data.addEvent.id;
     expect(newEventId).toBeDefined();
 
     // query server to ensure new event is there
     const getEventRes = await query({
       query: GET_EVENT_BY_ID, 
       variables: {id: newEventId}});
-    const newEvent = getEventRes.data.events[0];
+    newEvent = getEventRes.data.events[0];
     expect(newEvent).toBeDefined();
     expect(newEvent.title).toContain("test event title");
   });
@@ -68,7 +69,8 @@ describe('Mutations', () => {
     const updateEventRes = await mutate({
       mutation: UPDATE_EVENT,
       variables: {
-        id: newEventId,
+        eventId: newEventId,
+        locationId: newEvent.locations[0].id,
         title: "updated test event title", 
         description: 'updated test event description',
         start: "2020-01-22T17:00:00.000Z",
@@ -102,11 +104,11 @@ describe('Mutations', () => {
     const updateEventRes = await mutate({
       mutation: UPDATE_EVENT,
       variables: {
-        id: newEventId,
+        eventId: newEventId,
+        locationId: newEvent.locations[0].id,
         title: "updated test event title"
        }
     });
-    console.log(updateEventRes)
     const updatedEventId = updateEventRes.data.updateEvent.id
     expect(updatedEventId).toBeDefined();
     expect(updatedEventId).toBe(newEventId);
@@ -117,7 +119,12 @@ describe('Mutations', () => {
       variables: {id: newEventId}});
     const updatedEvent = getEventRes.data.events[0];
     expect(updatedEvent).toBeDefined();
+    // test new values
     expect(updatedEvent.title).toContain("updated test event title");
+    // test retention of original values
+    expect(updatedEvent.description).toContain("test event description")
+    expect(updatedEvent.locations[0].city).toContain("test city")
+
   });
 
   it('deletes an event', async () => {

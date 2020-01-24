@@ -52,28 +52,29 @@ const ADD_EVENT = gql`
 
 const UPDATE_EVENT = gql`
     mutation UpdateEvent(
-      # need ID to update a specific event
-      $id: ID!,
+      # need event and location ID to update a specific event
+      $eventId: ID!,
+      $locationId: ID!,
       # same variables as AddEvent
-      $title: String!,
-      $description: String!,
-      $start: DateTime!
-      $end: DateTime!,
+      $title: String,
+      $description: String,
+      $start: DateTime,
+      $end: DateTime,
       $eventImages: [EventCreateImageInput!],
-      $placeName: String!,
-      $streetAddress: String!,
+      $placeName: String,
+      $streetAddress: String,
       $streetAddress2: String = null,
-      $city: String!,
-      $state: String!,
-      $zipcode: Int!,
+      $city: String,
+      $state: String,
+      $zipcode: Int,
       $latitude: Float = null,
       $longitude: Float = null,
       $tags: [EventCreateTagInput!],
-      $ticketType: TicketType!,
+      $ticketType: TicketType,
       $images: [Upload!]
     ){
       updateEvent(
-        where: { id: $id },
+        where: { id: $eventId },
         data: {
           title: $title
           description: $description
@@ -81,8 +82,9 @@ const UPDATE_EVENT = gql`
           end: $end
           eventImages: $eventImages
           locations: {
-            create: [
-              {
+            update: {
+              where: { id: $locationId }
+              data: {
                 name: $placeName
                 streetAddress: $streetAddress
                 streetAddress2: $streetAddress2
@@ -91,8 +93,8 @@ const UPDATE_EVENT = gql`
                 state: $state
                 latitude: $latitude
                 longitude: $longitude
-              }
-            ]
+                }
+            }
           }
           tags: $tags
           ticketType: $ticketType

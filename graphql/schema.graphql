@@ -45,7 +45,7 @@ input EventUpdateInput {
   admins: UserUpdateManyWithoutAdminForInput
   locations: LocationUpdateManyWithoutEventInput
   tags: [EventCreateTagInput!]
-  ticketType: TicketType!
+  ticketType: TicketType
 }
 
 input EventIdInput {
