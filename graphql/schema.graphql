@@ -31,7 +31,7 @@ input EventCreateInput {
   admin: UserCreateManyWithoutAdminForInput
   locations: LocationCreateManyWithoutEventInput
   tags: [EventCreateTagInput!]
-  ticketType: TicketType!
+  ticketPrice: Float!
 }
 
 input EventUpdateInput {
@@ -45,7 +45,7 @@ input EventUpdateInput {
   admins: UserUpdateManyWithoutAdminForInput
   locations: LocationUpdateManyWithoutEventInput
   tags: [EventCreateTagInput!]
-  ticketType: TicketType
+  ticketPrice: Float
 }
 
 input EventIdInput {
@@ -75,7 +75,7 @@ type Event {
   start: DateTime!
   end: DateTime!
   creator: User
-  ticketType: TicketType!
+  ticketPrice: Float!
   eventImages(where: EventImageWhereInput, orderBy: EventImageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [EventImage!]
   rsvps(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   urls(where: EventUrlWhereInput, orderBy: EventUrlOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [EventUrl!]
