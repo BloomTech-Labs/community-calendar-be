@@ -1,9 +1,10 @@
 const gql = require('graphql-tag');
 
 const GET_TEST_USER = gql`
-  query {
-    users {
+  query  {
+    users{
       id
+      auth0Id
     }
   }
 `
