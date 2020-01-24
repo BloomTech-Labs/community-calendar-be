@@ -21,7 +21,7 @@ const testEvent = {
   city: "test city",
   state: "MI",
   zipcode: 48202,
-  ticketType: "FREE"
+  ticketPrice: 0.00
 }
 let testEventId
 

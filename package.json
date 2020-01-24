@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "cross-env NODE_ENV=development nodemon index.js",
-    "test": "prisma reset -p prisma-client/testing/prisma.yml -f && prisma deploy -p prisma-client/testing/prisma.yml && cross-env NODE_ENV=testing jest --watch"
+    "test": "prisma reset -p prisma-client/testing/prisma.yml -f && prisma generate -p prisma-client/testing/prisma.yml && prisma deploy -p prisma-client/testing/prisma.yml && cross-env NODE_ENV=testing jest --watch"
   },
   "keywords": [],
   "author": "",

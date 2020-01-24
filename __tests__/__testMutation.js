@@ -16,7 +16,7 @@ const ADD_EVENT = gql`
       $latitude: Float = null,
       $longitude: Float = null,
       $tags: [EventCreateTagInput!],
-      $ticketType: TicketType!
+      $ticketPrice: Float!
       $images: [Upload!]
     ){
       addEvent(
@@ -41,7 +41,7 @@ const ADD_EVENT = gql`
             ]
           }
           tags: $tags
-          ticketType: $ticketType
+          ticketPrice: $ticketPrice
         },
         images: $images
       ) {
@@ -70,7 +70,7 @@ const UPDATE_EVENT = gql`
       $latitude: Float = null,
       $longitude: Float = null,
       $tags: [EventCreateTagInput!],
-      $ticketType: TicketType,
+      $ticketPrice: Float,
       $images: [Upload!]
     ){
       updateEvent(
@@ -97,7 +97,7 @@ const UPDATE_EVENT = gql`
             }
           }
           tags: $tags
-          ticketType: $ticketType
+          ticketPrice: $ticketPrice
         },
         images: $images
       ) {

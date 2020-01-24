@@ -46,7 +46,7 @@ describe('Mutations', () => {
         city: "test city",
         state: "MI",
         zipcode: 48202,
-        ticketType: "FREE"
+        ticketPrice: 0.00
       }
     });
     newEventId = addEventRes.data.addEvent.id;
@@ -80,7 +80,7 @@ describe('Mutations', () => {
         city: "test city",
         state: "MI",
         zipcode: 48202,
-        ticketType: "FREE"
+        ticketPrice: 0.00
        }
     });
     const updatedEventId = updateEventRes.data.updateEvent.id

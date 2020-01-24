@@ -10,6 +10,6 @@ seed:
 
 generate:
   - generator: javascript-client
-    output: ./generated/prisma-client/
+    output: ./prisma-client/testing/generated/prisma-client/
   - generator: graphql-schema
-    output: ./generated/prisma.graphql
+    output: ./prisma-client/testing//generated/prisma.graphql
