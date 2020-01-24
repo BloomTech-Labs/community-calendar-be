@@ -8,29 +8,28 @@ const {
 // import Prisma to connect to test database
 const {Prisma} = require('../prisma-client/testing/generated/prisma-client');
 
-// Create a server instance that can be used for each test suite
-const constructTestServer = () => {
-
-  // construct prismaServer outside of ApolloServer 
+// Create a prisma instance that can be used for directly modifying the
+// prisma ORM in tests
+const constructPrismaConnection = () => {
   const prismaServer = new Prisma({
     endpoint: "http://localhost:4466",
   });
 
-  // construct apollo server
+  return {prismaServer}
+}
+
+// Create a server instance that can be used for each test suite
+const constructTestServer = (testUserId = null) => {
+
   const server = new ApolloServer({
     typeDefs,
     resolvers,
     context: ({req}) => ({
-      prisma: prismaServer,
+      prisma: new Prisma({
+        endpoint: "http://localhost:4466",
+      }),
       req,
-      // query prisma directly for seeded user's unique id
-      // necesarry to mock auth0 functionality
-      decodedToken: async () => {
-        const user = await prismaServer.users().then(res => {
-          return res[0]
-        })
-        return {'http://cc_id': user.id}
-      }
+      decodedToken: {'http://cc_id': testUserId}
     }),
 
   });
@@ -39,5 +38,6 @@ const constructTestServer = () => {
 };
 
 module.exports = {
-  constructTestServer
+  constructTestServer,
+  constructPrismaConnection
 };
