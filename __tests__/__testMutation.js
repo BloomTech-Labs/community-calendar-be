@@ -69,7 +69,7 @@ const UPDATE_EVENT = gql`
       $latitude: Float = null,
       $longitude: Float = null,
       $tags: [EventCreateTagInput!],
-      $ticketType: TicketType!
+      $ticketType: TicketType!,
       $images: [Upload!]
     ){
       updateEvent(
