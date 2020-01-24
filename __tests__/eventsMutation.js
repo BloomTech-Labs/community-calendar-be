@@ -77,7 +77,7 @@ describe('Mutations', () => {
         end: "2020-01-22T19:30:00.000Z",
         placeName: "test placeName",
         streetAddress: "test streetAddress",
-        city: "test city",
+        city: "updated test city",
         state: "MI",
         zipcode: 48202,
         ticketPrice: 0.00
@@ -94,6 +94,7 @@ describe('Mutations', () => {
     const updatedEvent = getEventRes.data.events[0];
     expect(updatedEvent).toBeDefined();
     expect(updatedEvent.title).toContain("updated test event title");
+    expect(updatedEvent.locations[0].city).toContain("updated test city");
   });
 
   it('updates an event when only one value provided', async () => {
@@ -123,9 +124,37 @@ describe('Mutations', () => {
     expect(updatedEvent.title).toContain("updated test event title");
     // test retention of original values
     expect(updatedEvent.description).toContain("test event description")
-    expect(updatedEvent.locations[0].city).toContain("test city")
+    expect(updatedEvent.locations[0].name).toContain("test placeName")
 
   });
+
+  it('updates an event when only one vaue for the location provided', async () => {
+    const server = constructTestServer(testUser.id);
+    const {query, mutate} = createTestClient(server);
+
+    // test UPDATE_EVENT
+    const updateEventRes = await mutate({
+      mutation: UPDATE_EVENT,
+      variables: {
+        eventId: newEventId,
+        locationId: newEvent.locations[0].id,
+        placeName: "updated test placeName"
+       }
+    });
+    const updatedEventId = updateEventRes.data.updateEvent.id
+    expect(updatedEventId).toBeDefined();
+    expect(updatedEventId).toBe(newEventId);
+
+    // query server to ensure changes are recorded
+    const getEventRes = await query({
+      query: GET_EVENT_BY_ID, 
+      variables: {id: newEventId}});
+    const updatedEvent = getEventRes.data.events[0];
+    expect(updatedEvent).toBeDefined();
+    // test new values
+    expect(updatedEvent.locations[0].name).toContain("updated test placeName");
+  });
+
 
   it('deletes an event', async () => {
     const server = constructTestServer(testUser.id);
