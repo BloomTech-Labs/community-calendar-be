@@ -11,7 +11,7 @@ const {GET_TEST_USER} = require('./__testQuery.js');
 
 // setup and teardown
 // randomly generate a unique id for the testUser
-const testUserId = uuidv4();
+const testAuth0Id = uuidv4();
 
 // tests
 describe('it creates and deletes test users', () => {
@@ -19,17 +19,16 @@ describe('it creates and deletes test users', () => {
   // test creates a user
   it('creates a user', async () => {
     // directly add a testUser to the prisma ORM
-    const testUser = await prismaConnection().createUser({auth0Id: testUserId})
+    const testUser = await prismaConnection().createUser({auth0Id: testAuth0Id})
     expect(testUser).toBeDefined();
-    expect(testUser.auth0Id).toBe(testUserId);
+    expect(testUser.auth0Id).toBe(testAuth0Id);
   });
 
   it('deletes a user', async () => {
     // directly delete testUser from the prisma ORM
-    const deleteRes = await prismaConnection().deleteUser({auth0Id: testUserId});
+    const deleteRes = await prismaConnection().deleteUser({auth0Id: testAuth0Id});
     expect(deleteRes).toBeDefined();
-    expect(deleteRes.auth0Id).toBe(testUserId);
-    
+    expect(deleteRes.auth0Id).toBe(testAuth0Id);
   });
 
   it('ensures user has been deleted', async () => {
@@ -38,10 +37,8 @@ describe('it creates and deletes test users', () => {
     const {query} = createTestClient(server);
     const {data} = await query({
       query: GET_TEST_USER,
-      variables: {auth0Id: testUserId}
+      variables: {auth0Id: testAuth0Id}
     });
-    // let testUser = testUserQueryRes.data.users[0];
-    console.log(data)
     expect(data.users).toBeDefined();
     expect(data.users.length).toBe(0);
   })
