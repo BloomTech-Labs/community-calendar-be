@@ -1,3 +1,7 @@
+# docker-compose file for launching a testing version of your prisma service
+# requires Docker Desktop https://www.docker.com/products/docker-desktop
+# requires that you have pulled the corresponding prisma and postgres-db images from docker hub
+# see README section on `Testing` for more information
 version: '3'
 services:
   prisma:
