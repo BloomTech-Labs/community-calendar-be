@@ -7,7 +7,7 @@ const basicDefs = importSchema('./graphql/schema.graphql');
 const mutationDefs = gql`
     extend type Mutation {
         addEvent(data: EventCreateInput!, images: [Upload!]): Event!
-        updateEvent(data: EventUpdateInput!, where: EventWhereUniqueInput!, images: [Upload!]): Event
+        updateEvent(data: EventUpdateInput, where: EventWhereUniqueInput!, images: [Upload!]): Event
     }
 `
 //combine imported schema and extended schema
