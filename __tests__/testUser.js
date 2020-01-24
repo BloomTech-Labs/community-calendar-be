@@ -1,8 +1,5 @@
 //test utilities
-const {
-  prismaConnection,
-  constructTestServer,
-} = require('./__testutils');
+const {prismaConnection, constructTestServer} = require('./__testutils');
 const {createTestClient} = require('apollo-server-testing');
 const uuidv4 = require('uuid/v4');
 

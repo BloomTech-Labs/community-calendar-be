@@ -1,20 +1,11 @@
 // test utilities
-const {
-  prismaConnection,
-  constructTestServer,
-} = require('./__testutils');
+const {prismaConnection, constructTestServer} = require('./__testutils');
 const {createTestClient} = require('apollo-server-testing');
 const uuidv4 = require('uuid/v4');
 
 // graphql
-const {
-  GET_EVENT_BY_ID
-} = require('./__testQuery.js');
-const {
-    ADD_EVENT,
-    UPDATE_EVENT,
-    DELETE_EVENT
-} = require('./__testMutation.js');
+const {GET_EVENT_BY_ID} = require('./__testQuery.js');
+const {ADD_EVENT, UPDATE_EVENT, DELETE_EVENT} = require('./__testMutation.js');
 
 // setup and teardown
 // randomly generate a unique id for the testUser
@@ -55,7 +46,7 @@ describe('Mutations', () => {
         state: "MI",
         zipcode: 48202,
         ticketType: "FREE"
-       }
+      }
     });
     newEventId = addEventRes.data.addEvent.id
     expect(newEventId).toBeDefined();
@@ -137,18 +128,15 @@ describe('Mutations', () => {
     // test DELETE_EVENT
     const deleteEventRes = await mutate({
       mutation: DELETE_EVENT,
-      variables: { 
-        id: newEventId
-      }
+      variables: {id: newEventId}
     }); 
+    expect(deleteEventRes).toBeDefined();
 
+    // get test event by id to ensure it's deleted
     const getEventRes = await query({
       query: GET_EVENT_BY_ID, 
       variables: {id: newEventId}});
-
     const deletedEvent = getEventRes.data.events[0];
-
     expect(deletedEvent).not.toBeDefined();
-    
   })
 });
