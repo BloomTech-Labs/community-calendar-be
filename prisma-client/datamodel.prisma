@@ -24,6 +24,7 @@ type Event {
   admins: [User!] @relation(name: "EventsAdmins")
   locations: [Location!] @relation(name: "EventsLocations", link: TABLE, onDelete: CASCADE)
   tags: [Tag!] @relation(name: "EventTags", link: TABLE )
+  index: String!
 }
 
 type Tag{

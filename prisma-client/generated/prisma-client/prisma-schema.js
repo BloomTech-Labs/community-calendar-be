@@ -59,6 +59,7 @@ type Event {
   admins(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   locations(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Location!]
   tags(where: TagWhereInput, orderBy: TagOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Tag!]
+  index: String!
 }
 
 type EventConnection {
@@ -81,6 +82,7 @@ input EventCreateInput {
   admins: UserCreateManyWithoutAdminForInput
   locations: LocationCreateManyWithoutEventInput
   tags: TagCreateManyWithoutEventsInput
+  index: String!
 }
 
 input EventCreateManyWithoutAdminsInput {
@@ -131,6 +133,7 @@ input EventCreateWithoutAdminsInput {
   urls: EventUrlCreateManyWithoutEventInput
   locations: LocationCreateManyWithoutEventInput
   tags: TagCreateManyWithoutEventsInput
+  index: String!
 }
 
 input EventCreateWithoutCreatorInput {
@@ -146,6 +149,7 @@ input EventCreateWithoutCreatorInput {
   admins: UserCreateManyWithoutAdminForInput
   locations: LocationCreateManyWithoutEventInput
   tags: TagCreateManyWithoutEventsInput
+  index: String!
 }
 
 input EventCreateWithoutEventImagesInput {
@@ -161,6 +165,7 @@ input EventCreateWithoutEventImagesInput {
   admins: UserCreateManyWithoutAdminForInput
   locations: LocationCreateManyWithoutEventInput
   tags: TagCreateManyWithoutEventsInput
+  index: String!
 }
 
 input EventCreateWithoutLocationsInput {
@@ -176,6 +181,7 @@ input EventCreateWithoutLocationsInput {
   urls: EventUrlCreateManyWithoutEventInput
   admins: UserCreateManyWithoutAdminForInput
   tags: TagCreateManyWithoutEventsInput
+  index: String!
 }
 
 input EventCreateWithoutRsvpsInput {
@@ -191,6 +197,7 @@ input EventCreateWithoutRsvpsInput {
   admins: UserCreateManyWithoutAdminForInput
   locations: LocationCreateManyWithoutEventInput
   tags: TagCreateManyWithoutEventsInput
+  index: String!
 }
 
 input EventCreateWithoutTagsInput {
@@ -206,6 +213,7 @@ input EventCreateWithoutTagsInput {
   urls: EventUrlCreateManyWithoutEventInput
   admins: UserCreateManyWithoutAdminForInput
   locations: LocationCreateManyWithoutEventInput
+  index: String!
 }
 
 input EventCreateWithoutUrlsInput {
@@ -221,6 +229,7 @@ input EventCreateWithoutUrlsInput {
   admins: UserCreateManyWithoutAdminForInput
   locations: LocationCreateManyWithoutEventInput
   tags: TagCreateManyWithoutEventsInput
+  index: String!
 }
 
 type EventEdge {
@@ -467,6 +476,8 @@ enum EventOrderByInput {
   end_DESC
   ticketPrice_ASC
   ticketPrice_DESC
+  index_ASC
+  index_DESC
 }
 
 type EventPreviousValues {
@@ -476,6 +487,7 @@ type EventPreviousValues {
   start: DateTime!
   end: DateTime!
   ticketPrice: Float!
+  index: String!
 }
 
 input EventScalarWhereInput {
@@ -545,6 +557,20 @@ input EventScalarWhereInput {
   ticketPrice_lte: Float
   ticketPrice_gt: Float
   ticketPrice_gte: Float
+  index: String
+  index_not: String
+  index_in: [String!]
+  index_not_in: [String!]
+  index_lt: String
+  index_lte: String
+  index_gt: String
+  index_gte: String
+  index_contains: String
+  index_not_contains: String
+  index_starts_with: String
+  index_not_starts_with: String
+  index_ends_with: String
+  index_not_ends_with: String
   AND: [EventScalarWhereInput!]
   OR: [EventScalarWhereInput!]
   NOT: [EventScalarWhereInput!]
@@ -581,6 +607,7 @@ input EventUpdateInput {
   admins: UserUpdateManyWithoutAdminForInput
   locations: LocationUpdateManyWithoutEventInput
   tags: TagUpdateManyWithoutEventsInput
+  index: String
 }
 
 input EventUpdateManyDataInput {
@@ -589,6 +616,7 @@ input EventUpdateManyDataInput {
   start: DateTime
   end: DateTime
   ticketPrice: Float
+  index: String
 }
 
 input EventUpdateManyMutationInput {
@@ -597,6 +625,7 @@ input EventUpdateManyMutationInput {
   start: DateTime
   end: DateTime
   ticketPrice: Float
+  index: String
 }
 
 input EventUpdateManyWithoutAdminsInput {
@@ -687,6 +716,7 @@ input EventUpdateWithoutAdminsDataInput {
   urls: EventUrlUpdateManyWithoutEventInput
   locations: LocationUpdateManyWithoutEventInput
   tags: TagUpdateManyWithoutEventsInput
+  index: String
 }
 
 input EventUpdateWithoutCreatorDataInput {
@@ -701,6 +731,7 @@ input EventUpdateWithoutCreatorDataInput {
   admins: UserUpdateManyWithoutAdminForInput
   locations: LocationUpdateManyWithoutEventInput
   tags: TagUpdateManyWithoutEventsInput
+  index: String
 }
 
 input EventUpdateWithoutEventImagesDataInput {
@@ -715,6 +746,7 @@ input EventUpdateWithoutEventImagesDataInput {
   admins: UserUpdateManyWithoutAdminForInput
   locations: LocationUpdateManyWithoutEventInput
   tags: TagUpdateManyWithoutEventsInput
+  index: String
 }
 
 input EventUpdateWithoutLocationsDataInput {
@@ -729,6 +761,7 @@ input EventUpdateWithoutLocationsDataInput {
   urls: EventUrlUpdateManyWithoutEventInput
   admins: UserUpdateManyWithoutAdminForInput
   tags: TagUpdateManyWithoutEventsInput
+  index: String
 }
 
 input EventUpdateWithoutRsvpsDataInput {
@@ -743,6 +776,7 @@ input EventUpdateWithoutRsvpsDataInput {
   admins: UserUpdateManyWithoutAdminForInput
   locations: LocationUpdateManyWithoutEventInput
   tags: TagUpdateManyWithoutEventsInput
+  index: String
 }
 
 input EventUpdateWithoutTagsDataInput {
@@ -757,6 +791,7 @@ input EventUpdateWithoutTagsDataInput {
   urls: EventUrlUpdateManyWithoutEventInput
   admins: UserUpdateManyWithoutAdminForInput
   locations: LocationUpdateManyWithoutEventInput
+  index: String
 }
 
 input EventUpdateWithoutUrlsDataInput {
@@ -771,6 +806,7 @@ input EventUpdateWithoutUrlsDataInput {
   admins: UserUpdateManyWithoutAdminForInput
   locations: LocationUpdateManyWithoutEventInput
   tags: TagUpdateManyWithoutEventsInput
+  index: String
 }
 
 input EventUpdateWithWhereUniqueWithoutAdminsInput {
@@ -1099,6 +1135,20 @@ input EventWhereInput {
   tags_every: TagWhereInput
   tags_some: TagWhereInput
   tags_none: TagWhereInput
+  index: String
+  index_not: String
+  index_in: [String!]
+  index_not_in: [String!]
+  index_lt: String
+  index_lte: String
+  index_gt: String
+  index_gte: String
+  index_contains: String
+  index_not_contains: String
+  index_starts_with: String
+  index_not_starts_with: String
+  index_ends_with: String
+  index_not_ends_with: String
   AND: [EventWhereInput!]
   OR: [EventWhereInput!]
   NOT: [EventWhereInput!]

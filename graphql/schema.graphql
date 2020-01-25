@@ -19,6 +19,12 @@ type File {
   encoding: String!
 }
 
+input LocationSearchInput {
+  userLongitude: String!
+  userLatitude: String!
+  radius: Int
+}
+
 input EventCreateInput {
   id: ID
   title: String!
@@ -94,6 +100,7 @@ type Event {
     distanceUnit: String
     ): [Location!]
   tags(where: TagWhereInput, orderBy: TagOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Tag!]
+  index: String!
 }
 
 type Query {
@@ -115,6 +122,7 @@ type Query {
     before: String
     first: Int
     last: Int
+    searchFilters: SearchFilters
   ): [Event!]
   tags(
     where: TagWhereInput
@@ -161,9 +169,28 @@ type Query {
   ): TMResultsAlt
 }
 
+input TicketPriceSearchInput {
+  minPrice: Int
+  maxPrice: Int
+}
+
+input DateRangeSearchInput {
+  start: DateTime!
+  end: DateTime!
+}
+
+input SearchFilters {
+  indexSearch: String
+  locationSearch: LocationSearchInput
+  tagsSearch: [String!]
+  ticketPriceSearch: [TicketPriceSearchInput!]
+  dateRangeSearch: DateRangeSearchInput
+}
+
 type Mutation {
   addUser(data: UserCreateInput!): User!
   deleteEvent(where: EventWhereUniqueInput!): Event
   addRsvp(event: EventIdInput!): User
   removeRsvp(event: EventIdInput!): User
 }
+

@@ -455,7 +455,9 @@ export type EventOrderByInput =
   | "end_ASC"
   | "end_DESC"
   | "ticketPrice_ASC"
-  | "ticketPrice_DESC";
+  | "ticketPrice_DESC"
+  | "index_ASC"
+  | "index_DESC";
 
 export type EventImageOrderByInput =
   | "id_ASC"
@@ -747,6 +749,20 @@ export interface EventWhereInput {
   tags_every?: Maybe<TagWhereInput>;
   tags_some?: Maybe<TagWhereInput>;
   tags_none?: Maybe<TagWhereInput>;
+  index?: Maybe<String>;
+  index_not?: Maybe<String>;
+  index_in?: Maybe<String[] | String>;
+  index_not_in?: Maybe<String[] | String>;
+  index_lt?: Maybe<String>;
+  index_lte?: Maybe<String>;
+  index_gt?: Maybe<String>;
+  index_gte?: Maybe<String>;
+  index_contains?: Maybe<String>;
+  index_not_contains?: Maybe<String>;
+  index_starts_with?: Maybe<String>;
+  index_not_starts_with?: Maybe<String>;
+  index_ends_with?: Maybe<String>;
+  index_not_ends_with?: Maybe<String>;
   AND?: Maybe<EventWhereInput[] | EventWhereInput>;
   OR?: Maybe<EventWhereInput[] | EventWhereInput>;
   NOT?: Maybe<EventWhereInput[] | EventWhereInput>;
@@ -1083,6 +1099,7 @@ export interface EventCreateInput {
   admins?: Maybe<UserCreateManyWithoutAdminForInput>;
   locations?: Maybe<LocationCreateManyWithoutEventInput>;
   tags?: Maybe<TagCreateManyWithoutEventsInput>;
+  index: String;
 }
 
 export interface UserCreateOneWithoutCreatedEventsInput {
@@ -1136,6 +1153,7 @@ export interface EventCreateWithoutRsvpsInput {
   admins?: Maybe<UserCreateManyWithoutAdminForInput>;
   locations?: Maybe<LocationCreateManyWithoutEventInput>;
   tags?: Maybe<TagCreateManyWithoutEventsInput>;
+  index: String;
 }
 
 export interface EventImageCreateManyWithoutEventInput {
@@ -1187,6 +1205,7 @@ export interface EventCreateWithoutAdminsInput {
   urls?: Maybe<EventUrlCreateManyWithoutEventInput>;
   locations?: Maybe<LocationCreateManyWithoutEventInput>;
   tags?: Maybe<TagCreateManyWithoutEventsInput>;
+  index: String;
 }
 
 export interface UserCreateManyWithoutRsvpsInput {
@@ -1225,6 +1244,7 @@ export interface EventCreateWithoutCreatorInput {
   admins?: Maybe<UserCreateManyWithoutAdminForInput>;
   locations?: Maybe<LocationCreateManyWithoutEventInput>;
   tags?: Maybe<TagCreateManyWithoutEventsInput>;
+  index: String;
 }
 
 export interface EventUrlCreateManyWithoutEventInput {
@@ -1288,6 +1308,7 @@ export interface EventCreateWithoutEventImagesInput {
   admins?: Maybe<UserCreateManyWithoutAdminForInput>;
   locations?: Maybe<LocationCreateManyWithoutEventInput>;
   tags?: Maybe<TagCreateManyWithoutEventsInput>;
+  index: String;
 }
 
 export interface LocationCreateManyWithoutEventInput {
@@ -1353,6 +1374,7 @@ export interface EventUpdateInput {
   admins?: Maybe<UserUpdateManyWithoutAdminForInput>;
   locations?: Maybe<LocationUpdateManyWithoutEventInput>;
   tags?: Maybe<TagUpdateManyWithoutEventsInput>;
+  index?: Maybe<String>;
 }
 
 export interface UserUpdateOneWithoutCreatedEventsInput {
@@ -1546,6 +1568,7 @@ export interface EventUpdateWithoutRsvpsDataInput {
   admins?: Maybe<UserUpdateManyWithoutAdminForInput>;
   locations?: Maybe<LocationUpdateManyWithoutEventInput>;
   tags?: Maybe<TagUpdateManyWithoutEventsInput>;
+  index?: Maybe<String>;
 }
 
 export interface EventImageUpdateManyWithoutEventInput {
@@ -1637,6 +1660,7 @@ export interface EventUpdateWithoutAdminsDataInput {
   urls?: Maybe<EventUrlUpdateManyWithoutEventInput>;
   locations?: Maybe<LocationUpdateManyWithoutEventInput>;
   tags?: Maybe<TagUpdateManyWithoutEventsInput>;
+  index?: Maybe<String>;
 }
 
 export interface UserUpdateManyWithoutRsvpsInput {
@@ -1713,6 +1737,7 @@ export interface EventUpdateWithoutCreatorDataInput {
   admins?: Maybe<UserUpdateManyWithoutAdminForInput>;
   locations?: Maybe<LocationUpdateManyWithoutEventInput>;
   tags?: Maybe<TagUpdateManyWithoutEventsInput>;
+  index?: Maybe<String>;
 }
 
 export interface EventUrlUpdateManyWithoutEventInput {
@@ -1887,6 +1912,7 @@ export interface EventUpdateWithoutEventImagesDataInput {
   admins?: Maybe<UserUpdateManyWithoutAdminForInput>;
   locations?: Maybe<LocationUpdateManyWithoutEventInput>;
   tags?: Maybe<TagUpdateManyWithoutEventsInput>;
+  index?: Maybe<String>;
 }
 
 export interface LocationUpdateManyWithoutEventInput {
@@ -2383,6 +2409,20 @@ export interface EventScalarWhereInput {
   ticketPrice_lte?: Maybe<Float>;
   ticketPrice_gt?: Maybe<Float>;
   ticketPrice_gte?: Maybe<Float>;
+  index?: Maybe<String>;
+  index_not?: Maybe<String>;
+  index_in?: Maybe<String[] | String>;
+  index_not_in?: Maybe<String[] | String>;
+  index_lt?: Maybe<String>;
+  index_lte?: Maybe<String>;
+  index_gt?: Maybe<String>;
+  index_gte?: Maybe<String>;
+  index_contains?: Maybe<String>;
+  index_not_contains?: Maybe<String>;
+  index_starts_with?: Maybe<String>;
+  index_not_starts_with?: Maybe<String>;
+  index_ends_with?: Maybe<String>;
+  index_not_ends_with?: Maybe<String>;
   AND?: Maybe<EventScalarWhereInput[] | EventScalarWhereInput>;
   OR?: Maybe<EventScalarWhereInput[] | EventScalarWhereInput>;
   NOT?: Maybe<EventScalarWhereInput[] | EventScalarWhereInput>;
@@ -2399,6 +2439,7 @@ export interface EventUpdateManyDataInput {
   start?: Maybe<DateTimeInput>;
   end?: Maybe<DateTimeInput>;
   ticketPrice?: Maybe<Float>;
+  index?: Maybe<String>;
 }
 
 export interface UserUpsertWithWhereUniqueWithoutRsvpsInput {
@@ -2441,6 +2482,7 @@ export interface EventUpdateManyMutationInput {
   start?: Maybe<DateTimeInput>;
   end?: Maybe<DateTimeInput>;
   ticketPrice?: Maybe<Float>;
+  index?: Maybe<String>;
 }
 
 export interface EventImageCreateInput {
@@ -2484,6 +2526,7 @@ export interface EventCreateWithoutUrlsInput {
   admins?: Maybe<UserCreateManyWithoutAdminForInput>;
   locations?: Maybe<LocationCreateManyWithoutEventInput>;
   tags?: Maybe<TagCreateManyWithoutEventsInput>;
+  index: String;
 }
 
 export interface EventUrlUpdateInput {
@@ -2510,6 +2553,7 @@ export interface EventUpdateWithoutUrlsDataInput {
   admins?: Maybe<UserUpdateManyWithoutAdminForInput>;
   locations?: Maybe<LocationUpdateManyWithoutEventInput>;
   tags?: Maybe<TagUpdateManyWithoutEventsInput>;
+  index?: Maybe<String>;
 }
 
 export interface EventUpsertWithoutUrlsInput {
@@ -2576,6 +2620,7 @@ export interface EventCreateWithoutLocationsInput {
   urls?: Maybe<EventUrlCreateManyWithoutEventInput>;
   admins?: Maybe<UserCreateManyWithoutAdminForInput>;
   tags?: Maybe<TagCreateManyWithoutEventsInput>;
+  index: String;
 }
 
 export interface GeoJsonUpdateInput {
@@ -2654,6 +2699,7 @@ export interface EventUpdateWithoutLocationsDataInput {
   urls?: Maybe<EventUrlUpdateManyWithoutEventInput>;
   admins?: Maybe<UserUpdateManyWithoutAdminForInput>;
   tags?: Maybe<TagUpdateManyWithoutEventsInput>;
+  index?: Maybe<String>;
 }
 
 export interface EventUpsertWithoutLocationsInput {
@@ -2834,6 +2880,7 @@ export interface EventCreateWithoutTagsInput {
   urls?: Maybe<EventUrlCreateManyWithoutEventInput>;
   admins?: Maybe<UserCreateManyWithoutAdminForInput>;
   locations?: Maybe<LocationCreateManyWithoutEventInput>;
+  index: String;
 }
 
 export interface TagUpdateInput {
@@ -2878,6 +2925,7 @@ export interface EventUpdateWithoutTagsDataInput {
   urls?: Maybe<EventUrlUpdateManyWithoutEventInput>;
   admins?: Maybe<UserUpdateManyWithoutAdminForInput>;
   locations?: Maybe<LocationUpdateManyWithoutEventInput>;
+  index?: Maybe<String>;
 }
 
 export interface EventUpsertWithWhereUniqueWithoutTagsInput {
@@ -3055,6 +3103,7 @@ export interface Event {
   start: DateTimeOutput;
   end: DateTimeOutput;
   ticketPrice: Float;
+  index: String;
 }
 
 export interface EventPromise extends Promise<Event>, Fragmentable {
@@ -3119,6 +3168,7 @@ export interface EventPromise extends Promise<Event>, Fragmentable {
     first?: Int;
     last?: Int;
   }) => T;
+  index: () => Promise<String>;
 }
 
 export interface EventSubscription
@@ -3185,6 +3235,7 @@ export interface EventSubscription
     first?: Int;
     last?: Int;
   }) => T;
+  index: () => Promise<AsyncIterator<String>>;
 }
 
 export interface EventNullablePromise
@@ -3251,6 +3302,7 @@ export interface EventNullablePromise
     first?: Int;
     last?: Int;
   }) => T;
+  index: () => Promise<String>;
 }
 
 export interface User {
@@ -4295,6 +4347,7 @@ export interface EventPreviousValues {
   start: DateTimeOutput;
   end: DateTimeOutput;
   ticketPrice: Float;
+  index: String;
 }
 
 export interface EventPreviousValuesPromise
@@ -4306,6 +4359,7 @@ export interface EventPreviousValuesPromise
   start: () => Promise<DateTimeOutput>;
   end: () => Promise<DateTimeOutput>;
   ticketPrice: () => Promise<Float>;
+  index: () => Promise<String>;
 }
 
 export interface EventPreviousValuesSubscription
@@ -4317,6 +4371,7 @@ export interface EventPreviousValuesSubscription
   start: () => Promise<AsyncIterator<DateTimeOutput>>;
   end: () => Promise<AsyncIterator<DateTimeOutput>>;
   ticketPrice: () => Promise<AsyncIterator<Float>>;
+  index: () => Promise<AsyncIterator<String>>;
 }
 
 export interface EventImageSubscriptionPayload {
