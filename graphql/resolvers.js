@@ -109,11 +109,11 @@ const resolvers = {
       const searchArray = [];
 
       const {
-        dateRangeSearch,
-        indexSearch,
-        ticketPriceSearch,
-        locationSearch,
-        tagsSearch,
+        dateRange: dateRangeSearch,
+        index: indexSearch,
+        ticketPrice: ticketPriceSearch,
+        location: locationSearch,
+        tags: tagsSearch,
       } = searchFilters;
 
       //filter events in between start and end date
@@ -166,7 +166,7 @@ const resolvers = {
 
       if (locationSearch) {
         const {userLatitude, userLongitude, radius} = locationSearch;
-        const center = [parseFloat(userLongitude), parseFloat(userLatitude)];
+        const center = [userLongitude, userLatitude];
         //calculate coordinates using calculated diagonal from radius
         //rSC is rotated square coordinates
         const {
@@ -204,6 +204,7 @@ const resolvers = {
             }
           }
         `;
+
         const whereArgs = args.where
           ? [...searchArray, args.where]
           : [...searchArray];
@@ -248,7 +249,7 @@ const resolvers = {
         const whereArgs = args.where
           ? [...searchArray, args.where]
           : [...searchArray];
-        console.log(whereArgs);
+
         return prisma.events({
           ...args,
           where: {AND: whereArgs},

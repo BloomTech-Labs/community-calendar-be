@@ -19,12 +19,6 @@ type File {
   encoding: String!
 }
 
-input LocationSearchInput {
-  userLongitude: String!
-  userLatitude: String!
-  radius: Int
-}
-
 input EventCreateInput {
   id: ID
   title: String!
@@ -56,6 +50,30 @@ input EventUpdateInput {
 
 input EventIdInput {
   id: ID!
+}
+
+input TicketPriceSearchInput {
+  minPrice: Int
+  maxPrice: Int
+}
+
+input DateRangeSearchInput {
+  start: DateTime!
+  end: DateTime!
+}
+
+input LocationSearchInput {
+  userLongitude: Float!
+  userLatitude: Float!
+  radius: Int!
+}
+
+input SearchFilters {
+  index: String
+  location: LocationSearchInput
+  tags: [String!]
+  ticketPrice: [TicketPriceSearchInput!]
+  dateRange: DateRangeSearchInput
 }
 
 type Location {
@@ -167,24 +185,6 @@ type Query {
     stateCode: String
     postalCode: String
   ): TMResultsAlt
-}
-
-input TicketPriceSearchInput {
-  minPrice: Int
-  maxPrice: Int
-}
-
-input DateRangeSearchInput {
-  start: DateTime!
-  end: DateTime!
-}
-
-input SearchFilters {
-  indexSearch: String
-  locationSearch: LocationSearchInput
-  tagsSearch: [String!]
-  ticketPriceSearch: [TicketPriceSearchInput!]
-  dateRangeSearch: DateRangeSearchInput
 }
 
 type Mutation {
