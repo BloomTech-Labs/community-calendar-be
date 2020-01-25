@@ -1,9 +1,10 @@
 const gql = require('graphql-tag');
 
 const GET_TEST_USER = gql`
-  query {
-    users {
+  query userByAuth0Id($auth0Id: String!) {
+    users(where: {auth0Id: $auth0Id}){
       id
+      auth0Id
     }
   }
 `
@@ -15,6 +16,7 @@ const EVENT_DETAIL_DATA = gql`
     description
     start
     end
+    ticketPrice
   }
 `
 

@@ -51,7 +51,7 @@ input EventUpdateInput {
   admins: UserUpdateManyWithoutAdminForInput
   locations: LocationUpdateManyWithoutEventInput
   tags: [EventCreateTagInput!]
-  ticketPrice: Float!
+  ticketPrice: Float
 }
 
 input EventIdInput {
