@@ -4,7 +4,6 @@ const circle = require('@turf/circle').default;
 const transformRotate = require('@turf/transform-rotate').default;
 const inPolygon = require('@turf/boolean-point-in-polygon').default;
 const natural = require('natural');
-// natural.PorterStemmer.attach();
 
 const {
   convertTags,
@@ -103,10 +102,7 @@ const resolvers = {
 
     events: async (
       root,
-      {
-        searchFilters = {},
-        ...args
-      },
+      {searchFilters = {}, ...args},
       {prisma, req, decodedToken},
       info,
     ) => {
@@ -144,20 +140,16 @@ const resolvers = {
       }
 
       if (ticketPriceSearch) {
-        const [result] =
-          ticketPriceSearch.map(({minPrice, maxPrice}) =>
-            minPrice !== undefined && maxPrice !== undefined
-              ? {
-                  AND: [
-                    {ticketPrice_gte: minPrice},
-                    {ticketPrice_lte: maxPrice},
-                  ],
-                }
-              : maxPrice !== undefined
-              ? {ticketPrice_lte: maxPrice}
-              : {ticketPrice_gte: minPrice},
-          );
-          searchArray.push(result);
+        const [result] = ticketPriceSearch.map(({minPrice, maxPrice}) =>
+          minPrice !== undefined && maxPrice !== undefined
+            ? {
+                AND: [{ticketPrice_gte: minPrice}, {ticketPrice_lte: maxPrice}],
+              }
+            : maxPrice !== undefined
+            ? {ticketPrice_lte: maxPrice}
+            : {ticketPrice_gte: minPrice},
+        );
+        searchArray.push(result);
       }
 
       if (indexSearch) {
@@ -212,8 +204,10 @@ const resolvers = {
             }
           }
         `;
-        const whereArgs = args.where ? [...searchArray, args.where] : [...searchArray];
-        
+        const whereArgs = args.where
+          ? [...searchArray, args.where]
+          : [...searchArray];
+
         const eventsInSquare = await prisma
           .events({
             ...args,
@@ -251,7 +245,9 @@ const resolvers = {
           },
         });
       } else {
-        const whereArgs = args.where ? [...searchArray, args.where] : [...searchArray];
+        const whereArgs = args.where
+          ? [...searchArray, args.where]
+          : [...searchArray];
         console.log(whereArgs);
         return prisma.events({
           ...args,
@@ -281,7 +277,7 @@ const resolvers = {
 
     addEvent: async (root, args, {prisma, req, decodedToken}, info) => {
       const {data, images} = args;
-      
+
       try {
         const decoded = await decodedToken(req); //requires token to be sent in authorization headers
         const tagsInDb = await prisma.tags(); //array of tag objects from the database
@@ -314,7 +310,16 @@ const resolvers = {
 
         //set user as event creator
         data['creator'] = {connect: {id: decoded['http://cc_id']}};
-        data['index'] = ',' + Array.from(new Set(natural.LancasterStemmer.tokenizeAndStem(data['title'] + ' ' + data['description']))).join(',') + ',';
+        data['index'] =
+          ',' +
+          Array.from(
+            new Set(
+              natural.LancasterStemmer.tokenizeAndStem(
+                data['title'] + ' ' + data['description'],
+              ),
+            ),
+          ).join(',') +
+          ',';
         return await prisma.createEvent(data);
       } catch (err) {
         throw err;
@@ -334,22 +339,33 @@ const resolvers = {
             }
           }
         `;
-        const {creator, title, description} = await prisma.event({where}).$fragment(eventCreatorFragment);
+        const {creator, title, description} = await prisma
+          .event({where})
+          .$fragment(eventCreatorFragment);
         const decoded = await decodedToken(req); //requires token to be sent in authorization headers
         let forStemmer = '';
 
-        if(data.title && data.description){
+        if (data.title && data.description) {
           forStemmer += data.title + ' ' + data.description;
-        }else if(data.title || data.description){
-          if(data.title){
+        } else if (data.title || data.description) {
+          if (data.title) {
             forStemmer += data.title + ' ' + description;
-          }else{
+          } else {
             forStemmer += title + ' ' + data.description;
           }
         }
 
-        if(forStemmer.length){
-          data['index'] = ',' + Array.from(new Set(natural.LancasterStemmer.tokenizeAndStem(data['title'] + ' ' + data['description']))).join(',') + ',';
+        if (forStemmer.length) {
+          data['index'] =
+            ',' +
+            Array.from(
+              new Set(
+                natural.LancasterStemmer.tokenizeAndStem(
+                  data['title'] + ' ' + data['description'],
+                ),
+              ),
+            ).join(',') +
+            ',';
         }
 
         //check if user created the event
