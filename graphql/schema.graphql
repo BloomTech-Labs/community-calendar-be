@@ -52,6 +52,30 @@ input EventIdInput {
   id: ID!
 }
 
+input TicketPriceSearchInput {
+  minPrice: Int
+  maxPrice: Int
+}
+
+input DateRangeSearchInput {
+  start: DateTime!
+  end: DateTime!
+}
+
+input LocationSearchInput {
+  userLongitude: Float!
+  userLatitude: Float!
+  radius: Int!
+}
+
+input SearchFilters {
+  index: String
+  location: LocationSearchInput
+  tags: [String!]
+  ticketPrice: [TicketPriceSearchInput!]
+  dateRange: DateRangeSearchInput
+}
+
 type Location {
   id: ID!
   name: String!
@@ -94,6 +118,7 @@ type Event {
     distanceUnit: String
     ): [Location!]
   tags(where: TagWhereInput, orderBy: TagOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Tag!]
+  index: String!
 }
 
 type Query {
@@ -115,6 +140,7 @@ type Query {
     before: String
     first: Int
     last: Int
+    searchFilters: SearchFilters
   ): [Event!]
   tags(
     where: TagWhereInput
@@ -167,3 +193,4 @@ type Mutation {
   addRsvp(event: EventIdInput!): User
   removeRsvp(event: EventIdInput!): User
 }
+
