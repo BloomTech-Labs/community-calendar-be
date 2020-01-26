@@ -27,6 +27,7 @@ input EventCreateInput {
   end: DateTime!
   eventImages: [EventCreateImageInput!]
   rsvps: UserCreateManyWithoutRsvpsInput
+  saved: UserCreateManyWithoutSavedInput
   urls: EventUrlCreateManyWithoutEventInput
   admin: UserCreateManyWithoutAdminForInput
   locations: LocationCreateManyWithoutEventInput
@@ -41,6 +42,7 @@ input EventUpdateInput {
   end: DateTime
   eventImages: [EventCreateImageInput!]
   rsvps: UserUpdateManyWithoutRsvpsInput
+  saved: UserUpdateManyWithoutSavedInput
   urls: EventUrlUpdateManyWithoutEventInput
   admins: UserUpdateManyWithoutAdminForInput
   locations: LocationUpdateManyWithoutEventInput
@@ -76,6 +78,11 @@ input SearchFilters {
   dateRange: DateRangeSearchInput
 }
 
+enum Saved {
+  SAVED
+  UNSAVED
+}
+
 type Location {
   id: ID!
   name: String!
@@ -102,6 +109,7 @@ type Event {
   ticketPrice: Float!
   eventImages(where: EventImageWhereInput, orderBy: EventImageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [EventImage!]
   rsvps(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
+  saved(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   urls(where: EventUrlWhereInput, orderBy: EventUrlOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [EventUrl!]
   admins(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   locations(
@@ -192,5 +200,6 @@ type Mutation {
   deleteEvent(where: EventWhereUniqueInput!): Event
   addRsvp(event: EventIdInput!): User
   removeRsvp(event: EventIdInput!): User
+  saveEvent(event: EventIdInput!): Saved!
 }
 

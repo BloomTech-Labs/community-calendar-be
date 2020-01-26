@@ -21,6 +21,7 @@ const resolvers = {
     eventImages: (parent, args, {prisma}) =>
       prisma.event({id: parent.id}).eventImages(),
     rsvps: (parent, args, {prisma}) => prisma.event({id: parent.id}).rsvps(),
+    saved: (parent, args, {prisma}) => prisma.event({id: parent.id}).saved(),
     urls: (parent, args, {prisma}) => prisma.event({id: parent.id}).urls(),
     admins: (parent, args, {prisma}) => prisma.event({id: parent.id}).admins(),
     locations: async (
@@ -476,6 +477,43 @@ const resolvers = {
           where: {id: decoded['http://cc_id']},
           data: {rsvps: {disconnect: {id}}},
         });
+      } catch (err) {
+        throw err;
+      }
+    },
+    saveEvent: async (root, args, {prisma, req, decodedToken}, info) => {
+      try {
+        const decoded = await decodedToken(req); //requires token to be sent in authorization headers
+        const {
+          event: {id},
+        } = args;
+
+        const getSavedFragment = `
+            fragment getSavedUser on Event {
+              saved(where: {id: "${decoded['http://cc_id']}"}){id}
+            }
+          `;
+
+        const {saved} = await prisma.event({id}).$fragment(getSavedFragment);
+
+        //saved.length is true if user has already saved the event
+        const action = saved.length ? {disconnect: {id}} : {connect: {id}};
+
+        const userSavedFragment = `
+            fragment getUserEvent on User {
+              saved(where: {id: "${id}"}){id}
+            }
+        `;
+
+        const {saved: userSaved} = await prisma
+          .updateUser({
+            where: {id: decoded['http://cc_id']},
+            data: {saved: action},
+          })
+          .$fragment(userSavedFragment);
+
+        //SAVED returned if user saved the event  
+        return userSaved.length ? 'SAVED' : 'UNSAVED';
       } catch (err) {
         throw err;
       }
