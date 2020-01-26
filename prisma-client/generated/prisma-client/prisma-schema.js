@@ -55,6 +55,7 @@ type Event {
   creator: User
   eventImages(where: EventImageWhereInput, orderBy: EventImageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [EventImage!]
   rsvps(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
+  saved(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   urls(where: EventUrlWhereInput, orderBy: EventUrlOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [EventUrl!]
   admins(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   locations(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Location!]
@@ -78,6 +79,7 @@ input EventCreateInput {
   creator: UserCreateOneWithoutCreatedEventsInput
   eventImages: EventImageCreateManyWithoutEventInput
   rsvps: UserCreateManyWithoutRsvpsInput
+  saved: UserCreateManyWithoutSavedInput
   urls: EventUrlCreateManyWithoutEventInput
   admins: UserCreateManyWithoutAdminForInput
   locations: LocationCreateManyWithoutEventInput
@@ -97,6 +99,11 @@ input EventCreateManyWithoutCreatorInput {
 
 input EventCreateManyWithoutRsvpsInput {
   create: [EventCreateWithoutRsvpsInput!]
+  connect: [EventWhereUniqueInput!]
+}
+
+input EventCreateManyWithoutSavedInput {
+  create: [EventCreateWithoutSavedInput!]
   connect: [EventWhereUniqueInput!]
 }
 
@@ -130,6 +137,7 @@ input EventCreateWithoutAdminsInput {
   creator: UserCreateOneWithoutCreatedEventsInput
   eventImages: EventImageCreateManyWithoutEventInput
   rsvps: UserCreateManyWithoutRsvpsInput
+  saved: UserCreateManyWithoutSavedInput
   urls: EventUrlCreateManyWithoutEventInput
   locations: LocationCreateManyWithoutEventInput
   tags: TagCreateManyWithoutEventsInput
@@ -145,6 +153,7 @@ input EventCreateWithoutCreatorInput {
   ticketPrice: Float!
   eventImages: EventImageCreateManyWithoutEventInput
   rsvps: UserCreateManyWithoutRsvpsInput
+  saved: UserCreateManyWithoutSavedInput
   urls: EventUrlCreateManyWithoutEventInput
   admins: UserCreateManyWithoutAdminForInput
   locations: LocationCreateManyWithoutEventInput
@@ -161,6 +170,7 @@ input EventCreateWithoutEventImagesInput {
   ticketPrice: Float!
   creator: UserCreateOneWithoutCreatedEventsInput
   rsvps: UserCreateManyWithoutRsvpsInput
+  saved: UserCreateManyWithoutSavedInput
   urls: EventUrlCreateManyWithoutEventInput
   admins: UserCreateManyWithoutAdminForInput
   locations: LocationCreateManyWithoutEventInput
@@ -178,6 +188,7 @@ input EventCreateWithoutLocationsInput {
   creator: UserCreateOneWithoutCreatedEventsInput
   eventImages: EventImageCreateManyWithoutEventInput
   rsvps: UserCreateManyWithoutRsvpsInput
+  saved: UserCreateManyWithoutSavedInput
   urls: EventUrlCreateManyWithoutEventInput
   admins: UserCreateManyWithoutAdminForInput
   tags: TagCreateManyWithoutEventsInput
@@ -193,6 +204,24 @@ input EventCreateWithoutRsvpsInput {
   ticketPrice: Float!
   creator: UserCreateOneWithoutCreatedEventsInput
   eventImages: EventImageCreateManyWithoutEventInput
+  saved: UserCreateManyWithoutSavedInput
+  urls: EventUrlCreateManyWithoutEventInput
+  admins: UserCreateManyWithoutAdminForInput
+  locations: LocationCreateManyWithoutEventInput
+  tags: TagCreateManyWithoutEventsInput
+  index: String!
+}
+
+input EventCreateWithoutSavedInput {
+  id: ID
+  title: String!
+  description: String!
+  start: DateTime!
+  end: DateTime!
+  ticketPrice: Float!
+  creator: UserCreateOneWithoutCreatedEventsInput
+  eventImages: EventImageCreateManyWithoutEventInput
+  rsvps: UserCreateManyWithoutRsvpsInput
   urls: EventUrlCreateManyWithoutEventInput
   admins: UserCreateManyWithoutAdminForInput
   locations: LocationCreateManyWithoutEventInput
@@ -210,6 +239,7 @@ input EventCreateWithoutTagsInput {
   creator: UserCreateOneWithoutCreatedEventsInput
   eventImages: EventImageCreateManyWithoutEventInput
   rsvps: UserCreateManyWithoutRsvpsInput
+  saved: UserCreateManyWithoutSavedInput
   urls: EventUrlCreateManyWithoutEventInput
   admins: UserCreateManyWithoutAdminForInput
   locations: LocationCreateManyWithoutEventInput
@@ -226,6 +256,7 @@ input EventCreateWithoutUrlsInput {
   creator: UserCreateOneWithoutCreatedEventsInput
   eventImages: EventImageCreateManyWithoutEventInput
   rsvps: UserCreateManyWithoutRsvpsInput
+  saved: UserCreateManyWithoutSavedInput
   admins: UserCreateManyWithoutAdminForInput
   locations: LocationCreateManyWithoutEventInput
   tags: TagCreateManyWithoutEventsInput
@@ -603,6 +634,7 @@ input EventUpdateInput {
   creator: UserUpdateOneWithoutCreatedEventsInput
   eventImages: EventImageUpdateManyWithoutEventInput
   rsvps: UserUpdateManyWithoutRsvpsInput
+  saved: UserUpdateManyWithoutSavedInput
   urls: EventUrlUpdateManyWithoutEventInput
   admins: UserUpdateManyWithoutAdminForInput
   locations: LocationUpdateManyWithoutEventInput
@@ -664,6 +696,18 @@ input EventUpdateManyWithoutRsvpsInput {
   updateMany: [EventUpdateManyWithWhereNestedInput!]
 }
 
+input EventUpdateManyWithoutSavedInput {
+  create: [EventCreateWithoutSavedInput!]
+  delete: [EventWhereUniqueInput!]
+  connect: [EventWhereUniqueInput!]
+  set: [EventWhereUniqueInput!]
+  disconnect: [EventWhereUniqueInput!]
+  update: [EventUpdateWithWhereUniqueWithoutSavedInput!]
+  upsert: [EventUpsertWithWhereUniqueWithoutSavedInput!]
+  deleteMany: [EventScalarWhereInput!]
+  updateMany: [EventUpdateManyWithWhereNestedInput!]
+}
+
 input EventUpdateManyWithoutTagsInput {
   create: [EventCreateWithoutTagsInput!]
   delete: [EventWhereUniqueInput!]
@@ -713,6 +757,7 @@ input EventUpdateWithoutAdminsDataInput {
   creator: UserUpdateOneWithoutCreatedEventsInput
   eventImages: EventImageUpdateManyWithoutEventInput
   rsvps: UserUpdateManyWithoutRsvpsInput
+  saved: UserUpdateManyWithoutSavedInput
   urls: EventUrlUpdateManyWithoutEventInput
   locations: LocationUpdateManyWithoutEventInput
   tags: TagUpdateManyWithoutEventsInput
@@ -727,6 +772,7 @@ input EventUpdateWithoutCreatorDataInput {
   ticketPrice: Float
   eventImages: EventImageUpdateManyWithoutEventInput
   rsvps: UserUpdateManyWithoutRsvpsInput
+  saved: UserUpdateManyWithoutSavedInput
   urls: EventUrlUpdateManyWithoutEventInput
   admins: UserUpdateManyWithoutAdminForInput
   locations: LocationUpdateManyWithoutEventInput
@@ -742,6 +788,7 @@ input EventUpdateWithoutEventImagesDataInput {
   ticketPrice: Float
   creator: UserUpdateOneWithoutCreatedEventsInput
   rsvps: UserUpdateManyWithoutRsvpsInput
+  saved: UserUpdateManyWithoutSavedInput
   urls: EventUrlUpdateManyWithoutEventInput
   admins: UserUpdateManyWithoutAdminForInput
   locations: LocationUpdateManyWithoutEventInput
@@ -758,6 +805,7 @@ input EventUpdateWithoutLocationsDataInput {
   creator: UserUpdateOneWithoutCreatedEventsInput
   eventImages: EventImageUpdateManyWithoutEventInput
   rsvps: UserUpdateManyWithoutRsvpsInput
+  saved: UserUpdateManyWithoutSavedInput
   urls: EventUrlUpdateManyWithoutEventInput
   admins: UserUpdateManyWithoutAdminForInput
   tags: TagUpdateManyWithoutEventsInput
@@ -772,6 +820,23 @@ input EventUpdateWithoutRsvpsDataInput {
   ticketPrice: Float
   creator: UserUpdateOneWithoutCreatedEventsInput
   eventImages: EventImageUpdateManyWithoutEventInput
+  saved: UserUpdateManyWithoutSavedInput
+  urls: EventUrlUpdateManyWithoutEventInput
+  admins: UserUpdateManyWithoutAdminForInput
+  locations: LocationUpdateManyWithoutEventInput
+  tags: TagUpdateManyWithoutEventsInput
+  index: String
+}
+
+input EventUpdateWithoutSavedDataInput {
+  title: String
+  description: String
+  start: DateTime
+  end: DateTime
+  ticketPrice: Float
+  creator: UserUpdateOneWithoutCreatedEventsInput
+  eventImages: EventImageUpdateManyWithoutEventInput
+  rsvps: UserUpdateManyWithoutRsvpsInput
   urls: EventUrlUpdateManyWithoutEventInput
   admins: UserUpdateManyWithoutAdminForInput
   locations: LocationUpdateManyWithoutEventInput
@@ -788,6 +853,7 @@ input EventUpdateWithoutTagsDataInput {
   creator: UserUpdateOneWithoutCreatedEventsInput
   eventImages: EventImageUpdateManyWithoutEventInput
   rsvps: UserUpdateManyWithoutRsvpsInput
+  saved: UserUpdateManyWithoutSavedInput
   urls: EventUrlUpdateManyWithoutEventInput
   admins: UserUpdateManyWithoutAdminForInput
   locations: LocationUpdateManyWithoutEventInput
@@ -803,6 +869,7 @@ input EventUpdateWithoutUrlsDataInput {
   creator: UserUpdateOneWithoutCreatedEventsInput
   eventImages: EventImageUpdateManyWithoutEventInput
   rsvps: UserUpdateManyWithoutRsvpsInput
+  saved: UserUpdateManyWithoutSavedInput
   admins: UserUpdateManyWithoutAdminForInput
   locations: LocationUpdateManyWithoutEventInput
   tags: TagUpdateManyWithoutEventsInput
@@ -822,6 +889,11 @@ input EventUpdateWithWhereUniqueWithoutCreatorInput {
 input EventUpdateWithWhereUniqueWithoutRsvpsInput {
   where: EventWhereUniqueInput!
   data: EventUpdateWithoutRsvpsDataInput!
+}
+
+input EventUpdateWithWhereUniqueWithoutSavedInput {
+  where: EventWhereUniqueInput!
+  data: EventUpdateWithoutSavedDataInput!
 }
 
 input EventUpdateWithWhereUniqueWithoutTagsInput {
@@ -860,6 +932,12 @@ input EventUpsertWithWhereUniqueWithoutRsvpsInput {
   where: EventWhereUniqueInput!
   update: EventUpdateWithoutRsvpsDataInput!
   create: EventCreateWithoutRsvpsInput!
+}
+
+input EventUpsertWithWhereUniqueWithoutSavedInput {
+  where: EventWhereUniqueInput!
+  update: EventUpdateWithoutSavedDataInput!
+  create: EventCreateWithoutSavedInput!
 }
 
 input EventUpsertWithWhereUniqueWithoutTagsInput {
@@ -1123,6 +1201,9 @@ input EventWhereInput {
   rsvps_every: UserWhereInput
   rsvps_some: UserWhereInput
   rsvps_none: UserWhereInput
+  saved_every: UserWhereInput
+  saved_some: UserWhereInput
+  saved_none: UserWhereInput
   urls_every: EventUrlWhereInput
   urls_some: EventUrlWhereInput
   urls_none: EventUrlWhereInput
@@ -2498,6 +2579,7 @@ type User {
   auth0Id: String!
   organizations(where: OrganizationWhereInput, orderBy: OrganizationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Organization!]
   rsvps(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event!]
+  saved(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event!]
   adminFor(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event!]
   createdEvents(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event!]
   createdImages(where: EventImageWhereInput, orderBy: EventImageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [EventImage!]
@@ -2516,6 +2598,7 @@ input UserCreateInput {
   auth0Id: String!
   organizations: OrganizationCreateManyWithoutUsersInput
   rsvps: EventCreateManyWithoutRsvpsInput
+  saved: EventCreateManyWithoutSavedInput
   adminFor: EventCreateManyWithoutAdminsInput
   createdEvents: EventCreateManyWithoutCreatorInput
   createdImages: EventImageCreateManyWithoutCreatorInput
@@ -2536,6 +2619,11 @@ input UserCreateManyWithoutRsvpsInput {
   connect: [UserWhereUniqueInput!]
 }
 
+input UserCreateManyWithoutSavedInput {
+  create: [UserCreateWithoutSavedInput!]
+  connect: [UserWhereUniqueInput!]
+}
+
 input UserCreateOneWithoutCreatedEventsInput {
   create: UserCreateWithoutCreatedEventsInput
   connect: UserWhereUniqueInput
@@ -2553,6 +2641,7 @@ input UserCreateWithoutAdminForInput {
   auth0Id: String!
   organizations: OrganizationCreateManyWithoutUsersInput
   rsvps: EventCreateManyWithoutRsvpsInput
+  saved: EventCreateManyWithoutSavedInput
   createdEvents: EventCreateManyWithoutCreatorInput
   createdImages: EventImageCreateManyWithoutCreatorInput
 }
@@ -2564,6 +2653,7 @@ input UserCreateWithoutCreatedEventsInput {
   auth0Id: String!
   organizations: OrganizationCreateManyWithoutUsersInput
   rsvps: EventCreateManyWithoutRsvpsInput
+  saved: EventCreateManyWithoutSavedInput
   adminFor: EventCreateManyWithoutAdminsInput
   createdImages: EventImageCreateManyWithoutCreatorInput
 }
@@ -2575,6 +2665,7 @@ input UserCreateWithoutCreatedImagesInput {
   auth0Id: String!
   organizations: OrganizationCreateManyWithoutUsersInput
   rsvps: EventCreateManyWithoutRsvpsInput
+  saved: EventCreateManyWithoutSavedInput
   adminFor: EventCreateManyWithoutAdminsInput
   createdEvents: EventCreateManyWithoutCreatorInput
 }
@@ -2585,6 +2676,7 @@ input UserCreateWithoutOrganizationsInput {
   lastName: String
   auth0Id: String!
   rsvps: EventCreateManyWithoutRsvpsInput
+  saved: EventCreateManyWithoutSavedInput
   adminFor: EventCreateManyWithoutAdminsInput
   createdEvents: EventCreateManyWithoutCreatorInput
   createdImages: EventImageCreateManyWithoutCreatorInput
@@ -2596,6 +2688,19 @@ input UserCreateWithoutRsvpsInput {
   lastName: String
   auth0Id: String!
   organizations: OrganizationCreateManyWithoutUsersInput
+  saved: EventCreateManyWithoutSavedInput
+  adminFor: EventCreateManyWithoutAdminsInput
+  createdEvents: EventCreateManyWithoutCreatorInput
+  createdImages: EventImageCreateManyWithoutCreatorInput
+}
+
+input UserCreateWithoutSavedInput {
+  id: ID
+  firstName: String
+  lastName: String
+  auth0Id: String!
+  organizations: OrganizationCreateManyWithoutUsersInput
+  rsvps: EventCreateManyWithoutRsvpsInput
   adminFor: EventCreateManyWithoutAdminsInput
   createdEvents: EventCreateManyWithoutCreatorInput
   createdImages: EventImageCreateManyWithoutCreatorInput
@@ -2710,6 +2815,7 @@ input UserUpdateInput {
   auth0Id: String
   organizations: OrganizationUpdateManyWithoutUsersInput
   rsvps: EventUpdateManyWithoutRsvpsInput
+  saved: EventUpdateManyWithoutSavedInput
   adminFor: EventUpdateManyWithoutAdminsInput
   createdEvents: EventUpdateManyWithoutCreatorInput
   createdImages: EventImageUpdateManyWithoutCreatorInput
@@ -2763,6 +2869,18 @@ input UserUpdateManyWithoutRsvpsInput {
   updateMany: [UserUpdateManyWithWhereNestedInput!]
 }
 
+input UserUpdateManyWithoutSavedInput {
+  create: [UserCreateWithoutSavedInput!]
+  delete: [UserWhereUniqueInput!]
+  connect: [UserWhereUniqueInput!]
+  set: [UserWhereUniqueInput!]
+  disconnect: [UserWhereUniqueInput!]
+  update: [UserUpdateWithWhereUniqueWithoutSavedInput!]
+  upsert: [UserUpsertWithWhereUniqueWithoutSavedInput!]
+  deleteMany: [UserScalarWhereInput!]
+  updateMany: [UserUpdateManyWithWhereNestedInput!]
+}
+
 input UserUpdateManyWithWhereNestedInput {
   where: UserScalarWhereInput!
   data: UserUpdateManyDataInput!
@@ -2790,6 +2908,7 @@ input UserUpdateWithoutAdminForDataInput {
   auth0Id: String
   organizations: OrganizationUpdateManyWithoutUsersInput
   rsvps: EventUpdateManyWithoutRsvpsInput
+  saved: EventUpdateManyWithoutSavedInput
   createdEvents: EventUpdateManyWithoutCreatorInput
   createdImages: EventImageUpdateManyWithoutCreatorInput
 }
@@ -2800,6 +2919,7 @@ input UserUpdateWithoutCreatedEventsDataInput {
   auth0Id: String
   organizations: OrganizationUpdateManyWithoutUsersInput
   rsvps: EventUpdateManyWithoutRsvpsInput
+  saved: EventUpdateManyWithoutSavedInput
   adminFor: EventUpdateManyWithoutAdminsInput
   createdImages: EventImageUpdateManyWithoutCreatorInput
 }
@@ -2810,6 +2930,7 @@ input UserUpdateWithoutCreatedImagesDataInput {
   auth0Id: String
   organizations: OrganizationUpdateManyWithoutUsersInput
   rsvps: EventUpdateManyWithoutRsvpsInput
+  saved: EventUpdateManyWithoutSavedInput
   adminFor: EventUpdateManyWithoutAdminsInput
   createdEvents: EventUpdateManyWithoutCreatorInput
 }
@@ -2819,6 +2940,7 @@ input UserUpdateWithoutOrganizationsDataInput {
   lastName: String
   auth0Id: String
   rsvps: EventUpdateManyWithoutRsvpsInput
+  saved: EventUpdateManyWithoutSavedInput
   adminFor: EventUpdateManyWithoutAdminsInput
   createdEvents: EventUpdateManyWithoutCreatorInput
   createdImages: EventImageUpdateManyWithoutCreatorInput
@@ -2829,6 +2951,18 @@ input UserUpdateWithoutRsvpsDataInput {
   lastName: String
   auth0Id: String
   organizations: OrganizationUpdateManyWithoutUsersInput
+  saved: EventUpdateManyWithoutSavedInput
+  adminFor: EventUpdateManyWithoutAdminsInput
+  createdEvents: EventUpdateManyWithoutCreatorInput
+  createdImages: EventImageUpdateManyWithoutCreatorInput
+}
+
+input UserUpdateWithoutSavedDataInput {
+  firstName: String
+  lastName: String
+  auth0Id: String
+  organizations: OrganizationUpdateManyWithoutUsersInput
+  rsvps: EventUpdateManyWithoutRsvpsInput
   adminFor: EventUpdateManyWithoutAdminsInput
   createdEvents: EventUpdateManyWithoutCreatorInput
   createdImages: EventImageUpdateManyWithoutCreatorInput
@@ -2847,6 +2981,11 @@ input UserUpdateWithWhereUniqueWithoutOrganizationsInput {
 input UserUpdateWithWhereUniqueWithoutRsvpsInput {
   where: UserWhereUniqueInput!
   data: UserUpdateWithoutRsvpsDataInput!
+}
+
+input UserUpdateWithWhereUniqueWithoutSavedInput {
+  where: UserWhereUniqueInput!
+  data: UserUpdateWithoutSavedDataInput!
 }
 
 input UserUpsertWithoutCreatedEventsInput {
@@ -2875,6 +3014,12 @@ input UserUpsertWithWhereUniqueWithoutRsvpsInput {
   where: UserWhereUniqueInput!
   update: UserUpdateWithoutRsvpsDataInput!
   create: UserCreateWithoutRsvpsInput!
+}
+
+input UserUpsertWithWhereUniqueWithoutSavedInput {
+  where: UserWhereUniqueInput!
+  update: UserUpdateWithoutSavedDataInput!
+  create: UserCreateWithoutSavedInput!
 }
 
 input UserWhereInput {
@@ -2940,6 +3085,9 @@ input UserWhereInput {
   rsvps_every: EventWhereInput
   rsvps_some: EventWhereInput
   rsvps_none: EventWhereInput
+  saved_every: EventWhereInput
+  saved_some: EventWhereInput
+  saved_none: EventWhereInput
   adminFor_every: EventWhereInput
   adminFor_some: EventWhereInput
   adminFor_none: EventWhereInput

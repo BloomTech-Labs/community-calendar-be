@@ -649,6 +649,9 @@ export interface UserWhereInput {
   rsvps_every?: Maybe<EventWhereInput>;
   rsvps_some?: Maybe<EventWhereInput>;
   rsvps_none?: Maybe<EventWhereInput>;
+  saved_every?: Maybe<EventWhereInput>;
+  saved_some?: Maybe<EventWhereInput>;
+  saved_none?: Maybe<EventWhereInput>;
   adminFor_every?: Maybe<EventWhereInput>;
   adminFor_some?: Maybe<EventWhereInput>;
   adminFor_none?: Maybe<EventWhereInput>;
@@ -737,6 +740,9 @@ export interface EventWhereInput {
   rsvps_every?: Maybe<UserWhereInput>;
   rsvps_some?: Maybe<UserWhereInput>;
   rsvps_none?: Maybe<UserWhereInput>;
+  saved_every?: Maybe<UserWhereInput>;
+  saved_some?: Maybe<UserWhereInput>;
+  saved_none?: Maybe<UserWhereInput>;
   urls_every?: Maybe<EventUrlWhereInput>;
   urls_some?: Maybe<EventUrlWhereInput>;
   urls_none?: Maybe<EventUrlWhereInput>;
@@ -1095,6 +1101,7 @@ export interface EventCreateInput {
   creator?: Maybe<UserCreateOneWithoutCreatedEventsInput>;
   eventImages?: Maybe<EventImageCreateManyWithoutEventInput>;
   rsvps?: Maybe<UserCreateManyWithoutRsvpsInput>;
+  saved?: Maybe<UserCreateManyWithoutSavedInput>;
   urls?: Maybe<EventUrlCreateManyWithoutEventInput>;
   admins?: Maybe<UserCreateManyWithoutAdminForInput>;
   locations?: Maybe<LocationCreateManyWithoutEventInput>;
@@ -1114,6 +1121,7 @@ export interface UserCreateWithoutCreatedEventsInput {
   auth0Id: String;
   organizations?: Maybe<OrganizationCreateManyWithoutUsersInput>;
   rsvps?: Maybe<EventCreateManyWithoutRsvpsInput>;
+  saved?: Maybe<EventCreateManyWithoutSavedInput>;
   adminFor?: Maybe<EventCreateManyWithoutAdminsInput>;
   createdImages?: Maybe<EventImageCreateManyWithoutCreatorInput>;
 }
@@ -1149,6 +1157,7 @@ export interface EventCreateWithoutRsvpsInput {
   ticketPrice: Float;
   creator?: Maybe<UserCreateOneWithoutCreatedEventsInput>;
   eventImages?: Maybe<EventImageCreateManyWithoutEventInput>;
+  saved?: Maybe<UserCreateManyWithoutSavedInput>;
   urls?: Maybe<EventUrlCreateManyWithoutEventInput>;
   admins?: Maybe<UserCreateManyWithoutAdminForInput>;
   locations?: Maybe<LocationCreateManyWithoutEventInput>;
@@ -1181,8 +1190,48 @@ export interface UserCreateWithoutCreatedImagesInput {
   auth0Id: String;
   organizations?: Maybe<OrganizationCreateManyWithoutUsersInput>;
   rsvps?: Maybe<EventCreateManyWithoutRsvpsInput>;
+  saved?: Maybe<EventCreateManyWithoutSavedInput>;
   adminFor?: Maybe<EventCreateManyWithoutAdminsInput>;
   createdEvents?: Maybe<EventCreateManyWithoutCreatorInput>;
+}
+
+export interface EventCreateManyWithoutSavedInput {
+  create?: Maybe<EventCreateWithoutSavedInput[] | EventCreateWithoutSavedInput>;
+  connect?: Maybe<EventWhereUniqueInput[] | EventWhereUniqueInput>;
+}
+
+export interface EventCreateWithoutSavedInput {
+  id?: Maybe<ID_Input>;
+  title: String;
+  description: String;
+  start: DateTimeInput;
+  end: DateTimeInput;
+  ticketPrice: Float;
+  creator?: Maybe<UserCreateOneWithoutCreatedEventsInput>;
+  eventImages?: Maybe<EventImageCreateManyWithoutEventInput>;
+  rsvps?: Maybe<UserCreateManyWithoutRsvpsInput>;
+  urls?: Maybe<EventUrlCreateManyWithoutEventInput>;
+  admins?: Maybe<UserCreateManyWithoutAdminForInput>;
+  locations?: Maybe<LocationCreateManyWithoutEventInput>;
+  tags?: Maybe<TagCreateManyWithoutEventsInput>;
+  index: String;
+}
+
+export interface UserCreateManyWithoutRsvpsInput {
+  create?: Maybe<UserCreateWithoutRsvpsInput[] | UserCreateWithoutRsvpsInput>;
+  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+}
+
+export interface UserCreateWithoutRsvpsInput {
+  id?: Maybe<ID_Input>;
+  firstName?: Maybe<String>;
+  lastName?: Maybe<String>;
+  auth0Id: String;
+  organizations?: Maybe<OrganizationCreateManyWithoutUsersInput>;
+  saved?: Maybe<EventCreateManyWithoutSavedInput>;
+  adminFor?: Maybe<EventCreateManyWithoutAdminsInput>;
+  createdEvents?: Maybe<EventCreateManyWithoutCreatorInput>;
+  createdImages?: Maybe<EventImageCreateManyWithoutCreatorInput>;
 }
 
 export interface EventCreateManyWithoutAdminsInput {
@@ -1202,23 +1251,25 @@ export interface EventCreateWithoutAdminsInput {
   creator?: Maybe<UserCreateOneWithoutCreatedEventsInput>;
   eventImages?: Maybe<EventImageCreateManyWithoutEventInput>;
   rsvps?: Maybe<UserCreateManyWithoutRsvpsInput>;
+  saved?: Maybe<UserCreateManyWithoutSavedInput>;
   urls?: Maybe<EventUrlCreateManyWithoutEventInput>;
   locations?: Maybe<LocationCreateManyWithoutEventInput>;
   tags?: Maybe<TagCreateManyWithoutEventsInput>;
   index: String;
 }
 
-export interface UserCreateManyWithoutRsvpsInput {
-  create?: Maybe<UserCreateWithoutRsvpsInput[] | UserCreateWithoutRsvpsInput>;
+export interface UserCreateManyWithoutSavedInput {
+  create?: Maybe<UserCreateWithoutSavedInput[] | UserCreateWithoutSavedInput>;
   connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
 }
 
-export interface UserCreateWithoutRsvpsInput {
+export interface UserCreateWithoutSavedInput {
   id?: Maybe<ID_Input>;
   firstName?: Maybe<String>;
   lastName?: Maybe<String>;
   auth0Id: String;
   organizations?: Maybe<OrganizationCreateManyWithoutUsersInput>;
+  rsvps?: Maybe<EventCreateManyWithoutRsvpsInput>;
   adminFor?: Maybe<EventCreateManyWithoutAdminsInput>;
   createdEvents?: Maybe<EventCreateManyWithoutCreatorInput>;
   createdImages?: Maybe<EventImageCreateManyWithoutCreatorInput>;
@@ -1240,6 +1291,7 @@ export interface EventCreateWithoutCreatorInput {
   ticketPrice: Float;
   eventImages?: Maybe<EventImageCreateManyWithoutEventInput>;
   rsvps?: Maybe<UserCreateManyWithoutRsvpsInput>;
+  saved?: Maybe<UserCreateManyWithoutSavedInput>;
   urls?: Maybe<EventUrlCreateManyWithoutEventInput>;
   admins?: Maybe<UserCreateManyWithoutAdminForInput>;
   locations?: Maybe<LocationCreateManyWithoutEventInput>;
@@ -1273,6 +1325,7 @@ export interface UserCreateWithoutAdminForInput {
   auth0Id: String;
   organizations?: Maybe<OrganizationCreateManyWithoutUsersInput>;
   rsvps?: Maybe<EventCreateManyWithoutRsvpsInput>;
+  saved?: Maybe<EventCreateManyWithoutSavedInput>;
   createdEvents?: Maybe<EventCreateManyWithoutCreatorInput>;
   createdImages?: Maybe<EventImageCreateManyWithoutCreatorInput>;
 }
@@ -1304,6 +1357,7 @@ export interface EventCreateWithoutEventImagesInput {
   ticketPrice: Float;
   creator?: Maybe<UserCreateOneWithoutCreatedEventsInput>;
   rsvps?: Maybe<UserCreateManyWithoutRsvpsInput>;
+  saved?: Maybe<UserCreateManyWithoutSavedInput>;
   urls?: Maybe<EventUrlCreateManyWithoutEventInput>;
   admins?: Maybe<UserCreateManyWithoutAdminForInput>;
   locations?: Maybe<LocationCreateManyWithoutEventInput>;
@@ -1370,6 +1424,7 @@ export interface EventUpdateInput {
   creator?: Maybe<UserUpdateOneWithoutCreatedEventsInput>;
   eventImages?: Maybe<EventImageUpdateManyWithoutEventInput>;
   rsvps?: Maybe<UserUpdateManyWithoutRsvpsInput>;
+  saved?: Maybe<UserUpdateManyWithoutSavedInput>;
   urls?: Maybe<EventUrlUpdateManyWithoutEventInput>;
   admins?: Maybe<UserUpdateManyWithoutAdminForInput>;
   locations?: Maybe<LocationUpdateManyWithoutEventInput>;
@@ -1392,6 +1447,7 @@ export interface UserUpdateWithoutCreatedEventsDataInput {
   auth0Id?: Maybe<String>;
   organizations?: Maybe<OrganizationUpdateManyWithoutUsersInput>;
   rsvps?: Maybe<EventUpdateManyWithoutRsvpsInput>;
+  saved?: Maybe<EventUpdateManyWithoutSavedInput>;
   adminFor?: Maybe<EventUpdateManyWithoutAdminsInput>;
   createdImages?: Maybe<EventImageUpdateManyWithoutCreatorInput>;
 }
@@ -1564,6 +1620,7 @@ export interface EventUpdateWithoutRsvpsDataInput {
   ticketPrice?: Maybe<Float>;
   creator?: Maybe<UserUpdateOneWithoutCreatedEventsInput>;
   eventImages?: Maybe<EventImageUpdateManyWithoutEventInput>;
+  saved?: Maybe<UserUpdateManyWithoutSavedInput>;
   urls?: Maybe<EventUrlUpdateManyWithoutEventInput>;
   admins?: Maybe<UserUpdateManyWithoutAdminForInput>;
   locations?: Maybe<LocationUpdateManyWithoutEventInput>;
@@ -1617,8 +1674,86 @@ export interface UserUpdateWithoutCreatedImagesDataInput {
   auth0Id?: Maybe<String>;
   organizations?: Maybe<OrganizationUpdateManyWithoutUsersInput>;
   rsvps?: Maybe<EventUpdateManyWithoutRsvpsInput>;
+  saved?: Maybe<EventUpdateManyWithoutSavedInput>;
   adminFor?: Maybe<EventUpdateManyWithoutAdminsInput>;
   createdEvents?: Maybe<EventUpdateManyWithoutCreatorInput>;
+}
+
+export interface EventUpdateManyWithoutSavedInput {
+  create?: Maybe<EventCreateWithoutSavedInput[] | EventCreateWithoutSavedInput>;
+  delete?: Maybe<EventWhereUniqueInput[] | EventWhereUniqueInput>;
+  connect?: Maybe<EventWhereUniqueInput[] | EventWhereUniqueInput>;
+  set?: Maybe<EventWhereUniqueInput[] | EventWhereUniqueInput>;
+  disconnect?: Maybe<EventWhereUniqueInput[] | EventWhereUniqueInput>;
+  update?: Maybe<
+    | EventUpdateWithWhereUniqueWithoutSavedInput[]
+    | EventUpdateWithWhereUniqueWithoutSavedInput
+  >;
+  upsert?: Maybe<
+    | EventUpsertWithWhereUniqueWithoutSavedInput[]
+    | EventUpsertWithWhereUniqueWithoutSavedInput
+  >;
+  deleteMany?: Maybe<EventScalarWhereInput[] | EventScalarWhereInput>;
+  updateMany?: Maybe<
+    EventUpdateManyWithWhereNestedInput[] | EventUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface EventUpdateWithWhereUniqueWithoutSavedInput {
+  where: EventWhereUniqueInput;
+  data: EventUpdateWithoutSavedDataInput;
+}
+
+export interface EventUpdateWithoutSavedDataInput {
+  title?: Maybe<String>;
+  description?: Maybe<String>;
+  start?: Maybe<DateTimeInput>;
+  end?: Maybe<DateTimeInput>;
+  ticketPrice?: Maybe<Float>;
+  creator?: Maybe<UserUpdateOneWithoutCreatedEventsInput>;
+  eventImages?: Maybe<EventImageUpdateManyWithoutEventInput>;
+  rsvps?: Maybe<UserUpdateManyWithoutRsvpsInput>;
+  urls?: Maybe<EventUrlUpdateManyWithoutEventInput>;
+  admins?: Maybe<UserUpdateManyWithoutAdminForInput>;
+  locations?: Maybe<LocationUpdateManyWithoutEventInput>;
+  tags?: Maybe<TagUpdateManyWithoutEventsInput>;
+  index?: Maybe<String>;
+}
+
+export interface UserUpdateManyWithoutRsvpsInput {
+  create?: Maybe<UserCreateWithoutRsvpsInput[] | UserCreateWithoutRsvpsInput>;
+  delete?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  set?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  disconnect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  update?: Maybe<
+    | UserUpdateWithWhereUniqueWithoutRsvpsInput[]
+    | UserUpdateWithWhereUniqueWithoutRsvpsInput
+  >;
+  upsert?: Maybe<
+    | UserUpsertWithWhereUniqueWithoutRsvpsInput[]
+    | UserUpsertWithWhereUniqueWithoutRsvpsInput
+  >;
+  deleteMany?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
+  updateMany?: Maybe<
+    UserUpdateManyWithWhereNestedInput[] | UserUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface UserUpdateWithWhereUniqueWithoutRsvpsInput {
+  where: UserWhereUniqueInput;
+  data: UserUpdateWithoutRsvpsDataInput;
+}
+
+export interface UserUpdateWithoutRsvpsDataInput {
+  firstName?: Maybe<String>;
+  lastName?: Maybe<String>;
+  auth0Id?: Maybe<String>;
+  organizations?: Maybe<OrganizationUpdateManyWithoutUsersInput>;
+  saved?: Maybe<EventUpdateManyWithoutSavedInput>;
+  adminFor?: Maybe<EventUpdateManyWithoutAdminsInput>;
+  createdEvents?: Maybe<EventUpdateManyWithoutCreatorInput>;
+  createdImages?: Maybe<EventImageUpdateManyWithoutCreatorInput>;
 }
 
 export interface EventUpdateManyWithoutAdminsInput {
@@ -1657,25 +1792,26 @@ export interface EventUpdateWithoutAdminsDataInput {
   creator?: Maybe<UserUpdateOneWithoutCreatedEventsInput>;
   eventImages?: Maybe<EventImageUpdateManyWithoutEventInput>;
   rsvps?: Maybe<UserUpdateManyWithoutRsvpsInput>;
+  saved?: Maybe<UserUpdateManyWithoutSavedInput>;
   urls?: Maybe<EventUrlUpdateManyWithoutEventInput>;
   locations?: Maybe<LocationUpdateManyWithoutEventInput>;
   tags?: Maybe<TagUpdateManyWithoutEventsInput>;
   index?: Maybe<String>;
 }
 
-export interface UserUpdateManyWithoutRsvpsInput {
-  create?: Maybe<UserCreateWithoutRsvpsInput[] | UserCreateWithoutRsvpsInput>;
+export interface UserUpdateManyWithoutSavedInput {
+  create?: Maybe<UserCreateWithoutSavedInput[] | UserCreateWithoutSavedInput>;
   delete?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
   connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
   set?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
   disconnect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
   update?: Maybe<
-    | UserUpdateWithWhereUniqueWithoutRsvpsInput[]
-    | UserUpdateWithWhereUniqueWithoutRsvpsInput
+    | UserUpdateWithWhereUniqueWithoutSavedInput[]
+    | UserUpdateWithWhereUniqueWithoutSavedInput
   >;
   upsert?: Maybe<
-    | UserUpsertWithWhereUniqueWithoutRsvpsInput[]
-    | UserUpsertWithWhereUniqueWithoutRsvpsInput
+    | UserUpsertWithWhereUniqueWithoutSavedInput[]
+    | UserUpsertWithWhereUniqueWithoutSavedInput
   >;
   deleteMany?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
   updateMany?: Maybe<
@@ -1683,16 +1819,17 @@ export interface UserUpdateManyWithoutRsvpsInput {
   >;
 }
 
-export interface UserUpdateWithWhereUniqueWithoutRsvpsInput {
+export interface UserUpdateWithWhereUniqueWithoutSavedInput {
   where: UserWhereUniqueInput;
-  data: UserUpdateWithoutRsvpsDataInput;
+  data: UserUpdateWithoutSavedDataInput;
 }
 
-export interface UserUpdateWithoutRsvpsDataInput {
+export interface UserUpdateWithoutSavedDataInput {
   firstName?: Maybe<String>;
   lastName?: Maybe<String>;
   auth0Id?: Maybe<String>;
   organizations?: Maybe<OrganizationUpdateManyWithoutUsersInput>;
+  rsvps?: Maybe<EventUpdateManyWithoutRsvpsInput>;
   adminFor?: Maybe<EventUpdateManyWithoutAdminsInput>;
   createdEvents?: Maybe<EventUpdateManyWithoutCreatorInput>;
   createdImages?: Maybe<EventImageUpdateManyWithoutCreatorInput>;
@@ -1733,6 +1870,7 @@ export interface EventUpdateWithoutCreatorDataInput {
   ticketPrice?: Maybe<Float>;
   eventImages?: Maybe<EventImageUpdateManyWithoutEventInput>;
   rsvps?: Maybe<UserUpdateManyWithoutRsvpsInput>;
+  saved?: Maybe<UserUpdateManyWithoutSavedInput>;
   urls?: Maybe<EventUrlUpdateManyWithoutEventInput>;
   admins?: Maybe<UserUpdateManyWithoutAdminForInput>;
   locations?: Maybe<LocationUpdateManyWithoutEventInput>;
@@ -1854,6 +1992,7 @@ export interface UserUpdateWithoutAdminForDataInput {
   auth0Id?: Maybe<String>;
   organizations?: Maybe<OrganizationUpdateManyWithoutUsersInput>;
   rsvps?: Maybe<EventUpdateManyWithoutRsvpsInput>;
+  saved?: Maybe<EventUpdateManyWithoutSavedInput>;
   createdEvents?: Maybe<EventUpdateManyWithoutCreatorInput>;
   createdImages?: Maybe<EventImageUpdateManyWithoutCreatorInput>;
 }
@@ -1908,6 +2047,7 @@ export interface EventUpdateWithoutEventImagesDataInput {
   ticketPrice?: Maybe<Float>;
   creator?: Maybe<UserUpdateOneWithoutCreatedEventsInput>;
   rsvps?: Maybe<UserUpdateManyWithoutRsvpsInput>;
+  saved?: Maybe<UserUpdateManyWithoutSavedInput>;
   urls?: Maybe<EventUrlUpdateManyWithoutEventInput>;
   admins?: Maybe<UserUpdateManyWithoutAdminForInput>;
   locations?: Maybe<LocationUpdateManyWithoutEventInput>;
@@ -2442,16 +2582,28 @@ export interface EventUpdateManyDataInput {
   index?: Maybe<String>;
 }
 
-export interface UserUpsertWithWhereUniqueWithoutRsvpsInput {
+export interface UserUpsertWithWhereUniqueWithoutSavedInput {
   where: UserWhereUniqueInput;
-  update: UserUpdateWithoutRsvpsDataInput;
-  create: UserCreateWithoutRsvpsInput;
+  update: UserUpdateWithoutSavedDataInput;
+  create: UserCreateWithoutSavedInput;
 }
 
 export interface EventUpsertWithWhereUniqueWithoutAdminsInput {
   where: EventWhereUniqueInput;
   update: EventUpdateWithoutAdminsDataInput;
   create: EventCreateWithoutAdminsInput;
+}
+
+export interface UserUpsertWithWhereUniqueWithoutRsvpsInput {
+  where: UserWhereUniqueInput;
+  update: UserUpdateWithoutRsvpsDataInput;
+  create: UserCreateWithoutRsvpsInput;
+}
+
+export interface EventUpsertWithWhereUniqueWithoutSavedInput {
+  where: EventWhereUniqueInput;
+  update: EventUpdateWithoutSavedDataInput;
+  create: EventCreateWithoutSavedInput;
 }
 
 export interface UserUpsertWithoutCreatedImagesInput {
@@ -2523,6 +2675,7 @@ export interface EventCreateWithoutUrlsInput {
   creator?: Maybe<UserCreateOneWithoutCreatedEventsInput>;
   eventImages?: Maybe<EventImageCreateManyWithoutEventInput>;
   rsvps?: Maybe<UserCreateManyWithoutRsvpsInput>;
+  saved?: Maybe<UserCreateManyWithoutSavedInput>;
   admins?: Maybe<UserCreateManyWithoutAdminForInput>;
   locations?: Maybe<LocationCreateManyWithoutEventInput>;
   tags?: Maybe<TagCreateManyWithoutEventsInput>;
@@ -2550,6 +2703,7 @@ export interface EventUpdateWithoutUrlsDataInput {
   creator?: Maybe<UserUpdateOneWithoutCreatedEventsInput>;
   eventImages?: Maybe<EventImageUpdateManyWithoutEventInput>;
   rsvps?: Maybe<UserUpdateManyWithoutRsvpsInput>;
+  saved?: Maybe<UserUpdateManyWithoutSavedInput>;
   admins?: Maybe<UserUpdateManyWithoutAdminForInput>;
   locations?: Maybe<LocationUpdateManyWithoutEventInput>;
   tags?: Maybe<TagUpdateManyWithoutEventsInput>;
@@ -2617,6 +2771,7 @@ export interface EventCreateWithoutLocationsInput {
   creator?: Maybe<UserCreateOneWithoutCreatedEventsInput>;
   eventImages?: Maybe<EventImageCreateManyWithoutEventInput>;
   rsvps?: Maybe<UserCreateManyWithoutRsvpsInput>;
+  saved?: Maybe<UserCreateManyWithoutSavedInput>;
   urls?: Maybe<EventUrlCreateManyWithoutEventInput>;
   admins?: Maybe<UserCreateManyWithoutAdminForInput>;
   tags?: Maybe<TagCreateManyWithoutEventsInput>;
@@ -2696,6 +2851,7 @@ export interface EventUpdateWithoutLocationsDataInput {
   creator?: Maybe<UserUpdateOneWithoutCreatedEventsInput>;
   eventImages?: Maybe<EventImageUpdateManyWithoutEventInput>;
   rsvps?: Maybe<UserUpdateManyWithoutRsvpsInput>;
+  saved?: Maybe<UserUpdateManyWithoutSavedInput>;
   urls?: Maybe<EventUrlUpdateManyWithoutEventInput>;
   admins?: Maybe<UserUpdateManyWithoutAdminForInput>;
   tags?: Maybe<TagUpdateManyWithoutEventsInput>;
@@ -2793,6 +2949,7 @@ export interface UserCreateWithoutOrganizationsInput {
   lastName?: Maybe<String>;
   auth0Id: String;
   rsvps?: Maybe<EventCreateManyWithoutRsvpsInput>;
+  saved?: Maybe<EventCreateManyWithoutSavedInput>;
   adminFor?: Maybe<EventCreateManyWithoutAdminsInput>;
   createdEvents?: Maybe<EventCreateManyWithoutCreatorInput>;
   createdImages?: Maybe<EventImageCreateManyWithoutCreatorInput>;
@@ -2838,6 +2995,7 @@ export interface UserUpdateWithoutOrganizationsDataInput {
   lastName?: Maybe<String>;
   auth0Id?: Maybe<String>;
   rsvps?: Maybe<EventUpdateManyWithoutRsvpsInput>;
+  saved?: Maybe<EventUpdateManyWithoutSavedInput>;
   adminFor?: Maybe<EventUpdateManyWithoutAdminsInput>;
   createdEvents?: Maybe<EventUpdateManyWithoutCreatorInput>;
   createdImages?: Maybe<EventImageUpdateManyWithoutCreatorInput>;
@@ -2877,6 +3035,7 @@ export interface EventCreateWithoutTagsInput {
   creator?: Maybe<UserCreateOneWithoutCreatedEventsInput>;
   eventImages?: Maybe<EventImageCreateManyWithoutEventInput>;
   rsvps?: Maybe<UserCreateManyWithoutRsvpsInput>;
+  saved?: Maybe<UserCreateManyWithoutSavedInput>;
   urls?: Maybe<EventUrlCreateManyWithoutEventInput>;
   admins?: Maybe<UserCreateManyWithoutAdminForInput>;
   locations?: Maybe<LocationCreateManyWithoutEventInput>;
@@ -2922,6 +3081,7 @@ export interface EventUpdateWithoutTagsDataInput {
   creator?: Maybe<UserUpdateOneWithoutCreatedEventsInput>;
   eventImages?: Maybe<EventImageUpdateManyWithoutEventInput>;
   rsvps?: Maybe<UserUpdateManyWithoutRsvpsInput>;
+  saved?: Maybe<UserUpdateManyWithoutSavedInput>;
   urls?: Maybe<EventUrlUpdateManyWithoutEventInput>;
   admins?: Maybe<UserUpdateManyWithoutAdminForInput>;
   locations?: Maybe<LocationUpdateManyWithoutEventInput>;
@@ -2945,6 +3105,7 @@ export interface UserCreateInput {
   auth0Id: String;
   organizations?: Maybe<OrganizationCreateManyWithoutUsersInput>;
   rsvps?: Maybe<EventCreateManyWithoutRsvpsInput>;
+  saved?: Maybe<EventCreateManyWithoutSavedInput>;
   adminFor?: Maybe<EventCreateManyWithoutAdminsInput>;
   createdEvents?: Maybe<EventCreateManyWithoutCreatorInput>;
   createdImages?: Maybe<EventImageCreateManyWithoutCreatorInput>;
@@ -2956,6 +3117,7 @@ export interface UserUpdateInput {
   auth0Id?: Maybe<String>;
   organizations?: Maybe<OrganizationUpdateManyWithoutUsersInput>;
   rsvps?: Maybe<EventUpdateManyWithoutRsvpsInput>;
+  saved?: Maybe<EventUpdateManyWithoutSavedInput>;
   adminFor?: Maybe<EventUpdateManyWithoutAdminsInput>;
   createdEvents?: Maybe<EventUpdateManyWithoutCreatorInput>;
   createdImages?: Maybe<EventImageUpdateManyWithoutCreatorInput>;
@@ -3132,6 +3294,15 @@ export interface EventPromise extends Promise<Event>, Fragmentable {
     first?: Int;
     last?: Int;
   }) => T;
+  saved: <T = FragmentableArray<User>>(args?: {
+    where?: UserWhereInput;
+    orderBy?: UserOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
   urls: <T = FragmentableArray<EventUrl>>(args?: {
     where?: EventUrlWhereInput;
     orderBy?: EventUrlOrderByInput;
@@ -3199,6 +3370,15 @@ export interface EventSubscription
     first?: Int;
     last?: Int;
   }) => T;
+  saved: <T = Promise<AsyncIterator<UserSubscription>>>(args?: {
+    where?: UserWhereInput;
+    orderBy?: UserOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
   urls: <T = Promise<AsyncIterator<EventUrlSubscription>>>(args?: {
     where?: EventUrlWhereInput;
     orderBy?: EventUrlOrderByInput;
@@ -3258,6 +3438,15 @@ export interface EventNullablePromise
     last?: Int;
   }) => T;
   rsvps: <T = FragmentableArray<User>>(args?: {
+    where?: UserWhereInput;
+    orderBy?: UserOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  saved: <T = FragmentableArray<User>>(args?: {
     where?: UserWhereInput;
     orderBy?: UserOrderByInput;
     skip?: Int;
@@ -3335,6 +3524,15 @@ export interface UserPromise extends Promise<User>, Fragmentable {
     first?: Int;
     last?: Int;
   }) => T;
+  saved: <T = FragmentableArray<Event>>(args?: {
+    where?: EventWhereInput;
+    orderBy?: EventOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
   adminFor: <T = FragmentableArray<Event>>(args?: {
     where?: EventWhereInput;
     orderBy?: EventOrderByInput;
@@ -3389,6 +3587,15 @@ export interface UserSubscription
     first?: Int;
     last?: Int;
   }) => T;
+  saved: <T = Promise<AsyncIterator<EventSubscription>>>(args?: {
+    where?: EventWhereInput;
+    orderBy?: EventOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
   adminFor: <T = Promise<AsyncIterator<EventSubscription>>>(args?: {
     where?: EventWhereInput;
     orderBy?: EventOrderByInput;
@@ -3435,6 +3642,15 @@ export interface UserNullablePromise
     last?: Int;
   }) => T;
   rsvps: <T = FragmentableArray<Event>>(args?: {
+    where?: EventWhereInput;
+    orderBy?: EventOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  saved: <T = FragmentableArray<Event>>(args?: {
     where?: EventWhereInput;
     orderBy?: EventOrderByInput;
     skip?: Int;

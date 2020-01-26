@@ -5,6 +5,7 @@ type User {
   auth0Id: String! @unique
   organizations: [Organization!] @relation(name: "UsersOrganizations", link: TABLE)
   rsvps: [Event!] @relation(name: "UsersRsvps", link: TABLE)
+  saved: [Event!] @relation(name: "UsersSavedEvents", link: TABLE)
   adminFor: [Event!] @relation(name: "EventsAdmins", link: TABLE)
   createdEvents: [Event!] @relation(name: "CreatedEvents", link: TABLE, onDelete: CASCADE)
   createdImages: [EventImage!] @relation(name: "CreatedImages", link: TABLE, onDelete: CASCADE)
@@ -20,6 +21,7 @@ type Event {
   creator: User @relation(name: "CreatedEvents")
   eventImages: [EventImage!] @relation(name: "EventsImages", link: TABLE, onDelete: CASCADE)
   rsvps: [User!] @relation(name: "UsersRsvps")
+  saved: [User!] @relation(name: "UsersSavedEvents")
   urls: [EventUrl!] @relation(name: "EventUrls", link: TABLE, onDelete: CASCADE)
   admins: [User!] @relation(name: "EventsAdmins")
   locations: [Location!] @relation(name: "EventsLocations", link: TABLE, onDelete: CASCADE)

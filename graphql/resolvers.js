@@ -17,19 +17,20 @@ const resolvers = {
   //prisma bindings, otherwise fields would be null in queries/mutations
   Event: {
     creator: (parent, args, {prisma}) =>
-      prisma.event({id: parent.id}).creator(),
+      prisma.event({id: parent.id}).creator({...args}),
     eventImages: (parent, args, {prisma}) =>
-      prisma.event({id: parent.id}).eventImages(),
-    rsvps: (parent, args, {prisma}) => prisma.event({id: parent.id}).rsvps(),
-    urls: (parent, args, {prisma}) => prisma.event({id: parent.id}).urls(),
-    admins: (parent, args, {prisma}) => prisma.event({id: parent.id}).admins(),
+      prisma.event({id: parent.id}).eventImages({...args}),
+    rsvps: (parent, args, {prisma}) => prisma.event({id: parent.id}).rsvps({...args}),
+    saved: (parent, args, {prisma}) => prisma.event({id: parent.id}).saved({...args}),
+    urls: (parent, args, {prisma}) => prisma.event({id: parent.id}).urls({...args}),
+    admins: (parent, args, {prisma}) => prisma.event({id: parent.id}).admins({...args}),
     locations: async (
       parent,
       {userLatitude, userLongitude, distanceUnit = 'miles', ...args},
       {prisma},
     ) => {
       // find the locations for the current event
-      const eventLocations = await prisma.event({id: parent.id}).locations();
+      const eventLocations = await prisma.event({id: parent.id}).locations({...args});
 
       //if userLatitude and userLongitude are passed as arguments for location
       if (userLatitude && userLongitude) {
@@ -57,15 +58,15 @@ const resolvers = {
 
       return eventLocations;
     },
-    tags: (parent, args, {prisma}) => prisma.event({id: parent.id}).tags(),
+    tags: (parent, args, {prisma}) => prisma.event({id: parent.id}).tags({...args}),
   },
   User: {
-    rsvps: (parent, args, {prisma}) => prisma.user({id: parent.id}).rsvps(),
+    rsvps: (parent, args, {prisma}) => prisma.user({id: parent.id}).rsvps({...args}),
     createdImages: (parent, args, {prisma}) =>
-      prisma.user({id: parent.id}).createdImages(),
+      prisma.user({id: parent.id}).createdImages({...args}),
   },
   Tag: {
-    events: (parent, args, {prisma}) => prisma.tag({id: parent.id}).events(),
+    events: (parent, args, {prisma}) => prisma.tag({id: parent.id}).events({...args}),
   },
   Query: {
     users: async (root, args, {prisma, req, decodedToken}, info) => {
@@ -476,6 +477,43 @@ const resolvers = {
           where: {id: decoded['http://cc_id']},
           data: {rsvps: {disconnect: {id}}},
         });
+      } catch (err) {
+        throw err;
+      }
+    },
+    saveEvent: async (root, args, {prisma, req, decodedToken}, info) => {
+      try {
+        const decoded = await decodedToken(req); //requires token to be sent in authorization headers
+        const {
+          event: {id},
+        } = args;
+
+        const getSavedFragment = `
+            fragment getSavedUser on Event {
+              saved(where: {id: "${decoded['http://cc_id']}"}){id}
+            }
+          `;
+
+        const {saved} = await prisma.event({id}).$fragment(getSavedFragment);
+
+        //saved.length is true if user has already saved the event
+        const action = saved.length ? {disconnect: {id}} : {connect: {id}};
+
+        const userSavedFragment = `
+            fragment getUserEvent on User {
+              saved(where: {id: "${id}"}){id}
+            }
+        `;
+
+        const {saved: userSaved} = await prisma
+          .updateUser({
+            where: {id: decoded['http://cc_id']},
+            data: {saved: action},
+          })
+          .$fragment(userSavedFragment);
+
+        //SAVED returned if user saved the event  
+        return userSaved.length ? 'SAVED' : 'UNSAVED';
       } catch (err) {
         throw err;
       }
