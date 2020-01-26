@@ -17,20 +17,20 @@ const resolvers = {
   //prisma bindings, otherwise fields would be null in queries/mutations
   Event: {
     creator: (parent, args, {prisma}) =>
-      prisma.event({id: parent.id}).creator(),
+      prisma.event({id: parent.id}).creator({...args}),
     eventImages: (parent, args, {prisma}) =>
-      prisma.event({id: parent.id}).eventImages(),
-    rsvps: (parent, args, {prisma}) => prisma.event({id: parent.id}).rsvps(),
-    saved: (parent, args, {prisma}) => prisma.event({id: parent.id}).saved(),
-    urls: (parent, args, {prisma}) => prisma.event({id: parent.id}).urls(),
-    admins: (parent, args, {prisma}) => prisma.event({id: parent.id}).admins(),
+      prisma.event({id: parent.id}).eventImages({...args}),
+    rsvps: (parent, args, {prisma}) => prisma.event({id: parent.id}).rsvps({...args}),
+    saved: (parent, args, {prisma}) => prisma.event({id: parent.id}).saved({...args}),
+    urls: (parent, args, {prisma}) => prisma.event({id: parent.id}).urls({...args}),
+    admins: (parent, args, {prisma}) => prisma.event({id: parent.id}).admins({...args}),
     locations: async (
       parent,
       {userLatitude, userLongitude, distanceUnit = 'miles', ...args},
       {prisma},
     ) => {
       // find the locations for the current event
-      const eventLocations = await prisma.event({id: parent.id}).locations();
+      const eventLocations = await prisma.event({id: parent.id}).locations({...args});
 
       //if userLatitude and userLongitude are passed as arguments for location
       if (userLatitude && userLongitude) {
@@ -58,15 +58,15 @@ const resolvers = {
 
       return eventLocations;
     },
-    tags: (parent, args, {prisma}) => prisma.event({id: parent.id}).tags(),
+    tags: (parent, args, {prisma}) => prisma.event({id: parent.id}).tags({...args}),
   },
   User: {
-    rsvps: (parent, args, {prisma}) => prisma.user({id: parent.id}).rsvps(),
+    rsvps: (parent, args, {prisma}) => prisma.user({id: parent.id}).rsvps({...args}),
     createdImages: (parent, args, {prisma}) =>
-      prisma.user({id: parent.id}).createdImages(),
+      prisma.user({id: parent.id}).createdImages({...args}),
   },
   Tag: {
-    events: (parent, args, {prisma}) => prisma.tag({id: parent.id}).events(),
+    events: (parent, args, {prisma}) => prisma.tag({id: parent.id}).events({...args}),
   },
   Query: {
     users: async (root, args, {prisma, req, decodedToken}, info) => {
