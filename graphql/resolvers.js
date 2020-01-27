@@ -524,8 +524,8 @@ const resolvers = {
           })
           .$fragment(userRsvpFragment);
 
-        //RSVP returned if user rsvp'd to the event
-        return userRsvp.length ? 'RSVP' : 'UNRSVP';
+        //true returned if user rsvp'd to the event
+        return !!userRsvp.length;
       } catch (err) {
         throw err;
       }
@@ -561,8 +561,8 @@ const resolvers = {
           })
           .$fragment(userSavedFragment);
 
-        //SAVED returned if user saved the event
-        return userSaved.length ? 'SAVED' : 'UNSAVED';
+        //true returned if user saved the event
+        return !!userSaved.length;
       } catch (err) {
         throw err;
       }

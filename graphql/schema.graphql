@@ -91,16 +91,6 @@ input SearchFilters {
   dateRange: DateRangeSearchInput
 }
 
-enum Saved {
-  SAVED
-  UNSAVED
-}
-
-enum Rsvp {
-  RSVP
-  UNRSVP
-}
-
 type Location {
   id: ID!
   name: String!
@@ -216,7 +206,7 @@ type Query {
 type Mutation {
   addUser(data: UserCreateInput!): User!
   deleteEvent(where: EventWhereUniqueInput!): Event
-  rsvpEvent(event: EventIdInput!): Rsvp!
-  saveEvent(event: EventIdInput!): Saved!
+  rsvpEvent(event: EventIdInput!): Boolean!
+  saveEvent(event: EventIdInput!): Boolean!
 }
 
