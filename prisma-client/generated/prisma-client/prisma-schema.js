@@ -2583,6 +2583,7 @@ type User {
   adminFor(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event!]
   createdEvents(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event!]
   createdImages(where: EventImageWhereInput, orderBy: EventImageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [EventImage!]
+  profileImage: String
 }
 
 type UserConnection {
@@ -2602,6 +2603,7 @@ input UserCreateInput {
   adminFor: EventCreateManyWithoutAdminsInput
   createdEvents: EventCreateManyWithoutCreatorInput
   createdImages: EventImageCreateManyWithoutCreatorInput
+  profileImage: String
 }
 
 input UserCreateManyWithoutAdminForInput {
@@ -2644,6 +2646,7 @@ input UserCreateWithoutAdminForInput {
   saved: EventCreateManyWithoutSavedInput
   createdEvents: EventCreateManyWithoutCreatorInput
   createdImages: EventImageCreateManyWithoutCreatorInput
+  profileImage: String
 }
 
 input UserCreateWithoutCreatedEventsInput {
@@ -2656,6 +2659,7 @@ input UserCreateWithoutCreatedEventsInput {
   saved: EventCreateManyWithoutSavedInput
   adminFor: EventCreateManyWithoutAdminsInput
   createdImages: EventImageCreateManyWithoutCreatorInput
+  profileImage: String
 }
 
 input UserCreateWithoutCreatedImagesInput {
@@ -2668,6 +2672,7 @@ input UserCreateWithoutCreatedImagesInput {
   saved: EventCreateManyWithoutSavedInput
   adminFor: EventCreateManyWithoutAdminsInput
   createdEvents: EventCreateManyWithoutCreatorInput
+  profileImage: String
 }
 
 input UserCreateWithoutOrganizationsInput {
@@ -2680,6 +2685,7 @@ input UserCreateWithoutOrganizationsInput {
   adminFor: EventCreateManyWithoutAdminsInput
   createdEvents: EventCreateManyWithoutCreatorInput
   createdImages: EventImageCreateManyWithoutCreatorInput
+  profileImage: String
 }
 
 input UserCreateWithoutRsvpsInput {
@@ -2692,6 +2698,7 @@ input UserCreateWithoutRsvpsInput {
   adminFor: EventCreateManyWithoutAdminsInput
   createdEvents: EventCreateManyWithoutCreatorInput
   createdImages: EventImageCreateManyWithoutCreatorInput
+  profileImage: String
 }
 
 input UserCreateWithoutSavedInput {
@@ -2704,6 +2711,7 @@ input UserCreateWithoutSavedInput {
   adminFor: EventCreateManyWithoutAdminsInput
   createdEvents: EventCreateManyWithoutCreatorInput
   createdImages: EventImageCreateManyWithoutCreatorInput
+  profileImage: String
 }
 
 type UserEdge {
@@ -2720,6 +2728,8 @@ enum UserOrderByInput {
   lastName_DESC
   auth0Id_ASC
   auth0Id_DESC
+  profileImage_ASC
+  profileImage_DESC
 }
 
 type UserPreviousValues {
@@ -2727,6 +2737,7 @@ type UserPreviousValues {
   firstName: String
   lastName: String
   auth0Id: String!
+  profileImage: String
 }
 
 input UserScalarWhereInput {
@@ -2786,6 +2797,20 @@ input UserScalarWhereInput {
   auth0Id_not_starts_with: String
   auth0Id_ends_with: String
   auth0Id_not_ends_with: String
+  profileImage: String
+  profileImage_not: String
+  profileImage_in: [String!]
+  profileImage_not_in: [String!]
+  profileImage_lt: String
+  profileImage_lte: String
+  profileImage_gt: String
+  profileImage_gte: String
+  profileImage_contains: String
+  profileImage_not_contains: String
+  profileImage_starts_with: String
+  profileImage_not_starts_with: String
+  profileImage_ends_with: String
+  profileImage_not_ends_with: String
   AND: [UserScalarWhereInput!]
   OR: [UserScalarWhereInput!]
   NOT: [UserScalarWhereInput!]
@@ -2819,18 +2844,21 @@ input UserUpdateInput {
   adminFor: EventUpdateManyWithoutAdminsInput
   createdEvents: EventUpdateManyWithoutCreatorInput
   createdImages: EventImageUpdateManyWithoutCreatorInput
+  profileImage: String
 }
 
 input UserUpdateManyDataInput {
   firstName: String
   lastName: String
   auth0Id: String
+  profileImage: String
 }
 
 input UserUpdateManyMutationInput {
   firstName: String
   lastName: String
   auth0Id: String
+  profileImage: String
 }
 
 input UserUpdateManyWithoutAdminForInput {
@@ -2911,6 +2939,7 @@ input UserUpdateWithoutAdminForDataInput {
   saved: EventUpdateManyWithoutSavedInput
   createdEvents: EventUpdateManyWithoutCreatorInput
   createdImages: EventImageUpdateManyWithoutCreatorInput
+  profileImage: String
 }
 
 input UserUpdateWithoutCreatedEventsDataInput {
@@ -2922,6 +2951,7 @@ input UserUpdateWithoutCreatedEventsDataInput {
   saved: EventUpdateManyWithoutSavedInput
   adminFor: EventUpdateManyWithoutAdminsInput
   createdImages: EventImageUpdateManyWithoutCreatorInput
+  profileImage: String
 }
 
 input UserUpdateWithoutCreatedImagesDataInput {
@@ -2933,6 +2963,7 @@ input UserUpdateWithoutCreatedImagesDataInput {
   saved: EventUpdateManyWithoutSavedInput
   adminFor: EventUpdateManyWithoutAdminsInput
   createdEvents: EventUpdateManyWithoutCreatorInput
+  profileImage: String
 }
 
 input UserUpdateWithoutOrganizationsDataInput {
@@ -2944,6 +2975,7 @@ input UserUpdateWithoutOrganizationsDataInput {
   adminFor: EventUpdateManyWithoutAdminsInput
   createdEvents: EventUpdateManyWithoutCreatorInput
   createdImages: EventImageUpdateManyWithoutCreatorInput
+  profileImage: String
 }
 
 input UserUpdateWithoutRsvpsDataInput {
@@ -2955,6 +2987,7 @@ input UserUpdateWithoutRsvpsDataInput {
   adminFor: EventUpdateManyWithoutAdminsInput
   createdEvents: EventUpdateManyWithoutCreatorInput
   createdImages: EventImageUpdateManyWithoutCreatorInput
+  profileImage: String
 }
 
 input UserUpdateWithoutSavedDataInput {
@@ -2966,6 +2999,7 @@ input UserUpdateWithoutSavedDataInput {
   adminFor: EventUpdateManyWithoutAdminsInput
   createdEvents: EventUpdateManyWithoutCreatorInput
   createdImages: EventImageUpdateManyWithoutCreatorInput
+  profileImage: String
 }
 
 input UserUpdateWithWhereUniqueWithoutAdminForInput {
@@ -3097,6 +3131,20 @@ input UserWhereInput {
   createdImages_every: EventImageWhereInput
   createdImages_some: EventImageWhereInput
   createdImages_none: EventImageWhereInput
+  profileImage: String
+  profileImage_not: String
+  profileImage_in: [String!]
+  profileImage_not_in: [String!]
+  profileImage_lt: String
+  profileImage_lte: String
+  profileImage_gt: String
+  profileImage_gte: String
+  profileImage_contains: String
+  profileImage_not_contains: String
+  profileImage_starts_with: String
+  profileImage_not_starts_with: String
+  profileImage_ends_with: String
+  profileImage_not_ends_with: String
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]

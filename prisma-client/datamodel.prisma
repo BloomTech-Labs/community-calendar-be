@@ -9,6 +9,7 @@ type User {
   adminFor: [Event!] @relation(name: "EventsAdmins", link: TABLE)
   createdEvents: [Event!] @relation(name: "CreatedEvents", link: TABLE, onDelete: CASCADE)
   createdImages: [EventImage!] @relation(name: "CreatedImages", link: TABLE, onDelete: CASCADE)
+  profileImage: String
 }
 
 type Event {

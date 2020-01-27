@@ -50,6 +50,19 @@ input EventUpdateInput {
   ticketPrice: Float
 }
 
+input UserUpdateInput {
+  firstName: String
+  lastName: String
+  auth0Id: String
+  organizations: OrganizationUpdateManyWithoutUsersInput
+  rsvps: EventUpdateManyWithoutRsvpsInput
+  saved: EventUpdateManyWithoutSavedInput
+  adminFor: EventUpdateManyWithoutAdminsInput
+  createdEvents: EventUpdateManyWithoutCreatorInput
+  createdImages: EventImageUpdateManyWithoutCreatorInput
+  profileImage: String
+}
+
 input EventIdInput {
   id: ID!
 }
@@ -81,6 +94,11 @@ input SearchFilters {
 enum Saved {
   SAVED
   UNSAVED
+}
+
+enum Rsvp {
+  RSVP
+  UNRSVP
 }
 
 type Location {
@@ -198,8 +216,7 @@ type Query {
 type Mutation {
   addUser(data: UserCreateInput!): User!
   deleteEvent(where: EventWhereUniqueInput!): Event
-  addRsvp(event: EventIdInput!): User
-  removeRsvp(event: EventIdInput!): User
+  rsvpEvent(event: EventIdInput!): Rsvp!
   saveEvent(event: EventIdInput!): Saved!
 }
 
