@@ -441,7 +441,9 @@ export type UserOrderByInput =
   | "lastName_ASC"
   | "lastName_DESC"
   | "auth0Id_ASC"
-  | "auth0Id_DESC";
+  | "auth0Id_DESC"
+  | "profileImage_ASC"
+  | "profileImage_DESC";
 
 export type EventOrderByInput =
   | "id_ASC"
@@ -661,6 +663,20 @@ export interface UserWhereInput {
   createdImages_every?: Maybe<EventImageWhereInput>;
   createdImages_some?: Maybe<EventImageWhereInput>;
   createdImages_none?: Maybe<EventImageWhereInput>;
+  profileImage?: Maybe<String>;
+  profileImage_not?: Maybe<String>;
+  profileImage_in?: Maybe<String[] | String>;
+  profileImage_not_in?: Maybe<String[] | String>;
+  profileImage_lt?: Maybe<String>;
+  profileImage_lte?: Maybe<String>;
+  profileImage_gt?: Maybe<String>;
+  profileImage_gte?: Maybe<String>;
+  profileImage_contains?: Maybe<String>;
+  profileImage_not_contains?: Maybe<String>;
+  profileImage_starts_with?: Maybe<String>;
+  profileImage_not_starts_with?: Maybe<String>;
+  profileImage_ends_with?: Maybe<String>;
+  profileImage_not_ends_with?: Maybe<String>;
   AND?: Maybe<UserWhereInput[] | UserWhereInput>;
   OR?: Maybe<UserWhereInput[] | UserWhereInput>;
   NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
@@ -1124,6 +1140,7 @@ export interface UserCreateWithoutCreatedEventsInput {
   saved?: Maybe<EventCreateManyWithoutSavedInput>;
   adminFor?: Maybe<EventCreateManyWithoutAdminsInput>;
   createdImages?: Maybe<EventImageCreateManyWithoutCreatorInput>;
+  profileImage?: Maybe<String>;
 }
 
 export interface OrganizationCreateManyWithoutUsersInput {
@@ -1193,6 +1210,7 @@ export interface UserCreateWithoutCreatedImagesInput {
   saved?: Maybe<EventCreateManyWithoutSavedInput>;
   adminFor?: Maybe<EventCreateManyWithoutAdminsInput>;
   createdEvents?: Maybe<EventCreateManyWithoutCreatorInput>;
+  profileImage?: Maybe<String>;
 }
 
 export interface EventCreateManyWithoutSavedInput {
@@ -1232,6 +1250,7 @@ export interface UserCreateWithoutRsvpsInput {
   adminFor?: Maybe<EventCreateManyWithoutAdminsInput>;
   createdEvents?: Maybe<EventCreateManyWithoutCreatorInput>;
   createdImages?: Maybe<EventImageCreateManyWithoutCreatorInput>;
+  profileImage?: Maybe<String>;
 }
 
 export interface EventCreateManyWithoutAdminsInput {
@@ -1273,6 +1292,7 @@ export interface UserCreateWithoutSavedInput {
   adminFor?: Maybe<EventCreateManyWithoutAdminsInput>;
   createdEvents?: Maybe<EventCreateManyWithoutCreatorInput>;
   createdImages?: Maybe<EventImageCreateManyWithoutCreatorInput>;
+  profileImage?: Maybe<String>;
 }
 
 export interface EventCreateManyWithoutCreatorInput {
@@ -1328,6 +1348,7 @@ export interface UserCreateWithoutAdminForInput {
   saved?: Maybe<EventCreateManyWithoutSavedInput>;
   createdEvents?: Maybe<EventCreateManyWithoutCreatorInput>;
   createdImages?: Maybe<EventImageCreateManyWithoutCreatorInput>;
+  profileImage?: Maybe<String>;
 }
 
 export interface EventImageCreateManyWithoutCreatorInput {
@@ -1450,6 +1471,7 @@ export interface UserUpdateWithoutCreatedEventsDataInput {
   saved?: Maybe<EventUpdateManyWithoutSavedInput>;
   adminFor?: Maybe<EventUpdateManyWithoutAdminsInput>;
   createdImages?: Maybe<EventImageUpdateManyWithoutCreatorInput>;
+  profileImage?: Maybe<String>;
 }
 
 export interface OrganizationUpdateManyWithoutUsersInput {
@@ -1677,6 +1699,7 @@ export interface UserUpdateWithoutCreatedImagesDataInput {
   saved?: Maybe<EventUpdateManyWithoutSavedInput>;
   adminFor?: Maybe<EventUpdateManyWithoutAdminsInput>;
   createdEvents?: Maybe<EventUpdateManyWithoutCreatorInput>;
+  profileImage?: Maybe<String>;
 }
 
 export interface EventUpdateManyWithoutSavedInput {
@@ -1754,6 +1777,7 @@ export interface UserUpdateWithoutRsvpsDataInput {
   adminFor?: Maybe<EventUpdateManyWithoutAdminsInput>;
   createdEvents?: Maybe<EventUpdateManyWithoutCreatorInput>;
   createdImages?: Maybe<EventImageUpdateManyWithoutCreatorInput>;
+  profileImage?: Maybe<String>;
 }
 
 export interface EventUpdateManyWithoutAdminsInput {
@@ -1833,6 +1857,7 @@ export interface UserUpdateWithoutSavedDataInput {
   adminFor?: Maybe<EventUpdateManyWithoutAdminsInput>;
   createdEvents?: Maybe<EventUpdateManyWithoutCreatorInput>;
   createdImages?: Maybe<EventImageUpdateManyWithoutCreatorInput>;
+  profileImage?: Maybe<String>;
 }
 
 export interface EventUpdateManyWithoutCreatorInput {
@@ -1995,6 +2020,7 @@ export interface UserUpdateWithoutAdminForDataInput {
   saved?: Maybe<EventUpdateManyWithoutSavedInput>;
   createdEvents?: Maybe<EventUpdateManyWithoutCreatorInput>;
   createdImages?: Maybe<EventImageUpdateManyWithoutCreatorInput>;
+  profileImage?: Maybe<String>;
 }
 
 export interface EventImageUpdateManyWithoutCreatorInput {
@@ -2460,6 +2486,20 @@ export interface UserScalarWhereInput {
   auth0Id_not_starts_with?: Maybe<String>;
   auth0Id_ends_with?: Maybe<String>;
   auth0Id_not_ends_with?: Maybe<String>;
+  profileImage?: Maybe<String>;
+  profileImage_not?: Maybe<String>;
+  profileImage_in?: Maybe<String[] | String>;
+  profileImage_not_in?: Maybe<String[] | String>;
+  profileImage_lt?: Maybe<String>;
+  profileImage_lte?: Maybe<String>;
+  profileImage_gt?: Maybe<String>;
+  profileImage_gte?: Maybe<String>;
+  profileImage_contains?: Maybe<String>;
+  profileImage_not_contains?: Maybe<String>;
+  profileImage_starts_with?: Maybe<String>;
+  profileImage_not_starts_with?: Maybe<String>;
+  profileImage_ends_with?: Maybe<String>;
+  profileImage_not_ends_with?: Maybe<String>;
   AND?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
   OR?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
   NOT?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
@@ -2474,6 +2514,7 @@ export interface UserUpdateManyDataInput {
   firstName?: Maybe<String>;
   lastName?: Maybe<String>;
   auth0Id?: Maybe<String>;
+  profileImage?: Maybe<String>;
 }
 
 export interface EventUpsertWithWhereUniqueWithoutCreatorInput {
@@ -2953,6 +2994,7 @@ export interface UserCreateWithoutOrganizationsInput {
   adminFor?: Maybe<EventCreateManyWithoutAdminsInput>;
   createdEvents?: Maybe<EventCreateManyWithoutCreatorInput>;
   createdImages?: Maybe<EventImageCreateManyWithoutCreatorInput>;
+  profileImage?: Maybe<String>;
 }
 
 export interface OrganizationUpdateInput {
@@ -2999,6 +3041,7 @@ export interface UserUpdateWithoutOrganizationsDataInput {
   adminFor?: Maybe<EventUpdateManyWithoutAdminsInput>;
   createdEvents?: Maybe<EventUpdateManyWithoutCreatorInput>;
   createdImages?: Maybe<EventImageUpdateManyWithoutCreatorInput>;
+  profileImage?: Maybe<String>;
 }
 
 export interface UserUpsertWithWhereUniqueWithoutOrganizationsInput {
@@ -3109,6 +3152,7 @@ export interface UserCreateInput {
   adminFor?: Maybe<EventCreateManyWithoutAdminsInput>;
   createdEvents?: Maybe<EventCreateManyWithoutCreatorInput>;
   createdImages?: Maybe<EventImageCreateManyWithoutCreatorInput>;
+  profileImage?: Maybe<String>;
 }
 
 export interface UserUpdateInput {
@@ -3121,12 +3165,14 @@ export interface UserUpdateInput {
   adminFor?: Maybe<EventUpdateManyWithoutAdminsInput>;
   createdEvents?: Maybe<EventUpdateManyWithoutCreatorInput>;
   createdImages?: Maybe<EventImageUpdateManyWithoutCreatorInput>;
+  profileImage?: Maybe<String>;
 }
 
 export interface UserUpdateManyMutationInput {
   firstName?: Maybe<String>;
   lastName?: Maybe<String>;
   auth0Id?: Maybe<String>;
+  profileImage?: Maybe<String>;
 }
 
 export interface EventSubscriptionWhereInput {
@@ -3499,6 +3545,7 @@ export interface User {
   firstName?: String;
   lastName?: String;
   auth0Id: String;
+  profileImage?: String;
 }
 
 export interface UserPromise extends Promise<User>, Fragmentable {
@@ -3560,6 +3607,7 @@ export interface UserPromise extends Promise<User>, Fragmentable {
     first?: Int;
     last?: Int;
   }) => T;
+  profileImage: () => Promise<String>;
 }
 
 export interface UserSubscription
@@ -3623,6 +3671,7 @@ export interface UserSubscription
     first?: Int;
     last?: Int;
   }) => T;
+  profileImage: () => Promise<AsyncIterator<String>>;
 }
 
 export interface UserNullablePromise
@@ -3686,6 +3735,7 @@ export interface UserNullablePromise
     first?: Int;
     last?: Int;
   }) => T;
+  profileImage: () => Promise<String>;
 }
 
 export interface Organization {
@@ -4955,6 +5005,7 @@ export interface UserPreviousValues {
   firstName?: String;
   lastName?: String;
   auth0Id: String;
+  profileImage?: String;
 }
 
 export interface UserPreviousValuesPromise
@@ -4964,6 +5015,7 @@ export interface UserPreviousValuesPromise
   firstName: () => Promise<String>;
   lastName: () => Promise<String>;
   auth0Id: () => Promise<String>;
+  profileImage: () => Promise<String>;
 }
 
 export interface UserPreviousValuesSubscription
@@ -4973,6 +5025,7 @@ export interface UserPreviousValuesSubscription
   firstName: () => Promise<AsyncIterator<String>>;
   lastName: () => Promise<AsyncIterator<String>>;
   auth0Id: () => Promise<AsyncIterator<String>>;
+  profileImage: () => Promise<AsyncIterator<String>>;
 }
 
 /*

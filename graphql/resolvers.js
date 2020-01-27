@@ -20,17 +20,23 @@ const resolvers = {
       prisma.event({id: parent.id}).creator({...args}),
     eventImages: (parent, args, {prisma}) =>
       prisma.event({id: parent.id}).eventImages({...args}),
-    rsvps: (parent, args, {prisma}) => prisma.event({id: parent.id}).rsvps({...args}),
-    saved: (parent, args, {prisma}) => prisma.event({id: parent.id}).saved({...args}),
-    urls: (parent, args, {prisma}) => prisma.event({id: parent.id}).urls({...args}),
-    admins: (parent, args, {prisma}) => prisma.event({id: parent.id}).admins({...args}),
+    rsvps: (parent, args, {prisma}) =>
+      prisma.event({id: parent.id}).rsvps({...args}),
+    saved: (parent, args, {prisma}) =>
+      prisma.event({id: parent.id}).saved({...args}),
+    urls: (parent, args, {prisma}) =>
+      prisma.event({id: parent.id}).urls({...args}),
+    admins: (parent, args, {prisma}) =>
+      prisma.event({id: parent.id}).admins({...args}),
     locations: async (
       parent,
       {userLatitude, userLongitude, distanceUnit = 'miles', ...args},
       {prisma},
     ) => {
       // find the locations for the current event
-      const eventLocations = await prisma.event({id: parent.id}).locations({...args});
+      const eventLocations = await prisma
+        .event({id: parent.id})
+        .locations({...args});
 
       //if userLatitude and userLongitude are passed as arguments for location
       if (userLatitude && userLongitude) {
@@ -58,15 +64,18 @@ const resolvers = {
 
       return eventLocations;
     },
-    tags: (parent, args, {prisma}) => prisma.event({id: parent.id}).tags({...args}),
+    tags: (parent, args, {prisma}) =>
+      prisma.event({id: parent.id}).tags({...args}),
   },
   User: {
-    rsvps: (parent, args, {prisma}) => prisma.user({id: parent.id}).rsvps({...args}),
+    rsvps: (parent, args, {prisma}) =>
+      prisma.user({id: parent.id}).rsvps({...args}),
     createdImages: (parent, args, {prisma}) =>
       prisma.user({id: parent.id}).createdImages({...args}),
   },
   Tag: {
-    events: (parent, args, {prisma}) => prisma.tag({id: parent.id}).events({...args}),
+    events: (parent, args, {prisma}) =>
+      prisma.tag({id: parent.id}).events({...args}),
   },
   Query: {
     users: async (root, args, {prisma, req, decodedToken}, info) => {
@@ -175,7 +184,7 @@ const resolvers = {
             coordinates: [rSC],
           },
         } = transformRotate(
-          circle(center, Math.ceil(Math.sqrt(2) * radius), {
+          circle(center, Math.sqrt(2) * radius, {
             steps: 4,
             units: 'miles',
           }),
@@ -237,12 +246,21 @@ const resolvers = {
               ],
             },
           })
+
           .$fragment(eventsLocationsFragment);
+
         const userCircle = circle(center, radius, {steps: 10, units: 'miles'});
+        console.log(JSON.stringify(userCircle));
+
         return prisma.events({
           where: {
             id_in: eventsInSquare
-              .filter(event => inPolygon(center, userCircle))
+              .filter(event =>
+                inPolygon(
+                  [event.locations[0].longitude, event.locations[0].latitude],
+                  userCircle,
+                ),
+              )
               .map(event => event.id),
           },
         });
@@ -270,7 +288,31 @@ const resolvers = {
     addUser: async (root, args, {prisma}, info) => {
       try {
         const {data} = args;
+        data.profileImage =
+          data.profileImage ||
+          'https://res.cloudinary.com/communitycalendar/image/upload/c_scale,w_70/v1580068501/C_ncfz11.svg';
         const user = await prisma.createUser(data);
+        return user;
+      } catch (err) {
+        throw err;
+      }
+    },
+    updateUser: async (root, args, {prisma, req, decodedToken}, info) => {
+      try {
+        const decoded = await decodedToken(req);
+        const {data, image} = args;
+
+        if (image) {
+          //upload image to cloudinary and get secured image url
+          const imageUrl = await image.then(cloudinaryImage);
+
+          data.profileImage = imageUrl;
+        }
+
+        const user = await prisma.updateUser({
+          data,
+          where: {id: decoded['http://cc_id']},
+        });
         return user;
       } catch (err) {
         throw err;
@@ -342,37 +384,37 @@ const resolvers = {
           }
         `;
         const {creator, title, description} = await prisma
-          .event({where})
+          .event(where)
           .$fragment(eventCreatorFragment);
         const decoded = await decodedToken(req); //requires token to be sent in authorization headers
-        let forStemmer = '';
-
-        if (data.title && data.description) {
-          forStemmer += data.title + ' ' + data.description;
-        } else if (data.title || data.description) {
-          if (data.title) {
-            forStemmer += data.title + ' ' + description;
-          } else {
-            forStemmer += title + ' ' + data.description;
-          }
-        }
-
-        if (forStemmer.length) {
-          data['index'] =
-            ',' +
-            Array.from(
-              new Set(
-                natural.LancasterStemmer.tokenizeAndStem(
-                  data['title'] + ' ' + data['description'],
-                ),
-              ),
-            ).join(',') +
-            ',';
-        }
 
         //check if user created the event
         if (decoded['http://cc_id'] === creator.id) {
-          //check if logged in user created the event
+          let forStemmer = '';
+
+          if (data.title && data.description) {
+            forStemmer += data.title + ' ' + data.description;
+          } else if (data.title || data.description) {
+            if (data.title) {
+              forStemmer += data.title + ' ' + description;
+            } else {
+              forStemmer += title + ' ' + data.description;
+            }
+          }
+
+          if (forStemmer.length) {
+            data['index'] =
+              ',' +
+              Array.from(
+                new Set(
+                  natural.LancasterStemmer.tokenizeAndStem(
+                    data['title'] + ' ' + data['description'],
+                  ),
+                ),
+              ).join(',') +
+              ',';
+          }
+
           const tagsInDb = await prisma.tags(); //array of tags objects from the database
           const tags = await prisma.event({id: where.id}).tags();
           const imagesInDb = await prisma.event({id: where.id}).eventImages(); //array of event's image objects from the database
@@ -451,32 +493,39 @@ const resolvers = {
         throw err;
       }
     },
-    addRsvp: async (root, args, {prisma, req, decodedToken}, info) => {
+    rsvpEvent: async (root, args, {prisma, req, decodedToken}, info) => {
       try {
         const decoded = await decodedToken(req); //requires token to be sent in authorization headers
         const {
           event: {id},
         } = args;
-        //connects the event to the user. rsvps will also show when querying event
-        return prisma.updateUser({
-          where: {id: decoded['http://cc_id']},
-          data: {rsvps: {connect: {id}}},
-        });
-      } catch (err) {
-        throw err;
-      }
-    },
-    removeRsvp: async (root, args, {prisma, req, decodedToken}, info) => {
-      try {
-        const decoded = await decodedToken(req);
-        const {
-          event: {id},
-        } = args;
-        //removes event connection from user
-        return prisma.updateUser({
-          where: {id: decoded['http://cc_id']},
-          data: {rsvps: {disconnect: {id}}},
-        });
+
+        const getRsvpFragment = `
+            fragment getRsvpUser on Event {
+              rsvps(where: {id: "${decoded['http://cc_id']}"}){id}
+            }
+          `;
+
+        const {rsvps} = await prisma.event({id}).$fragment(getRsvpFragment);
+
+        //rsvps.length is true if user has already saved the event
+        const action = rsvps.length ? {disconnect: {id}} : {connect: {id}};
+
+        const userRsvpFragment = `
+            fragment getUserEventRsvp on User {
+              rsvps(where: {id: "${id}"}){id}
+            }
+        `;
+
+        const {rsvps: userRsvp} = await prisma
+          .updateUser({
+            where: {id: decoded['http://cc_id']},
+            data: {rsvps: action},
+          })
+          .$fragment(userRsvpFragment);
+
+        //true returned if user rsvp'd to the event
+        return !!userRsvp.length;
       } catch (err) {
         throw err;
       }
@@ -512,8 +561,8 @@ const resolvers = {
           })
           .$fragment(userSavedFragment);
 
-        //SAVED returned if user saved the event  
-        return userSaved.length ? 'SAVED' : 'UNSAVED';
+        //true returned if user saved the event
+        return !!userSaved.length;
       } catch (err) {
         throw err;
       }
