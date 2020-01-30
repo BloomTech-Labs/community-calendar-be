@@ -1,19 +1,34 @@
 mutation {
   createUser(
-    data: {auth0Id: "testid1", firstName: "Detroit Experience Factory"}
+    data: {
+      auth0Id: "testid1"
+      firstName: "Detroit Experience Factory"
+      profileImage: "https://res.cloudinary.com/communitycalendar/image/upload/c_scale,w_70/v1580068501/C_ncfz11.svg"
+    }
   ) {
     id
   }
 }
 mutation {
   createUser(
-    data: {auth0Id: "testid2", firstName: "Mary", lastName: "Sheffield"}
+    data: {
+      auth0Id: "testid2"
+      firstName: "Mary"
+      lastName: "Sheffield"
+      profileImage: "https://res.cloudinary.com/communitycalendar/image/upload/c_scale,w_70/v1580068501/C_ncfz11.svg"
+    }
   ) {
     id
   }
 }
 mutation {
-  createUser(data: {auth0Id: "testid3", firstName: "Detroit Skating Club"}) {
+  createUser(
+    data: {
+      auth0Id: "testid3"
+      firstName: "Detroit Skating Club"
+      profileImage: "https://res.cloudinary.com/communitycalendar/image/upload/c_scale,w_70/v1580068501/C_ncfz11.svg"
+    }
+  ) {
     id
   }
 }
@@ -22,6 +37,7 @@ mutation {
     data: {
       auth0Id: "testid4"
       firstName: "Black Scroll Network History & Tours"
+      profileImage: "https://res.cloudinary.com/communitycalendar/image/upload/c_scale,w_70/v1580068501/C_ncfz11.svg"
     }
   ) {
     id
@@ -29,14 +45,22 @@ mutation {
 }
 mutation {
   createUser(
-    data: {auth0Id: "testid5", firstName: "Detroit Public Library"}
+    data: {
+      auth0Id: "testid5"
+      firstName: "Detroit Public Library"
+      profileImage: "https://res.cloudinary.com/communitycalendar/image/upload/c_scale,w_70/v1580068501/C_ncfz11.svg"
+    }
   ) {
     id
   }
 }
 mutation {
   createUser(
-    data: {auth0Id: "testid6", firstName: "Eastern Market Partnership"}
+    data: {
+      auth0Id: "testid6"
+      firstName: "Eastern Market Partnership"
+      profileImage: "https://res.cloudinary.com/communitycalendar/image/upload/c_scale,w_70/v1580068501/C_ncfz11.svg"
+    }
   ) {
     id
   }
@@ -48,13 +72,13 @@ mutation {
       title: "Art & Architecture - Downtown Walking Tour"
       description: "Detroit is a city rich in history, grand buildings, and vibrant art surrounding public spaces. Walk with Detroit Experience Factory through the downtown area as we explore some of the great contributions of both prolific architects and emerging artists."
       start: "2020-01-22T12:00:00-0500"
-      end: "2020-01-22T14:30:00-0500" 
+      end: "2020-01-22T14:30:00-0500"
       ticketPrice: 0.00
       creator: {connect: {auth0Id: "testid1"}}
       eventImages: {
         create: [
           {
-            url: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F69917729%2F89373299245%2F1%2Foriginal.jpg?w=800&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C693%2C4000%2C2000&s=94184073d91c25306d22d1b0401cfea9",
+            url: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F69917729%2F89373299245%2F1%2Foriginal.jpg?w=800&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C693%2C4000%2C2000&s=94184073d91c25306d22d1b0401cfea9"
             creator: {connect: {auth0Id: "testid1"}}
           }
         ]
@@ -106,7 +130,7 @@ mutation {
       eventImages: {
         create: [
           {
-            url: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F85140001%2F89373299245%2F1%2Foriginal.20191219-193513?w=800&auto=format%2Ccompress&q=75&sharp=10&rect=220%2C0%2C1880%2C940&s=5c24d24ce75c0a170c95f533542b323f",
+            url: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F85140001%2F89373299245%2F1%2Foriginal.20191219-193513?w=800&auto=format%2Ccompress&q=75&sharp=10&rect=220%2C0%2C1880%2C940&s=5c24d24ce75c0a170c95f533542b323f"
             creator: {connect: {auth0Id: "testid1"}}
           }
         ]
@@ -151,7 +175,7 @@ mutation {
       eventImages: {
         create: [
           {
-            url: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F85046743%2F5763501059%2F1%2Foriginal.20191219-001336?w=800&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C64%2C1080%2C540&s=946121ba79ce53ba2459153c2741b52a",
+            url: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F85046743%2F5763501059%2F1%2Foriginal.20191219-001336?w=800&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C64%2C1080%2C540&s=946121ba79ce53ba2459153c2741b52a"
             creator: {connect: {auth0Id: "testid2"}}
           }
         ]
@@ -202,7 +226,7 @@ mutation {
       eventImages: {
         create: [
           {
-            url: "https://dscclub.com/wp/wp-content/uploads/2014/02/IceShowPage.png",
+            url: "https://dscclub.com/wp/wp-content/uploads/2014/02/IceShowPage.png"
             creator: {connect: {auth0Id: "testid3"}}
           }
         ]
@@ -243,7 +267,7 @@ mutation {
       eventImages: {
         create: [
           {
-            url: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F83852725%2F88642988607%2F1%2Foriginal.jpg?w=800&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C0%2C800%2C400&s=634757517829d19f5fb6128818867f9f",
+            url: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F83852725%2F88642988607%2F1%2Foriginal.jpg?w=800&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C0%2C800%2C400&s=634757517829d19f5fb6128818867f9f"
             creator: {connect: {auth0Id: "testid4"}}
           }
         ]
@@ -295,7 +319,7 @@ mutation {
       eventImages: {
         create: [
           {
-            url: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F84135113%2F293621734690%2F1%2Foriginal.20191210-171159?w=800&auto=format%2Ccompress&q=75&sharp=10&rect=1%2C84%2C224%2C112&s=cf869634d7a67a925a7db1b8ad861f53",
+            url: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F84135113%2F293621734690%2F1%2Foriginal.20191210-171159?w=800&auto=format%2Ccompress&q=75&sharp=10&rect=1%2C84%2C224%2C112&s=cf869634d7a67a925a7db1b8ad861f53"
             creator: {connect: {auth0Id: "testid5"}}
           }
         ]
@@ -349,7 +373,7 @@ mutation {
       eventImages: {
         create: [
           {
-            url: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F68668427%2F145956314054%2F1%2Foriginal.20190814-194752?w=800&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C397%2C3456%2C1728&s=1344cbac19465528c33d117ec245f5ba",
+            url: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F68668427%2F145956314054%2F1%2Foriginal.20190814-194752?w=800&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C397%2C3456%2C1728&s=1344cbac19465528c33d117ec245f5ba"
             creator: {connect: {auth0Id: "testid6"}}
           }
         ]
@@ -384,6 +408,82 @@ mutation {
           {title: "tailgating"}
         ]
       }
+    }
+  ) {
+    id
+  }
+}
+mutation {
+  createEvent(
+    data: {
+      index: ",fre,introduc,cod,workshop,grand,circ,look,transit,car,tech,let,us,help,journey,2020,wil,on,mil,op,comput,program,job,aim,fil,posit,tim,believ,anyon,becom,develop,"
+      title: "FREE Introduction to Coding Workshop Grand Circus"
+      description: "Looking to transition to a career in tech? Let us help you on your journey! In 2020, there will be over one million open computer-programming jobs. Here at Grand Circus, we are aiming to help fill those positions, one coder at a time. We believe anyone can become a developer."
+      start: "2020-01-28T19:00:00.000Z"
+      end: "2020-01-28T22:00:00.000Z"
+      ticketPrice: 0.00
+      creator: {connect: {auth0Id: "testid6"}}
+      eventImages: {
+        create: [
+          {
+            url: "https://res.cloudinary.com/communitycalendar/image/upload/v1580152827/zaw0ehnfy5hnqefjchx2.jpg"
+            creator: {connect: {auth0Id: "testid6"}}
+          }
+        ]
+      }
+      admins: {connect: [{auth0Id: "testid6"}]}
+      locations: {
+        create: [
+          {
+            name: "Grand Circus Detroit"
+            streetAddress: "1570 Woodward Ave"
+            city: "Detroit"
+            zipcode: 48226
+            state: "MI"
+            latitude: 42.3344
+            longitude: -83.04905
+          }
+        ]
+      }
+      tags: {create: [{title: "code"}, {title: "free"}]}
+    }
+  ) {
+    id
+  }
+}
+mutation {
+  createEvent(
+    data: {
+      index: ",fre,introduc,cod,workshop,grand,circ,100,design,fun,eng,just,hrs,wil,slow,learn,"
+      title: "FREE Introduction to Coding Workshop Grand Circus"
+      description: "100% Free. Designed to be fun and engaging. In just under 2 hrs, we will slowly learn to code."
+      start: "2020-02-01T20:00:00.000Z"
+      end: "2020-02-01T22:00:00.000Z"
+      ticketPrice: 0.00
+      creator: {connect: {auth0Id: "testid6"}}
+      eventImages: {
+        create: [
+          {
+            url: "https://res.cloudinary.com/communitycalendar/image/upload/v1580152690/ed64mi2pd7ezgr3vyl6p.jpg"
+            creator: {connect: {auth0Id: "testid6"}}
+          }
+        ]
+      }
+      admins: {connect: [{auth0Id: "testid6"}]}
+      locations: {
+        create: [
+          {
+            name: "Troy Technology & Entrepreneurship Meetup Group"
+            streetAddress: "1787 W Big Beaver"
+            city: "Troy"
+            zipcode: 48084
+            state: "MI"
+            latitude: 42.560998
+            longitude: -83.173172
+          }
+        ]
+      }
+      tags: {connect: [{title: "free"}, {title: "code"}, {title: "kids"}]}
     }
   ) {
     id

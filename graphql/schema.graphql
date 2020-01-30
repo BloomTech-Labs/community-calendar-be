@@ -148,6 +148,7 @@ type Query {
     last: Int
   ): [User!]
   checkId(data: UserCheckIdInput!): [User]
+  user: User!
   events(
     where: EventWhereInput
     orderBy: EventOrderByInput
