@@ -68,8 +68,16 @@ const resolvers = {
       prisma.event({id: parent.id}).tags({...args}),
   },
   User: {
+    organizations: (parent, args, {prisma}) =>
+      prisma.user({id: parent.id}).organizations({...args}),
     rsvps: (parent, args, {prisma}) =>
       prisma.user({id: parent.id}).rsvps({...args}),
+    saved: (parent, args, {prisma}) =>
+      prisma.user({id: parent.id}).saved({...args}),
+    adminFor: (parent, args, {prisma}) =>
+      prisma.user({id: parent.id}).adminFor({...args}),
+    createdEvents: (parent, args, {prisma}) =>
+      prisma.user({id: parent.id}).createdEvents({...args}),
     createdImages: (parent, args, {prisma}) =>
       prisma.user({id: parent.id}).createdImages({...args}),
   },
@@ -82,6 +90,14 @@ const resolvers = {
       try {
         //const decoded = await decodedToken(req); //requires token to be sent in authorization headers
         return prisma.users({...args});
+      } catch (err) {
+        throw err;
+      }
+    },
+    user: async (root, args, {prisma, req, decodedToken}, info) => {
+      try {
+        const decoded = await decodedToken(req); //requires token to be sent in authorization headers
+        return prisma.user({id: decoded['http://cc_id']});
       } catch (err) {
         throw err;
       }
@@ -250,7 +266,6 @@ const resolvers = {
           .$fragment(eventsLocationsFragment);
 
         const userCircle = circle(center, radius, {steps: 10, units: 'miles'});
-        console.log(JSON.stringify(userCircle));
 
         return prisma.events({
           where: {
