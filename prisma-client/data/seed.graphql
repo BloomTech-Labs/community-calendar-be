@@ -1,9 +1,15 @@
+# Community Calendar seed file
+# Seed `users`, `tags`, and then `events`
+# `createUser`, `createTag`, `createEvent` mutations defined in `../generated/prisma-client/prisma-schema.js`
+# If you attempt to create an event without first seeding the correct user and tags, it will throw error
+
+# user seeds
 mutation {
   createUser(
     data: {
       auth0Id: "testid1"
       firstName: "Detroit Experience Factory"
-      profileImage: "https://res.cloudinary.com/communitycalendar/image/upload/c_scale,w_70/v1580068501/C_ncfz11.svg"
+      profileImage: "https://res.cloudinary.com/communitycalendar/image/upload/v1580757435/wierq7pulh1irmhsfygd.jpg"
     }
   ) {
     id
@@ -13,9 +19,9 @@ mutation {
   createUser(
     data: {
       auth0Id: "testid2"
-      firstName: "Mary"
-      lastName: "Sheffield"
-      profileImage: "https://res.cloudinary.com/communitycalendar/image/upload/c_scale,w_70/v1580068501/C_ncfz11.svg"
+      firstName: "Ray"
+      lastName: "Batra"
+      profileImage: "https://res.cloudinary.com/communitycalendar/image/upload/v1580754066/srqisgiplumij6jzkzc1.jpg"
     }
   ) {
     id
@@ -25,8 +31,8 @@ mutation {
   createUser(
     data: {
       auth0Id: "testid3"
-      firstName: "Detroit Skating Club"
-      profileImage: "https://res.cloudinary.com/communitycalendar/image/upload/c_scale,w_70/v1580068501/C_ncfz11.svg"
+      firstName: "Historic North End Alliance"
+      profileImage: "https://res.cloudinary.com/communitycalendar/image/upload/v1580757510/u5eukn21j7ebkbs0len6.png"
     }
   ) {
     id
@@ -36,8 +42,8 @@ mutation {
   createUser(
     data: {
       auth0Id: "testid4"
-      firstName: "Black Scroll Network History & Tours"
-      profileImage: "https://res.cloudinary.com/communitycalendar/image/upload/c_scale,w_70/v1580068501/C_ncfz11.svg"
+      firstName: "Lower North End Block Club"
+      profileImage: "https://res.cloudinary.com/communitycalendar/image/upload/v1580759636/mdsb3xiycc5iwgcavfr7.png"
     }
   ) {
     id
@@ -47,8 +53,8 @@ mutation {
   createUser(
     data: {
       auth0Id: "testid5"
-      firstName: "Detroit Public Library"
-      profileImage: "https://res.cloudinary.com/communitycalendar/image/upload/c_scale,w_70/v1580068501/C_ncfz11.svg"
+      firstName: "Michigan Urban Farming Initiative"
+      profileImage: "https://res.cloudinary.com/communitycalendar/image/upload/v1580761429/tso2fryjzewzsmek1wxh.jpg"
     }
   ) {
     id
@@ -59,20 +65,194 @@ mutation {
     data: {
       auth0Id: "testid6"
       firstName: "Eastern Market Partnership"
-      profileImage: "https://res.cloudinary.com/communitycalendar/image/upload/c_scale,w_70/v1580068501/C_ncfz11.svg"
+      profileImage: "https://res.cloudinary.com/communitycalendar/image/upload/v1580761469/jd3al7cnhnu962pkmmsr.svg"
     }
   ) {
     id
   }
 }
 mutation {
+  createUser(
+    data: {
+      auth0Id: "testid7"
+      firstName: "Community Calendar"
+      profileImage: "https://res.cloudinary.com/communitycalendar/image/upload/c_scale,w_70/v1580068501/C_ncfz11.svg"
+    }
+  ) {
+    id
+  }
+}
+
+# tag seeds
+## current list of tags: 
+# architecture, art, block club, code, community, downtown, engineering, fireworks, food, free, 
+# heritage, history, kids, neighborhood, market, STEM, teenagers,
+mutation {
+  createTag(
+    data: {
+      title: "architecture"
+    }
+  ) {
+    id
+  }
+}
+mutation {
+  createTag(
+    data: {
+      title: "art"
+    }
+  ) {
+    id
+  }
+}
+mutation {
+  createTag(
+    data: {
+      title: "block club"
+    }
+  ) {
+    id
+  }
+}
+mutation {
+  createTag(
+    data: {
+      title: "code"
+    }
+  ) {
+    id
+  }
+}
+mutation {
+  createTag(
+    data: {
+      title: "community"
+    }
+  ) {
+    id
+  }
+}
+mutation {
+  createTag(
+    data: {
+      title: "downtown"
+    }
+  ) {
+    id
+  }
+}
+mutation {
+  createTag(
+    data: {
+      title: "engineering"
+    }
+  ) {
+    id
+  }
+}
+mutation {
+  createTag(
+    data: {
+      title: "fireworks"
+    }
+  ) {
+    id
+  }
+}
+mutation {
+  createTag(
+    data: {
+      title: "food"
+    }
+  ) {
+    id
+  }
+}
+mutation {
+  createTag(
+    data: {
+      title: "free"
+    }
+  ) {
+    id
+  }
+}
+mutation {
+  createTag(
+    data: {
+      title: "heritage"
+    }
+  ) {
+    id
+  }
+}
+mutation {
+  createTag(
+    data: {
+      title: "history"
+    }
+  ) {
+    id
+  }
+}
+mutation {
+  createTag(
+    data: {
+      title: "kids"
+    }
+  ) {
+    id
+  }
+}
+mutation {
+  createTag(
+    data: {
+      title: "market"
+    }
+  ) {
+    id
+  }
+}
+mutation {
+  createTag(
+    data: {
+      title: "neighborhood"
+    }
+  ) {
+    id
+  }
+}
+mutation {
+  createTag(
+    data: {
+      title: "STEM"
+    }
+  ) {
+    id
+  }
+}
+mutation {
+  createTag(
+    data: {
+      title: "teenagers"
+    }
+  ) {
+    id
+  }
+}
+
+# Detroit Experience Factory seeds, `auth0Id: "testid1"`
+## Detroit Experience Factory repeating art and architecture events
+
+### Feb 23, 2020
+mutation {
   createEvent(
     data: {
       index: ",art,architect,downtown,walk,tour,detroit,city,rich,hist,grand,build,vibr,surround,publ,spac,expery,fact,are,expl,gre,contribut,prol,emerg,"
       title: "Art & Architecture - Downtown Walking Tour"
       description: "Detroit is a city rich in history, grand buildings, and vibrant art surrounding public spaces. Walk with Detroit Experience Factory through the downtown area as we explore some of the great contributions of both prolific architects and emerging artists."
-      start: "2020-01-22T12:00:00-0500"
-      end: "2020-01-22T14:30:00-0500"
+      start: "2020-02-23T12:00:00-0500"
+      end: "2020-02-23T14:30:00-0500"
       ticketPrice: 0.00
       creator: {connect: {auth0Id: "testid1"}}
       eventImages: {
@@ -104,33 +284,28 @@ mutation {
           }
         ]
       }
-      tags: {
-        create: [
-          {title: "art"}
-          {title: "history"}
-          {title: "downtown"}
-          {title: "architecture"}
-        ]
-      }
+      tags: {connect: [{title: "art"}, {title: "history"}, {title: "downtown"}, {title: "architecture"}]}
     }
   ) {
     id
   }
 }
+
+### Mar 29, 2020
 mutation {
   createEvent(
     data: {
-      index: ",downtown,wint,wonderland,light,walk,mag,isn,yet,join,us,among,gorg,park,publ,spac,twinkl,throughout,season,ll,stop,hear,peopl,behind,"
-      title: "Downtown Winter Wonderland Lights Walk"
-      description: "The winter magic isn't over yet - join us for a walk among downtown's gorgeous parks and public spaces, twinkling with lights throughout the winter season. We'll stop to hear from some of the people behind the park lighting."
-      start: "2020-01-11T19:00:00-0500"
-      end: "2020-01-11T21:00:00-0500"
-      ticketPrice: 5.00
+      index: ",art,architect,downtown,walk,tour,detroit,city,rich,hist,grand,build,vibr,surround,publ,spac,expery,fact,are,expl,gre,contribut,prol,emerg,"
+      title: "Art & Architecture - Downtown Walking Tour"
+      description: "Detroit is a city rich in history, grand buildings, and vibrant art surrounding public spaces. Walk with Detroit Experience Factory through the downtown area as we explore some of the great contributions of both prolific architects and emerging artists."
+      start: "2020-03-29T12:00:00-0500"
+      end: "2020-03-29T14:30:00-0500"
+      ticketPrice: 0.00
       creator: {connect: {auth0Id: "testid1"}}
       eventImages: {
         create: [
           {
-            url: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F85140001%2F89373299245%2F1%2Foriginal.20191219-193513?w=800&auto=format%2Ccompress&q=75&sharp=10&rect=220%2C0%2C1880%2C940&s=5c24d24ce75c0a170c95f533542b323f"
+            url: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F69917729%2F89373299245%2F1%2Foriginal.jpg?w=800&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C693%2C4000%2C2000&s=94184073d91c25306d22d1b0401cfea9"
             creator: {connect: {auth0Id: "testid1"}}
           }
         ]
@@ -138,7 +313,7 @@ mutation {
       urls: {
         create: [
           {
-            url: "https://www.eventbrite.com/e/downtown-winter-wonderland-lights-walk-tickets-86842691829"
+            url: "https://www.eventbrite.com/e/art-architecture-downtown-walking-tour-tickets-70525424443"
           }
         ]
       }
@@ -156,156 +331,1517 @@ mutation {
           }
         ]
       }
-      tags: {create: [{title: "lights"}, {title: "holidays"}]}
+      tags: {connect: [{title: "art"}, {title: "history"}, {title: "downtown"}, {title: "architecture"}]}
     }
   ) {
     id
   }
 }
+
+### Apr 26, 2020
 mutation {
   createEvent(
     data: {
-      index: ",2020,shift,tap,mary,sheffield,join,friend,intim,convers,purpos,mindset,vid,let,talk,heal,connect,set,int,"
-      title: "2020 Shift Tap In w/ Mary Sheffield"
-      description: "Join Mary Sheffield and friends for an intimate conversation about purpose, mindset, vision and much more. Let's talk, heal, connect and set our intentions for the 2020 Shift!!"
-      start: "2020-01-27T18:00:00-0500"
-      end: "2020-01-27T20:00:00-0500"
-      ticketPrice: 20.00
-      creator: {connect: {auth0Id: "testid2"}}
+      index: ",art,architect,downtown,walk,tour,detroit,city,rich,hist,grand,build,vibr,surround,publ,spac,expery,fact,are,expl,gre,contribut,prol,emerg,"
+      title: "Art & Architecture - Downtown Walking Tour"
+      description: "Detroit is a city rich in history, grand buildings, and vibrant art surrounding public spaces. Walk with Detroit Experience Factory through the downtown area as we explore some of the great contributions of both prolific architects and emerging artists."
+      start: "2020-04-26T12:00:00-0500"
+      end: "2020-04-26T14:30:00-0500"
+      ticketPrice: 0.00
+      creator: {connect: {auth0Id: "testid1"}}
       eventImages: {
         create: [
           {
-            url: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F85046743%2F5763501059%2F1%2Foriginal.20191219-001336?w=800&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C64%2C1080%2C540&s=946121ba79ce53ba2459153c2741b52a"
-            creator: {connect: {auth0Id: "testid2"}}
+            url: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F69917729%2F89373299245%2F1%2Foriginal.jpg?w=800&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C693%2C4000%2C2000&s=94184073d91c25306d22d1b0401cfea9"
+            creator: {connect: {auth0Id: "testid1"}}
           }
         ]
       }
       urls: {
         create: [
           {
-            url: "https://www.eventbrite.com/e/2020-shift-tap-in-w-mary-sheffield-tickets-86524496097"
+            url: "https://www.eventbrite.com/e/art-architecture-downtown-walking-tour-tickets-70525424443"
           }
         ]
       }
-      admins: {connect: [{auth0Id: "testid2"}]}
+      admins: {connect: [{auth0Id: "testid1"}]}
       locations: {
         create: [
           {
-            name: "Trust Cocktails, Shareables & Nightlife"
-            streetAddress: "205 West Congress Street"
+            name: "Roasting Plant"
+            streetAddress: "600 Woodward Avenue"
             city: "Detroit"
-            zipcode: 48226
+            zipcode: 48202
             state: "MI"
-            latitude: 42.328923
-            longitude: -83.048084
+            latitude: 42.330511
+            longitude: -83.045427
           }
         ]
       }
-      tags: {
-        create: [
-          {title: "community"}
-          {title: "cocktails"}
-          {title: "nightlife"}
-        ]
-      }
+      tags: {connect: [{title: "art"}, {title: "history"}, {title: "downtown"}, {title: "architecture"}]}
     }
   ) {
     id
   }
 }
+
+# Ray Batra Shift_Up seeds, `auth0Id: "testid2"`
+## Shift_Up repeating learn to code events
+
+### Feb 8, 2020
 mutation {
   createEvent(
     data: {
-      index: ",detroit,skat,club,21st,an,ic,show,mag,ev,"
-      title: "Detroit Skating Club's 21st Annual Ice Show"
-      description: "Another Magical Evening!"
-      start: "2020-02-05T19:00:00-0500"
-      end: "2020-02-05T22:00:00-0500"
-      ticketPrice: 10.00
-      creator: {connect: {auth0Id: "testid3"}}
+      index: ",fre,learn,cod,workshop,begin,consid,car,chang,nee,ad,new,skil,mov,job,try,comput,program,hour,lov,intro,detroit,build,laugh,alongsid,oth,on,design,wil,includ,introduc,html,",
+      title: "FREE Learn to Code Workshop for Beginners",
+      description: "Considering a career change?\n\nNeed to add new skills to move up at your job?\n\nTry computer programming in a few hours, for free—at the most loved intro to coding workshop in Detroit.\n\nLearn, build, and laugh alongside others at one of our intro workshops. See if coding is for you!\n\nThis workshop is designed for beginners and will include an introduction to HTML.",
+      start: "2020-02-08T20:00:00.000Z",
+      end: "2020-02-08T22:30:00.000Z",
+      ticketPrice: 0,
+      creator: {connect: {auth0Id: "testid2"}},
       eventImages: {
-        create: [
-          {
-            url: "https://dscclub.com/wp/wp-content/uploads/2014/02/IceShowPage.png"
-            creator: {connect: {auth0Id: "testid3"}}
-          }
-        ]
-      }
-      urls: {create: [{url: "https://dscclub.com/"}]}
-      admins: {connect: [{auth0Id: "testid3"}]}
+        create: [{
+          url: "https://res.cloudinary.com/communitycalendar/image/upload/v1580752915/xljk6pcnoeeimjgos338.png"
+          creator: {connect: {auth0Id: "testid2"}}
+        }]
+      },
+      urls: {
+        create: [{
+            url: "https://www.meetup.com/ShiftUp/events/268381385/"
+        }]
+      },
+      admins: {connect: [{auth0Id: "testid2"}]},
       locations: {
-        create: [
-          {
-            name: "Detroit Skating Club"
-            streetAddress: "888 Denison Ct"
-            city: "Bloomfield Hills"
-            zipcode: 48302
-            state: "MI"
-            latitude: 42.607574
-            longitude: -83.291038
-          }
-        ]
-      }
-      tags: {
-        create: [{title: "kids"}, {title: "iceskating"}, {title: "family"}]
-      }
+        create: [{
+          name: "Shift_Up",
+          streetAddress: "4219 Woodward Ave",
+          streetAddress2: "2nd Floor",
+          city: "Detroit",
+          zipcode: 48201,
+          state: "MI",
+          latitude: 42.351766,
+          longitude: -83.061468
+        }]
+      },
+      tags: {connect: [{title: "free"}, {title: "code"}, {title: "community"}]}
     }
   ) {
     id
   }
 }
+
+### Feb 20, 2020
 mutation {
   createEvent(
     data: {
-      index: ",kwanza,tour,charl,wright,muse,afr,am,sev,day,cult,celebr,first,1966,hon,on,principl,nguzo,sab,highlight,hist,connect,umoj,un,"
-      title: "Kwanzaa Tour at the Charles H. Wright Museum"
-      description: "Kwanzaa is an African American seven-day cultural celebration first celebrated in 1966. Each day honors one of seven principles - the Nguzo Saba. This tour is on Day 1 and highlights African American history connected to the principle of Umoja - Unity."
-      start: "2020-01-22T12:00:00-0500"
-      end: "2020-01-26T14:00:00-0500"
-      ticketPrice: 0.00
+      index: ",fre,learn,cod,workshop,begin,consid,car,chang,nee,ad,new,skil,mov,job,try,comput,program,hour,lov,intro,detroit,build,laugh,alongsid,oth,on,design,wil,includ,introduc,html,",
+      title: "FREE Learn to Code Workshop for Beginners",
+      description: "Considering a career change?\n\nNeed to add new skills to move up at your job?\n\nTry computer programming in a few hours, for free—at the most loved intro to coding workshop in Detroit.\n\nLearn, build, and laugh alongside others at one of our intro workshops. See if coding is for you!\n\nThis workshop is designed for beginners and will include an introduction to HTML.",
+      start: "2020-02-20T23:15:00.000Z",
+      end: "2020-02-21T01:45:00.000Z",
+      ticketPrice: 0,
+      creator: {connect: {auth0Id: "testid2"}},
+      eventImages: {
+        create: [{
+          url: "https://res.cloudinary.com/communitycalendar/image/upload/v1580752915/xljk6pcnoeeimjgos338.png"
+          creator: {connect: {auth0Id: "testid2"}}
+        }]
+      },
+      urls: {
+        create: [{
+            url: "https://www.meetup.com/ShiftUp/events/268381385/"
+        }]
+      },
+      admins: {connect: [{auth0Id: "testid2"}]},
+      locations: {
+        create: [{
+          name: "Shift_Up",
+          streetAddress: "4219 Woodward Ave",
+          streetAddress2: "2nd Floor",
+          city: "Detroit",
+          zipcode: 48201,
+          state: "MI",
+          latitude: 42.351766,
+          longitude: -83.061468
+        }]
+      },
+      tags: {connect: [{title: "free"}, {title: "code"}, {title: "community"}]}
+    }
+  ) {
+    id
+  }
+}
+
+### Mar 7, 2020
+mutation {
+  createEvent(
+    data: {
+      index: ",fre,learn,cod,workshop,begin,consid,car,chang,nee,ad,new,skil,mov,job,try,comput,program,hour,lov,intro,detroit,build,laugh,alongsid,oth,on,design,wil,includ,introduc,html,",
+      title: "FREE Learn to Code Workshop for Beginners",
+      description: "Considering a career change?\n\nNeed to add new skills to move up at your job?\n\nTry computer programming in a few hours, for free—at the most loved intro to coding workshop in Detroit.\n\nLearn, build, and laugh alongside others at one of our intro workshops. See if coding is for you!\n\nThis workshop is designed for beginners and will include an introduction to HTML.",
+      start: "2020-03-07T20:00:00.000Z",
+      end: "2020-03-07T22:30:00.000Z",
+      ticketPrice: 0,
+      creator: {connect: {auth0Id: "testid2"}},
+      eventImages: {
+        create: [{
+          url: "https://res.cloudinary.com/communitycalendar/image/upload/v1580752915/xljk6pcnoeeimjgos338.png"
+          creator: {connect: {auth0Id: "testid2"}}
+        }]
+      },
+      urls: {
+        create: [{
+            url: "https://www.meetup.com/ShiftUp/events/268381385/"
+        }]
+      },
+      admins: {connect: [{auth0Id: "testid2"}]},
+      locations: {
+        create: [{
+          name: "Shift_Up",
+          streetAddress: "4219 Woodward Ave",
+          streetAddress2: "2nd Floor",
+          city: "Detroit",
+          zipcode: 48201,
+          state: "MI",
+          latitude: 42.351766,
+          longitude: -83.061468
+        }]
+      },
+      tags: {connect: [{title: "free"}, {title: "code"}, {title: "community"}]}
+    }
+  ) {
+    id
+  }
+}
+
+### Mar 19, 2020
+mutation {
+  createEvent(
+    data: {
+      index: ",fre,learn,cod,workshop,begin,consid,car,chang,nee,ad,new,skil,mov,job,try,comput,program,hour,lov,intro,detroit,build,laugh,alongsid,oth,on,design,wil,includ,introduc,html,",
+      title: "FREE Learn to Code Workshop for Beginners",
+      description: "Considering a career change?\n\nNeed to add new skills to move up at your job?\n\nTry computer programming in a few hours, for free—at the most loved intro to coding workshop in Detroit.\n\nLearn, build, and laugh alongside others at one of our intro workshops. See if coding is for you!\n\nThis workshop is designed for beginners and will include an introduction to HTML.",
+      start: "2020-03-19T23:15:00.000Z",
+      end: "2020-03-20T01:45:00.000Z",
+      ticketPrice: 0,
+      creator: {connect: {auth0Id: "testid2"}},
+      eventImages: {
+        create: [{
+          url: "https://res.cloudinary.com/communitycalendar/image/upload/v1580752915/xljk6pcnoeeimjgos338.png"
+          creator: {connect: {auth0Id: "testid2"}}
+        }]
+      },
+      urls: {
+        create: [{
+            url: "https://www.meetup.com/ShiftUp/events/268381385/"
+        }]
+      },
+      admins: {connect: [{auth0Id: "testid2"}]},
+      locations: {
+        create: [{
+          name: "Shift_Up",
+          streetAddress: "4219 Woodward Ave",
+          streetAddress2: "2nd Floor",
+          city: "Detroit",
+          zipcode: 48201,
+          state: "MI",
+          latitude: 42.351766,
+          longitude: -83.061468
+        }]
+      },
+      tags: {connect: [{title: "free"}, {title: "code"}, {title: "community"}]}
+    }
+  ) {
+    id
+  }
+}
+
+# Electra Fullbright HNEA seeds, `auth0Id: "testid3"`
+## HNEA repeating monthy meeting
+
+### Feb 27, 2020
+mutation {
+  createEvent(
+    data: {
+      index: ",hist,nor,end,al,month,meet,hne,commun,fo,concern,resid,defin,cre,speak,work,on,heart,detroit,wil,block,club,group,assocy,within,throughout,city,plan,educ,achiev,object,",
+      title: "Historic North End Alliance Monthly Meeting",
+      description: "The Historic North End Alliance (HNEA) is a community of concerned North End residents who are defining, creating, speaking, and working as one community in the heart of Detroit. The HNEA will work with all Block Clubs, Community Groups/Associations and Allies within the North End and throughout the city; to plan, educate, and achieve objectives.",
+      start: "2020-02-27T23:00:00.000Z",
+      end: "2020-02-28T01:00:00.000Z",
+      ticketPrice: 0,
+      creator: {connect: {auth0Id: "testid3"}},
+      eventImages: {
+        create: [{
+          url: "https://res.cloudinary.com/communitycalendar/image/upload/v1580757979/hcqh4vfifqibez8cpg2s.png"
+          creator: {connect: {auth0Id: "testid3"}}
+        }]
+      },
+      urls: {
+        create: [{
+            url: "https://www.facebook.com/HistoricNorthEndAlliance/"
+        }]
+      },
+      admins:  {connect: [{auth0Id: "testid3"}]},
+      locations: {
+        create: [{
+          name: "Metropolitan United Methodist Church",
+          streetAddress: "8000 Woodward Ave",
+          streetAddress2: "",
+          city: "Detroit",
+          zipcode: 48202,
+          state: "MI",
+          latitude: 42.374651,
+          longitude: -83.075597
+        }]
+      },
+      tags: {connect: [{title: "community"}, {title: "heritage"}]}
+    }
+  ) {
+    id
+  }
+}
+
+### Mar 26, 2020
+mutation {
+  createEvent(
+    data: {
+      index: ",hist,nor,end,al,month,meet,hne,commun,fo,concern,resid,defin,cre,speak,work,on,heart,detroit,wil,block,club,group,assocy,within,throughout,city,plan,educ,achiev,object,",
+      title: "Historic North End Alliance Monthly Meeting",
+      description: "The Historic North End Alliance (HNEA) is a community of concerned North End residents who are defining, creating, speaking, and working as one community in the heart of Detroit. The HNEA will work with all Block Clubs, Community Groups/Associations and Allies within the North End and throughout the city; to plan, educate, and achieve objectives.",
+      start: "2020-03-26T23:00:00.000Z",
+      end: "2020-03-27T01:00:00.000Z",
+      ticketPrice: 0,
+      creator: {connect: {auth0Id: "testid3"}},
+      eventImages: {
+        create: [{
+          url: "https://res.cloudinary.com/communitycalendar/image/upload/v1580757979/hcqh4vfifqibez8cpg2s.png"
+          creator: {connect: {auth0Id: "testid3"}}
+        }]
+      },
+      urls: {
+        create: [{
+            url: "https://www.facebook.com/HistoricNorthEndAlliance/"
+        }]
+      },
+      admins:  {connect: [{auth0Id: "testid3"}]},
+      locations: {
+        create: [{
+          name: "Metropolitan United Methodist Church",
+          streetAddress: "8000 Woodward Ave",
+          streetAddress2: "",
+          city: "Detroit",
+          zipcode: 48202,
+          state: "MI",
+          latitude: 42.374651,
+          longitude: -83.075597
+        }]
+      },
+      tags: {connect: [{title: "community"}, {title: "heritage"}]}
+    }
+  ) {
+    id
+  }
+}
+
+### Apr 23, 2020
+mutation {
+  createEvent(
+    data: {
+      index: ",hist,nor,end,al,month,meet,hne,commun,fo,concern,resid,defin,cre,speak,work,on,heart,detroit,wil,block,club,group,assocy,within,throughout,city,plan,educ,achiev,object,",
+      title: "Historic North End Alliance Monthly Meeting",
+      description: "The Historic North End Alliance (HNEA) is a community of concerned North End residents who are defining, creating, speaking, and working as one community in the heart of Detroit. The HNEA will work with all Block Clubs, Community Groups/Associations and Allies within the North End and throughout the city; to plan, educate, and achieve objectives.",
+      start: "2020-04-23T23:00:00.000Z",
+      end: "2020-04-24T01:00:00.000Z",
+      ticketPrice: 0,
+      creator: {connect: {auth0Id: "testid3"}},
+      eventImages: {
+        create: [{
+          url: "https://res.cloudinary.com/communitycalendar/image/upload/v1580757979/hcqh4vfifqibez8cpg2s.png"
+          creator: {connect: {auth0Id: "testid3"}}
+        }]
+      },
+      urls: {
+        create: [{
+            url: "https://www.facebook.com/HistoricNorthEndAlliance/"
+        }]
+      },
+      admins:  {connect: [{auth0Id: "testid3"}]},
+      locations: {
+        create: [{
+          name: "Metropolitan United Methodist Church",
+          streetAddress: "8000 Woodward Ave",
+          streetAddress2: "",
+          city: "Detroit",
+          zipcode: 48202,
+          state: "MI",
+          latitude: 42.374651,
+          longitude: -83.075597
+        }]
+      },
+      tags: {connect: [{title: "community"}, {title: "heritage"}]}
+    }
+  ) {
+    id
+  }
+}
+
+### May 28, 2020
+mutation {
+  createEvent(
+    data: {
+      index: ",hist,nor,end,al,month,meet,hne,commun,fo,concern,resid,defin,cre,speak,work,on,heart,detroit,wil,block,club,group,assocy,within,throughout,city,plan,educ,achiev,object,",
+      title: "Historic North End Alliance Monthly Meeting",
+      description: "The Historic North End Alliance (HNEA) is a community of concerned North End residents who are defining, creating, speaking, and working as one community in the heart of Detroit. The HNEA will work with all Block Clubs, Community Groups/Associations and Allies within the North End and throughout the city; to plan, educate, and achieve objectives.",
+      start: "2020-05-28T23:00:00.000Z",
+      end: "2020-05-29T01:00:00.000Z",
+      ticketPrice: 0,
+      creator: {connect: {auth0Id: "testid3"}},
+      eventImages: {
+        create: [{
+          url: "https://res.cloudinary.com/communitycalendar/image/upload/v1580757979/hcqh4vfifqibez8cpg2s.png"
+          creator: {connect: {auth0Id: "testid3"}}
+        }]
+      },
+      urls: {
+        create: [{
+            url: "https://www.facebook.com/HistoricNorthEndAlliance/"
+        }]
+      },
+      admins:  {connect: [{auth0Id: "testid3"}]},
+      locations: {
+        create: [{
+          name: "Metropolitan United Methodist Church",
+          streetAddress: "8000 Woodward Ave",
+          streetAddress2: "",
+          city: "Detroit",
+          zipcode: 48202,
+          state: "MI",
+          latitude: 42.374651,
+          longitude: -83.075597
+        }]
+      },
+      tags: {connect: [{title: "community"}, {title: "heritage"}]}
+    }
+  ) {
+    id
+  }
+}
+
+### Jun 25, 2020
+mutation {
+  createEvent(
+    data: {
+      index: ",hist,nor,end,al,month,meet,hne,commun,fo,concern,resid,defin,cre,speak,work,on,heart,detroit,wil,block,club,group,assocy,within,throughout,city,plan,educ,achiev,object,",
+      title: "Historic North End Alliance Monthly Meeting",
+      description: "The Historic North End Alliance (HNEA) is a community of concerned North End residents who are defining, creating, speaking, and working as one community in the heart of Detroit. The HNEA will work with all Block Clubs, Community Groups/Associations and Allies within the North End and throughout the city; to plan, educate, and achieve objectives.",
+      start: "2020-06-25T23:00:00.000Z",
+      end: "2020-06-26T01:00:00.000Z",
+      ticketPrice: 0,
+      creator: {connect: {auth0Id: "testid3"}},
+      eventImages: {
+        create: [{
+          url: "https://res.cloudinary.com/communitycalendar/image/upload/v1580757979/hcqh4vfifqibez8cpg2s.png"
+          creator: {connect: {auth0Id: "testid3"}}
+        }]
+      },
+      urls: {
+        create: [{
+            url: "https://www.facebook.com/HistoricNorthEndAlliance/"
+        }]
+      },
+      admins:  {connect: [{auth0Id: "testid3"}]},
+      locations: {
+        create: [{
+          name: "Metropolitan United Methodist Church",
+          streetAddress: "8000 Woodward Ave",
+          streetAddress2: "",
+          city: "Detroit",
+          zipcode: 48202,
+          state: "MI",
+          latitude: 42.374651,
+          longitude: -83.075597
+        }]
+      },
+      tags: {connect: [{title: "community"}, {title: "heritage"}]}
+    }
+  ) {
+    id
+  }
+}
+
+### Jul 23, 2020
+mutation {
+  createEvent(
+    data: {
+      index: ",hist,nor,end,al,month,meet,hne,commun,fo,concern,resid,defin,cre,speak,work,on,heart,detroit,wil,block,club,group,assocy,within,throughout,city,plan,educ,achiev,object,",
+      title: "Historic North End Alliance Monthly Meeting",
+      description: "The Historic North End Alliance (HNEA) is a community of concerned North End residents who are defining, creating, speaking, and working as one community in the heart of Detroit. The HNEA will work with all Block Clubs, Community Groups/Associations and Allies within the North End and throughout the city; to plan, educate, and achieve objectives.",
+      start: "2020-07-23T23:00:00.000Z",
+      end: "2020-07-24T01:00:00.000Z",
+      ticketPrice: 0,
+      creator: {connect: {auth0Id: "testid3"}},
+      eventImages: {
+        create: [{
+          url: "https://res.cloudinary.com/communitycalendar/image/upload/v1580757979/hcqh4vfifqibez8cpg2s.png"
+          creator: {connect: {auth0Id: "testid3"}}
+        }]
+      },
+      urls: {
+        create: [{
+            url: "https://www.facebook.com/HistoricNorthEndAlliance/"
+        }]
+      },
+      admins:  {connect: [{auth0Id: "testid3"}]},
+      locations: {
+        create: [{
+          name: "Metropolitan United Methodist Church",
+          streetAddress: "8000 Woodward Ave",
+          streetAddress2: "",
+          city: "Detroit",
+          zipcode: 48202,
+          state: "MI",
+          latitude: 42.374651,
+          longitude: -83.075597
+        }]
+      },
+      tags: {connect: [{title: "community"}, {title: "heritage"}]}
+    }
+  ) {
+    id
+  }
+}
+
+### Aug 27, 2020
+mutation {
+  createEvent(
+    data: {
+      index: ",hist,nor,end,al,month,meet,hne,commun,fo,concern,resid,defin,cre,speak,work,on,heart,detroit,wil,block,club,group,assocy,within,throughout,city,plan,educ,achiev,object,",
+      title: "Historic North End Alliance Monthly Meeting",
+      description: "The Historic North End Alliance (HNEA) is a community of concerned North End residents who are defining, creating, speaking, and working as one community in the heart of Detroit. The HNEA will work with all Block Clubs, Community Groups/Associations and Allies within the North End and throughout the city; to plan, educate, and achieve objectives.",
+      start: "2020-08-27T23:00:00.000Z",
+      end: "2020-08-28T01:00:00.000Z",
+      ticketPrice: 0,
+      creator: {connect: {auth0Id: "testid3"}},
+      eventImages: {
+        create: [{
+          url: "https://res.cloudinary.com/communitycalendar/image/upload/v1580757979/hcqh4vfifqibez8cpg2s.png"
+          creator: {connect: {auth0Id: "testid3"}}
+        }]
+      },
+      urls: {
+        create: [{
+            url: "https://www.facebook.com/HistoricNorthEndAlliance/"
+        }]
+      },
+      admins:  {connect: [{auth0Id: "testid3"}]},
+      locations: {
+        create: [{
+          name: "Metropolitan United Methodist Church",
+          streetAddress: "8000 Woodward Ave",
+          streetAddress2: "",
+          city: "Detroit",
+          zipcode: 48202,
+          state: "MI",
+          latitude: 42.374651,
+          longitude: -83.075597
+        }]
+      },
+      tags: {connect: [{title: "community"}, {title: "heritage"}]}
+    }
+  ) {
+    id
+  }
+}
+
+### Sep 24, 2020
+mutation {
+  createEvent(
+    data: {
+      index: ",hist,nor,end,al,month,meet,hne,commun,fo,concern,resid,defin,cre,speak,work,on,heart,detroit,wil,block,club,group,assocy,within,throughout,city,plan,educ,achiev,object,",
+      title: "Historic North End Alliance Monthly Meeting",
+      description: "The Historic North End Alliance (HNEA) is a community of concerned North End residents who are defining, creating, speaking, and working as one community in the heart of Detroit. The HNEA will work with all Block Clubs, Community Groups/Associations and Allies within the North End and throughout the city; to plan, educate, and achieve objectives.",
+      start: "2020-09-24T23:00:00.000Z",
+      end: "2020-09-25T01:00:00.000Z",
+      ticketPrice: 0,
+      creator: {connect: {auth0Id: "testid3"}},
+      eventImages: {
+        create: [{
+          url: "https://res.cloudinary.com/communitycalendar/image/upload/v1580757979/hcqh4vfifqibez8cpg2s.png"
+          creator: {connect: {auth0Id: "testid3"}}
+        }]
+      },
+      urls: {
+        create: [{
+            url: "https://www.facebook.com/HistoricNorthEndAlliance/"
+        }]
+      },
+      admins:  {connect: [{auth0Id: "testid3"}]},
+      locations: {
+        create: [{
+          name: "Metropolitan United Methodist Church",
+          streetAddress: "8000 Woodward Ave",
+          streetAddress2: "",
+          city: "Detroit",
+          zipcode: 48202,
+          state: "MI",
+          latitude: 42.374651,
+          longitude: -83.075597
+        }]
+      },
+      tags: {connect: [{title: "community"}, {title: "heritage"}]}
+    }
+  ) {
+    id
+  }
+}
+
+### Oct 26, 2020
+mutation {
+  createEvent(
+    data: {
+      index: ",hist,nor,end,al,month,meet,hne,commun,fo,concern,resid,defin,cre,speak,work,on,heart,detroit,wil,block,club,group,assocy,within,throughout,city,plan,educ,achiev,object,",
+      title: "Historic North End Alliance Monthly Meeting",
+      description: "The Historic North End Alliance (HNEA) is a community of concerned North End residents who are defining, creating, speaking, and working as one community in the heart of Detroit. The HNEA will work with all Block Clubs, Community Groups/Associations and Allies within the North End and throughout the city; to plan, educate, and achieve objectives.",
+      start: "2020-10-26T23:00:00.000Z",
+      end: "2020-10-27T01:00:00.000Z",
+      ticketPrice: 0,
+      creator: {connect: {auth0Id: "testid3"}},
+      eventImages: {
+        create: [{
+          url: "https://res.cloudinary.com/communitycalendar/image/upload/v1580757979/hcqh4vfifqibez8cpg2s.png"
+          creator: {connect: {auth0Id: "testid3"}}
+        }]
+      },
+      urls: {
+        create: [{
+            url: "https://www.facebook.com/HistoricNorthEndAlliance/"
+        }]
+      },
+      admins:  {connect: [{auth0Id: "testid3"}]},
+      locations: {
+        create: [{
+          name: "Metropolitan United Methodist Church",
+          streetAddress: "8000 Woodward Ave",
+          streetAddress2: "",
+          city: "Detroit",
+          zipcode: 48202,
+          state: "MI",
+          latitude: 42.374651,
+          longitude: -83.075597
+        }]
+      },
+      tags: {connect: [{title: "community"}, {title: "heritage"}]}
+    }
+  ) {
+    id
+  }
+}
+
+### Nov 26, 2020
+mutation {
+  createEvent(
+    data: {
+      index: ",hist,nor,end,al,month,meet,hne,commun,fo,concern,resid,defin,cre,speak,work,on,heart,detroit,wil,block,club,group,assocy,within,throughout,city,plan,educ,achiev,object,",
+      title: "Historic North End Alliance Monthly Meeting",
+      description: "The Historic North End Alliance (HNEA) is a community of concerned North End residents who are defining, creating, speaking, and working as one community in the heart of Detroit. The HNEA will work with all Block Clubs, Community Groups/Associations and Allies within the North End and throughout the city; to plan, educate, and achieve objectives.",
+      start: "2020-11-26T23:00:00.000Z",
+      end: "2020-11-27T01:00:00.000Z",
+      ticketPrice: 0,
+      creator: {connect: {auth0Id: "testid3"}},
+      eventImages: {
+        create: [{
+          url: "https://res.cloudinary.com/communitycalendar/image/upload/v1580757979/hcqh4vfifqibez8cpg2s.png"
+          creator: {connect: {auth0Id: "testid3"}}
+        }]
+      },
+      urls: {
+        create: [{
+            url: "https://www.facebook.com/HistoricNorthEndAlliance/"
+        }]
+      },
+      admins:  {connect: [{auth0Id: "testid3"}]},
+      locations: {
+        create: [{
+          name: "Metropolitan United Methodist Church",
+          streetAddress: "8000 Woodward Ave",
+          streetAddress2: "",
+          city: "Detroit",
+          zipcode: 48202,
+          state: "MI",
+          latitude: 42.374651,
+          longitude: -83.075597
+        }]
+      },
+      tags: {connect: [{title: "community"}, {title: "heritage"}]}
+    }
+  ) {
+    id
+  }
+}
+
+# Lower North End Block Club seeds, `auth0Id: "testid4"`
+## LNE repeating monthly meeting, first monday of the monday
+
+### Feb 03, 2020
+mutation {
+  createEvent(
+    data: {
+      index: ",low,nor,end,block,club,meet,form,horton,cust,bethun,oakland,hcbo,first,monday,mon,resid,hom,discuss,commun,ev,concern,coordin,city,council,govern,ampl,perspect,",
+      title: "Lower North End Block Club Meeting",
+      description: "The Lower North End Block Club, formerly the Horton-Custer-Bethune-Oakland (HCBO) Block Club, meetings the first Monday of each month at a resident's home to discuss community events and concerns. The Block Club coordinates communication with the city council and city government to amplify residents' concerns and perspectives.\n",
+      start: "2020-02-03T23:00:00.000Z",
+      end: "2020-02-04T00:30:00.000Z",
+      ticketPrice: 0,
       creator: {connect: {auth0Id: "testid4"}}
       eventImages: {
-        create: [
-          {
-            url: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F83852725%2F88642988607%2F1%2Foriginal.jpg?w=800&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C0%2C800%2C400&s=634757517829d19f5fb6128818867f9f"
-            creator: {connect: {auth0Id: "testid4"}}
-          }
-        ]
-      }
-      urls: {
-        create: [
-          {
-            url: "https://www.eventbrite.com/e/kwanzaa-tour-at-the-charles-h-wright-museum-tickets-85347868773"
-          }
-        ]
-      }
-      admins: {connect: [{auth0Id: "testid4"}]}
+        create: [{
+          url: "https://res.cloudinary.com/communitycalendar/image/upload/v1580760121/catjrb7rbjcn4otcmw87.png"
+          creator: {connect: {auth0Id: "testid4"}}
+        }]
+      },
+      admins: {connect: {auth0Id: "testid4"}},
       locations: {
-        create: [
-          {
-            name: "Charles H. Wright Museum of African American History"
-            streetAddress: "315 East Warren Avenue"
-            city: "Detroit"
-            zipcode: 48201
-            state: "MI"
-            latitude: 42.358328
-            longitude: -83.060526
-          }
-        ]
-      }
-      tags: {
-        connect: [{title: "kids"}, {title: "family"}, {title: "history"}]
-        create: [
-          {title: "kwanzaa"}
-          {title: "africanamerican"}
-          {title: "heritage"}
-        ]
-      }
+        create: [{
+          name: "Resident Home",
+          streetAddress: "320 Horton Ave",
+          streetAddress2: "",
+          city: "Detroit",
+          zipcode: 48202,
+          state: "MI",
+          latitude: 42.372462,
+          longitude: -83.069376
+        }]
+      },
+      tags: {connect: [{title: "block club"}, {title: "community"}, {title: "neighborhood"}]}
     }
   ) {
     id
   }
 }
+
+### Mar 02, 2020
+mutation {
+  createEvent(
+    data: {
+      index: ",low,nor,end,block,club,meet,form,horton,cust,bethun,oakland,hcbo,first,monday,mon,resid,hom,discuss,commun,ev,concern,coordin,city,council,govern,ampl,perspect,",
+      title: "Lower North End Block Club Meeting",
+      description: "The Lower North End Block Club, formerly the Horton-Custer-Bethune-Oakland (HCBO) Block Club, meetings the first Monday of each month at a resident's home to discuss community events and concerns. The Block Club coordinates communication with the city council and city government to amplify residents' concerns and perspectives.\n",
+      start: "2020-03-02T23:00:00.000Z",
+      end: "2020-03-03T00:30:00.000Z",
+      ticketPrice: 0,
+      creator: {connect: {auth0Id: "testid4"}}
+      eventImages: {
+        create: [{
+          url: "https://res.cloudinary.com/communitycalendar/image/upload/v1580760121/catjrb7rbjcn4otcmw87.png"
+          creator: {connect: {auth0Id: "testid4"}}
+        }]
+      },
+      admins: {connect: {auth0Id: "testid4"}},
+      locations: {
+        create: [{
+          name: "Resident Home",
+          streetAddress: "320 Horton Ave",
+          streetAddress2: "",
+          city: "Detroit",
+          zipcode: 48202,
+          state: "MI",
+          latitude: 42.372462,
+          longitude: -83.069376
+        }]
+      },
+      tags: {connect: [{title: "block club"}, {title: "community"}, {title: "neighborhood"}]}
+    }
+  ) {
+    id
+  }
+}
+
+### Apr 06, 2020
+mutation {
+  createEvent(
+    data: {
+      index: ",low,nor,end,block,club,meet,form,horton,cust,bethun,oakland,hcbo,first,monday,mon,resid,hom,discuss,commun,ev,concern,coordin,city,council,govern,ampl,perspect,",
+      title: "Lower North End Block Club Meeting",
+      description: "The Lower North End Block Club, formerly the Horton-Custer-Bethune-Oakland (HCBO) Block Club, meetings the first Monday of each month at a resident's home to discuss community events and concerns. The Block Club coordinates communication with the city council and city government to amplify residents' concerns and perspectives.\n",
+      start: "2020-04-06T23:00:00.000Z",
+      end: "2020-04-07T00:30:00.000Z",
+      ticketPrice: 0,
+      creator: {connect: {auth0Id: "testid4"}}
+      eventImages: {
+        create: [{
+          url: "https://res.cloudinary.com/communitycalendar/image/upload/v1580760121/catjrb7rbjcn4otcmw87.png"
+          creator: {connect: {auth0Id: "testid4"}}
+        }]
+      },
+      admins: {connect: {auth0Id: "testid4"}},
+      locations: {
+        create: [{
+          name: "Resident Home",
+          streetAddress: "320 Horton Ave",
+          streetAddress2: "",
+          city: "Detroit",
+          zipcode: 48202,
+          state: "MI",
+          latitude: 42.372462,
+          longitude: -83.069376
+        }]
+      },
+      tags: {connect: [{title: "block club"}, {title: "community"}, {title: "neighborhood"}]}
+    }
+  ) {
+    id
+  }
+}
+
+### May 04, 2020
+mutation {
+  createEvent(
+    data: {
+      index: ",low,nor,end,block,club,meet,form,horton,cust,bethun,oakland,hcbo,first,monday,mon,resid,hom,discuss,commun,ev,concern,coordin,city,council,govern,ampl,perspect,",
+      title: "Lower North End Block Club Meeting",
+      description: "The Lower North End Block Club, formerly the Horton-Custer-Bethune-Oakland (HCBO) Block Club, meetings the first Monday of each month at a resident's home to discuss community events and concerns. The Block Club coordinates communication with the city council and city government to amplify residents' concerns and perspectives.\n",
+      start: "2020-05-04T23:00:00.000Z",
+      end: "2020-05-05T00:30:00.000Z",
+      ticketPrice: 0,
+      creator: {connect: {auth0Id: "testid4"}}
+      eventImages: {
+        create: [{
+          url: "https://res.cloudinary.com/communitycalendar/image/upload/v1580760121/catjrb7rbjcn4otcmw87.png"
+          creator: {connect: {auth0Id: "testid4"}}
+        }]
+      },
+      admins: {connect: {auth0Id: "testid4"}},
+      locations: {
+        create: [{
+          name: "Resident Home",
+          streetAddress: "320 Horton Ave",
+          streetAddress2: "",
+          city: "Detroit",
+          zipcode: 48202,
+          state: "MI",
+          latitude: 42.372462,
+          longitude: -83.069376
+        }]
+      },
+      tags: {connect: [{title: "block club"}, {title: "community"}, {title: "neighborhood"}]}
+    }
+  ) {
+    id
+  }
+}
+
+### Jun 01, 2020
+mutation {
+  createEvent(
+    data: {
+      index: ",low,nor,end,block,club,meet,form,horton,cust,bethun,oakland,hcbo,first,monday,mon,resid,hom,discuss,commun,ev,concern,coordin,city,council,govern,ampl,perspect,",
+      title: "Lower North End Block Club Meeting",
+      description: "The Lower North End Block Club, formerly the Horton-Custer-Bethune-Oakland (HCBO) Block Club, meetings the first Monday of each month at a resident's home to discuss community events and concerns. The Block Club coordinates communication with the city council and city government to amplify residents' concerns and perspectives.\n",
+      start: "2020-06-01T23:00:00.000Z",
+      end: "2020-06-02T00:30:00.000Z",
+      ticketPrice: 0,
+      creator: {connect: {auth0Id: "testid4"}}
+      eventImages: {
+        create: [{
+          url: "https://res.cloudinary.com/communitycalendar/image/upload/v1580760121/catjrb7rbjcn4otcmw87.png"
+          creator: {connect: {auth0Id: "testid4"}}
+        }]
+      },
+      admins: {connect: {auth0Id: "testid4"}},
+      locations: {
+        create: [{
+          name: "Resident Home",
+          streetAddress: "320 Horton Ave",
+          streetAddress2: "",
+          city: "Detroit",
+          zipcode: 48202,
+          state: "MI",
+          latitude: 42.372462,
+          longitude: -83.069376
+        }]
+      },
+      tags: {connect: [{title: "block club"}, {title: "community"}, {title: "neighborhood"}]}
+    }
+  ) {
+    id
+  }
+}
+
+### Jul 06, 2020
+mutation {
+  createEvent(
+    data: {
+      index: ",low,nor,end,block,club,meet,form,horton,cust,bethun,oakland,hcbo,first,monday,mon,resid,hom,discuss,commun,ev,concern,coordin,city,council,govern,ampl,perspect,",
+      title: "Lower North End Block Club Meeting",
+      description: "The Lower North End Block Club, formerly the Horton-Custer-Bethune-Oakland (HCBO) Block Club, meetings the first Monday of each month at a resident's home to discuss community events and concerns. The Block Club coordinates communication with the city council and city government to amplify residents' concerns and perspectives.\n",
+      start: "2020-07-06T23:00:00.000Z",
+      end: "2020-07-07T00:30:00.000Z",
+      ticketPrice: 0,
+      creator: {connect: {auth0Id: "testid4"}}
+      eventImages: {
+        create: [{
+          url: "https://res.cloudinary.com/communitycalendar/image/upload/v1580760121/catjrb7rbjcn4otcmw87.png"
+          creator: {connect: {auth0Id: "testid4"}}
+        }]
+      },
+      admins: {connect: {auth0Id: "testid4"}},
+      locations: {
+        create: [{
+          name: "Resident Home",
+          streetAddress: "320 Horton Ave",
+          streetAddress2: "",
+          city: "Detroit",
+          zipcode: 48202,
+          state: "MI",
+          latitude: 42.372462,
+          longitude: -83.069376
+        }]
+      },
+      tags: {connect: [{title: "block club"}, {title: "community"}, {title: "neighborhood"}]}
+    }
+  ) {
+    id
+  }
+}
+
+### Aug 03, 2020
+mutation {
+  createEvent(
+    data: {
+      index: ",low,nor,end,block,club,meet,form,horton,cust,bethun,oakland,hcbo,first,monday,mon,resid,hom,discuss,commun,ev,concern,coordin,city,council,govern,ampl,perspect,",
+      title: "Lower North End Block Club Meeting",
+      description: "The Lower North End Block Club, formerly the Horton-Custer-Bethune-Oakland (HCBO) Block Club, meetings the first Monday of each month at a resident's home to discuss community events and concerns. The Block Club coordinates communication with the city council and city government to amplify residents' concerns and perspectives.\n",
+      start: "2020-08-03T23:00:00.000Z",
+      end: "2020-08-04T00:30:00.000Z",
+      ticketPrice: 0,
+      creator: {connect: {auth0Id: "testid4"}}
+      eventImages: {
+        create: [{
+          url: "https://res.cloudinary.com/communitycalendar/image/upload/v1580760121/catjrb7rbjcn4otcmw87.png"
+          creator: {connect: {auth0Id: "testid4"}}
+        }]
+      },
+      admins: {connect: {auth0Id: "testid4"}},
+      locations: {
+        create: [{
+          name: "Resident Home",
+          streetAddress: "320 Horton Ave",
+          streetAddress2: "",
+          city: "Detroit",
+          zipcode: 48202,
+          state: "MI",
+          latitude: 42.372462,
+          longitude: -83.069376
+        }]
+      },
+      tags: {connect: [{title: "block club"}, {title: "community"}, {title: "neighborhood"}]}
+    }
+  ) {
+    id
+  }
+}
+
+### Sep 07, 2020
+mutation {
+  createEvent(
+    data: {
+      index: ",low,nor,end,block,club,meet,form,horton,cust,bethun,oakland,hcbo,first,monday,mon,resid,hom,discuss,commun,ev,concern,coordin,city,council,govern,ampl,perspect,",
+      title: "Lower North End Block Club Meeting",
+      description: "The Lower North End Block Club, formerly the Horton-Custer-Bethune-Oakland (HCBO) Block Club, meetings the first Monday of each month at a resident's home to discuss community events and concerns. The Block Club coordinates communication with the city council and city government to amplify residents' concerns and perspectives.\n",
+      start: "2020-09-07T23:00:00.000Z",
+      end: "2020-09-08T00:30:00.000Z",
+      ticketPrice: 0,
+      creator: {connect: {auth0Id: "testid4"}}
+      eventImages: {
+        create: [{
+          url: "https://res.cloudinary.com/communitycalendar/image/upload/v1580760121/catjrb7rbjcn4otcmw87.png"
+          creator: {connect: {auth0Id: "testid4"}}
+        }]
+      },
+      admins: {connect: {auth0Id: "testid4"}},
+      locations: {
+        create: [{
+          name: "Resident Home",
+          streetAddress: "320 Horton Ave",
+          streetAddress2: "",
+          city: "Detroit",
+          zipcode: 48202,
+          state: "MI",
+          latitude: 42.372462,
+          longitude: -83.069376
+        }]
+      },
+      tags: {connect: [{title: "block club"}, {title: "community"}, {title: "neighborhood"}]}
+    }
+  ) {
+    id
+  }
+}
+
+### Oct 05, 2020
+mutation {
+  createEvent(
+    data: {
+      index: ",low,nor,end,block,club,meet,form,horton,cust,bethun,oakland,hcbo,first,monday,mon,resid,hom,discuss,commun,ev,concern,coordin,city,council,govern,ampl,perspect,",
+      title: "Lower North End Block Club Meeting",
+      description: "The Lower North End Block Club, formerly the Horton-Custer-Bethune-Oakland (HCBO) Block Club, meetings the first Monday of each month at a resident's home to discuss community events and concerns. The Block Club coordinates communication with the city council and city government to amplify residents' concerns and perspectives.\n",
+      start: "2020-10-05T23:00:00.000Z",
+      end: "2020-10-06T00:30:00.000Z",
+      ticketPrice: 0,
+      creator: {connect: {auth0Id: "testid4"}}
+      eventImages: {
+        create: [{
+          url: "https://res.cloudinary.com/communitycalendar/image/upload/v1580760121/catjrb7rbjcn4otcmw87.png"
+          creator: {connect: {auth0Id: "testid4"}}
+        }]
+      },
+      admins: {connect: {auth0Id: "testid4"}},
+      locations: {
+        create: [{
+          name: "Resident Home",
+          streetAddress: "320 Horton Ave",
+          streetAddress2: "",
+          city: "Detroit",
+          zipcode: 48202,
+          state: "MI",
+          latitude: 42.372462,
+          longitude: -83.069376
+        }]
+      },
+      tags: {connect: [{title: "block club"}, {title: "community"}, {title: "neighborhood"}]}
+    }
+  ) {
+    id
+  }
+}
+
+### Nov 02, 2020
+mutation {
+  createEvent(
+    data: {
+      index: ",low,nor,end,block,club,meet,form,horton,cust,bethun,oakland,hcbo,first,monday,mon,resid,hom,discuss,commun,ev,concern,coordin,city,council,govern,ampl,perspect,",
+      title: "Lower North End Block Club Meeting",
+      description: "The Lower North End Block Club, formerly the Horton-Custer-Bethune-Oakland (HCBO) Block Club, meetings the first Monday of each month at a resident's home to discuss community events and concerns. The Block Club coordinates communication with the city council and city government to amplify residents' concerns and perspectives.\n",
+      start: "2020-11-02T23:00:00.000Z",
+      end: "2020-11-03T00:30:00.000Z",
+      ticketPrice: 0,
+      creator: {connect: {auth0Id: "testid4"}}
+      eventImages: {
+        create: [{
+          url: "https://res.cloudinary.com/communitycalendar/image/upload/v1580760121/catjrb7rbjcn4otcmw87.png"
+          creator: {connect: {auth0Id: "testid4"}}
+        }]
+      },
+      admins: {connect: {auth0Id: "testid4"}},
+      locations: {
+        create: [{
+          name: "Resident Home",
+          streetAddress: "320 Horton Ave",
+          streetAddress2: "",
+          city: "Detroit",
+          zipcode: 48202,
+          state: "MI",
+          latitude: 42.372462,
+          longitude: -83.069376
+        }]
+      },
+      tags: {connect: [{title: "block club"}, {title: "community"}, {title: "neighborhood"}]}
+    }
+  ) {
+    id
+  }
+}
+
+### Dec 07, 2020
+mutation {
+  createEvent(
+    data: {
+      index: ",low,nor,end,block,club,meet,form,horton,cust,bethun,oakland,hcbo,first,monday,mon,resid,hom,discuss,commun,ev,concern,coordin,city,council,govern,ampl,perspect,",
+      title: "Lower North End Block Club Meeting",
+      description: "The Lower North End Block Club, formerly the Horton-Custer-Bethune-Oakland (HCBO) Block Club, meetings the first Monday of each month at a resident's home to discuss community events and concerns. The Block Club coordinates communication with the city council and city government to amplify residents' concerns and perspectives.\n",
+      start: "2020-12-07T23:00:00.000Z",
+      end: "2020-12-08T00:30:00.000Z",
+      ticketPrice: 0,
+      creator: {connect: {auth0Id: "testid4"}}
+      eventImages: {
+        create: [{
+          url: "https://res.cloudinary.com/communitycalendar/image/upload/v1580760121/catjrb7rbjcn4otcmw87.png"
+          creator: {connect: {auth0Id: "testid4"}}
+        }]
+      },
+      admins: {connect: {auth0Id: "testid4"}},
+      locations: {
+        create: [{
+          name: "Resident Home",
+          streetAddress: "320 Horton Ave",
+          streetAddress2: "",
+          city: "Detroit",
+          zipcode: 48202,
+          state: "MI",
+          latitude: 42.372462,
+          longitude: -83.069376
+        }]
+      },
+      tags: {connect: [{title: "block club"}, {title: "community"}, {title: "neighborhood"}]}
+    }
+  ) {
+    id
+  }
+}
+
+# Michigan Urban Farming Initiative seeds, `auth0Id: "testid5"`
+## MUFI repeating events TBD
+
+
+# Eastern Market Partnership seeds, `auth0Id: "testid6"`
+## Eastern Market repeating saturday market event
+
+### Feb 08, 2020
+mutation {
+  createEvent(
+    data: {
+      index: ",eastern,market,saturday,attend,expery,undeny,detroit,225,vend,shar,produc,story,40,000,visit,on,day,busy,season,tradit,cornerston,city,125,year,cruc,mit,nour,healthy,wealthy,happy,wond,hour,map,park,pet,someth,els,regard,thing,know,pag,answ,head,",
+      title: "Eastern Market Saturday Market",
+      description: "Attending our Saturday Market is an experience that is undeniably Detroit. Over 225 market vendors share their produce and stories with up to 40,000 visitors in one day during our busy season. The tradition of this market has been a cornerstone of the city for 125 years and is crucial to our mission of nourishing a healthier, wealthier, and happier city.\n\nWondering about hours, maps, parking, pets, or something else regarding your visit? Visit our things to know page for all the answers before heading out!",
+      start: "2020-02-08T11:00:00.000Z",
+      end: "2020-02-08T21:00:00.000Z",
+      ticketPrice: 0,
+      creator: {connect: {auth0Id: "testid6"}},
+      eventImages: {
+        create: [{
+          url: "https://res.cloudinary.com/communitycalendar/image/upload/v1580762038/d36a2tzrplgxrx3cxbfm.jpg"
+          creator: {connect: {auth0Id: "testid6"}},
+        }]
+      },
+      admins: {connect: [{auth0Id: "testid6"}]},
+      locations: {
+        create: [{
+          name: "Eastern Market",
+          streetAddress: "2611 Russell St",
+          streetAddress2: "All Sheds",
+          city: "Detroit",
+          zipcode: 48207,
+          state: "MI",
+          latitude: 42.34641,
+          longitude: -83.0406
+        }]
+      },
+      tags: {connect: [{title: "community"}, {title: "food"}, {title: "market"}]}
+    }
+  ) {
+    id
+  }
+}
+
+### Feb 15, 2020
+mutation {
+  createEvent(
+    data: {
+      index: ",eastern,market,saturday,attend,expery,undeny,detroit,225,vend,shar,produc,story,40,000,visit,on,day,busy,season,tradit,cornerston,city,125,year,cruc,mit,nour,healthy,wealthy,happy,wond,hour,map,park,pet,someth,els,regard,thing,know,pag,answ,head,",
+      title: "Eastern Market Saturday Market",
+      description: "Attending our Saturday Market is an experience that is undeniably Detroit. Over 225 market vendors share their produce and stories with up to 40,000 visitors in one day during our busy season. The tradition of this market has been a cornerstone of the city for 125 years and is crucial to our mission of nourishing a healthier, wealthier, and happier city.\n\nWondering about hours, maps, parking, pets, or something else regarding your visit? Visit our things to know page for all the answers before heading out!",
+      start: "2020-02-15T11:00:00.000Z",
+      end: "2020-02-15T21:00:00.000Z",
+      ticketPrice: 0,
+      creator: {connect: {auth0Id: "testid6"}},
+      eventImages: {
+        create: [{
+          url: "https://res.cloudinary.com/communitycalendar/image/upload/v1580762038/d36a2tzrplgxrx3cxbfm.jpg"
+          creator: {connect: {auth0Id: "testid6"}},
+        }]
+      },
+      admins: {connect: [{auth0Id: "testid6"}]},
+      locations: {
+        create: [{
+          name: "Eastern Market",
+          streetAddress: "2611 Russell St",
+          streetAddress2: "All Sheds",
+          city: "Detroit",
+          zipcode: 48207,
+          state: "MI",
+          latitude: 42.34641,
+          longitude: -83.0406
+        }]
+      },
+      tags: {connect: [{title: "community"}, {title: "food"}, {title: "market"}]}
+    }
+  ) {
+    id
+  }
+}
+
+### Feb 22, 2020
+mutation {
+  createEvent(
+    data: {
+      index: ",eastern,market,saturday,attend,expery,undeny,detroit,225,vend,shar,produc,story,40,000,visit,on,day,busy,season,tradit,cornerston,city,125,year,cruc,mit,nour,healthy,wealthy,happy,wond,hour,map,park,pet,someth,els,regard,thing,know,pag,answ,head,",
+      title: "Eastern Market Saturday Market",
+      description: "Attending our Saturday Market is an experience that is undeniably Detroit. Over 225 market vendors share their produce and stories with up to 40,000 visitors in one day during our busy season. The tradition of this market has been a cornerstone of the city for 125 years and is crucial to our mission of nourishing a healthier, wealthier, and happier city.\n\nWondering about hours, maps, parking, pets, or something else regarding your visit? Visit our things to know page for all the answers before heading out!",
+      start: "2020-02-22T11:00:00.000Z",
+      end: "2020-02-22T21:00:00.000Z",
+      ticketPrice: 0,
+      creator: {connect: {auth0Id: "testid6"}},
+      eventImages: {
+        create: [{
+          url: "https://res.cloudinary.com/communitycalendar/image/upload/v1580762038/d36a2tzrplgxrx3cxbfm.jpg"
+          creator: {connect: {auth0Id: "testid6"}},
+        }]
+      },
+      admins: {connect: [{auth0Id: "testid6"}]},
+      locations: {
+        create: [{
+          name: "Eastern Market",
+          streetAddress: "2611 Russell St",
+          streetAddress2: "All Sheds",
+          city: "Detroit",
+          zipcode: 48207,
+          state: "MI",
+          latitude: 42.34641,
+          longitude: -83.0406
+        }]
+      },
+      tags: {connect: [{title: "community"}, {title: "food"}, {title: "market"}]}
+    }
+  ) {
+    id
+  }
+}
+
+### Feb 29, 2020
+mutation {
+  createEvent(
+    data: {
+      index: ",eastern,market,saturday,attend,expery,undeny,detroit,225,vend,shar,produc,story,40,000,visit,on,day,busy,season,tradit,cornerston,city,125,year,cruc,mit,nour,healthy,wealthy,happy,wond,hour,map,park,pet,someth,els,regard,thing,know,pag,answ,head,",
+      title: "Eastern Market Saturday Market",
+      description: "Attending our Saturday Market is an experience that is undeniably Detroit. Over 225 market vendors share their produce and stories with up to 40,000 visitors in one day during our busy season. The tradition of this market has been a cornerstone of the city for 125 years and is crucial to our mission of nourishing a healthier, wealthier, and happier city.\n\nWondering about hours, maps, parking, pets, or something else regarding your visit? Visit our things to know page for all the answers before heading out!",
+      start: "2020-02-29T11:00:00.000Z",
+      end: "2020-02-29T21:00:00.000Z",
+      ticketPrice: 0,
+      creator: {connect: {auth0Id: "testid6"}},
+      eventImages: {
+        create: [{
+          url: "https://res.cloudinary.com/communitycalendar/image/upload/v1580762038/d36a2tzrplgxrx3cxbfm.jpg"
+          creator: {connect: {auth0Id: "testid6"}},
+        }]
+      },
+      admins: {connect: [{auth0Id: "testid6"}]},
+      locations: {
+        create: [{
+          name: "Eastern Market",
+          streetAddress: "2611 Russell St",
+          streetAddress2: "All Sheds",
+          city: "Detroit",
+          zipcode: 48207,
+          state: "MI",
+          latitude: 42.34641,
+          longitude: -83.0406
+        }]
+      },
+      tags: {connect: [{title: "community"}, {title: "food"}, {title: "market"}]}
+    }
+  ) {
+    id
+  }
+}
+
+### Mar 07, 2020
+mutation {
+  createEvent(
+    data: {
+      index: ",eastern,market,saturday,attend,expery,undeny,detroit,225,vend,shar,produc,story,40,000,visit,on,day,busy,season,tradit,cornerston,city,125,year,cruc,mit,nour,healthy,wealthy,happy,wond,hour,map,park,pet,someth,els,regard,thing,know,pag,answ,head,",
+      title: "Eastern Market Saturday Market",
+      description: "Attending our Saturday Market is an experience that is undeniably Detroit. Over 225 market vendors share their produce and stories with up to 40,000 visitors in one day during our busy season. The tradition of this market has been a cornerstone of the city for 125 years and is crucial to our mission of nourishing a healthier, wealthier, and happier city.\n\nWondering about hours, maps, parking, pets, or something else regarding your visit? Visit our things to know page for all the answers before heading out!",
+      start: "2020-03-07T11:00:00.000Z",
+      end: "2020-03-07T21:00:00.000Z",
+      ticketPrice: 0,
+      creator: {connect: {auth0Id: "testid6"}},
+      eventImages: {
+        create: [{
+          url: "https://res.cloudinary.com/communitycalendar/image/upload/v1580762038/d36a2tzrplgxrx3cxbfm.jpg"
+          creator: {connect: {auth0Id: "testid6"}},
+        }]
+      },
+      admins: {connect: [{auth0Id: "testid6"}]},
+      locations: {
+        create: [{
+          name: "Eastern Market",
+          streetAddress: "2611 Russell St",
+          streetAddress2: "All Sheds",
+          city: "Detroit",
+          zipcode: 48207,
+          state: "MI",
+          latitude: 42.34641,
+          longitude: -83.0406
+        }]
+      },
+      tags: {connect: [{title: "community"}, {title: "food"}, {title: "market"}]}
+    }
+  ) {
+    id
+  }
+}
+
+### Mar 14, 2020
+mutation {
+  createEvent(
+    data: {
+      index: ",eastern,market,saturday,attend,expery,undeny,detroit,225,vend,shar,produc,story,40,000,visit,on,day,busy,season,tradit,cornerston,city,125,year,cruc,mit,nour,healthy,wealthy,happy,wond,hour,map,park,pet,someth,els,regard,thing,know,pag,answ,head,",
+      title: "Eastern Market Saturday Market",
+      description: "Attending our Saturday Market is an experience that is undeniably Detroit. Over 225 market vendors share their produce and stories with up to 40,000 visitors in one day during our busy season. The tradition of this market has been a cornerstone of the city for 125 years and is crucial to our mission of nourishing a healthier, wealthier, and happier city.\n\nWondering about hours, maps, parking, pets, or something else regarding your visit? Visit our things to know page for all the answers before heading out!",
+      start: "2020-03-14T11:00:00.000Z",
+      end: "2020-03-14T21:00:00.000Z",
+      ticketPrice: 0,
+      creator: {connect: {auth0Id: "testid6"}},
+      eventImages: {
+        create: [{
+          url: "https://res.cloudinary.com/communitycalendar/image/upload/v1580762038/d36a2tzrplgxrx3cxbfm.jpg"
+          creator: {connect: {auth0Id: "testid6"}},
+        }]
+      },
+      admins: {connect: [{auth0Id: "testid6"}]},
+      locations: {
+        create: [{
+          name: "Eastern Market",
+          streetAddress: "2611 Russell St",
+          streetAddress2: "All Sheds",
+          city: "Detroit",
+          zipcode: 48207,
+          state: "MI",
+          latitude: 42.34641,
+          longitude: -83.0406
+        }]
+      },
+      tags: {connect: [{title: "community"}, {title: "food"}, {title: "market"}]}
+    }
+  ) {
+    id
+  }
+}
+
+### Mar 21, 2020
+mutation {
+  createEvent(
+    data: {
+      index: ",eastern,market,saturday,attend,expery,undeny,detroit,225,vend,shar,produc,story,40,000,visit,on,day,busy,season,tradit,cornerston,city,125,year,cruc,mit,nour,healthy,wealthy,happy,wond,hour,map,park,pet,someth,els,regard,thing,know,pag,answ,head,",
+      title: "Eastern Market Saturday Market",
+      description: "Attending our Saturday Market is an experience that is undeniably Detroit. Over 225 market vendors share their produce and stories with up to 40,000 visitors in one day during our busy season. The tradition of this market has been a cornerstone of the city for 125 years and is crucial to our mission of nourishing a healthier, wealthier, and happier city.\n\nWondering about hours, maps, parking, pets, or something else regarding your visit? Visit our things to know page for all the answers before heading out!",
+      start: "2020-03-21T11:00:00.000Z",
+      end: "2020-03-21T21:00:00.000Z",
+      ticketPrice: 0,
+      creator: {connect: {auth0Id: "testid6"}},
+      eventImages: {
+        create: [{
+          url: "https://res.cloudinary.com/communitycalendar/image/upload/v1580762038/d36a2tzrplgxrx3cxbfm.jpg"
+          creator: {connect: {auth0Id: "testid6"}},
+        }]
+      },
+      admins: {connect: [{auth0Id: "testid6"}]},
+      locations: {
+        create: [{
+          name: "Eastern Market",
+          streetAddress: "2611 Russell St",
+          streetAddress2: "All Sheds",
+          city: "Detroit",
+          zipcode: 48207,
+          state: "MI",
+          latitude: 42.34641,
+          longitude: -83.0406
+        }]
+      },
+      tags: {connect: [{title: "community"}, {title: "food"}, {title: "market"}]}
+    }
+  ) {
+    id
+  }
+}
+
+### Mar 28, 2020
+mutation {
+  createEvent(
+    data: {
+      index: ",eastern,market,saturday,attend,expery,undeny,detroit,225,vend,shar,produc,story,40,000,visit,on,day,busy,season,tradit,cornerston,city,125,year,cruc,mit,nour,healthy,wealthy,happy,wond,hour,map,park,pet,someth,els,regard,thing,know,pag,answ,head,",
+      title: "Eastern Market Saturday Market",
+      description: "Attending our Saturday Market is an experience that is undeniably Detroit. Over 225 market vendors share their produce and stories with up to 40,000 visitors in one day during our busy season. The tradition of this market has been a cornerstone of the city for 125 years and is crucial to our mission of nourishing a healthier, wealthier, and happier city.\n\nWondering about hours, maps, parking, pets, or something else regarding your visit? Visit our things to know page for all the answers before heading out!",
+      start: "2020-03-28T11:00:00.000Z",
+      end: "2020-03-28T21:00:00.000Z",
+      ticketPrice: 0,
+      creator: {connect: {auth0Id: "testid6"}},
+      eventImages: {
+        create: [{
+          url: "https://res.cloudinary.com/communitycalendar/image/upload/v1580762038/d36a2tzrplgxrx3cxbfm.jpg"
+          creator: {connect: {auth0Id: "testid6"}},
+        }]
+      },
+      admins: {connect: [{auth0Id: "testid6"}]},
+      locations: {
+        create: [{
+          name: "Eastern Market",
+          streetAddress: "2611 Russell St",
+          streetAddress2: "All Sheds",
+          city: "Detroit",
+          zipcode: 48207,
+          state: "MI",
+          latitude: 42.34641,
+          longitude: -83.0406
+        }]
+      },
+      tags: {connect: [{title: "community"}, {title: "food"}, {title: "market"}]}
+    }
+  ) {
+    id
+  }
+}
+
+### Apr 04, 2020
+mutation {
+  createEvent(
+    data: {
+      index: ",eastern,market,saturday,attend,expery,undeny,detroit,225,vend,shar,produc,story,40,000,visit,on,day,busy,season,tradit,cornerston,city,125,year,cruc,mit,nour,healthy,wealthy,happy,wond,hour,map,park,pet,someth,els,regard,thing,know,pag,answ,head,",
+      title: "Eastern Market Saturday Market",
+      description: "Attending our Saturday Market is an experience that is undeniably Detroit. Over 225 market vendors share their produce and stories with up to 40,000 visitors in one day during our busy season. The tradition of this market has been a cornerstone of the city for 125 years and is crucial to our mission of nourishing a healthier, wealthier, and happier city.\n\nWondering about hours, maps, parking, pets, or something else regarding your visit? Visit our things to know page for all the answers before heading out!",
+      start: "2020-04-04T11:00:00.000Z",
+      end: "2020-04-04T21:00:00.000Z",
+      ticketPrice: 0,
+      creator: {connect: {auth0Id: "testid6"}},
+      eventImages: {
+        create: [{
+          url: "https://res.cloudinary.com/communitycalendar/image/upload/v1580762038/d36a2tzrplgxrx3cxbfm.jpg"
+          creator: {connect: {auth0Id: "testid6"}},
+        }]
+      },
+      admins: {connect: [{auth0Id: "testid6"}]},
+      locations: {
+        create: [{
+          name: "Eastern Market",
+          streetAddress: "2611 Russell St",
+          streetAddress2: "All Sheds",
+          city: "Detroit",
+          zipcode: 48207,
+          state: "MI",
+          latitude: 42.34641,
+          longitude: -83.0406
+        }]
+      },
+      tags: {connect: [{title: "community"}, {title: "food"}, {title: "market"}]}
+    }
+  ) {
+    id
+  }
+}
+
+### Apr 11, 2020
+mutation {
+  createEvent(
+    data: {
+      index: ",eastern,market,saturday,attend,expery,undeny,detroit,225,vend,shar,produc,story,40,000,visit,on,day,busy,season,tradit,cornerston,city,125,year,cruc,mit,nour,healthy,wealthy,happy,wond,hour,map,park,pet,someth,els,regard,thing,know,pag,answ,head,",
+      title: "Eastern Market Saturday Market",
+      description: "Attending our Saturday Market is an experience that is undeniably Detroit. Over 225 market vendors share their produce and stories with up to 40,000 visitors in one day during our busy season. The tradition of this market has been a cornerstone of the city for 125 years and is crucial to our mission of nourishing a healthier, wealthier, and happier city.\n\nWondering about hours, maps, parking, pets, or something else regarding your visit? Visit our things to know page for all the answers before heading out!",
+      start: "2020-04-11T11:00:00.000Z",
+      end: "2020-04-11T21:00:00.000Z",
+      ticketPrice: 0,
+      creator: {connect: {auth0Id: "testid6"}},
+      eventImages: {
+        create: [{
+          url: "https://res.cloudinary.com/communitycalendar/image/upload/v1580762038/d36a2tzrplgxrx3cxbfm.jpg"
+          creator: {connect: {auth0Id: "testid6"}},
+        }]
+      },
+      admins: {connect: [{auth0Id: "testid6"}]},
+      locations: {
+        create: [{
+          name: "Eastern Market",
+          streetAddress: "2611 Russell St",
+          streetAddress2: "All Sheds",
+          city: "Detroit",
+          zipcode: 48207,
+          state: "MI",
+          latitude: 42.34641,
+          longitude: -83.0406
+        }]
+      },
+      tags: {connect: [{title: "community"}, {title: "food"}, {title: "market"}]}
+    }
+  ) {
+    id
+  }
+}
+
+### Apr 18, 2020
+mutation {
+  createEvent(
+    data: {
+      index: ",eastern,market,saturday,attend,expery,undeny,detroit,225,vend,shar,produc,story,40,000,visit,on,day,busy,season,tradit,cornerston,city,125,year,cruc,mit,nour,healthy,wealthy,happy,wond,hour,map,park,pet,someth,els,regard,thing,know,pag,answ,head,",
+      title: "Eastern Market Saturday Market",
+      description: "Attending our Saturday Market is an experience that is undeniably Detroit. Over 225 market vendors share their produce and stories with up to 40,000 visitors in one day during our busy season. The tradition of this market has been a cornerstone of the city for 125 years and is crucial to our mission of nourishing a healthier, wealthier, and happier city.\n\nWondering about hours, maps, parking, pets, or something else regarding your visit? Visit our things to know page for all the answers before heading out!",
+      start: "2020-04-18T11:00:00.000Z",
+      end: "2020-04-18T21:00:00.000Z",
+      ticketPrice: 0,
+      creator: {connect: {auth0Id: "testid6"}},
+      eventImages: {
+        create: [{
+          url: "https://res.cloudinary.com/communitycalendar/image/upload/v1580762038/d36a2tzrplgxrx3cxbfm.jpg"
+          creator: {connect: {auth0Id: "testid6"}},
+        }]
+      },
+      admins: {connect: [{auth0Id: "testid6"}]},
+      locations: {
+        create: [{
+          name: "Eastern Market",
+          streetAddress: "2611 Russell St",
+          streetAddress2: "All Sheds",
+          city: "Detroit",
+          zipcode: 48207,
+          state: "MI",
+          latitude: 42.34641,
+          longitude: -83.0406
+        }]
+      },
+      tags: {connect: [{title: "community"}, {title: "food"}, {title: "market"}]}
+    }
+  ) {
+    id
+  }
+}
+
+### Apr 25, 2020
+mutation {
+  createEvent(
+    data: {
+      index: ",eastern,market,saturday,attend,expery,undeny,detroit,225,vend,shar,produc,story,40,000,visit,on,day,busy,season,tradit,cornerston,city,125,year,cruc,mit,nour,healthy,wealthy,happy,wond,hour,map,park,pet,someth,els,regard,thing,know,pag,answ,head,",
+      title: "Eastern Market Saturday Market",
+      description: "Attending our Saturday Market is an experience that is undeniably Detroit. Over 225 market vendors share their produce and stories with up to 40,000 visitors in one day during our busy season. The tradition of this market has been a cornerstone of the city for 125 years and is crucial to our mission of nourishing a healthier, wealthier, and happier city.\n\nWondering about hours, maps, parking, pets, or something else regarding your visit? Visit our things to know page for all the answers before heading out!",
+      start: "2020-04-25T11:00:00.000Z",
+      end: "2020-04-25T21:00:00.000Z",
+      ticketPrice: 0,
+      creator: {connect: {auth0Id: "testid6"}},
+      eventImages: {
+        create: [{
+          url: "https://res.cloudinary.com/communitycalendar/image/upload/v1580762038/d36a2tzrplgxrx3cxbfm.jpg"
+          creator: {connect: {auth0Id: "testid6"}},
+        }]
+      },
+      admins: {connect: [{auth0Id: "testid6"}]},
+      locations: {
+        create: [{
+          name: "Eastern Market",
+          streetAddress: "2611 Russell St",
+          streetAddress2: "All Sheds",
+          city: "Detroit",
+          zipcode: 48207,
+          state: "MI",
+          latitude: 42.34641,
+          longitude: -83.0406
+        }]
+      },
+      tags: {connect: [{title: "community"}, {title: "food"}, {title: "market"}]}
+    }
+  ) {
+    id
+  }
+}
+
+# Other Seeds -- Community Calendar seeds, `auth0Id: "testid7"`
+
 mutation {
   createEvent(
     data: {
@@ -315,12 +1851,12 @@ mutation {
       start: "2020-02-04T13:30:00-0500"
       end: "2020-02-04T15:00:00-0500"
       ticketPrice: 0.00
-      creator: {connect: {auth0Id: "testid5"}}
+      creator: {connect: {auth0Id: "testid7"}}
       eventImages: {
         create: [
           {
             url: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F84135113%2F293621734690%2F1%2Foriginal.20191210-171159?w=800&auto=format%2Ccompress&q=75&sharp=10&rect=1%2C84%2C224%2C112&s=cf869634d7a67a925a7db1b8ad861f53"
-            creator: {connect: {auth0Id: "testid5"}}
+            creator: {connect: {auth0Id: "testid7"}}
           }
         ]
       }
@@ -331,7 +1867,7 @@ mutation {
           }
         ]
       }
-      admins: {connect: [{auth0Id: "testid5"}]}
+      admins: {connect: [{auth0Id: "testid7"}]}
       locations: {
         create: [
           {
@@ -345,74 +1881,13 @@ mutation {
           }
         ]
       }
-      tags: {
-        connect: [{title: "kids"}]
-        create: [
-          {title: "teenagers"}
-          {title: "STEM"}
-          {title: "tinkerCAD"}
-          {title: "CAD"}
-          {title: "engineering"}
-        ]
-      }
+      tags: {connect: [{title: "kids"}, {title: "teenagers"}, {title: "STEM"}, {title: "engineering"}]}
     }
   ) {
     id
   }
 }
-mutation {
-  createEvent(
-    data: {
-      index: ",detroit,lion,eastern,market,tailg,process,mad,go,support,mit,op,provid,gre,access,good,food,grow,loc,busy,45,180,depend,per,car,"
-      title: "Detroit Lions Eastern Market Tailgating"
-      description: "Proceeds made from tailgating go to support our mission of operating our markets, providing greater access to good food, and growing local food businesses. $45 – $180 depending on location per car"
-      start: "2020-01-29T07:00:00-0500"
-      end: "2020-01-29T19:00:00-0500"
-      ticketPrice: 0.00
-      creator: {connect: {auth0Id: "testid6"}}
-      eventImages: {
-        create: [
-          {
-            url: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F68668427%2F145956314054%2F1%2Foriginal.20190814-194752?w=800&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C397%2C3456%2C1728&s=1344cbac19465528c33d117ec245f5ba"
-            creator: {connect: {auth0Id: "testid6"}}
-          }
-        ]
-      }
-      urls: {
-        create: [
-          {
-            url: "https://www.eventbrite.com/e/detroit-lions-eastern-market-tailgating-tickets-69230968691"
-          }
-        ]
-      }
-      admins: {connect: [{auth0Id: "testid6"}]}
-      locations: {
-        create: [
-          {
-            name: "Eastern Market"
-            streetAddress: "Eastern Market"
-            city: "Detroit"
-            zipcode: 48208
-            state: "MI"
-            latitude: 42.346801
-            longitude: -83.040027
-          }
-        ]
-      }
-      tags: {
-        create: [
-          {title: "sports"}
-          {title: "football"}
-          {title: "lions"}
-          {title: "party"}
-          {title: "tailgating"}
-        ]
-      }
-    }
-  ) {
-    id
-  }
-}
+
 mutation {
   createEvent(
     data: {
@@ -422,16 +1897,16 @@ mutation {
       start: "2020-01-28T19:00:00.000Z"
       end: "2020-01-28T22:00:00.000Z"
       ticketPrice: 0.00
-      creator: {connect: {auth0Id: "testid6"}}
+      creator: {connect: {auth0Id: "testid7"}}
       eventImages: {
         create: [
           {
             url: "https://res.cloudinary.com/communitycalendar/image/upload/v1580152827/zaw0ehnfy5hnqefjchx2.jpg"
-            creator: {connect: {auth0Id: "testid6"}}
+            creator: {connect: {auth0Id: "testid7"}}
           }
         ]
       }
-      admins: {connect: [{auth0Id: "testid6"}]}
+      admins: {connect: [{auth0Id: "testid7"}]}
       locations: {
         create: [
           {
@@ -445,12 +1920,13 @@ mutation {
           }
         ]
       }
-      tags: {create: [{title: "code"}, {title: "free"}]}
+      tags: {connect: [{title: "code"}, {title: "free"}]}
     }
   ) {
     id
   }
 }
+
 mutation {
   createEvent(
     data: {
@@ -460,16 +1936,16 @@ mutation {
       start: "2020-02-01T20:00:00.000Z"
       end: "2020-02-01T22:00:00.000Z"
       ticketPrice: 0.00
-      creator: {connect: {auth0Id: "testid6"}}
+      creator: {connect: {auth0Id: "testid7"}}
       eventImages: {
         create: [
           {
             url: "https://res.cloudinary.com/communitycalendar/image/upload/v1580152690/ed64mi2pd7ezgr3vyl6p.jpg"
-            creator: {connect: {auth0Id: "testid6"}}
+            creator: {connect: {auth0Id: "testid7"}}
           }
         ]
       }
-      admins: {connect: [{auth0Id: "testid6"}]}
+      admins: {connect: [{auth0Id: "testid7"}]}
       locations: {
         create: [
           {
@@ -484,6 +1960,44 @@ mutation {
         ]
       }
       tags: {connect: [{title: "free"}, {title: "code"}, {title: "kids"}]}
+    }
+  ) {
+    id
+  }
+}
+
+mutation {
+  createEvent(
+    data: {
+      index: ",independ,day,frankenmu,firework,2020,enjoy,fre,act,5p,11p,july,includ,infl,kid,food,entertain,spectacul,display,",
+      title: "Independence Day Frankenmuth Fireworks 2020",
+      description: "Enjoy FREE activities from 5p-11p on July 4 including inflatables for kids, food, entertainment, and a Spectacular Fireworks Display. ",
+      start: "2020-07-05T00:00:00.000Z",
+      end: "2020-07-05T06:00:00.000Z",
+      ticketPrice: 0,
+      creator: {connect: {auth0Id: "testid7"}},
+      eventImages: {
+          create: [
+            {
+              url: "https://res.cloudinary.com/communitycalendar/image/upload/v1580752974/rndvvk2idr70wfpuzu7s.png"
+              creator: {connect: {auth0Id: "testid7"}}
+            }
+          ]
+        },
+      admins: {connect: [{auth0Id: "testid7"}]},
+      locations: {
+        create: [{
+          name: "Heritage Park",
+          streetAddress: "601 Weiss Street",
+          streetAddress2: "",
+          city: "Frankenmuth",
+          zipcode: 48734,
+          state: "MI",
+          latitude: 43.330878,
+          longitude: -83.735908
+        }]
+      },
+      tags: {connect: [{title: "kids"}, {title: "fireworks"}, {title: "food"}]}
     }
   ) {
     id
