@@ -268,6 +268,7 @@ const resolvers = {
         const userCircle = circle(center, radius, {steps: 10, units: 'miles'});
 
         return prisma.events({
+          ...args,
           where: {
             id_in: eventsInSquare
               .filter(event =>
