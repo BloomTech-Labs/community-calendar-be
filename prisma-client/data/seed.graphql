@@ -85,8 +85,9 @@ mutation {
 
 # tag seeds
 ## current list of tags: 
-# architecture, art, block club, code, community, downtown, engineering, fireworks, food, free, 
-# heritage, history, kids, neighborhood, market, STEM, teenagers,
+# architecture, art, beer, block club, code, community, competition, dancing, downtown, engineering, 
+# family, fireworks, food, free, heritage, history, hotdog, kids, neighborhood, 
+# market, music, oktoberfest, STEM, teenagers,
 mutation {
   createTag(
     data: {
@@ -100,6 +101,15 @@ mutation {
   createTag(
     data: {
       title: "art"
+    }
+  ) {
+    id
+  }
+}
+mutation {
+  createTag(
+    data: {
+      title: "beer"
     }
   ) {
     id
@@ -135,6 +145,24 @@ mutation {
 mutation {
   createTag(
     data: {
+      title: "competition"
+    }
+  ) {
+    id
+  }
+}
+mutation {
+  createTag(
+    data: {
+      title: "dancing"
+    }
+  ) {
+    id
+  }
+}
+mutation {
+  createTag(
+    data: {
       title: "downtown"
     }
   ) {
@@ -145,6 +173,15 @@ mutation {
   createTag(
     data: {
       title: "engineering"
+    }
+  ) {
+    id
+  }
+}
+mutation {
+  createTag(
+    data: {
+      title: "family"
     }
   ) {
     id
@@ -198,6 +235,15 @@ mutation {
 mutation {
   createTag(
     data: {
+      title: "hotdog"
+    }
+  ) {
+    id
+  }
+}
+mutation {
+  createTag(
+    data: {
       title: "kids"
     }
   ) {
@@ -216,7 +262,25 @@ mutation {
 mutation {
   createTag(
     data: {
+      title: "music"
+    }
+  ) {
+    id
+  }
+}
+mutation {
+  createTag(
+    data: {
       title: "neighborhood"
+    }
+  ) {
+    id
+  }
+}
+mutation {
+  createTag(
+    data: {
+      title: "oktoberfest"
     }
   ) {
     id
@@ -1840,7 +1904,7 @@ mutation {
   }
 }
 
-# Other Seeds -- Community Calendar seeds, `auth0Id: "testid7"`
+# Other Seeds from the Labs 19 Group for Demo Day -- Community Calendar seeds, `auth0Id: "testid7"`
 
 mutation {
   createEvent(
@@ -1998,6 +2062,186 @@ mutation {
         }]
       },
       tags: {connect: [{title: "kids"}, {title: "fireworks"}, {title: "food"}]}
+    }
+  ) {
+    id
+  }
+}
+
+mutation {
+  createEvent(
+    data: {
+      index: ",oktoberfest,st,joseph,or,ground,detroit,church,wil,host,stein,hold,contest,kid,are,vend,liv,mus,dant,food,drink,insid,ensembl,tour,build,",
+      title: "Oktoberfest at St. Joseph Oratory",
+      description: "The grounds of this Detroit church will host a stein-holding contest, a kids area, vendors, live music, dancing, food and drink. Inside the church there are live musical ensembles and tours of the building.",
+      start: "2020-09-27T17:30:00.000Z",
+      end: "2020-09-28T03:30:00.000Z",
+      ticketPrice: 0,
+      creator: {connect: {auth0Id: "testid7"}},
+      eventImages: {
+        create: [{
+          url: "https://res.cloudinary.com/communitycalendar/image/upload/v1580752094/hmvpumh6zou94nlvpztv.jpg"
+          creator: {connect: {auth0Id: "testid7"}},
+        }]
+      },
+      admins: {connect: [{auth0Id: "testid7"}]},
+      locations: {
+        create: [{
+          name: "St. Joseph Oratory",
+          streetAddress: "1828 Jay Street",
+          streetAddress2: "",
+          city: "Detroit",
+          zipcode: 48207,
+          state: "MI",
+          latitude: 42.345458,
+          longitude: -83.03551
+        }]
+      },
+      tags: {connect: [{title: "oktoberfest"}, {title: "beer"}, {title: "dancing"}]}
+    }
+  ) {
+    id
+  }
+}
+
+mutation {
+  createEvent(
+    data: {
+      index: ",hot,dog,eat,contest,doz,coney,doesn,faz,an,am,island,challeng,aug,29,cal,nam,ten,year,competit,giv,10,minut,down,top,chil,mustard,on,win,get,weekend,trip,las,vega,two,fre,meal,champ,belt,",
+      title: "Hot Dog Eating Contest",
+      description: "If eating a dozen or so coney dogs doesn't faze you, the annual American Coney Island coney dog eating challenge on Aug. 29 is calling your name. \n\nNow in its tenth year, the yearly competition gives eaters 10 minutes to down as many hot dogs topped with chili, mustard and onions as they can. This year's winner gets a weekend trip to Las Vegas for two, free American Coney Island meals for a year and the championship belt. ",
+      start: "2020-08-29T22:00:00.000Z",
+      end: "2020-08-30T00:00:00.000Z",
+      ticketPrice: 0,
+      creator: {connect: {auth0Id: "testid7"}},
+      eventImages: {
+        create: [{
+          url: "https://res.cloudinary.com/communitycalendar/image/upload/v1580762729/gjmce6xoz2blud8atkso.jpg"
+          creator: {connect: {auth0Id: "testid7"}},
+        }]
+      },
+      admins: {connect: {auth0Id: "testid7"}},
+      locations: {
+        create: [{
+          name: "American Coney Island",
+          streetAddress: "114 W. Lafayette",
+          streetAddress2: "",
+          city: "Detroit",
+          zipcode: 48207,
+          state: "MI",
+          latitude: 42.33153,
+          longitude: -83.04844
+        }]
+      },
+      tags: {connect: [{title: "food"}, {title: "hotdog"}, {title: "competition"}]}
+    }
+  ) {
+    id
+  }
+}
+
+mutation {
+  createEvent(
+    data: {
+      index: ",100,second,dash,alb,releas,origin,short,song,record,nor,texa,band,total,less,avail,onlin,",
+      title: "100 Second Dash album release",
+      description: "Original short song recordings from North Texas bands, each song totalling 100 seconds or less. Available online!",
+      start: "2020-02-04T18:00:00.000Z",
+      end: "2020-02-04T21:00:00.000Z",
+      ticketPrice: 0,
+      creator: {connect: {auth0Id: "testid7"}},
+      eventImages: {
+        create: [{
+          url: "https://res.cloudinary.com/communitycalendar/image/upload/v1580775724/ul1ozpthr8pgjgycbjsy.jpg"
+          creator: {connect: {auth0Id: "testid7"}},
+        }]
+      },
+      admins: {connect: {auth0Id: "testid7"}},
+      locations: {
+        create: [{
+          name: "Chat Room Pub",
+          streetAddress: "1263 W Magnolia Ave",
+          streetAddress2: "",
+          city: "Fort Worth",
+          zipcode: 76104,
+          state: "TX",
+          latitude: 32.73039,
+          longitude: -97.339165
+        }]
+      },
+      tags: {connect: [{title: "music"}]}
+    }
+  ) {
+    id
+  }
+}
+
+mutation {
+  createEvent(
+    data: {
+      index: ",ev,campfir,enjoy,nic,night,oc,sid,commun,wil,hav,cook,hot,dog,provid,supply,",
+      title: "Evening With Campfires",
+      description: "Come enjoy a nice night out at the ocean side with the community. We will be having campfires to cook some hot-dogs. Provide your own supplies.",
+      start: "2020-02-08T02:00:00.000Z",
+      end: "2020-02-08T07:00:00.000Z",
+      ticketPrice: 0,
+      creator: {connect: {auth0Id: "testid7"}},
+      eventImages: {
+        create: [{
+          url: "https://res.cloudinary.com/communitycalendar/image/upload/v1580749326/rypp2kwlxdyzrsvr1crm.jpg"
+          creator: {connect: {auth0Id: "testid7"}},
+        }]
+      },
+      admins: {connect: {auth0Id: "testid7"}},
+      locations: {
+        create: [{
+          name: "La Push",
+          streetAddress: "La Push",
+          streetAddress2: "",
+          city: "La Push",
+          zipcode: 98350,
+          state: "WA",
+          latitude: 47.91,
+          longitude: -124.64
+        }]
+      },
+      tags: {connect: [{title: "food"}, {title: "hotdog"}]}
+    }
+  ) {
+    id
+  }
+}
+
+mutation {
+  createEvent(
+    data: {
+      index: ",walk,oceansid,enjoy,tim,outsid,oc,sid,feel,fre,bring,famy,fun,everyon,",
+      title: "Walk to the Oceanside",
+      description: "Come enjoy some time outside on our walk to the ocean side. Feel free to bring your family and have fun with everyone.",
+      start: "2020-02-03T20:00:00.000Z",
+      end: "2020-02-03T23:00:00.000Z",
+      ticketPrice: 0,
+      creator: {connect: {auth0Id: "testid7"}},
+      eventImages: {
+        create: [{
+          url: "https://res.cloudinary.com/communitycalendar/image/upload/v1580749924/ccw8ebtvzxtoid7jqwaq.jpg"
+          creator: {connect: {auth0Id: "testid7"}},
+        }]
+      },
+      admins: {connect: {auth0Id: "testid7"}},
+      locations: {
+        create: [{
+          name: "Pacific Ocean",
+          streetAddress: "La Push",
+          streetAddress2: "",
+          city: "La Push",
+          zipcode: 98350,
+          state: "WA",
+          latitude: 47.91,
+          longitude: -124.64
+        }]
+      },
+      tags: {connect: [{title: "kids"}, {title: "family"}]}
     }
   ) {
     id
