@@ -166,7 +166,7 @@ const resolvers = {
       }
 
       if (ticketPriceSearch) {
-        const [result] = ticketPriceSearch.map(({minPrice, maxPrice}) =>
+        const result = ticketPriceSearch.map(({minPrice, maxPrice}) =>
           minPrice !== undefined && maxPrice !== undefined
             ? {
                 AND: [{ticketPrice_gte: minPrice}, {ticketPrice_lte: maxPrice}],
@@ -175,7 +175,7 @@ const resolvers = {
             ? {ticketPrice_lte: maxPrice}
             : {ticketPrice_gte: minPrice},
         );
-        searchArray.push(result);
+        searchArray.push({OR: result});
       }
 
       if (indexSearch) {
