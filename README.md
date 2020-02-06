@@ -44,7 +44,7 @@ The Community Calendar Backend repository contains code for the three services i
 
 ### Backend Framework
 
-We chose an Apollo GraphQL server of a RESTful API for the two reasons:
+We chose an Apollo GraphQL server over a RESTful API for the two reasons:
 
 1. Allow web and mobile clients to request the exact event details they have space to render. This prevents overfetching and increases performance on mobile.
 
@@ -94,6 +94,7 @@ The GraphQL API consists of a single endpoint. In addition to the built-in docum
 | Query Name      | Access Control      | Description                           |
 | --------------- | ------------------- | ------------------------------------- |
 | `users (...)`   | authenticated users | Returns a list of users.              |
+| `user (...)`   | authenticated users | Get user's information and events      |
 | `checkId (...)` | auth0 service       | Verify whether a user already exists. |
 | `events (...)`  | all users           | Returns a list of community events.   |
 | `tags (...)`    | all users           | Returns a list of tags in the database|
@@ -106,8 +107,8 @@ The GraphQL API consists of a single endpoint. In addition to the built-in docum
 | `addEvent (...)`    | authenticated users | Create a community event.                   |
 | `updateEvent (...)` | event creator       | Update community event details.             |
 | `deleteEvent (...)` | event creator       | Remove a community event from the database. |
-| `addRsvp (...)`     | authenticated users | Connect a user to event RSVPs               |
-| `removeRSVP (...)`  | authenticated users | Remove a user from event RSVPs              |
+| `eventRsvp (...)`   | authenticated users | Connect a user to event RSVPs               |
+| `eventSave (...)`   | authenticated users | A user can save an event to their profile   |
 
 ## Available Scripts
 
