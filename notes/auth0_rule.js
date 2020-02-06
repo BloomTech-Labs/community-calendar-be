@@ -1,13 +1,10 @@
 function (user, context, callback) {
-  //used to make queries to community calendar apollo server
   const {request} = require('graphql-request');
   const namespace = 'http://';
 
-  //check if names are in metadata. currently only working for accounts created by email without social providers
-  const first_name = user.user_metadata && user.user_metadata.first_name;
-  const last_name = user.user_metadata && user.user_metadata.last_name;
+  const first_name = user.user_metadata && user.user_metadata.first_name || user.given_name;
+  const last_name = user.user_metadata && user.user_metadata.last_name || user.family_name;
   
-  //check to see if auth0 id is in community calendar database
   const query = `
       {
           checkId(data: {
@@ -18,33 +15,33 @@ function (user, context, callback) {
       }
   `;
   
-  //add create a new user in community calendar database
   const mutation = `
       mutation{
         addUser(data: {
           auth0Id: "${user.user_id}"
           firstName: "${first_name}"
           lastName: "${last_name}"
+          profileImage: "${user.picture}"
         }){
             id
         }
     }`;
     
-  return request('https://ccstaging.herokuapp.com', query).then(result => {
-    //if auth0 id was found in our database, get their id and store it in access token and exit
+  return request('https://ccapollo-production.herokuapp.com', query).then(result => {
     if(result.checkId.length){
             context.accessToken[namespace + 'cc_id'] = result.checkId[0].id;
       return callback(null, user, context);
     }
-    //auth0 id was not found so create a new user in our database and store new id in access token
-    request('https://ccstaging.herokuapp.com', mutation).then(result => {
+    request('https://ccapollo-production.herokuapp.com', mutation).then(result => {
       context.accessToken[namespace + 'cc_id'] = result.addUser.id;
       return callback(null, user, context);
     }).catch(err => {
-     return callback(null, user, context);
+      console.log(err);
+     return callback(new Error("Error logging in"), null, null);
     });
     
   }).catch(err => {
-      return callback(null, user, context);
+      console.log(err);
+      return callback(new Error("Error logging in"), null, null);
   });
 }
