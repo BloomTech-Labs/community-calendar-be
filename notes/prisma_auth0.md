@@ -60,6 +60,8 @@ In the `.env` file, add variables called `PRISMA` and `SECRET`
 
 Set `PRISMA` to the URL you copied earlier, and any secret phrase of your choice for `SECRET`. You will need to copy these into your Heroku config vars for your Apollo server later as well.
 
+The example below includes all additional environment variables we will use later, not just the `PRISMA` and `SECRET` environmental variables.
+
 **Apollo server `.env` example:**
 
 ```
@@ -116,6 +118,8 @@ Run `prisma deploy -e ../.env`
 😊 Your Prisma endpoint should now be live and good to go 😊
 
 ## Deploy your Apollo server to Heroku
+
+Login in to your Heroku account and follow the instructions to deploy the repository to Heroku via the Heroku CLI.
 
 Add config vars from the `.env` file you created earlier and add `NODE_ENV` = `production` in your app's Heroku settings. Auth0 are variables explained at the end.
 
