@@ -2,7 +2,7 @@
 
 ## Prisma setup:
 
-Create and log in to your account on [Prisma.io](https://prisma.io)
+Create and log in to your account on [Prisma.io](https://app.prisma.io)
 
 Click on **Servers** and then **ADD SERVER**
 
