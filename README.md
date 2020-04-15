@@ -1,4 +1,4 @@
-![MIT](https://img.shields.io/packagist/l/doctrine/orm.svg) [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
+![MIT](https://img.shields.io/packagist/l/doctrine/orm.svg) [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier) [![Maintainability](https://api.codeclimate.com/v1/badges/a6369de9a1a1ed67dd83/maintainability)](https://codeclimate.com/github/Lambda-School-Labs/community-calendar-be/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/a6369de9a1a1ed67dd83/test_coverage)](https://codeclimate.com/github/Lambda-School-Labs/community-calendar-be/test_coverage) 
 
 # Community Calendar Back End
 
