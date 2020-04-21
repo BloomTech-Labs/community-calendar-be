@@ -4,8 +4,6 @@
 // Apollo dependencies
 const { importSchema } = require('graphql-import')
 const { ApolloServer, gql } = require('apollo-server')
-const { decodedToken } = require('./auth/authenticate')
-const { prisma  } = require('./generated/prisma-client')
 
 const PORT = process.env.PORT || 8000
 
@@ -26,7 +24,7 @@ const checkEnvironment = () => {
 }
 
 const resolvers = require('./resolvers')
-//const context = require('./context')
+const context = require('./context')
 
 const typeDefs = gql(importSchema('schema/apollo.graphql'));
 
@@ -37,19 +35,7 @@ const typeDefs = gql(importSchema('schema/apollo.graphql'));
   const server = new ApolloServer({
     resolvers,
     typeDefs,
-    context: ({req}) => ({
-      //store prisma in context to use prisma in resolvers
-      prisma: {
-        secret: process.env.SECRET,
-        endpoint: process.env.PRISMA,
-      },
-  
-      req, //necessary to get user token from header
-      decodedToken, //used to verify token with auth0 and returns decoded token
-      // Ticket Master API key
-      tm_key: process.env.TICKET_MASTER,
-    }),
-    //context,
+    context,
     cors: true,
     formatError: err => {
       // Don't give the specific errors to the client.

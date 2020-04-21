@@ -38,7 +38,7 @@ function Context (prisma, user, logger) {
   this.prisma = prisma
   this.logger = logger
 
-  console.log('Logging level: %s', logger.level)
+  // console.log('Logging level: %s', logger.level)
 }
 
 /**
@@ -89,12 +89,12 @@ const getKey = async (header) => {
     throw new AuthenticationError('Not authorized')
   }
 
-  logger.debug(
-    'Retrieved public key from (%O) with kid (%O): %O',
-    JWKS_URI,
-    header.kid,
-    key
-  )
+  // logger.debug(
+  //   'Retrieved public key from (%O) with kid (%O): %O',
+  //   JWKS_URI,
+  //   header.kid,
+  //   key
+  // )
 
   const publicKey = key.rsaPublicKey
 
@@ -126,7 +126,7 @@ const context = async ({ req }) => {
   const token = authorizationHeader.replace(/^Bearer\s/, '')
 
   // Decode the JWT so we can get the header
-  logger.debug('Decoding token: %s', token)
+  // logger.debug('Decoding token: %s', token)
   let tokenHeader
   try {
     const decodedToken = jwt.decode(token, { complete: true })
@@ -137,7 +137,7 @@ const context = async ({ req }) => {
   }
 
   // Get the public key from the OAuth endpoint
-  logger.debug('Retrieving public key used for JWT validation')
+  // logger.debug('Retrieving public key used for JWT validation')
   const pubKey = await getKey(tokenHeader)
 
   // Options used for verifying the JWT
@@ -149,7 +149,7 @@ const context = async ({ req }) => {
   }
 
   // Verify the JWT
-  logger.debug('Verifying and decoding JWT')
+  // logger.debug('Verifying and decoding JWT')
 
   /** @type {{object}} */
   let decodedJWT
@@ -161,7 +161,7 @@ const context = async ({ req }) => {
   }
 
   // Create the User using the information from the JWT
-  logger.debug('Creating User using decoded JWT: %O', decodedJWT)
+  // logger.debug('Creating User using decoded JWT: %O', decodedJWT)
   const user = new User(
     decodedJWT.sub,
     decodedJWT.email,
@@ -175,7 +175,7 @@ const context = async ({ req }) => {
     throw new AuthenticationError('Not authorized')
   }
 
-  logger.debug('Current user: %O', user)
+  // logger.debug('Current user: %O', user)
 
   // Pack the user, Prisma client and Winston logger into the context
   return new Context(prisma, user, logger)
