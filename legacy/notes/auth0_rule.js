@@ -27,12 +27,12 @@ function (user, context, callback) {
         }
     }`;
     
-  return request('https://ccapollo-production.herokuapp.com', query).then(result => {
+  return request('https://carter-apollo-dev.herokuapp.com', query).then(result => {
     if(result.checkId.length){
             context.accessToken[namespace + 'cc_id'] = result.checkId[0].id;
       return callback(null, user, context);
     }
-    request('https://ccapollo-production.herokuapp.com', mutation).then(result => {
+    request('https://carter-apollo-dev.herokuapp.com', mutation).then(result => {
       context.accessToken[namespace + 'cc_id'] = result.addUser.id;
       return callback(null, user, context);
     }).catch(err => {

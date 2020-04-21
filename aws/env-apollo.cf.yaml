@@ -1,0 +1,138 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: The Apollo task and service definitions for ECS
+
+Parameters:
+  ApplicationName:
+    Type: String
+    Description: The name of the application
+    AllowedPattern: ^[a-z0-9\-]*$
+
+  EnvironmentName:
+    Type: String
+    Description: The name of the application environment
+    AllowedPattern: ^[a-z0-9\-]*$
+
+  ApplicationDomainNamespace:
+    Type: String
+    Description: The DNS domain namespace for the application (e.g. mycoolapplication.com)
+    AllowedPattern: ^[a-z0-9\-\.]*$
+
+  ApolloDockerImage:
+    Type: String
+    Description: The name of the Docker image to use for Apollo
+
+  ApolloServicePort:
+    Type: Number
+    Description: The port that the Apollo service will be listening on
+
+  PrismaServicePort:
+    Type: Number
+    Description: The port that the Prisma service will be listening on
+
+  JwksUri:
+    Type: String
+
+  JwtIssuer:
+    Type: String
+
+  LogLevel:
+    Type: String
+    Default: info
+
+Conditions:
+  IsProductionEnvironment: !Equals [ !Ref EnvironmentName, production ]
+
+Resources:
+  LogGroup:
+    Type: 'AWS::Logs::LogGroup'
+    Properties:
+      LogGroupName: !Sub ${ApplicationName}-${EnvironmentName}-apollo
+      RetentionInDays: 14
+
+  TaskDefinition:
+    Type: 'AWS::ECS::TaskDefinition'
+    Properties:
+      NetworkMode: awsvpc
+      RequiresCompatibilities:
+        - FARGATE
+      Family: !Sub ${ApplicationName}-${EnvironmentName}-apollo
+      Cpu: '1024'
+      Memory: '2048'
+      ExecutionRoleArn:
+        Fn::ImportValue: !Sub ${ApplicationName}-ECSTaskExecutionRole
+      TaskRoleArn:
+        Fn::ImportValue: !Sub ${ApplicationName}-ECSTaskExecutionRole
+      Tags:
+        - Key: Name
+          Value: !Sub ${ApplicationName}-${EnvironmentName}
+        - Key: Application
+          Value: !Sub ${ApplicationName}
+        - Key: Environment
+          Value: !Sub ${EnvironmentName}
+      ContainerDefinitions:
+        - Name: apollo
+          Image: !Ref ApolloDockerImage
+          Essential: true
+          PortMappings:
+            - ContainerPort: !Ref ApolloServicePort
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: !Ref LogGroup
+              awslogs-region: !Ref AWS::Region
+              awslogs-stream-prefix: apollo
+          Secrets:
+            - Name: PRISMA_SECRET
+              ValueFrom:
+                Fn::ImportValue: !Sub ${ApplicationName}-${EnvironmentName}-PrismaServiceAPISecretArn
+          Environment:
+            - Name: PORT
+              Value: !Ref ApolloServicePort
+
+            - Name: GRAPHQL_API_PATH
+              Value: /
+
+            - Name: PRISMA_ENDPOINT
+              Value:
+                Fn::If:
+                  - IsProductionEnvironment
+                  - !Sub "http://prisma.private.${ApplicationDomainNamespace}:${PrismaServicePort}"
+                  - !Sub "http://prisma.private.${EnvironmentName}.${ApplicationDomainNamespace}:${PrismaServicePort}"
+
+            - Name: JWKS_URI
+              Value: !Ref JwksUri
+
+            - Name: JWT_ISSUER
+              Value: !Ref JwtIssuer
+
+            - Name: LOG_LEVEL
+              Value: !Ref LogLevel
+
+  Service:
+    Type: AWS::ECS::Service
+    Properties:
+      LaunchType: FARGATE
+      TaskDefinition: !Ref TaskDefinition
+      Cluster:
+        Fn::ImportValue: !Sub ${ApplicationName}-${EnvironmentName}-ECSCluster
+      DesiredCount: 1
+      LoadBalancers:
+        - ContainerName: apollo
+          ContainerPort: !Ref ApolloServicePort
+          TargetGroupArn:
+            Fn::ImportValue: !Sub ${ApplicationName}-${EnvironmentName}-ApolloTargetGroup
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          AssignPublicIp: DISABLED
+          Subnets:
+            - Fn::ImportValue: !Sub ${ApplicationName}-PrivateSubnet01
+            - Fn::ImportValue: !Sub ${ApplicationName}-PrivateSubnet02
+          SecurityGroups:
+            - Fn::ImportValue: !Sub ${ApplicationName}-ServiceSG
+
+Outputs:
+  ApolloServiceArn:
+    Description: The ARN of the Apollo service
+    Value: !Ref Service
+    Export:
+      Name: !Sub ${ApplicationName}-${EnvironmentName}-ApolloServiceArn
