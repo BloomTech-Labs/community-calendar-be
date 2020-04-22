@@ -2,5 +2,13 @@
 # import Query.users from "generated/prisma.graphql"
 # import Query.tags from 'generated/prisma.graphql'
 # import Query.events from 'generated/prisma.graphql'
+
+
 # import Mutation.createUser from "generated/prisma.graphql"
 # import Mutation.updateUser from 'generated/prisma.graphql'
+# import Mutation.createEvent from 'generated/prisma.graphql'
+# import Mutation.updateEvent from 'generated/prisma.graphql'
+# import Mutation.deleteEvent from 'generated/prisma.graphql'
+
+
+# import Event from 'generatd/prisma.graphql'
