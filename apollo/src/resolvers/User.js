@@ -1,17 +1,25 @@
-// // @ts-check
-// 'use strict'
+ // @ts-check
+ 'use strict'
 
-// /**
-//  * @param { import('../generated/prisma-client').User } parent
-//  * @param {{ prisma: import('../generated/prisma-client').Prisma }} context
-//  * @returns { Promise }
-//  */
-// module.exports.profile = async (parent, _args, context) => {
-//   console.log('User.profile.parent: %j', parent)
+ /**
+  * @param { import('../generated/prisma-client').User } parent
+  */
 
-//   const profile = await context.prisma.user({ id: parent.id }).profile()
+  module.exports.user = (parent, args, { prisma }) => {
+      const organizations = prisma.user({ id: parent.id }).organizations({ ...args })
+      const rsvps = prisma.user({ id: parent.id }).rsvps({ ...args })
+      const saved = prisma.user({ id: parent.id  }).saved({ ...args })
+      const adminFor = prisma.user({ id: parent.id }).adminFor({ ...args })
+      const createdEvents = prisma.user({ id: parent.id }).createdEvents({ ...args })
+      const createdImages = prisma.user({ id: parent.id }).createdImages({ ...args })
 
-//   console.log('User.profile: %j', profile)
+      return {
+          organizations, 
+          rsvps, 
+          saved, 
+          adminFor, 
+          createdEvents, 
+          createdImages
+      }
+  }
 
-//   return profile
-// }

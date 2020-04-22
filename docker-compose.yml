@@ -3,7 +3,7 @@ version: '2.4'
 services:
   # The Apollo service
   apollo:
-    image: lambdaschoollabs/beerthoven-apollo:latest
+    image: lambdaschoollabs/communitycalendar-apollo:rachel
     build:
       context: ./apollo
       dockerfile: Dockerfile
