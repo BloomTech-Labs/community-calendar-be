@@ -9,40 +9,49 @@ const {
   convertTags, 
   convertImages, 
   tagsToRemove, 
-  imagesToRemove
+  imagesToRemove, 
+ // checkUser
 } = require('./helpers');
 
-
-module.exports.createUser = (_parent, args, { prisma }) => {
+const Mutation = {
+addUser: async (_parent, args, { prisma }) => {
   console.log('createUser.args: %j', args)
   const { data } = args 
   data.profileImage =
       data.profileImage ||
       'https://res.cloudinary.com/communitycalendar/image/upload/c_scale,w_70/v1580068501/C_ncfz11.svg'
-  const user = prisma.createUser(data)
+  const user = await prisma.createUser(data)
 
   return user
-}
+}, 
+updateUser: async (_, args, { prisma, user }) => {
 
-module.exports.updateUser = async (_, args, { prisma, req, decodedToken }) => {
+   
+  const { data, image, where } = args 
+  if (image) {
+    const imageUrl = await image.then(cloudinaryImage);
+    data.profileImage = imageUrl 
+  }
 
-    const decoded = await decodedToken(req);
-    const { data, image } = args 
-    if (image) {
-      const imageUrl = await image.then(cloudinaryImage);
-      data.profileImage = imageUrl 
-    }
+  const auser = await prisma.updateUser({
+    data, 
+    where
+  })
+  console.log("aldkdsflfsd", user)
+  return auser
+}, 
+createEvent: async (_, args, { prisma, user }) => {
+  console.log("userCreateEvent", user)
+  if (!user) {
+    throw new Error('Not authorized')
+  }
+  //await checkUser(user)
 
-    const user = await prisma.updateUser({
-      data, 
-      where: { id: decoded['http://cc_id']}
-    })
-    return user
-}
-module.exports.createEvent = async (_, args, { prisma, req, decodedToken }) => {
-  const { data, images } = args 
-  console.log("DecodedToken", decodedToken)
-    const decoded = await decodedToken(req);
+  console.log("data&images", args)
+  const { data } = args 
+  //console.log("DecodedToken", decodedToken)
+   // const decoded = await decodedToken(req);
+   
     const tagsInDb = await prisma.tags()
     const imagesInDb = await prisma.eventImages();
 
@@ -50,7 +59,7 @@ module.exports.createEvent = async (_, args, { prisma, req, decodedToken }) => {
       data.tags = convertTags(data.tags, tagsInDb)
     }
 
-    if(images && images.length) {
+    if(args.images && args.images.length) {
       const promises = args.images.map(file => file.then(cloudinaryImage));
       const urls = await Promise.all(promises);
       const newImages = urls.map(url => ({ url }));
@@ -61,11 +70,11 @@ module.exports.createEvent = async (_, args, { prisma, req, decodedToken }) => {
 
     if (data.eventImages) {
       data.eventImages = convertImages(
-        data.eventImages, imagesInDb, decoded['http://cc_id']
+        data.eventImages, imagesInDb, user
       );
     }
 
-    data['creator'] = {connect: { id: decoded['http://cc_id']}};
+    data['creator'] = {connect: { id: user.id  }};
     data['index'] = ',' + Array.from(
       new Set(natural.LancasterStemmer.tokenizeAndStem(data['title'] + ' ' + data['description'],
       ), 
@@ -74,10 +83,13 @@ module.exports.createEvent = async (_, args, { prisma, req, decodedToken }) => {
     ',';
     return await prisma.createEvent(data);
   
-}
-
-module.exports.updateEvent = async(_, args, { prisma, req, decodedToken }) => {
-  const { data, where, images} = args; 
+}, 
+updateEvent: async(_, args, { prisma, user }) => {
+  if (!user ) {
+    throw new Error("Not authenticated")
+  }
+  const { data, where } = args; 
+  console.log("Args updateEvent", args)
   let eventImages = data.eventImages; 
   data.eventImages = {};
   try {
@@ -93,9 +105,9 @@ module.exports.updateEvent = async(_, args, { prisma, req, decodedToken }) => {
     const { creator, title, description } = await prisma
       .event(where)
       .$fragment(eventCreatorFragment);
-    const decoded = await decodedToken(req); 
+    //await checkUser(user.id)
 
-    if(decoded['http://cc_id'] === creator.id ) {
+    if(user.id === creator.id ) {
       let forStemmer = '';
 
       if(data.title && data.description) {
@@ -143,7 +155,7 @@ module.exports.updateEvent = async(_, args, { prisma, req, decodedToken }) => {
       } else if(eventImages && imagesInDb.length) {
         data.eventImages.disconnect = imagesInDb.map(image => ({ id: image.id }));
       }
-      if(images && images.length) {
+      if(args.images && args.images.length) {
         const promises = args.images.map(file => file.then(cloudinaryImage));
         const urls = await Promise.all(promises);
         const newImages = urls.map(url => ({ url }));
@@ -159,12 +171,13 @@ module.exports.updateEvent = async(_, args, { prisma, req, decodedToken }) => {
           ...convertImages(
             eventImages, 
             imagesInDb, 
-            decoded['http://cc_id']
+            user.id 
           ),
         };
       }
       data.tags = { ...data.tags };
       return await prisma.updateEvent({ where, data });
+      
     } else {
       throw 'You do not have permission to update this event.';
     }
@@ -172,14 +185,18 @@ module.exports.updateEvent = async(_, args, { prisma, req, decodedToken }) => {
     console.log(err);
     throw err; 
   }
-}
-module.exports.deleteEvent = async(_, args, { prisma, req, decodedToken }) => {
+  
+}, 
+deleteEvent: async(_, args, { prisma, user }) => {
+  if (!user) {
+    throw new Error("Oh frig")
+  }
   const { where } = args; 
   try {
     const [{ creator }] = await prisma.events({ where }).creator();
-    const decoded = await decodedToken(req);
+   // await checkUser(user)
 
-    if(decoded['http://cc_id'] === creator.id) {
+    if( user.id  === creator.id) {
       return await prisma.deleteEvent(where);
     } else {
       throw 'You do not have permission to delete this event.';
@@ -187,17 +204,18 @@ module.exports.deleteEvent = async(_, args, { prisma, req, decodedToken }) => {
   } catch(err) {
     throw err; 
   }
-}
-module.exports.rsvpEvent = async(_, args, { prisma, req, decodedToken }) => {
+}, 
+rsvpEvent: async(_, args, { prisma, user }) => {
+  console.log(user)
   try {
-    const decoded = await decodedToken(req);
+  // await checkUser(user)
     const {
       event: { id }, 
     } = args 
 
     const getRsvpFragment = `
       fragment getRsvpUser on Event {
-        rsvps(where: { id: "${decoded['http://cc_id']}"}){ id }
+        rsvps(where: { id: "${user.id}"}){ id }
       }
     `;
     const { rsvps } = await prisma.event({ id }).$fragment(getRsvpFragment);
@@ -212,7 +230,7 @@ module.exports.rsvpEvent = async(_, args, { prisma, req, decodedToken }) => {
 
     const { rsvps: userRsvp } = await prisma
       .updateUser({
-        where: { id: decoded['http://cc_id']},
+        where: { id: user.id },
         data: { rsvps: action }, 
       })
       .$fragment(userRsvpFragment);
@@ -221,17 +239,17 @@ module.exports.rsvpEvent = async(_, args, { prisma, req, decodedToken }) => {
   } catch(err) {
     throw err; 
   }
-}
-module.exports.saveEvent = async(_, args, { prisma, req, decodedToken }) => {
+}, 
+saveEvent: async(_, args, { prisma, user }) => {
   try {
-    const decoded = await decodedToken(req);
+    //await checkUser(user)
     const {
       event: { id },
     } = args; 
 
     const getSavedFragment = `
       fragment getSavedUser on Event {
-        saved(where: { id: "${decoded['http://cc_id']}"}){ id }
+        saved(where: { id: "${user.id}"}){ id }
       }
     `;
     const { saved } = await prisma.event({ id }).$fragment(getSavedFragment);
@@ -245,7 +263,7 @@ module.exports.saveEvent = async(_, args, { prisma, req, decodedToken }) => {
     `;
     const { saved: userSaved } = await prisma 
       .updateUser({
-        where: { id: decoded['http://cc_id']}, 
+        where: { id: user.id}, 
         data: { saved: action }, 
       })
       .$fragment(useerSavedFragment);
@@ -255,3 +273,7 @@ module.exports.saveEvent = async(_, args, { prisma, req, decodedToken }) => {
     throw err 
   }
 }
+} 
+
+
+module.exports = Mutation

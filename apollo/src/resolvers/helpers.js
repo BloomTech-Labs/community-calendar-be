@@ -1,11 +1,13 @@
 const cloudinary = require('cloudinary').v2;
+const { prisma } = require('../generated/prisma-client')
 
 module.exports = {
     convertTags,
     tagsToRemove,
     convertImages,
     imagesToRemove,
-    cloudinaryImage
+    cloudinaryImage, 
+    checkUser
 }
 
 cloudinary.config({
@@ -113,3 +115,22 @@ async function cloudinaryImage(file){
     console.log(err);
   }
 }
+
+async function checkUser(user) {
+  try { 
+  const authUser = await prisma.user({where: user.id })
+  if (!authUser || authUser === 'undefined') {
+   await prisma.createUser({
+      data: { 
+        id: user.id, 
+        firstName: user.firstName, 
+        profileImage: 'https://res.cloudinary.com/communitycalendar/image/upload/c_scale,w_70/v1580068501/C_ncfz11.svg'
+      }, 
+    })
+  }
+} catch(err) {
+  throw new Error("Uh oh")
+}
+
+};
+

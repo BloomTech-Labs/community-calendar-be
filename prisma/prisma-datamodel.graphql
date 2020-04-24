@@ -1,8 +1,7 @@
 type User {
-  id: ID! @id
+  id: ID! @id #coming from Okta
   firstName: String
   lastName: String
-  auth0Id: String! @unique
   organizations: [Organization!] @relation(name: "UsersOrganizations", link: TABLE)
   rsvps: [Event!] @relation(name: "UsersRsvps", link: TABLE)
   saved: [Event!] @relation(name: "UsersSavedEvents", link: TABLE)
@@ -83,3 +82,4 @@ type GeoJson {
   geoJson: String!
   neighborhood: Neighborhood! @relation(name: "NeighborhoodGeo", onDelete: CASCADE)
 }
+

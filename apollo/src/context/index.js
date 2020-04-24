@@ -35,10 +35,10 @@ const { prisma } = require('../generated/prisma-client')
  */
 function Context (prisma, user, logger) {
   this.user = user
-  this.prisma = prisma
+  this.prisma = prisma 
   this.logger = logger
 
-  // console.log('Logging level: %s', logger.level)
+  //console.log('Logging level: %s', logger.level)
 }
 
 /**
@@ -48,13 +48,13 @@ function Context (prisma, user, logger) {
  * @param {string} id
  * @param {string} name
  * @param {string} email
- * @param {[string]} groups
+ 
  */
-function User (id, name, email, groups) {
+function User (id, name, email ) {
   this.id = id
   this.name = name
   this.email = email
-  this.groups = groups
+ // this.groups = groups
 }
 
 // This function is called by the JWT verifier, which sends the JWT header and a
@@ -86,10 +86,10 @@ const getKey = async (header) => {
       header.kid,
       JWKS_URI
     )
-    throw new AuthenticationError('Not authorized')
+  //  throw new AuthenticationError('Not authorized')
   }
 
-  // logger.debug(
+  //  logger.debug(
   //   'Retrieved public key from (%O) with kid (%O): %O',
   //   JWKS_URI,
   //   header.kid,
@@ -109,6 +109,7 @@ const getKey = async (header) => {
  */
 const context = async ({ req }) => {
   // Grab the 'Authorization' token from the header
+ // try {
   const authorizationHeader = req.header('Authorization')
   if (
     typeof authorizationHeader !== 'string' ||
@@ -163,10 +164,10 @@ const context = async ({ req }) => {
   // Create the User using the information from the JWT
   // logger.debug('Creating User using decoded JWT: %O', decodedJWT)
   const user = new User(
+    decodedJWT.uid,
+    (decodedJWT.firstName + " " + decodedJWT.lastName),
     decodedJWT.sub,
-    decodedJWT.email,
-    decodedJWT.name,
-    decodedJWT.groups
+   // decodedJWT.groups
   )
 
   // Don't let anyone past this point if they aren't authenticated
@@ -179,6 +180,9 @@ const context = async ({ req }) => {
 
   // Pack the user, Prisma client and Winston logger into the context
   return new Context(prisma, user, logger)
+// } catch (err) {
+// return new Context (prisma, null, logger)
+// }
 }
 
 module.exports = context

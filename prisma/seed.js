@@ -5,19 +5,17 @@
 
 
 async function main() {
+
   const user = await prisma.createUser({
-      auth0Id: "testid1", 
       firstName: "Detroit Experience Factory", 
       profileImage: "https://res.cloudinary.com/communitycalendar/image/upload/v1580757435/wierq7pulh1irmhsfygd.jpg"
   })
   const user1 = await prisma.createUser({
-      auth0Id: "testid2", 
       firstName: "Ray", 
       lastName: "Batra", 
       profileImage: "https://res.cloudinary.com/communitycalendar/image/upload/v1580754066/srqisgiplumij6jzkzc1.jpg"
   })
   const user3 = await prisma.createUser({
-      auth0Id: "testid3", 
       firstName: "Historic North End Alliance", 
       profileImage: "https://res.cloudinary.com/communitycalendar/image/upload/v1580757510/u5eukn21j7ebkbs0len6.png"
   })
@@ -54,15 +52,15 @@ const event1 =  await prisma.createEvent({
   start: "2020-02-23T12:00:00-0500",
   end: "2020-02-23T14:30:00-0500",
   ticketPrice: 0.00,
-  creator: {connect: {auth0Id: "testid1"}},
-  eventImages: {
-    create: [
-      {
-        url: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F69917729%2F89373299245%2F1%2Foriginal.jpg?w=800&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C693%2C4000%2C2000&s=94184073d91c25306d22d1b0401cfea9",
-        creator: {connect: {auth0Id: "testid1"}}
-      }
-    ]
-  },
+ // creator: { id: user.id } 
+  // eventImages: {
+  //   create: [
+  //     {
+  //       url: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F69917729%2F89373299245%2F1%2Foriginal.jpg?w=800&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C693%2C4000%2C2000&s=94184073d91c25306d22d1b0401cfea9",
+  //        creator: {user: user.firstName}
+  //     }
+  //   ]
+  // },
   urls: {
     create: [
       {
@@ -70,7 +68,7 @@ const event1 =  await prisma.createEvent({
       }
     ]
   },
-  admins: {connect: [{auth0Id: "testid1"}]},
+   admins: {connect: [{ id: user.id }]},
   locations: {
     create: [
       {
@@ -94,12 +92,12 @@ description: "Detroit is a city rich in history, grand buildings, and vibrant ar
 start: "2020-03-29T12:00:00-0500",
 end: "2020-03-29T14:30:00-0500",
 ticketPrice: 0.00,
-creator: {connect: {auth0Id: "testid1"}},
+ creator: {connect: {id: user.id }},
 eventImages: {
   create: [
     {
       url: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F69917729%2F89373299245%2F1%2Foriginal.jpg?w=800&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C693%2C4000%2C2000&s=94184073d91c25306d22d1b0401cfea9",
-      creator: {connect: {auth0Id: "testid1"}},
+      creator: {connect: {id: user.id }},
     }
   ]
 },
@@ -110,7 +108,7 @@ urls: {
     }
   ]
 },
-admins: {connect: [{auth0Id: "testid1"}]},
+ admins: {connect: {id: user.id }},
 locations: {
   create: [
     {

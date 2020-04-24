@@ -6,13 +6,14 @@
  const inPolygon = require('@turf/boolean-point-in-polygon').default
  const natural = require('natural')
 
-/**
- * @param {{ where: import('../generated/prisma-client').UserWhereUniqueInput }} args
- * @param {{ prisma: import('../generated/prisma-client').Prisma }} context
- * @returns { Promise }
- */
+// /**
+//  * @param {{ where: import('../generated/prisma-client').UserWhereUniqueInput }} args
+//  * @param {{ prisma: import('../generated/prisma-client').Prisma }} context
+//  * @returns { Promise }
+//  */
 module.exports.user = async (_parent, args, context) => {
   console.log('Query.user.args: %j', args)
+
 
   const user = await context.prisma.user(args.where)
 
@@ -21,14 +22,15 @@ module.exports.user = async (_parent, args, context) => {
   return user
 }
 
-/**
- * @param {{ where: import('../generated/prisma-client').UserWhereInput }} args
- * @param {{ prisma: import('../generated/prisma-client').Prisma }} context
- * @returns { Promise }
- */
-module.exports.users = async (_parent, args, context) => {
+// /**
+//  * @param {{ where: import('../generated/prisma-client').UserWhereInput }} args
+//  * @param {{ prisma: import('../generated/prisma-client').Prisma }} context
+//  * @returns { Promise }
+//  */
+ module.exports.users = async (_parent, args, context) => {
   console.log('Query.user.args: %j', args)
-
+  console.log("User context", context.user)
+  
   const user = await context.prisma.users(args)
 
   console.log('Query.user: %j', user)
@@ -45,13 +47,18 @@ module.exports.tags = async (_, args, { prisma }) => {
   return prisma.tags({ ...args })
 }
 
-module.exports.events = async (_, { searchFilters = { dateRange: null, index: null, ticketPrice: null, location: null, tags: null }, ...args }, { prisma }) => {
+module.exports.events = async (_, { searchFilters = { }, ...args }, { prisma }) => {
   const searchArray = []
   const {
+    // @ts-ignore
     dateRange: dateRangeSearch,
+    // @ts-ignore
     index: indexSearch,
+    // @ts-ignore
     ticketPrice: ticketPriceSearch,
+    // @ts-ignore
     location: locationSearch,
+    // @ts-ignore
     tags: tagsSearch
   } = searchFilters
   if (dateRangeSearch) {
@@ -202,3 +209,27 @@ module.exports.events = async (_, { searchFilters = { dateRange: null, index: nu
     })
   }
 }
+
+
+// const Query = {
+//   user: async (_parent, args, context) => {
+//     console.log('Query.user.args: %j', args)
+  
+//     const user = await context.prisma.user(args.where)
+  
+//     console.log('Query.user: %j', user)
+  
+//     return user
+//   }, 
+//   users: async (_parent, args, context) => {
+//     console.log('Query.user.args: %j', args)
+    
+//     const user = await context.prisma.users(args)
+  
+//     console.log('Query.user: %j', user)
+  
+//     return user
+//   }
+// }
+
+//module.exports = Query 
