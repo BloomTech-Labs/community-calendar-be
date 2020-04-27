@@ -1,7 +1,7 @@
 const { point } = require('@turf/helpers');
 
-module.exports.creator = (parent, args, { prisma }) => {
-    prisma.event({ id: parent.id }).creator({ ...args })
+module.exports.creator = (parent, args, { prisma, user }) => {
+    prisma.event({ id: parent.id }).creator()
 }
 module.exports.eventImages = (parent, args, { prisma }) => {
     prisma.event({ id: parent.id }).eventImages({ ...args })

@@ -54,7 +54,7 @@ function User (id, name, email ) {
   this.id = id
   this.name = name
   this.email = email
- // this.groups = groups
+
 }
 
 // This function is called by the JWT verifier, which sends the JWT header and a
@@ -109,11 +109,11 @@ const getKey = async (header) => {
  */
 const context = async ({ req }) => {
   // Grab the 'Authorization' token from the header
- // try {
+  try {
   const authorizationHeader = req.header('Authorization')
   if (
     typeof authorizationHeader !== 'string' ||
-    authorizationHeader === 'null' ||
+   // authorizationHeader === 'null' ||
     authorizationHeader === ''
   ) {
     logger.error(
@@ -133,7 +133,7 @@ const context = async ({ req }) => {
     const decodedToken = jwt.decode(token, { complete: true })
     tokenHeader = (/** @type {{[key: string]: any;}} */ (decodedToken)).header
   } catch (err) {
-    logger.error('Error while decoding token: %O', token, err)
+   // logger.error('Error while decoding token: %O', token, err)
     throw new AuthenticationError('Not authorized')
   }
 
@@ -171,7 +171,7 @@ const context = async ({ req }) => {
   )
 
   // Don't let anyone past this point if they aren't authenticated
-  if (typeof user === 'undefined' || user == null) {
+  if (typeof user === 'undefined' ) {
     logger.error('Unable to authenticate user: %O', req.header)
     throw new AuthenticationError('Not authorized')
   }
@@ -180,9 +180,9 @@ const context = async ({ req }) => {
 
   // Pack the user, Prisma client and Winston logger into the context
   return new Context(prisma, user, logger)
-// } catch (err) {
-// return new Context (prisma, null, logger)
-// }
+} catch (err) {
+return new Context (prisma, null, logger)
+}
 }
 
 module.exports = context

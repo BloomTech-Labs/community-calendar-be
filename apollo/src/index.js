@@ -26,7 +26,8 @@ const checkEnvironment = () => {
 const resolvers = require('./resolvers')
 const context = require('./context')
 
-const typeDefs = gql(importSchema('schema/apollo.graphql'));
+//const typeDefs = gql(importSchema('schema/apollo.graphql'));
+const typeDefs = require('../schema/schema');
 
 (async () => {
   // Check the environment

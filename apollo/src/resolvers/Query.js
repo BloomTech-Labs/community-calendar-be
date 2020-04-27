@@ -6,11 +6,11 @@
  const inPolygon = require('@turf/boolean-point-in-polygon').default
  const natural = require('natural')
 
-// /**
-//  * @param {{ where: import('../generated/prisma-client').UserWhereUniqueInput }} args
-//  * @param {{ prisma: import('../generated/prisma-client').Prisma }} context
-//  * @returns { Promise }
-//  */
+/**
+ * @param {{ where: import('../generated/prisma-client').UserWhereUniqueInput }} args
+ * @param {{ prisma: import('../generated/prisma-client').Prisma }} context
+ * @returns { Promise }
+ */
 module.exports.user = async (_parent, args, context) => {
   console.log('Query.user.args: %j', args)
 

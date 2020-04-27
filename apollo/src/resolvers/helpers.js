@@ -7,7 +7,7 @@ module.exports = {
     convertImages,
     imagesToRemove,
     cloudinaryImage, 
-    checkUser
+   // getUserId
 }
 
 cloudinary.config({
@@ -116,21 +116,34 @@ async function cloudinaryImage(file){
   }
 }
 
-async function checkUser(user) {
-  try { 
-  const authUser = await prisma.user({where: user.id })
-  if (!authUser || authUser === 'undefined') {
-   await prisma.createUser({
-      data: { 
-        id: user.id, 
-        firstName: user.firstName, 
-        profileImage: 'https://res.cloudinary.com/communitycalendar/image/upload/c_scale,w_70/v1580068501/C_ncfz11.svg'
-      }, 
-    })
-  }
-} catch(err) {
-  throw new Error("Uh oh")
-}
+// async function checkUser(user) {
+//   try { 
+//   const authUser = await prisma.user({where: user.id })
+//   if (!authUser || authUser === 'undefined') {
+//    await prisma.createUser({
+//       data: { 
+//         id: user.id, 
+//         firstName: user.firstName, 
+//         profileImage: 'https://res.cloudinary.com/communitycalendar/image/upload/c_scale,w_70/v1580068501/C_ncfz11.svg'
+//       }, 
+//     })
+//   }
+// } catch(err) {
+//   throw new Error("Uh oh")
+// }
 
-};
+//};
+
+//  function getUserId(user) {
+//   try {
+//   const authUser =  prisma.user({ where: {id : user.id} } )
+//   if (authUser) {
+//     const { userId } = authUser
+//     return userId 
+//   }
+//   throw new Error('Not authenticated')
+// } catch(err) {
+//   throw new Error('aaaaaah')
+// }
+// }
 

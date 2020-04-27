@@ -5,9 +5,9 @@
 
 
 
-# import Mutation.updateUser from 'generated/prisma.graphql'
-# import Mutation.createEvent from 'generated/prisma.graphql'
-# import Mutation.updateEvent from 'generated/prisma.graphql'
+
+
+
 # import Mutation.deleteEvent from 'generated/prisma.graphql'
 # import Mutation.rsvpEvent from 'generated/prisma.graphql'
 # import Mutation.saveEvent from 'generated/prisma.graphql'
@@ -121,7 +121,7 @@ type Event {
   description: String!
   start: DateTime!
   end: DateTime!
-  creator: User
+ 
   ticketPrice: Float!
   eventImages(where: EventImageWhereInput, orderBy: EventImageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [EventImage!]
   rsvps(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
@@ -156,7 +156,9 @@ type Query {
     last: Int
   ): [User!]
   
-  user: User!
+  user(
+    where: UserWhereUniqueInput!
+  ): User!
   events(
     where: EventWhereInput
     orderBy: EventOrderByInput

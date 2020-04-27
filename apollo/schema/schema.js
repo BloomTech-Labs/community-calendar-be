@@ -1,7 +1,8 @@
 const {importSchema} = require('graphql-import');
 const gql = require('graphql-tag');
 const {disableFragmentWarnings} = require('graphql-tag');
-const basicDefs = importSchema('./graphql/schema.graphql');
+//const basicDefs = importSchema('./graphql/schema.graphql');
+const basicDefs = gql(importSchema('schema/apollo.graphql'));
 
 disableFragmentWarnings();
 

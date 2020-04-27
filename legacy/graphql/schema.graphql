@@ -53,7 +53,6 @@ input EventUpdateInput {
 input UserUpdateInput {
   firstName: String
   lastName: String
-  auth0Id: String
   organizations: OrganizationUpdateManyWithoutUsersInput
   rsvps: EventUpdateManyWithoutRsvpsInput
   saved: EventUpdateManyWithoutSavedInput
@@ -113,7 +112,7 @@ type Event {
   description: String!
   start: DateTime!
   end: DateTime!
-  creator: User
+  
   ticketPrice: Float!
   eventImages(where: EventImageWhereInput, orderBy: EventImageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [EventImage!]
   rsvps(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]

@@ -10,7 +10,6 @@ const {
   convertImages, 
   tagsToRemove, 
   imagesToRemove, 
- // checkUser
 } = require('./helpers');
 
 const Mutation = {
@@ -40,52 +39,57 @@ updateUser: async (_, args, { prisma, user }) => {
   console.log("aldkdsflfsd", user)
   return auser
 }, 
-createEvent: async (_, args, { prisma, user }) => {
-  console.log("userCreateEvent", user)
-  if (!user) {
-    throw new Error('Not authorized')
-  }
-  //await checkUser(user)
+addEvent: async  (_, args, context) => {
 
+const { prisma, user } = context 
+  //console.log("userCreateEvent",user.id )
+  
   console.log("data&images", args)
-  const { data } = args 
-  //console.log("DecodedToken", decodedToken)
-   // const decoded = await decodedToken(req);
-   
-    const tagsInDb = await prisma.tags()
-    const imagesInDb = await prisma.eventImages();
+  console.log("User context",context.user )
+ 
+  console.log("Args for data createEvent", args)
 
-    if(data.tags) {
-      data.tags = convertTags(data.tags, tagsInDb)
+    const tagsInDb = await prisma.tags()
+    const imagesInDb =  await prisma.eventImages();
+
+    if(args.data.tags) {
+      args.data.tags = convertTags(args.data.tags, tagsInDb)
     }
 
     if(args.images && args.images.length) {
       const promises = args.images.map(file => file.then(cloudinaryImage));
       const urls = await Promise.all(promises);
       const newImages = urls.map(url => ({ url }));
-      data.eventImages = data.eventImages && data.eventImages.length
-      ? [...data.eventImages, ...newImages]
+      args.data.eventImages = args.data.eventImages && args.data.eventImages.length
+      ? [...args.data.eventImages, ...newImages]
       : newImages; 
     }
 
-    if (data.eventImages) {
-      data.eventImages = convertImages(
-        data.eventImages, imagesInDb, user
+    if (args.data.eventImages) {
+      args.data.eventImages = convertImages(
+        args.data.eventImages, imagesInDb, context.user.id 
       );
     }
+    console.log("user", typeof user, user )
+    if ( user === 'null' ) {
+      throw new Error("Not Authenticated" )
+    } else {
+args.data.creator = {connect: {id : user.id} }
+    }
 
-    data['creator'] = {connect: { id: user.id  }};
-    data['index'] = ',' + Array.from(
-      new Set(natural.LancasterStemmer.tokenizeAndStem(data['title'] + ' ' + data['description'],
+    
+    
+    args.data['index'] = ',' + Array.from(
+      new Set(natural.LancasterStemmer.tokenizeAndStem(args.data['title'] + ' ' + args.data['description'],
       ), 
       ),
     ).join(',') + 
     ',';
-    return await prisma.createEvent(data);
+    return await prisma.createEvent(args.data);
   
 }, 
 updateEvent: async(_, args, { prisma, user }) => {
-  if (!user ) {
+  if (!user.id ) {
     throw new Error("Not authenticated")
   }
   const { data, where } = args; 
@@ -188,31 +192,46 @@ updateEvent: async(_, args, { prisma, user }) => {
   
 }, 
 deleteEvent: async(_, args, { prisma, user }) => {
-  if (!user) {
-    throw new Error("Oh frig")
-  }
-  const { where } = args; 
-  try {
-    const [{ creator }] = await prisma.events({ where }).creator();
-   // await checkUser(user)
+  // if (!user) {
+  //   throw new Error("Not Authenticated")
+  // }
+  const { where, data  } = args; 
 
-    if( user.id  === creator.id) {
-      return await prisma.deleteEvent(where);
-    } else {
-      throw 'You do not have permission to delete this event.';
-    }
-  } catch(err) {
-    throw err; 
-  }
+//   try {
+//     const [{ creator }] = await prisma.events({ where }).creator();
+// if (typeof user.id !== "string" || user === 'null' ) {
+//       throw new Error("Not Authenticated" )
+// }
+//    else if( user.id  === creator.id) {
+//       return await prisma.deleteEvent(where);
+//     } else {
+//       throw 'You do not have permission to delete this event.';
+//     }
+//   } catch(err) {
+//     throw err; 
+//   }
+const [{ creator }] = await prisma.events({ where }).creator();
+
+  if (typeof user.id !== "string" || user === 'null' ) {
+    throw new Error("Not Authenticated" )
+} else if (user.id !== creator.id ) {
+  throw new Error("You do not have permission to delete this event")
+} else {
+  return await prisma.deleteEvent(where)
+}
+  
+
+
 }, 
 rsvpEvent: async(_, args, { prisma, user }) => {
   console.log(user)
   try {
-  // await checkUser(user)
     const {
       event: { id }, 
     } = args 
-
+if(user === 'null'   ) {
+  throw new Error("Not authenticated")
+} else {
     const getRsvpFragment = `
       fragment getRsvpUser on Event {
         rsvps(where: { id: "${user.id}"}){ id }
@@ -234,15 +253,15 @@ rsvpEvent: async(_, args, { prisma, user }) => {
         data: { rsvps: action }, 
       })
       .$fragment(userRsvpFragment);
-
+    
     return !!userRsvp.length; 
+  }
   } catch(err) {
     throw err; 
-  }
+    }
 }, 
 saveEvent: async(_, args, { prisma, user }) => {
   try {
-    //await checkUser(user)
     const {
       event: { id },
     } = args; 
@@ -256,9 +275,9 @@ saveEvent: async(_, args, { prisma, user }) => {
 
     const action = saved.length ? { disconnect: { id }} : { connect: { id }};
 
-    const useerSavedFragment = `
+    const userSavedFragment = `
       fragment getUserEvent on User {
-        saved(where: { id: ${id}"}){ id }
+        saved(where: { id: "${id}"}){ id }
       }
     `;
     const { saved: userSaved } = await prisma 
@@ -266,7 +285,7 @@ saveEvent: async(_, args, { prisma, user }) => {
         where: { id: user.id}, 
         data: { saved: action }, 
       })
-      .$fragment(useerSavedFragment);
+      .$fragment(userSavedFragment);
 
     return !!userSaved.length; 
   } catch (err) {
@@ -274,6 +293,5 @@ saveEvent: async(_, args, { prisma, user }) => {
   }
 }
 } 
-
 
 module.exports = Mutation
