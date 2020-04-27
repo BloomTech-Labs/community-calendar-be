@@ -50,11 +50,11 @@ function Context (prisma, user, logger) {
  * @param {string} email
  
  */
-function User (id, name, email ) {
-  this.id = id
+function User (oktaUid, name, email, ccid  ) {
+  this.id = ccid
   this.name = name
   this.email = email
-
+  this.oktaUid = oktaUid
 }
 
 // This function is called by the JWT verifier, which sends the JWT header and a
@@ -161,14 +161,28 @@ const context = async ({ req }) => {
     throw new AuthenticationError('Not authorized')
   }
 
+  async function findOrCreateUser(oktaId) {
+    const user = await prisma.user({ oktaId: oktaId})
+    if(user) {
+     return user.id 
+    } else {
+      const newUser = await prisma.createUser({ oktaId : oktaId})
+      return newUser.id
+    }
+
+  }
+
+  const ccId = await findOrCreateUser(decodedJWT.uid)
   // Create the User using the information from the JWT
   // logger.debug('Creating User using decoded JWT: %O', decodedJWT)
-  const user = new User(
+  const user =  new User(
     decodedJWT.uid,
     (decodedJWT.firstName + " " + decodedJWT.lastName),
     decodedJWT.sub,
-   // decodedJWT.groups
+    ccId
   )
+
+
 
   // Don't let anyone past this point if they aren't authenticated
   if (typeof user === 'undefined' ) {

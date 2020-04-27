@@ -7,15 +7,18 @@
 async function main() {
 
   const user = await prisma.createUser({
+    oktaId: 'testId1',
       firstName: "Detroit Experience Factory", 
       profileImage: "https://res.cloudinary.com/communitycalendar/image/upload/v1580757435/wierq7pulh1irmhsfygd.jpg"
   })
   const user1 = await prisma.createUser({
+    oktaId: 'testId2',
       firstName: "Ray", 
       lastName: "Batra", 
       profileImage: "https://res.cloudinary.com/communitycalendar/image/upload/v1580754066/srqisgiplumij6jzkzc1.jpg"
   })
   const user3 = await prisma.createUser({
+    oktaId: 'testId3',
       firstName: "Historic North End Alliance", 
       profileImage: "https://res.cloudinary.com/communitycalendar/image/upload/v1580757510/u5eukn21j7ebkbs0len6.png"
   })

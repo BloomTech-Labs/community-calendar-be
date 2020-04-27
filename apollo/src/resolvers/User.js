@@ -7,7 +7,10 @@
      rsvps:(parent, args, { prisma }) => { prisma.user({ id: parent.id }).rsvps({ ...args })},
      saved:(parent, args, { prisma }) => { prisma.user({ id: parent.id  }).saved({ ...args })},
      adminFor:(parent, args, { prisma }) => { prisma.user({ id: parent.id }).adminFor({ ...args })},
-     createdEvents:(parent, args, { prisma }) => { prisma.user({ id: parent.id }).createdEvents({ ...args })},
+     createdEvents:(parent, args, { prisma}) => { 
+        prisma.user({ id: parent.id }).createdEvents()
+        
+      },
      createdImages:(parent, args, { prisma }) => { prisma.user({ id: parent.id }).createdImages({ ...args })},
   }
 

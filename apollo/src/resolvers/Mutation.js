@@ -74,7 +74,7 @@ const { prisma, user } = context
     if ( user === 'null' ) {
       throw new Error("Not Authenticated" )
     } else {
-args.data.creator = {connect: {id : user.id} }
+args.data.creator = {connect: { id:  user.id }  }
     }
 
     

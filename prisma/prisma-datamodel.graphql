@@ -1,5 +1,6 @@
 type User {
   id: ID! @id #coming from Okta
+  oktaId: String! @unique
   firstName: String
   lastName: String
   organizations: [Organization!] @relation(name: "UsersOrganizations", link: TABLE)
