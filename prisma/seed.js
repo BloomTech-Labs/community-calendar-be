@@ -203,7 +203,7 @@ locations: {
   ]
 },
 tags: {connect: [{title: "art"}, {title: "history"}, {title: "downtown"}, {title: "architecture"}]}
-}) 
+} ) 
 
 // Event-2
 const event2 = await prisma.createEvent({

@@ -35,22 +35,22 @@ const { prisma } = require('../generated/prisma-client')
  */
 function Context (prisma, user, logger) {
   this.user = user
-  this.prisma = prisma 
+  this.prisma = prisma
   this.logger = logger
 
-  //console.log('Logging level: %s', logger.level)
+  // console.log('Logging level: %s', logger.level)
 }
 
 /**
  * The user in the context
  *
  * @constructor
- * @param {string} id
+ * @param {string} ccid
  * @param {string} name
  * @param {string} email
- 
+
  */
-function User (oktaUid, name, email, ccid  ) {
+function User (oktaUid, name, email, ccid) {
   this.id = ccid
   this.name = name
   this.email = email
@@ -110,97 +110,92 @@ const getKey = async (header) => {
 const context = async ({ req }) => {
   // Grab the 'Authorization' token from the header
   try {
-  const authorizationHeader = req.header('Authorization')
-  if (
-    typeof authorizationHeader !== 'string' ||
-   // authorizationHeader === 'null' ||
+    const authorizationHeader = req.header('Authorization')
+    if (
+      typeof authorizationHeader !== 'string' ||
+    // authorizationHeader === 'null' ||
     authorizationHeader === ''
-  ) {
-    logger.error(
-      'Authorization token missing from request headers: %O',
-      req.headers
-    )
-    throw new AuthenticationError('Not authorized')
-  }
-
-  // Strip off the 'Bearer ' part from the header
-  const token = authorizationHeader.replace(/^Bearer\s/, '')
-
-  // Decode the JWT so we can get the header
-  // logger.debug('Decoding token: %s', token)
-  let tokenHeader
-  try {
-    const decodedToken = jwt.decode(token, { complete: true })
-    tokenHeader = (/** @type {{[key: string]: any;}} */ (decodedToken)).header
-  } catch (err) {
-   // logger.error('Error while decoding token: %O', token, err)
-    throw new AuthenticationError('Not authorized')
-  }
-
-  // Get the public key from the OAuth endpoint
-  // logger.debug('Retrieving public key used for JWT validation')
-  const pubKey = await getKey(tokenHeader)
-
-  // Options used for verifying the JWT
-  /** @type { import('jsonwebtoken').VerifyOptions } */
-  const jwtVerifyOptions = {
-    // Check the issuer to validate the source of the JWT
-    issuer: process.env.JWT_ISSUER,
-    algorithms: ['RS256']
-  }
-
-  // Verify the JWT
-  // logger.debug('Verifying and decoding JWT')
-
-  /** @type {{object}} */
-  let decodedJWT
-  try {
-    decodedJWT = (/** @type {{object}} */ (jwt.verify(token, pubKey, jwtVerifyOptions)))
-  } catch (err) {
-    logger.error('Error while verifying token: %O\n%O', token, err)
-    throw new AuthenticationError('Not authorized')
-  }
-
-  async function findOrCreateUser(oktaId) {
-    const user = await prisma.user({ oktaId: oktaId})
-    if(user) {
-     return user.id 
-    } else {
-      const newUser = await prisma.createUser({ 
-        oktaId : oktaId, 
-        // firstName: user.firstName, 
-        // lastName: user.lastName
-      })
-      return newUser.id
+    ) {
+      logger.error(
+        'Authorization token missing from request headers: %O',
+        req.headers
+      )
+      throw new AuthenticationError('Not authorized')
     }
 
+    // Strip off the 'Bearer ' part from the header
+    const token = authorizationHeader.replace(/^Bearer\s/, '')
+
+    // Decode the JWT so we can get the header
+    // logger.debug('Decoding token: %s', token)
+    let tokenHeader
+    try {
+      const decodedToken = jwt.decode(token, { complete: true })
+      tokenHeader = (/** @type {{[key: string]: any;}} */ (decodedToken)).header
+    } catch (err) {
+    // logger.error('Error while decoding token: %O', token, err)
+      throw new AuthenticationError('Not authorized')
+    }
+
+    // Get the public key from the OAuth endpoint
+    // logger.debug('Retrieving public key used for JWT validation')
+    const pubKey = await getKey(tokenHeader)
+
+    // Options used for verifying the JWT
+    /** @type { import('jsonwebtoken').VerifyOptions } */
+    const jwtVerifyOptions = {
+    // Check the issuer to validate the source of the JWT
+      issuer: process.env.JWT_ISSUER,
+      algorithms: ['RS256']
+    }
+
+    // Verify the JWT
+    // logger.debug('Verifying and decoding JWT')
+
+    /** @type {{object}} */
+    let decodedJWT
+    try {
+      decodedJWT = (/** @type {{object}} */ (jwt.verify(token, pubKey, jwtVerifyOptions)))
+    } catch (err) {
+      logger.error('Error while verifying token: %O\n%O', token, err)
+      throw new AuthenticationError('Not authorized')
+    }
+
+    const findOrCreateUser = async (oktaId) => {
+      const user = await prisma.user({ oktaId: oktaId })
+      if (user) {
+        return user.id
+      } else {
+        const newUser = await prisma.createUser({
+          oktaId: oktaId
+        })
+        return newUser
+      }
+    }
+
+    const ccId = await findOrCreateUser(decodedJWT.uid)
+    // Create the User using the information from the JWT
+    // logger.debug('Creating User using decoded JWT: %O', decodedJWT)
+    const user = new User(
+      decodedJWT.uid,
+      (decodedJWT.firstName + ' ' + decodedJWT.lastName),
+      decodedJWT.sub,
+      ccId
+    )
+
+    // Don't let anyone past this point if they aren't authenticated
+    if (typeof user === 'undefined') {
+      logger.error('Unable to authenticate user: %O', req.header)
+      throw new AuthenticationError('Not authorized')
+    }
+
+    // logger.debug('Current user: %O', user)
+
+    // Pack the user, Prisma client and Winston logger into the context
+    return new Context(prisma, user, logger)
+  } catch (err) {
+    return new Context(prisma, null, logger)
   }
-
-  const ccId = await findOrCreateUser(decodedJWT.uid)
-  // Create the User using the information from the JWT
-  // logger.debug('Creating User using decoded JWT: %O', decodedJWT)
-  const user =  new User(
-    decodedJWT.uid,
-    (decodedJWT.firstName + " " + decodedJWT.lastName),
-    decodedJWT.sub,
-    ccId
-  )
-
-
-
-  // Don't let anyone past this point if they aren't authenticated
-  if (typeof user === 'undefined' ) {
-    logger.error('Unable to authenticate user: %O', req.header)
-    throw new AuthenticationError('Not authorized')
-  }
-
-  // logger.debug('Current user: %O', user)
-
-  // Pack the user, Prisma client and Winston logger into the context
-  return new Context(prisma, user, logger)
-} catch (err) {
-return new Context (prisma, null, logger)
-}
 }
 
 module.exports = context

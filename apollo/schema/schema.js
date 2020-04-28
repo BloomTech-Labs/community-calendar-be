@@ -1,12 +1,12 @@
-const {importSchema} = require('graphql-import');
-const gql = require('graphql-tag');
-const {disableFragmentWarnings} = require('graphql-tag');
-//const basicDefs = importSchema('./graphql/schema.graphql');
-const basicDefs = gql(importSchema('schema/apollo.graphql'));
+const { importSchema } = require('graphql-import')
+const gql = require('graphql-tag')
+const { disableFragmentWarnings } = require('graphql-tag')
+// const basicDefs = importSchema('./graphql/schema.graphql');
+const basicDefs = gql(importSchema('schema/apollo.graphql'))
 
-disableFragmentWarnings();
+disableFragmentWarnings()
 
-//fixes issue of Upload type not being recognized in schema.graphql
+// fixes issue of Upload type not being recognized in schema.graphql
 const mutationDefs = gql`
   extend type Mutation {
     addEvent(data: EventCreateInput!, images: [Upload!]): Event!
@@ -20,8 +20,8 @@ const mutationDefs = gql`
       image: Upload
     ): User!
   }
-`;
-//combine imported schema and extended schema
-const typeDefs = [basicDefs, mutationDefs];
+`
+// combine imported schema and extended schema
+const typeDefs = [basicDefs, mutationDefs]
 
-module.exports = typeDefs;
+module.exports = typeDefs

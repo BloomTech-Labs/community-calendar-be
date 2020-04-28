@@ -2,8 +2,8 @@
 'use strict'
 
 // Apollo dependencies
-const { importSchema } = require('graphql-import')
-const { ApolloServer, gql } = require('apollo-server')
+// const { importSchema } = require('graphql-import')
+const { ApolloServer } = require('apollo-server')
 
 const PORT = process.env.PORT || 8000
 
@@ -26,7 +26,7 @@ const checkEnvironment = () => {
 const resolvers = require('./resolvers')
 const context = require('./context')
 
-//const typeDefs = gql(importSchema('schema/apollo.graphql'));
+// const typeDefs = gql(importSchema('schema/apollo.graphql'));
 const typeDefs = require('../schema/schema');
 
 (async () => {
