@@ -1,56 +1,54 @@
 // @ts-check
- 'use strict'
+'use strict'
 
- const circle = require('@turf/circle').default
- const transformRotate = require('@turf/transform-rotate').default
- const inPolygon = require('@turf/boolean-point-in-polygon').default
- const natural = require('natural')
+const circle = require('@turf/circle').default
+const transformRotate = require('@turf/transform-rotate').default
+const inPolygon = require('@turf/boolean-point-in-polygon').default
+const natural = require('natural')
 
 const Query = {
-  users: async (_, args, {prisma, user} ) => {
-    console.log("User context", user)
-  
+  users: async (_, args, { prisma, user }) => {
+    console.log('User context', user)
+
     const users = await prisma.users(args)
-  
     console.log('Query.user: %j', users)
-  
     return users
   },
-  user: async (root, args, {prisma}) => {
+  user: async (root, args, { prisma }) => {
     const user = await prisma.user(args.where)
 
-  console.log('Query.user: %j', user)
+    console.log('Query.user: %j', user)
 
-  return user
+    return user
   },
-  tags: async (root, args, {prisma}, info) => {
-    try {
-      return prisma.tags({...args});
-    } catch (err) {
-      throw err;
-    }
+  tags: async (root, args, { prisma }, info) => {
+    // try {
+    return prisma.tags({ ...args })
+    // } catch (err) {
+    //   throw err;
+    // }
   },
-  //check if auth0 id is in the database
-  checkId: async (root, args, {prisma}) => {
+  // check if auth0 id is in the database
+  checkId: async (root, args, { prisma }) => {
     const {
-      data: {oktaId},
-    } = args;
-    try {
-      const user = await prisma.users({
-        where: {
-          oktaId,
-        },
-      });
-      return user;
-    } catch (err) {
-      throw err;
-    }
+      data: { oktaId }
+    } = args
+    // try {
+    const user = await prisma.users({
+      where: {
+        oktaId
+      }
+    })
+    return user
+    // } catch (err) {
+    //   throw err;
+    // }
   },
 
   events: async (
     _,
-    {searchFilters = {}, ...args}, {prisma},) => {
-    const searchArray = [];
+    { searchFilters = {}, ...args }, { prisma }) => {
+    const searchArray = []
 
     const {
       // @ts-ignore
@@ -62,87 +60,87 @@ const Query = {
       // @ts-ignore
       location: locationSearch,
       // @ts-ignore
-      tags: tagsSearch,
-    } = searchFilters;
+      tags: tagsSearch
+    } = searchFilters
 
-    //filter events in between start and end date
+    // filter events in between start and end date
     if (dateRangeSearch) {
-      const {start, end} = dateRangeSearch;
+      const { start, end } = dateRangeSearch
       searchArray.push({
         OR: [
-          {AND: [{start_lte: start}, {end_gte: end}]},
-          {AND: [{start_gte: start}, {end_lte: end}]},
+          { AND: [{ start_lte: start }, { end_gte: end }] },
+          { AND: [{ start_gte: start }, { end_lte: end }] },
           {
             AND: [
-              {AND: [{start_gte: start}, {start_lte: end}]},
-              {end_gte: end},
-            ],
+              { AND: [{ start_gte: start }, { start_lte: end }] },
+              { end_gte: end }
+            ]
           },
           {
             AND: [
-              {start_lte: start},
-              {AND: [{end_lte: end}, {end_gte: start}]},
-            ],
-          },
-        ],
-      });
+              { start_lte: start },
+              { AND: [{ end_lte: end }, { end_gte: start }] }
+            ]
+          }
+        ]
+      })
     }
 
     if (ticketPriceSearch) {
-      const result = ticketPriceSearch.map(({minPrice, maxPrice}) =>
+      const result = ticketPriceSearch.map(({ minPrice, maxPrice }) =>
         minPrice !== undefined && maxPrice !== undefined
           ? {
-              AND: [{ticketPrice_gte: minPrice}, {ticketPrice_lte: maxPrice}],
-            }
+            AND: [{ ticketPrice_gte: minPrice }, { ticketPrice_lte: maxPrice }]
+          }
           : maxPrice !== undefined
-          ? {ticketPrice_lte: maxPrice}
-          : {ticketPrice_gte: minPrice},
-      );
-      searchArray.push({OR: result});
+            ? { ticketPrice_lte: maxPrice }
+            : { ticketPrice_gte: minPrice }
+      )
+      searchArray.push({ OR: result })
     }
 
     if (indexSearch) {
       searchArray.push({
         OR: Array.from(
-          new Set(natural.LancasterStemmer.tokenizeAndStem(indexSearch)),
-        ).map(token => ({index_contains: ',' + token + ','})),
-      });
+          new Set(natural.LancasterStemmer.tokenizeAndStem(indexSearch))
+        ).map(token => ({ index_contains: ',' + token + ',' }))
+      })
     }
 
     if (tagsSearch) {
-      searchArray.push({tags_some: {title_in: tagsSearch}});
+      searchArray.push({ tags_some: { title_in: tagsSearch } })
     }
 
     if (locationSearch) {
-      const {userLatitude, userLongitude, radius} = locationSearch;
-      const center = [userLongitude, userLatitude];
-      //calculate coordinates using calculated diagonal from radius
-      //rSC is rotated square coordinates
+      const { userLatitude, userLongitude, radius } = locationSearch
+      const center = [userLongitude, userLatitude]
+      // calculate coordinates using calculated diagonal from radius
+      // rSC is rotated square coordinates
       const {
         geometry: {
-          coordinates: [rSC],
-        },
+          coordinates: [rSC]
+        }
       } = transformRotate(
         circle(center, Math.sqrt(2) * radius, {
           steps: 4,
-          units: 'miles',
+          units: 'miles'
         }),
-        45,
-      );
+        45
+      )
 
-      //square min/max longitude/latitude values
+      // square min/max longitude/latitude values
       const sMinLongitude = Math.min(
-        ...[rSC[0][0], rSC[1][0], rSC[2][0], rSC[3][0]],
-      );
+        ...[rSC[0][0], rSC[1][0], rSC[2][0], rSC[3][0]]
+      )
       const sMaxLongitude = Math.max(
-        ...[rSC[0][0], rSC[1][0], rSC[2][0], rSC[3][0]],
-      );
+        ...[rSC[0][0], rSC[1][0], rSC[2][0], rSC[3][0]]
+      )
       const sMinLatitude = Math.min(
-        ...[rSC[0][1], rSC[1][1], rSC[2][1], rSC[3][1]],
-      );
+        ...[rSC[0][1], rSC[1][1], rSC[2][1], rSC[3][1]]
+      )
       const sMaxLatitude = Math.max(
-        ...[rSC[0][1], rSC[1][1], rSC[2][1], rSC[3][1]],
-      );
+        ...[rSC[0][1], rSC[1][1], rSC[2][1], rSC[3][1]]
+      )
 
       const eventsLocationsFragment = `
         fragment eventsWithLocations on Event {
@@ -152,11 +150,11 @@ const Query = {
             longitude
           }
         }
-      `;
+      `
 
       const whereArgs = args.where
         ? [...searchArray, args.where]
-        : [...searchArray];
+        : [...searchArray]
 
       const eventsInSquare = await prisma
         .events({
@@ -169,26 +167,26 @@ const Query = {
                   AND: [
                     {
                       AND: [
-                        {longitude_gte: sMinLongitude},
-                        {longitude_lte: sMaxLongitude},
-                      ],
+                        { longitude_gte: sMinLongitude },
+                        { longitude_lte: sMaxLongitude }
+                      ]
                     },
                     {
                       AND: [
-                        {latitude_gte: sMinLatitude},
-                        {latitude_lte: sMaxLatitude},
-                      ],
-                    },
-                  ],
-                },
-              },
-            ],
-          },
+                        { latitude_gte: sMinLatitude },
+                        { latitude_lte: sMaxLatitude }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          }
         })
 
-        .$fragment(eventsLocationsFragment);
+        .$fragment(eventsLocationsFragment)
 
-      const userCircle = circle(center, radius, {steps: 10, units: 'miles'});
+      const userCircle = circle(center, radius, { steps: 10, units: 'miles' })
 
       return prisma.events({
         ...args,
@@ -197,31 +195,30 @@ const Query = {
             .filter(event =>
               inPolygon(
                 [event.locations[0].longitude, event.locations[0].latitude],
-                userCircle,
-              ),
+                userCircle
+              )
             )
-            .map(event => event.id),
-        },
-      });
+            .map(event => event.id)
+        }
+      })
     } else {
       const whereArgs = args.where
         ? [...searchArray, args.where]
-        : [...searchArray];
+        : [...searchArray]
 
       return prisma.events({
         ...args,
-        where: {AND: whereArgs},
-      });
+        where: { AND: whereArgs }
+      })
     }
-  },
+  }
 
-  // ticketMasterEvents: async (root, args, {dataSources}) => {
-  //   return await dataSources.ticketMasterAPI.getEvents({...args});
-  // },
-  // ticketMasterEventsAlt: async (root, args, {dataSources}) => {
-  //   return await dataSources.ticketMasterAPI.getEventsAlt({...args});
-  // },
+//   ticketMasterEvents: async (root, args, {dataSources}) => {
+//     return await dataSources.ticketMasterAPI.getEvents({...args});
+//   },
+//   ticketMasterEventsAlt: async (root, args, {dataSources}) => {
+//     return await dataSources.ticketMasterAPI.getEventsAlt({...args});
+//   }
 }
 
-
-module.exports = Query 
+module.exports = Query

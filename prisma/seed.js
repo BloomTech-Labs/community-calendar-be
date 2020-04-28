@@ -55,15 +55,15 @@ const event1 =  await prisma.createEvent({
   start: "2020-02-23T12:00:00-0500",
   end: "2020-02-23T14:30:00-0500",
   ticketPrice: 0.00,
- // creator: { id: user.id } 
-  // eventImages: {
-  //   create: [
-  //     {
-  //       url: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F69917729%2F89373299245%2F1%2Foriginal.jpg?w=800&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C693%2C4000%2C2000&s=94184073d91c25306d22d1b0401cfea9",
-  //        creator: {user: user.firstName}
-  //     }
-  //   ]
-  // },
+ creator: { connect: { id: "ck9k36f63000w0895p3p515yb" } }, 
+  eventImages: {
+    create: [
+      {
+        url: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F69917729%2F89373299245%2F1%2Foriginal.jpg?w=800&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C693%2C4000%2C2000&s=94184073d91c25306d22d1b0401cfea9",
+         creator: { connect: { id: "ck9k36f63000w0895p3p515yb" } }
+      }
+    ]
+  },
   urls: {
     create: [
       {
@@ -71,7 +71,7 @@ const event1 =  await prisma.createEvent({
       }
     ]
   },
-   admins: {connect: [{ id: user.id }]},
+   admins: {connect: [{ id: "ck9k36f63000w0895p3p515yb" }]},
   locations: {
     create: [
       {
@@ -95,12 +95,12 @@ description: "Detroit is a city rich in history, grand buildings, and vibrant ar
 start: "2020-03-29T12:00:00-0500",
 end: "2020-03-29T14:30:00-0500",
 ticketPrice: 0.00,
- creator: {connect: {id: user.id }},
+ creator: {connect: {id: 'ck9k36gbb001108953g35d9vi' }},
 eventImages: {
   create: [
     {
       url: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F69917729%2F89373299245%2F1%2Foriginal.jpg?w=800&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C693%2C4000%2C2000&s=94184073d91c25306d22d1b0401cfea9",
-      creator: {connect: {id: user.id }},
+      creator: {connect: {id: 'ck9k36gbb001108953g35d9vi' }},
     }
   ]
 },
@@ -111,7 +111,7 @@ urls: {
     }
   ]
 },
- admins: {connect: {id: user.id }},
+ admins: {connect: [{id: 'ck9k36gbb001108953g35d9vi' }]},
 locations: {
   create: [
     {
@@ -126,7 +126,7 @@ locations: {
   ]
 },
 tags: {connect: [{title: "art"}, {title: "history"}, {title: "downtown"}, {title: "architecture"}]}
-}) 
+} ) 
 
 }
 

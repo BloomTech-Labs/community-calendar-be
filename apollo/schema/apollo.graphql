@@ -3,16 +3,12 @@
 # import Query.tags from 'generated/prisma.graphql'
 # import Query.events from 'generated/prisma.graphql'
 
-
-
-
-
-
 # import Mutation.deleteEvent from 'generated/prisma.graphql'
 # import Mutation.rsvpEvent from 'generated/prisma.graphql'
 # import Mutation.saveEvent from 'generated/prisma.graphql'
+# import User, Location, Event, Tags from 'generated/prisma.graphql'
 
-# import User, Event, Tags, Location from 'generated/prisma.graphql'
+
 
 input UserCheckIdInput {
   oktaId: String!
@@ -39,7 +35,6 @@ input EventCreateInput {
   description: String!
   start: DateTime!
   end: DateTime!
- 
   eventImages: [EventCreateImageInput!]
   rsvps: UserCreateManyWithoutRsvpsInput
   saved: UserCreateManyWithoutSavedInput
@@ -184,8 +179,8 @@ type Query {
     first: Int
     last: Int
   ): [Tag!]
- 
 }
+
 
 type Mutation {
   addUser(data: UserCreateInput!): User!
