@@ -14,6 +14,10 @@
 
 # import User, Event, Tags, Location from 'generated/prisma.graphql'
 
+input UserCheckIdInput {
+  oktaId: String!
+}
+
 input EventCreateTagInput {
   title: String!
 }
@@ -157,7 +161,7 @@ type Query {
     first: Int
     last: Int
   ): [User!]
-  
+    checkId(data: UserCheckIdInput!): [User]
   user(
     where: UserWhereUniqueInput!
   ): User!

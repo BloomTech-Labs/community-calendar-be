@@ -166,7 +166,11 @@ const context = async ({ req }) => {
     if(user) {
      return user.id 
     } else {
-      const newUser = await prisma.createUser({ oktaId : oktaId})
+      const newUser = await prisma.createUser({ 
+        oktaId : oktaId, 
+        // firstName: user.firstName, 
+        // lastName: user.lastName
+      })
       return newUser.id
     }
 

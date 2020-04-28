@@ -1,8 +1,8 @@
 type User {
-  id: ID! @id #coming from Okta
-  oktaId: String! @unique
+  id: ID! @id 
   firstName: String
   lastName: String
+  oktaId: String! @unique
   organizations: [Organization!] @relation(name: "UsersOrganizations", link: TABLE)
   rsvps: [Event!] @relation(name: "UsersRsvps", link: TABLE)
   saved: [Event!] @relation(name: "UsersSavedEvents", link: TABLE)
