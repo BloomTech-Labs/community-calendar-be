@@ -13,7 +13,6 @@ const {
 
 const Mutation = {
   addUser: async (_parent, args, { prisma }) => {
-    console.log('createUser.args: %j', args)
     const { data } = args
     data.profileImage =
       data.profileImage ||
@@ -41,9 +40,6 @@ const Mutation = {
 
   addEvent: async (_, args, context) => {
     const { prisma, user } = context
-    console.log('data&images', args)
-    console.log('User context', context.user)
-    console.log('Args for data createEvent', args)
 
     const tagsInDb = await prisma.tags()
     const imagesInDb = await prisma.eventImages()
@@ -66,7 +62,6 @@ const Mutation = {
         args.data.eventImages, imagesInDb, context.user.id
       )
     }
-    console.log('user', typeof user, user)
     if (user === 'null') {
       throw new Error('Not Authenticated')
     } else {
@@ -86,7 +81,7 @@ const Mutation = {
       throw new Error('Not authenticated')
     }
     const { data, where } = args
-    console.log('Args updateEvent', args)
+
     let eventImages = data.eventImages
     data.eventImages = {}
     try {
@@ -182,9 +177,6 @@ const Mutation = {
     }
   },
   deleteEvent: async (_, args, { prisma, user }) => {
-  // if (!user) {
-  //   throw new Error("Not Authenticated")
-  // }
     const { where } = args
 
     const [{ creator }] = await prisma.events({ where }).creator()
@@ -198,8 +190,6 @@ const Mutation = {
     }
   },
   rsvpEvent: async (_, args, { prisma, user }) => {
-    console.log(user)
-    // try {
     const {
       event: { id }
     } = args
@@ -229,12 +219,8 @@ const Mutation = {
         .$fragment(userRsvpFragment)
       return !!userRsvp.length
     }
-  // } catch(err) {
-  //   throw err;
-  //   }
   },
   saveEvent: async (_, args, { prisma, user }) => {
-  // try {
     const {
       event: { id }
     } = args
@@ -261,9 +247,6 @@ const Mutation = {
       .$fragment(userSavedFragment)
 
     return !!userSaved.length
-  // } catch (err) {
-  //   throw err
-  // }
   }
 }
 

@@ -1,4 +1,4 @@
-const gql = require('graphql-tag');
+const gql = require('graphql-tag')
 
 const ADD_EVENT = gql`
     mutation AddEvent(
@@ -48,7 +48,7 @@ const ADD_EVENT = gql`
         id
       }
     }
-  `;
+  `
 
 const UPDATE_EVENT = gql`
     mutation UpdateEvent(
@@ -104,9 +104,9 @@ const UPDATE_EVENT = gql`
         id
       }
     }
-  `;
+  `
 
-  const DELETE_EVENT = gql`
+const DELETE_EVENT = gql`
     mutation DeleteEvent($id: ID!){
       deleteEvent(where: {id: $id}){
         id

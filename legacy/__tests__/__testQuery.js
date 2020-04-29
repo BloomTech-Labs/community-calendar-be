@@ -1,4 +1,4 @@
-const gql = require('graphql-tag');
+const gql = require('graphql-tag')
 
 const GET_TEST_USER = gql`
   query userByAuth0Id($auth0Id: String!) {
@@ -97,9 +97,9 @@ const GET_EVENT_BY_ID = gql`
 `
 
 module.exports = {
-    GET_TEST_USER,
-    GET_EVENTS,
-    GET_EVENT_BY_ID,
-    EVENT_DETAIL_DATA,
-    ADDRESS_DETAIL_DATA
+  GET_TEST_USER,
+  GET_EVENTS,
+  GET_EVENT_BY_ID,
+  EVENT_DETAIL_DATA,
+  ADDRESS_DETAIL_DATA
 }

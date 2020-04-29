@@ -41,37 +41,12 @@ function Context (prisma, user, logger) {
   // console.log('Logging level: %s', logger.level)
 }
 
-// /**
-//  * The user in the context
-//  *
-//  * @constructor
-//  * @param {string} ccid
-//  * @param {string} name
-//  * @param {string} email
-
-//  */
-
-// /**
-//   * @constructor
-//   * @param {string} id
-//   * @param {string} firstName
-//   * @param {string} lastName
-//   * @param {string} email
-//   * @param {string} clientId
-//   */
 function User (oktaUid, name, email, ccid) {
   this.id = ccid
   this.name = name
   this.email = email
   this.oktaUid = oktaUid
 }
-// function User (clientId, firstName, lastName, email, ccid) {
-//   this.id = ccid
-//   this.firstName = firstName
-//   this.lastName = lastName
-//   this.email = email
-//   this.clientId = clientId
-// }
 
 // This function is called by the JWT verifier, which sends the JWT header and a
 // callback to return the public key used for verifying the JWT signature
@@ -105,12 +80,12 @@ const getKey = async (header) => {
   //  throw new AuthenticationError('Not authorized')
   }
 
-  //  logger.debug(
-  //   'Retrieved public key from (%O) with kid (%O): %O',
-  //   JWKS_URI,
-  //   header.kid,
-  //   key
-  // )
+  logger.debug(
+    'Retrieved public key from (%O) with kid (%O): %O',
+    JWKS_URI,
+    header.kid,
+    key
+  )
 
   const publicKey = key.rsaPublicKey
 
@@ -124,8 +99,9 @@ const getKey = async (header) => {
  * @return { Promise<Context> } context
  */
 const context = async ({ req }) => {
-  // Grab the 'Authorization' token from the header
+  // Run try block to return null for user so you don't have to have a token for any apollo access
   try {
+    // Grab the 'Authorization' token from the header
     const authorizationHeader = req.header('Authorization')
     if (
       typeof authorizationHeader !== 'string' ||
@@ -176,7 +152,7 @@ const context = async ({ req }) => {
       logger.error('Error while verifying token: %O\n%O', token, err)
       throw new AuthenticationError('Not authorized')
     }
-
+    // Search for a user in the data base by the created okta id. If one doesn't exist, create a new User
     const findOrCreateUser = async (oktaId) => {
       const user = await prisma.user({ oktaId: oktaId })
       if (user) {
@@ -198,15 +174,6 @@ const context = async ({ req }) => {
       decodedJWT.sub,
       ccId
     )
-
-    // const ccId = await findOrCreateUser(decodedJWT.uid)
-    // const user = new User(
-    //   decodedJWT.uid, 
-    //   decodedJWT.FirstNameID, 
-    //   decodedJWT.lastNameID, 
-    //   decodedJWT.emailID, 
-    //   ccId
-    // )
 
     // Don't let anyone past this point if they aren't authenticated
     if (typeof user === 'undefined') {

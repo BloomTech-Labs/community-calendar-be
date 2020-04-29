@@ -8,17 +8,11 @@ const natural = require('natural')
 
 const Query = {
   users: async (_, args, { prisma, user }) => {
-    console.log('User context', user)
-
     const users = await prisma.users(args)
-    console.log('Query.user: %j', users)
     return users
   },
   user: async (root, args, { prisma }) => {
     const user = await prisma.user(args.where)
-
-    console.log('Query.user: %j', user)
-
     return user
   },
   tags: async (root, args, { prisma }, info) => {
@@ -204,13 +198,6 @@ const Query = {
       })
     }
   }
-
-//   ticketMasterEvents: async (root, args, {dataSources}) => {
-//     return await dataSources.ticketMasterAPI.getEvents({...args});
-//   },
-//   ticketMasterEventsAlt: async (root, args, {dataSources}) => {
-//     return await dataSources.ticketMasterAPI.getEventsAlt({...args});
-//   }
 }
 
 module.exports = Query
