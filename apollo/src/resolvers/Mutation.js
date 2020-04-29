@@ -23,18 +23,20 @@ const Mutation = {
     return user
   },
   updateUser: async (_, args, { prisma, user }) => {
-    const { data, image, where } = args
+    const { data, image } = args
+
     if (image) {
+      // upload image to cloudinary and get secured image url
       const imageUrl = await image.then(cloudinaryImage)
+
       data.profileImage = imageUrl
     }
 
-    const auser = await prisma.updateUser({
+    const updateUser = await prisma.updateUser({
       data,
-      where
+      where: { id: user.id }
     })
-    console.log('aldkdsflfsd', user)
-    return auser
+    return updateUser
   },
   addEvent: async (_, args, context) => {
     const { prisma, user } = context

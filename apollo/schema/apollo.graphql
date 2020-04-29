@@ -6,6 +6,7 @@
 # import Mutation.deleteEvent from 'generated/prisma.graphql'
 # import Mutation.rsvpEvent from 'generated/prisma.graphql'
 # import Mutation.saveEvent from 'generated/prisma.graphql'
+
 # import User, Location, Event, Tags from 'generated/prisma.graphql'
 
 

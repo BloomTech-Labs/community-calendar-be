@@ -18,6 +18,7 @@ const mutationDefs = gql`
     updateUser(
       data: UserUpdateInput
       image: Upload
+      where: UserWhereUniqueInput!
     ): User!
   }
 `
