@@ -8,6 +8,7 @@
     "node": ">=12"
   },
   "scripts": {
+    "start": "node index.js",
     "server": "nodemon index.js",
     "test": "jest --watchAll --runInBand",
     "coverage": "jest --coverage --detectOpenHandles --forceExit || true",

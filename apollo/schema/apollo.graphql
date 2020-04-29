@@ -7,6 +7,7 @@
 # import Mutation.rsvpEvent from 'generated/prisma.graphql'
 # import Mutation.saveEvent from 'generated/prisma.graphql'
 
+
 # import User, Location, Event, Tags from 'generated/prisma.graphql'
 
 
@@ -157,10 +158,8 @@ type Query {
     first: Int
     last: Int
   ): [User!]
-    checkId(data: UserCheckIdInput!): [User]
-  user(
-    where: UserWhereUniqueInput!
-  ): User!
+  checkId(data: UserCheckIdInput!): [User]
+  user: User!
   events(
     where: EventWhereInput
     orderBy: EventOrderByInput

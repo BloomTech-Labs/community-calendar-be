@@ -38,6 +38,7 @@ const Mutation = {
     })
     return updateUser
   },
+
   addEvent: async (_, args, context) => {
     const { prisma, user } = context
     console.log('data&images', args)

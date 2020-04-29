@@ -22,27 +22,19 @@ const Query = {
     return user
   },
   tags: async (root, args, { prisma }, info) => {
-    // try {
     return prisma.tags({ ...args })
-    // } catch (err) {
-    //   throw err;
-    // }
   },
-  // check if auth0 id is in the database
+  // check if oktaId is in the database
   checkId: async (root, args, { prisma }) => {
     const {
       data: { oktaId }
     } = args
-    // try {
     const user = await prisma.users({
       where: {
         oktaId
       }
     })
     return user
-    // } catch (err) {
-    //   throw err;
-    // }
   },
 
   events: async (

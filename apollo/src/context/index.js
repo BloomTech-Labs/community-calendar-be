@@ -41,21 +41,37 @@ function Context (prisma, user, logger) {
   // console.log('Logging level: %s', logger.level)
 }
 
-/**
- * The user in the context
- *
- * @constructor
- * @param {string} ccid
- * @param {string} name
- * @param {string} email
+// /**
+//  * The user in the context
+//  *
+//  * @constructor
+//  * @param {string} ccid
+//  * @param {string} name
+//  * @param {string} email
 
- */
+//  */
+
+// /**
+//   * @constructor
+//   * @param {string} id
+//   * @param {string} firstName
+//   * @param {string} lastName
+//   * @param {string} email
+//   * @param {string} clientId
+//   */
 function User (oktaUid, name, email, ccid) {
   this.id = ccid
   this.name = name
   this.email = email
   this.oktaUid = oktaUid
 }
+// function User (clientId, firstName, lastName, email, ccid) {
+//   this.id = ccid
+//   this.firstName = firstName
+//   this.lastName = lastName
+//   this.email = email
+//   this.clientId = clientId
+// }
 
 // This function is called by the JWT verifier, which sends the JWT header and a
 // callback to return the public key used for verifying the JWT signature
@@ -182,6 +198,15 @@ const context = async ({ req }) => {
       decodedJWT.sub,
       ccId
     )
+
+    // const ccId = await findOrCreateUser(decodedJWT.uid)
+    // const user = new User(
+    //   decodedJWT.uid, 
+    //   decodedJWT.FirstNameID, 
+    //   decodedJWT.lastNameID, 
+    //   decodedJWT.emailID, 
+    //   ccId
+    // )
 
     // Don't let anyone past this point if they aren't authenticated
     if (typeof user === 'undefined') {
