@@ -73,9 +73,10 @@ In order for the app to function correctly, the user must set up their own envir
 
 Create a .env file that includes the following:
 
-- CLOUDINARY_CLOUD_NAME - cloudinary cloud name
-- CLOUDINARY_API_KEY - cloudinary API key
-- CLOUDINARY_API_SECRET - cloudinary API secret
+- APOLLO_CLOUDINARY_CLOUD_NAME - cloudinary cloud name
+- APOLLO_CLOUDINARY_API_KEY - cloudinary API key
+- APOLLO_CLOUDINARY_API_SECRET - cloudinary API secret
+- APOLLO_TICKET_MASTER - Ticket Master API key
 
 ## Endpoints
 ---
