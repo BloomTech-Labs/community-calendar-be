@@ -1,0 +1,6 @@
+ApplicationName=communitycalendar
+ApplicationDomainNamespace=ourcommunitycal.com
+
+ApolloServicePort=8000
+PrismaServicePort=7000
+

@@ -1,0 +1,191 @@
+# import Query.user from "generated/prisma.graphql"
+# import Query.users from "generated/prisma.graphql"
+# import Query.tags from 'generated/prisma.graphql'
+# import Query.events from 'generated/prisma.graphql'
+
+# import Mutation.deleteEvent from 'generated/prisma.graphql'
+# import Mutation.rsvpEvent from 'generated/prisma.graphql'
+# import Mutation.saveEvent from 'generated/prisma.graphql'
+
+# import User, Location, Event, Tags from 'generated/prisma.graphql'
+
+
+
+input UserCheckIdInput {
+  oktaId: String!
+}
+
+input EventCreateTagInput {
+  title: String!
+}
+
+input EventCreateImageInput {
+  url: String!
+}
+
+
+type File {
+  filename: String!
+  mimetype: String!
+  encoding: String!
+}
+
+input EventCreateInput {
+  id: ID
+  title: String!
+  description: String!
+  start: DateTime!
+  end: DateTime!
+  eventImages: [EventCreateImageInput!]
+  rsvps: UserCreateManyWithoutRsvpsInput
+  saved: UserCreateManyWithoutSavedInput
+  urls: EventUrlCreateManyWithoutEventInput
+  admin: UserCreateManyWithoutAdminForInput
+  locations: LocationCreateManyWithoutEventInput
+  tags: [EventCreateTagInput!]
+  ticketPrice: Float!
+}
+
+input EventUpdateInput {
+  title: String
+  description: String
+  start: DateTime
+  end: DateTime
+  eventImages: [EventCreateImageInput!]
+  rsvps: UserUpdateManyWithoutRsvpsInput
+  saved: UserUpdateManyWithoutSavedInput
+  urls: EventUrlUpdateManyWithoutEventInput
+  admins: UserUpdateManyWithoutAdminForInput
+  locations: LocationUpdateManyWithoutEventInput
+  tags: [EventCreateTagInput!]
+  ticketPrice: Float
+}
+
+input UserUpdateInput {
+  firstName: String
+  lastName: String
+  organizations: OrganizationUpdateManyWithoutUsersInput
+  rsvps: EventUpdateManyWithoutRsvpsInput
+  saved: EventUpdateManyWithoutSavedInput
+  adminFor: EventUpdateManyWithoutAdminsInput
+  createdEvents: EventUpdateManyWithoutCreatorInput
+  createdImages: EventImageUpdateManyWithoutCreatorInput
+  profileImage: String
+}
+
+input EventIdInput {
+  id: ID!
+}
+
+input TicketPriceSearchInput {
+  minPrice: Int
+  maxPrice: Int
+}
+
+input DateRangeSearchInput {
+  start: DateTime!
+  end: DateTime!
+}
+
+input LocationSearchInput {
+  userLongitude: Float!
+  userLatitude: Float!
+  radius: Int!
+}
+
+input SearchFilters {
+  index: String
+  location: LocationSearchInput
+  tags: [String!]
+  ticketPrice: [TicketPriceSearchInput!]
+  dateRange: DateRangeSearchInput
+}
+
+type Location {
+  id: ID!
+  name: String!
+  streetAddress: String!
+  streetAddress2: String
+  city: String!
+  zipcode: Int!
+  state: String!
+  latitude: Float
+  longitude: Float
+  distanceFromUser: Float
+  distanceUnit: String
+  event: Event!
+  neighborhood: Neighborhood
+}
+
+type Event {
+  id: ID!
+  title: String!
+  description: String!
+  start: DateTime!
+  end: DateTime!
+ creator: User
+  ticketPrice: Float!
+  eventImages(where: EventImageWhereInput, orderBy: EventImageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [EventImage!]
+  rsvps(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
+  saved(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
+  urls(where: EventUrlWhereInput, orderBy: EventUrlOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [EventUrl!]
+  admins(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
+  locations(
+    where: LocationWhereInput, 
+    orderBy: LocationOrderByInput, 
+    skip: Int, after: String, 
+    before: String, 
+    first: Int, 
+    last: Int, 
+    # userLatitude and userLongitude args used to calculate distance to event
+    userLatitude: Float,
+    userLongitude: Float,
+    # distanceUnit for event is "miles" or "kilometers" to comply with turf requirements
+    distanceUnit: String
+    ): [Location!]
+  tags(where: TagWhereInput, orderBy: TagOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Tag!]
+  index: String!
+}
+
+type Query {
+  users(
+    where: UserWhereInput
+    orderBy: UserOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [User!]
+    checkId(data: UserCheckIdInput!): [User]
+  user(
+     where: UserWhereUniqueInput!
+  ): User!
+  events(
+    where: EventWhereInput
+    orderBy: EventOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+    searchFilters: SearchFilters
+  ): [Event!]
+  tags(
+    where: TagWhereInput
+    orderBy: TagOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Tag!]
+}
+
+
+type Mutation {
+  addUser(data: UserCreateInput!): User!
+  deleteEvent(where: EventWhereUniqueInput!): Event
+  rsvpEvent(event: EventIdInput!): Boolean!
+  saveEvent(event: EventIdInput!): Boolean!
+}
