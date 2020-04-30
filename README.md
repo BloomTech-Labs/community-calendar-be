@@ -3,8 +3,7 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/a6369de9a1a1ed67dd83/maintainability)](https://codeclimate.com/github/Lambda-School-Labs/community-calendar-be/maintainability) 
 [![Test Coverage](https://api.codeclimate.com/v1/badges/a6369de9a1a1ed67dd83/test_coverage)](https://codeclimate.com/github/Lambda-School-Labs/community-calendar-be/test_coverage)
 
-
-Community Calendar Back End
+# Community Calendar Back End
 We create incredible neighborhoods and community spaces through meaningful shared events. You can find the deployed project at Community Calendar.
 
 - [Contributors](README.md#contributors)
@@ -12,13 +11,21 @@ We create incredible neighborhoods and community spaces through meaningful share
 - [Build and Installation](README.md#build-and-installation)
 - [Endpoints](README.md#endpoints)
 - [Available Scripts](README.md#available-scripts)
-- [Testing](README.md)
-- [Contributing](README.md#testing)
+- [Testing](README.md#testing)
+- [Contributing](README.md#contributing)
+- [Prismatopia](README.md#prismatopia)
 
-# Contributors
-| [Louis Gelinas](https://github.com/gelinas) | [Daniel Prue](https://github.com/fireblastdaniel) | [Josue Rodriguez](https://github.com/JosueRodriguez-webdev) | [Kennith Howe](https://github.com/Draxxus702) | [Minakshi Verma](https://github.com/Minakshi-Verma) | [Rachel Carter](https://github.com/rjcrter11) |
+## Contributors
 
-# Project Overview
+### Labs 23 - April 6, 2020 to May 29, 2020
+
+| [Rachel Carter](https://github.com/rjcrter11) | [Louis Gelinas](https://github.com/gelinas) | [Kennith Howe](https://github.com/Draxxus702) | [Daniel Prue](https://github.com/fireblastdaniel) | [Josue Rodriguez](https://github.com/JosueRodriguez-webdev) | [Minakshi Verma](https://github.com/Minakshi-Verma) |
+
+### Labs 19 - December 2nd, 2019 to February 7th, 2020
+
+| [Skyler Dowdy](https://github.com/skylerwebdev) | [Louis Gelinas](https://github.com/gelinas) | [Lowell Jacobs](https://github.com/lowell1) | [Mark King](https://github.com/markpkng) | [Ben Rogers](https://github.com/thisbenrogers) | [Westley Strellis](https://github.com/wstrellis) |
+
+## Project Overview
 ---
 [Product Vision](https://www.notion.so/Community-Calendar-25c4624fa8fe46e49361d73215459050) on Notion.
 
@@ -35,7 +42,7 @@ The Community Calendar Backend repository contains code for four services in our
 4. An [AWS](https://aws.amazon.com/) deployment service 
  
 
-## Key Features
+### Key Features
 - Serve a list of community events 
 - Allow users to create accounts with Google, Facebook, or an email address 
 - Geocode event addresses into lattitude and longitude for location based searching 
@@ -44,20 +51,20 @@ The Community Calendar Backend repository contains code for four services in our
 - Integrate user profiles for creating, saving, and managing events 
 - Integrate external event APIs from Ticketmaster, Facebook, and EventBrite 
 
-## Backend Framework
+### Backend Framework
 We chose an Apollo GraphQL server over a RESTful API for two reasons:
 
 1. Allow web and mobile clients to request the exact event details they have space to render. This prevents overfetching and increases performance on mobile.
 
 2. Allow the Community Calendar API to be seamlessly expanded to include integration of event data from external APIs in future releases
 
-## Client repositories
+### Client repositories
 This back end API is consumed by two clients:
 
 1. Web application at React [Front End Repository](https://github.com/Lambda-School-Labs/community-calendar-fe).
 2. iOS application at [iOS Application Repository](https://github.com/Lambda-School-Labs/community-calendar-ios).
 
-# Build and Installation
+## Build and Installation
 ---
 Our app is build on the Prismatopia framework. If you would like to get your own local Community Calendar server running, clone this repo and follow this [guide here](https://prismatopia.dev/).
 
@@ -70,11 +77,11 @@ Create a .env file that includes the following:
 - CLOUDINARY_API_KEY - cloudinary API key
 - CLOUDINARY_API_SECRET - cloudinary API secret
 
-# Endpoints
+## Endpoints
 ---
 The GraphQL API consists of a single endpoint. In addition to the built-in documentation available from the GraphQL playground, the following queries and mutations can be consumed to conduct CRUD operations on the Community Calendar database:
 
-## Queries
+### Queries
 
 | Query Name    	| Access Control      	| Description                            	|
 |---------------	|---------------------	|----------------------------------------	|
@@ -84,7 +91,7 @@ The GraphQL API consists of a single endpoint. In addition to the built-in docum
 | events (...   	| all users           	| Returns a list of community events     	|
 | tags (...)    	| all users           	| Returns a list of tags in the database 	|
 
-## Mutations
+### Mutations
 
 | Mutation Name     	| Access Control      	| Description                                	|
 |-------------------	|---------------------	|--------------------------------------------	|
@@ -95,11 +102,11 @@ The GraphQL API consists of a single endpoint. In addition to the built-in docum
 | eventRsvp (...)   	| authenticated users 	| Connect a user to event RSVPs              	|
 | eventSave (...)   	| authenticated users 	| A user can save an event to their profile  	|
 
-# Available Scripts
+## Available Scripts
 ---
 Most scripts are run through the [make file](Makefile)
 
-## npm run test
+### npm run test
 Launches the test runner in the interactive watch mode. First resets, regenerates, and redeploys a testing prisma service out of the `apollo/testing directory`.
 
 Requires a testing instance of Prisma including a postgres database to be running and configured in `~/apollo/testing/prisma.yml`.
@@ -108,16 +115,16 @@ Default configuration of the testing `prisma.yml` will work if you have Docker D
 
 See the [testing section](README.md#testing) for more information.
 
-# Testing
+## Testing
 ---
 Our test runner is Jest for unit and integration tests.
 
 For integration testing, we simulate queries and mutations on the server through the `apollo-serving-testing` library's `createTestClient()` function. There are queries and mutations to simulate the expected client server calls written in graphql-tag in the `__tests__/__testMutation.js` and `__tests__/__testQuery.js` files.
 
-## Setting up a testing Prisma service and database
+### Setting up a testing Prisma service and database
 The test runner is configured by default to run the test suite against a prisma service hosted locally at http://localhost:4000 with an accompanying and postgres database mounted by [Docker Desktop](https://www.docker.com/products/docker-desktop). Alternatively, you can configure the test runner to use a Prisma service deployed on the [Prisma Cloud](http://app.prisma.io).
 
-## Running the tests with Docker Desktop
+### Running the tests with Docker Desktop
 If you have Docker Desktop installed, you can set up your service and database by running docker-compose up from the apollo/testing folder of the repository. Use docker-compose up -d to run your instances in the background. You can find more information on the docker command line interface in their [documentation](https://docs.docker.com/engine/reference/commandline/cli/).
 
 If you've run docker instances with the Prisma CLI before, you may run into the error: `ERROR: for prisma Cannot start service prisma: driver failed programming external connectivity on endpoint postgres_prisma_1 (b9aa3375c9374b77bab447b3777d1e5a7d78e0081106699b637065e6db4a5a88): Bind for 0.0.0.0:4466 failed: port is already allocated`.
@@ -128,10 +135,10 @@ After that, docker-compose up should put your back in business.
 
 Further Prisma documentation for configuring local Prisma servers with Docker is available here.
 
-## Running the tests with Prisma Cloud
+### Running the tests with Prisma Cloud
 If don't have to or can't run Docker Desktop, you can modify the endpoint and secret values in prisma-client/testing/prisma.yml to match your deployed Prisma Cloud service.
 
-## Testing architecture
+### Testing architecture
 Our test architecture is set up so that each time you run npm run test it resets, regenerates and redeploys your prisma service defined in `apollo/testing/prisma.yml` so you start from an empty database/ORM.
 
 To create a Apollo Server instance that you can test, call the `constructTestServer()` function defined in `__tests/__testUtils.js`. When writing tests for resolvers that require authentication, you must pass in a valid `testUserId` out of your database as a parameter for `constructTestServer()`.
@@ -140,39 +147,40 @@ Since that database starts from empty for every test run, `__tests/__testUtils.j
 
 Prisma does not provide a simple method for clearing all nodes from the service or data from the connected database, so every test must be written to "clean up" and created events or users when it is done running.
 
-# Contributing 
+## Contributing 
 ---
 When contributing to this repository, please first discuss the change you wish to make via issue, email, or any other method with the owners of this repository before making a change.
 
 Please note we have a [code of conduct](https://github.com/Lambda-School-Labs/community-calendar-be/blob/master/CODE_OF_CONDUCT.md). Please follow it in all your interactions with the project.
 
-## Issue/Bug Request
+### Issue/Bug Request
 __If you are having an issue with the existing project code, please submit a bug report under the following guidelines:__
 
 - Check first to see if your issue has already been reported.
 - Check to see if the issue has recently been fixed by attempting to reproduce the issue using the latest master branch in the repository.
 - Create a live example of the problem.
 - Submit a detailed bug report including your environment & browser, steps to reproduce the issue, actual and expected outcomes, where you believe the issue is originating from, and any potential solutions you have considered.
-## Feature Requests
+
+### Feature Requests
 We would love to hear from you about new features which would improve this app and further the aims of our project. Please provide as much detail and information as possible to show us why you think your new feature should be implemented.
 
-## Pull Requests
+### Pull Requests
 If you have developed a patch, bug fix, or new feature that would improve this app, please submit a pull request. It is best to communicate your ideas with the developers first before investing a great deal of time into a pull request to ensure that it will mesh smoothly with the project.
 
 Remember that this project is licensed under the MIT license, and by submitting a pull request, you agree that your work will be, too.
 
-## Pull Request Guidelines
+### Pull Request Guidelines
 - Ensure any install or build dependencies are removed before the end of the layer when doing a build.
 - Update the README.md with details of changes to the interface, including new plist variables, exposed ports, useful file locations and container parameters.
 - Ensure that your code conforms to our existing code conventions and test coverage.
 - Include the relevant issue number, if applicable.
 - You may merge the Pull Request in once you have the sign-off of two other developers, or if you do not have permission to do that, you may request the second reviewer to merge it for you.
-## Attribution
+### Attribution
 
 These contribution guidelines have been adapted from this [good-Contributing.md-template](https://gist.github.com/PurpleBooth/b24679402957c63ec426).
 
-# Prismatopia
-
+## Prismatopia
+---
 Prismatopia is a GraphQL API stack combining a bunch of super-awesome technologies: Apollo Server 2, Prisma, Postgres, Docker, AWS, OAuth, Make, Yeoman and more!
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/015ff2fee461e3bc2b2b/maintainability)](https://codeclimate.com/github/Lambda-School-Labs/prismatopia/maintainability)
@@ -180,44 +188,44 @@ Prismatopia is a GraphQL API stack combining a bunch of super-awesome technologi
 ![CI](https://github.com/Lambda-School-Labs/prismatopia/workflows/CI/badge.svg)
 [![Dependency Status][daviddm-image]][daviddm-url]
 
-## The Stack
+### The Stack
 
 This API is built as a very specific stack of technologies. There no options, other than configuring the existing stack components or swapping them out in your own copy. Enjoy!
 
 Here are the technologies in this stack...
 
-### Apollo Server 2
+#### Apollo Server 2
 
 - Provides a GraphQL server for resolvers, which is where your business logic lives
 
-### Prisma
+#### Prisma
 
 - Provides an ORM to translate from Graphql to Postgres, Apollo resolvers mainly call a Prisma Client to access data
 
-### Postgres
+#### Postgres
 
 - Provides persistent storage for data, this is managed by AWS RDS in production but is run in a container during local development
 
-### AWS
+#### AWS
 
 - Handles networking (ALB, VPC, etc.) and container management (ECS)
 
-### OAuth
+#### OAuth
 
 - Apollo is setup for validating JWTs from clients (Works with [Okta](https://www.okta.com/) out of the box)
 
-### Docker
+#### Docker
 
 - There's a local Docker Compose setup for easy development. Also, all AWS services (except Postgres) run in containers
 
-## Prismatopia Documentation
+### Prismatopia Documentation
 
 - [Main Documentation](prismatopia.md)
   - [The Apollo Layer](apollo/README.md)
   - [The Prisma Layer](prisma/README.md)
   - [The AWS Layer](aws/README.md)
 
-## License
+### License
 
 MIT © [Lambda School](https://lambdaschool.com)
 
