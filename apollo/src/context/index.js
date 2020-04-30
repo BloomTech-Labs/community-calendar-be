@@ -153,19 +153,22 @@ const context = async ({ req }) => {
       throw new AuthenticationError('Not authorized')
     }
     // Search for a user in the data base by the created okta id. If one doesn't exist, create a new User
-    const findOrCreateUser = async (oktaId) => {
+    const findOrCreateUser = async (oktaId, firstName, lastName) => {
       const user = await prisma.user({ oktaId: oktaId })
       if (user) {
         return user.id
       } else {
         const newUser = await prisma.createUser({
-          oktaId: oktaId
+          oktaId: oktaId,
+          firstName: firstName,
+          lastName: lastName,
+          profileImage: 'https://res.cloudinary.com/communitycalendar/image/upload/v1580841837/pnkuihped43h8xvkrert.png'
         })
         return newUser
       }
     }
 
-    const ccId = await findOrCreateUser(decodedJWT.uid)
+    const ccId = await findOrCreateUser(decodedJWT.uid, decodedJWT.firstName, decodedJWT.lastName)
     // Create the User using the information from the JWT
     // logger.debug('Creating User using decoded JWT: %O', decodedJWT)
     const user = new User(
