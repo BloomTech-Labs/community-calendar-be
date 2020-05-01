@@ -197,6 +197,12 @@ const Query = {
         where: { AND: whereArgs }
       })
     }
+  },
+  ticketMasterEvents: async (root, args, { dataSources }) => {
+    return await dataSources.ticketMasterAPI.getEvents({ ...args })
+  },
+  ticketMasterEventsAlt: async (root, args, { dataSources }) => {
+    return await dataSources.ticketMasterAPI.getEventsAlt({ ...args })
   }
 }
 

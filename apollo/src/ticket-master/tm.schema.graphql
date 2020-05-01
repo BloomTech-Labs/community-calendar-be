@@ -1,0 +1,186 @@
+type TMResults {
+  page: TMPage
+  _links: TMLink
+  _embedded: TMEvents
+}
+
+# //////////////////////////////////
+# ////// Links ///////
+# //////////////////////////////////
+type TMLink {
+  self: TMLinkSelf
+  next: TMLinkNext
+  prev: TMLinkPrev
+  last: TMLinkLast
+}
+
+type TMLinkSelf {
+  href: String!
+  templated: Boolean
+}
+
+type TMLinkNext {
+  href: String!
+  templated: Boolean
+}
+
+type TMLinkPrev {
+  href: String!
+  templated: Boolean
+}
+
+type TMLinkLast {
+  href: String!
+  templated: Boolean
+}
+
+# //////////////////////////////////
+# ////// Event Venue ///////
+# //////////////////////////////////
+type TMVenue {
+  name: String!
+  images: [TMImage!]
+  distance: Float
+  units: String!
+  postalCode: String!
+  city: TMCity
+  state: TMState!
+  address: TMAddress!
+  location: TMLocation!
+}
+
+type TMCity {
+  name: String!
+}
+
+type TMState {
+  name: String!
+  stateCode: String!
+}
+
+type TMAddress {
+  line1: String!
+  line2: String
+}
+
+type TMLocation {
+  longitude: String!
+  latitude: String!
+}
+
+# //////////////////////////////////
+# ////// Event Image ///////
+# //////////////////////////////////
+type TMImage {
+  ratio: String!
+  url: String!
+  width: Int!
+  height: Int!
+  fallback: Boolean
+}
+
+# //////////////////////////////////
+# ////// Page ///////
+# //////////////////////////////////
+type TMPage {
+  size: Int!
+  totalElements: Int!
+  totalPages: Int!
+  number: Int!
+}
+
+# //////////////////////////////////
+# ////// Events ///////
+# //////////////////////////////////
+type TMEvent {
+  id: String!
+  name: String!
+  url: String!
+  images: [TMImage!]!
+  _embedded: TMEventEmbedded!
+  description: String
+  info: String
+  additionalInfo: String
+  location: TMLocation
+  distance: Float
+  dates: TMDate!
+  place: TMPlace
+}
+
+type TMEventEmbedded {
+  venues: [TMVenue!]
+}
+
+type TMEvents {
+  events: [TMEvent!]
+}
+
+# //////////////////////////////////
+# ////// Events Dates///////
+# //////////////////////////////////
+type TMDate {
+  start: TMDateObj!
+  end: TMDateObj
+  timezone: String
+}
+
+type TMDateObj {
+  localDate: String!
+  localTime: String
+  dateTime: String!
+}
+
+# //////////////////////////////////
+# ////// Events Place///////
+# //////////////////////////////////
+type TMPlace {
+  area: TMPlaceArea
+  address: TMAddress
+  location: TMLocation
+  city: TMCity
+  state: TMState
+  postalCode: String
+  name: String
+}
+
+type TMPlaceArea {
+  name: String
+}
+
+# //////////////////////////////////
+# ////// Alt Formatting For CC ///////
+# //////////////////////////////////
+
+type TMResultsAlt {
+  page: TMPage!
+  events: [TMEventAlt]
+}
+
+type TMEventAlt {
+  id: String!
+  title: String!
+  start: String!
+  end: String
+  description: String
+  info: String
+  eventImages: [TMImage!]
+  urls: [TMEventAltUrl!]
+  locations: [TMLocationAlt!]
+}
+
+type TMLocationAlt {
+  neighborhood: String
+  name: String!
+  streetAddress: String!
+  streetAddress2: String
+  city: String!
+  zipcode: String!
+  state: String!
+  latitude: String
+  longitude: String
+  distance: Float
+}
+
+type TMEventAltUrl {
+  url: String!
+}

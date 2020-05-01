@@ -80,12 +80,12 @@ const getKey = async (header) => {
   //  throw new AuthenticationError('Not authorized')
   }
 
-  logger.debug(
-    'Retrieved public key from (%O) with kid (%O): %O',
-    JWKS_URI,
-    header.kid,
-    key
-  )
+  // logger.debug(
+  //   'Retrieved public key from (%O) with kid (%O): %O',
+  //   JWKS_URI,
+  //   header.kid,
+  //   key
+  // )
 
   const publicKey = key.rsaPublicKey
 
@@ -99,7 +99,7 @@ const getKey = async (header) => {
  * @return { Promise<Context> } context
  */
 const context = async ({ req }) => {
-  // Run try block to return null for user so you don't have to have a token for any apollo access
+  // Run try block to return null for user so you don't have to have a token for seeing certain resources
   try {
     // Grab the 'Authorization' token from the header
     const authorizationHeader = req.header('Authorization')
@@ -112,7 +112,7 @@ const context = async ({ req }) => {
         'Authorization token missing from request headers: %O',
         req.headers
       )
-      throw new AuthenticationError('Not authorized')
+      // throw new AuthenticationError('Not authorized')
     }
 
     // Strip off the 'Bearer ' part from the header
@@ -167,7 +167,6 @@ const context = async ({ req }) => {
         return newUser
       }
     }
-
     const ccId = await findOrCreateUser(decodedJWT.uid, decodedJWT.firstName, decodedJWT.lastName)
     // Create the User using the information from the JWT
     // logger.debug('Creating User using decoded JWT: %O', decodedJWT)
@@ -184,7 +183,7 @@ const context = async ({ req }) => {
       throw new AuthenticationError('Not authorized')
     }
 
-    // logger.debug('Current user: %O', user)
+    logger.debug('Current user: %O', user)
 
     // Pack the user, Prisma client and Winston logger into the context
     return new Context(prisma, user, logger)

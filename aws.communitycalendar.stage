@@ -1,4 +1,4 @@
-EnvironmentName=staging
+EnvironmentName=stage
 
 ApolloDockerImage=lambdaschoollabs/communitycalendar-apollo:latest
 
