@@ -3,6 +3,8 @@
 
 // Apollo dependencies
 const { ApolloServer } = require('apollo-server')
+// REST data sources
+const TicketMasterAPI = require('./ticket-master/tm.datasource')
 
 const PORT = process.env.PORT || 8000
 
@@ -34,6 +36,11 @@ const typeDefs = require('../schema/schema');
     resolvers,
     typeDefs,
     context,
+    dataSources: () => {
+      return {
+        ticketMasterApi: new TicketMasterAPI()
+      }
+    },
     cors: true,
     formatError: err => {
       // Don't give the specific errors to the client.

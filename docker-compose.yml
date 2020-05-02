@@ -3,7 +3,7 @@ version: '2.4'
 services:
   # The Apollo service
   apollo:
-    image: lambdaschoollabs/communitycalendar-apollo:rachel
+    image: lambdaschoollabs/communitycalendar-apollo:latest
     build:
       context: ./apollo
       dockerfile: Dockerfile
@@ -22,8 +22,17 @@ services:
       # The path for the Apollo GraphQL API
       GRAPHQL_API_PATH: ${APOLLO_API_PATH:-/api/graphql}
 
+      # Endpoints for decoding authentication tokens
       JWKS_URI: ${APOLLO_JWKS_URI}
       JWT_ISSUER: ${APOLLO_JWT_ISSUER}
+
+      # Secrets to connect to cloudinary service
+      CLOUDINARY_CLOUD_NAME: ${APOLLO_CLOUDINARY_CLOUD_NAME}
+      CLOUDINARY_API_KEY: ${APOLLO_CLOUDINARY_API_KEY}
+      CLOUDINARY_API_SECRET: ${APOLLO_CLOUDINARY_API_SECRET}
+
+      # API Key for ticketmaster
+      TICKET_MASTER: ${APOLLO_TICKET_MASTER}
 
       PRISMA_ENDPOINT: http://prisma:${PRISMA_LISTEN_PORT:-7000}
       PRISMA_SECRET: ${PRISMA_SECRET:?You must specify PRISMA_SECRET}

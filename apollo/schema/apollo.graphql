@@ -1,4 +1,4 @@
-# import Query.user from "generated/prisma.graphql"
+
 # import Query.users from "generated/prisma.graphql"
 # import Query.tags from 'generated/prisma.graphql'
 # import Query.events from 'generated/prisma.graphql'
@@ -9,6 +9,11 @@
 
 # import User, Location, Event, Tags from 'generated/prisma.graphql'
 
+
+
+# import TMEvent from '../src/ticket-master/tm.schema.graphql'
+# import TMResults from '../src/ticket-master/tm.schema.graphql'
+# import TMResultsAlt from '../src/ticket-master/tm.schema.graphql'
 
 
 input UserCheckIdInput {
@@ -159,7 +164,7 @@ type Query {
   ): [User!]
     checkId(data: UserCheckIdInput!): [User]
   user(
-     where: UserWhereUniqueInput!
+     where: UserWhereUniqueInput
   ): User!
   events(
     where: EventWhereInput
@@ -180,6 +185,40 @@ type Query {
     first: Int
     last: Int
   ): [Tag!]
+    ticketMasterEvents(
+    radius: Int
+    # "miles" or "km"
+    unit: String
+    #number of events per page
+    size: Int
+    page: String
+    keyword: String
+    #Point to search for events from "30.00,-67.00" . NO SPACES
+    latlong: String
+    startDateTime: DateTime
+    endDateTime: DateTime
+    city: String
+    countryCode: String
+    stateCode: String
+    postalCode: String
+  ): TMResults
+  ticketMasterEventsAlt(
+    radius: Int
+    # "miles" or "km"
+    unit: String
+    #number of events per page
+    size: Int
+    page: String
+    keyword: String
+    #Point to search for events from "30.00,-67.00" . NO SPACES
+    latlong: String
+    startDateTime: DateTime
+    endDateTime: DateTime
+    city: String
+    countryCode: String
+    stateCode: String
+    postalCode: String
+  ): TMResultsAlt
 }
 
 
