@@ -9,6 +9,7 @@ We create incredible neighborhoods and community spaces through meaningful share
 - [Contributors](README.md#contributors)
 - [Project Overview](README.md#project-overview)
 - [Build and Installation](README.md#build-and-installation)
+- [Environmental Variables](README.md#environmental-variables)
 - [Endpoints](README.md#endpoints)
 - [Available Scripts](README.md#available-scripts)
 - [Testing](README.md#testing)
@@ -66,17 +67,50 @@ This back end API is consumed by two clients:
 
 ## Build and Installation
 ---
-Our app is build on the Prismatopia framework. If you would like to get your own local Community Calendar server running, clone this repo and follow this [guide here](https://prismatopia.dev/).
+Our app is build on the Prismatopia framework, which includes a Makefile that integrates Docker and AWS Cloudformation templates to deploy the application to development, staging, and production environments.
 
+### Developing Locally
+If you would like to get your own development Community Calendar server running, you can deploy it to [Docker](https://www.docker.com) containers on your local machine. Follow these steps:
 
-In order for the app to function correctly, the user must set up their own environment variables in addition to the variables required by Prismatopia.
+1. Clone this repo.
+2. Create a developer [Okta](https://www.okta.com) account with a free authorization server. 
+3. Within your Okta service, create Native Application using Client Authentication and create a test user with access to your application.
+4. Create a `.env` file in the root directory with all of the environmental variables listed in  `/examples/.env.example` file.
+5. Ensure Docker Desktop is running.
+6. Run `make local-up` to install packages for each layer of the stack and deploy Community Calendar to Docker containers on your localhost.
+7. Run `make local-prisma-deploy` to deploy the Prisma datamodel to your Prisma service.
+8. Use `make local-prisma-token` to get a token to include in the HTTP Authorization header in the GraphQL playground of your Prisma service.
+9. Use `make apollo-token` to get a token to include in the HTTP Authorization header in the GraphQL Playground of your Apollo service.
 
-Create a .env file that includes the following:
+You Review the [Prismatopia Documentation](https://prismatopia.dev/) for additional information.
 
-- APOLLO_CLOUDINARY_CLOUD_NAME - cloudinary cloud name
-- APOLLO_CLOUDINARY_API_KEY - cloudinary API key
-- APOLLO_CLOUDINARY_API_SECRET - cloudinary API secret
-- APOLLO_TICKET_MASTER - Ticket Master API key
+### Deploying to AWS
+
+The `/aws` directory contains Cloudformation temples to deploy application level infrastructure to AWS as well as specific production and staging environments. Deploy the application to AWS with these steps:
+
+1. Copy `/examples/aws.communitycalendar` into the root directory and update it to reflect the correct environmental variables for your AWS service. 
+2. Run `make aws-deploy-app` to deploy all of the application level infrastructure that's shared between different environments.
+3. For production, copy the `/examples/aws.communitycalendar.production` file into the root directory and update it to reflect the correct environmental variables.
+4. Run `make aws-deploy-env` to deploy all of the environment level infrastructure, including the Postgres database, Prisma service and Apollo service. 
+5. Once deployed, the production apollo server will be at `apollo.<your_domain>` and the production prisma server will be hosted at `prisma.<your_domain>`. 
+
+## Environmental Variables
+---
+### Development Envrionmental Variables
+In order for the app to function correctly in development, a `.env` file in the root directory with all environmental variables in the `/examples/.env.example` folder are required. All environment variables for use in the apollo server conform to the name `APOLLO_VARIABLE_NAME`. `APOLLO_` is stripped out when injected into the apollo instance through the `docker-compose.yml` file
+
+### Production and Staging Environmental Variables
+For deployment to production and staging environments on AWS, the same variables used for development must also be reflected in a `aws.communitycalendar.production` or `aws.communitycalendar.stage` file in the root directory. 
+
+Examples of how to format the variables for injection through the Cloudformation temples are in the `/examples` directory.
+
+### Adding new environmental variables.
+If you add an additional service of feature to the application that requires an environmental variables, the corresponding Cloudforamtion files must also be updated. When adding an environmental variable, follow these steps:
+
+1. Document the variable in `/examples/.env.example` for development.
+2. Update the variable in the appopriate Cloudformation script in the `/aws` directory (most likely `env-apollo.cf.yaml`)
+3. Document the variable in the `/examples/aws.communitycalendar.production` file 
+4. Document the variable in the `/examples/aws.communitycalendar.stage` file 
 
 ## Endpoints
 ---

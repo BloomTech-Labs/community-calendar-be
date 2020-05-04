@@ -35,6 +35,18 @@ Parameters:
   JwtIssuer:
     Type: String
 
+  CloudinaryCloudName:
+    Type: String
+
+  CloudinaryApiKey:
+    Type: String
+
+  CloudinaryApiSecret:
+    Type: String
+
+  TicketMaster:
+    Type: String
+
   LogLevel:
     Type: String
     Default: info
@@ -104,6 +116,18 @@ Resources:
 
             - Name: JWT_ISSUER
               Value: !Ref JwtIssuer
+
+            - Name: CLOUDINARY_CLOUD_NAME
+              Value: !Ref CloudinaryCloudName
+
+            - Name: CLOUDINARY_API_KEY
+              Value: !Ref CloudinaryApiKey
+
+            - Name: CLOUDINARY_API_SECRET
+              Value: !Ref CloudinaryApiSecret
+
+            - Name: TICKET_MASTER
+              Value: !Ref TicketMaster
 
             - Name: LOG_LEVEL
               Value: !Ref LogLevel
