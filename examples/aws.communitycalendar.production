@@ -1,0 +1,14 @@
+EnvironmentName=production
+
+ApolloDockerImage=lambdaschoollabs/communitycalendar-apollo:latest
+
+JwksUri=https://<PRODUCTION_AUTH>.okta.com/oauth2/default/v1/keys
+JwtIssuer=https://<PRODUCTION_AUTH>.okta.com/oauth2/default
+
+CloudinaryCloudName=communitycalendar
+CloudinaryApiKey=<CLOUDINARY_API_KEY>
+CloudinaryApiSecret=<CLOUDINARY_API_SECRET>
+
+TicketMaster=<TICKET_MASTER>
+
+LogLevel=debug
