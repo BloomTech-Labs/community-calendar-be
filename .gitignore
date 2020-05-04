@@ -63,8 +63,9 @@ typings/
 # Yarn Integrity file
 .yarn-integrity
 
-# dotenv environment variables file
+# environment variables for local development and AWS deployments
 **/.env
+aws.**
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
