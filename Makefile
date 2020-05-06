@@ -1,9 +1,12 @@
 SHELL := bash
 .SHELLFLAGS := -eu -o pipefail -c
 
+# Process .env file if one exists
 ifneq ("$(wildcard .env)","")
+	# Include the file to import all the variables
 	include .env
-	export
+	# Export the included variables to the target shells
+	export $(shell grep -v '^\#' .env | sed 's/=.*//' .env)
 endif
 
 # =================================================================
@@ -20,14 +23,16 @@ WARN_COLOR	:= \x1b[33;01m
 #  mytarget: env-SERVER another-dependency
 # ===================================================================================================
 env-%:
-	@if [ "${${*}}" = "" ]; then \
-		printf "$(ERROR_COLOR)"; \
-		echo "**** ERROR: Required environment variable $* not set ****"; \
-		printf "$(NO_COLOR)"; \
-		echo; \
-		exit 1; \
-	fi
+	@echo Checking environment variable: ${*}; 															\
+	 if [ "${${*}}" = "" ]; then 																						\
+	 	 printf "$(ERROR_COLOR)"; 																						\
+		 echo "**** ERROR: Required environment variable $* not set ****"; 		\
+		 printf "$(NO_COLOR)"; 																								\
+		 echo; 																																\
+		 exit 1; 																															\
+	 fi
 
+.PHONY: clean
 clean:
 	@printf "$(OK_COLOR)"																																												&& \
 	 printf "\n%s\n" "======================================================================================"		&& \
@@ -36,6 +41,7 @@ clean:
 	 printf "$(NO_COLOR)"
 	 rm -rf apollo/dist apollo/node_modules apollo/src/generated apollo/schema/generated prisma/node_modules
 
+.PHONY: init
 init: clean apollo-build
 	@printf "$(OK_COLOR)"																																												&& \
 	 printf "\n%s\n" "======================================================================================"		&& \
@@ -43,14 +49,16 @@ init: clean apollo-build
 	 printf "%s\n"   "======================================================================================"		&& \
 	 printf "$(NO_COLOR)"
 
+.PHONY: docker-stop-all
 docker-stop-all:
 	@printf "$(OK_COLOR)"																																												&& \
 	 printf "\n%s\n" "======================================================================================"		&& \
 	 printf "%s\n"   "= Stopping all Docker containers"																													&& \
 	 printf "%s\n"   "======================================================================================"		&& \
 	 printf "$(NO_COLOR)"
-	-docker stop $(docker ps -q)
+	-docker stop $$(docker ps -q)
 
+.PHONY: docker-clean
 docker-clean: docker-stop-all
 	@printf "$(OK_COLOR)"																																												&& \
 	 printf "\n%s\n" "======================================================================================"		&& \
@@ -422,25 +430,43 @@ aws-prisma-management-secret: aws-env-banner
 
 # ===========================================================================
 # Retrieves the Prisma secret for the AWS deployed service
+# Implemented as a thunk per: http://www.cakoose.com/wiki/gnu_make_thunks
 # ===========================================================================
-AWS_PRISMA_SERVICE_API_SECRET_ARN_EXPORT := $(APPLICATION_NAME)-$(ENVIRONMENT_NAME)-PrismaServiceAPISecret
-AWS_PRISMA_SERVICE_API_SECRET_ARN := $$(aws cloudformation list-exports --query "Exports[?Name=='$(AWS_PRISMA_SERVICE_API_SECRET_ARN_EXPORT)'].Value" --output text)
-AWS_PRISMA_SERVICE_API_SECRET := $$(aws secretsmanager get-secret-value --secret-id $(AWS_PRISMA_SERVICE_API_SECRET_ARN) --query 'SecretString' --output text)
+AWS_PRISMA_SERVICE_API_SECRET_ARN_CMD = $(info Retrieving CloudFormation export: $(APPLICATION_NAME)-$(ENVIRONMENT_NAME)-PrismaServiceAPISecret) \
+																				$(shell aws cloudformation list-exports --query "Exports[?Name=='$(APPLICATION_NAME)-$(ENVIRONMENT_NAME)-PrismaServiceAPISecret'].Value" --output text)
 
-aws-prisma-service-secret: env-ENVIRONMENT_NAME aws-env-banner
-	@echo PRISMA_SERVICE_API_SECRET_ARN_EXPORT: $(AWS_PRISMA_SERVICE_API_SECRET_ARN_EXPORT) && \
-	 echo PRISMA_SERVICE_API_SECRET_ARN: $(AWS_PRISMA_SERVICE_API_SECRET_ARN)								&& \
+AWS_PRISMA_SERVICE_API_SECRET_ARN = $(eval AWS_PRISMA_SERVICE_API_SECRET_ARN := $(AWS_PRISMA_SERVICE_API_SECRET_ARN_CMD))$(AWS_PRISMA_SERVICE_API_SECRET_ARN)
+
+AWS_PRISMA_SERVICE_API_SECRET_CMD = $(info Retrieving Prisma API secret)$(shell aws secretsmanager get-secret-value --secret-id $(AWS_PRISMA_SERVICE_API_SECRET_ARN) --query 'SecretString' --output text)
+AWS_PRISMA_SERVICE_API_SECRET = $(eval AWS_PRISMA_SERVICE_API_SECRET := $(AWS_PRISMA_SERVICE_API_SECRET_CMD))$(AWS_PRISMA_SERVICE_API_SECRET)
+
+.PHONY: aws-prisma-service-secret
+aws-prisma-service-secret: env-APPLICATION_NAME env-ENVIRONMENT_NAME
+	@printf "$(OK_COLOR)"																																												&& \
+	 printf "\n%s\n" "======================================================================================"		&& \
+	 printf "%s\n"   "= Getting $(APPLICATION_NAME) Prisma API secret for $(ENVIRONMENT_NAME) environment" 			&& \
+	 printf "%s"     "======================================================================================"		&& \
+	 printf "$(NO_COLOR)\n"																																											&& \
+	 echo PRISMA_SERVICE_API_SECRET_ARN: $(AWS_PRISMA_SERVICE_API_SECRET_ARN)																		&& \
 	 echo PRISMA_SERVICE_API_SECRET: $(AWS_PRISMA_SERVICE_API_SECRET)
+
+# ===========================================================================
+# Calculate the endpoint for the Prisma service in AWS
+# ===========================================================================
+ifneq ($(strip $(ENVIRONMENT_NAME)), "production")
+AWS_PRISMA_ENDPOINT_PREFIX := "$(ENVIRONMENT_NAME)."
+endif
 
 # ===========================================================================
 # Gets a token for connecting to the AWS Prisma API
 # ===========================================================================
-aws-prisma-token: aws-env-banner
+aws-prisma-token: env-APPLICATION_NAME env-ENVIRONMENT_NAME aws-env-banner
 	@export $$(cat aws.$(APPLICATION_NAME) | grep -v "#" | xargs)																								&& \
 	 export $$(cat aws.$(APPLICATION_NAME).$(ENVIRONMENT_NAME) | grep -v "#" | xargs)														&& \
 	 export PRISMA_MANAGEMENT_API_SECRET="$(AWS_PRISMA_MANAGEMENT_API_SECRET)"																	&& \
 	 export PRISMA_SECRET="$(AWS_PRISMA_SERVICE_API_SECRET)" 																										&& \
-	 export PRISMA_ENDPOINT="https://prisma.$${ApplicationDomainNamespace}"																			&& \
+   echo SECRET = $$PRISMA_SECRET															                                                && \
+	 export PRISMA_ENDPOINT="https://$(AWS_PRISMA_ENDPOINT_PREFIX)prisma.$${ApplicationDomainNamespace}"				&& \
 	 printf "$(OK_COLOR)"																																												&& \
 	 printf "\n%s\n" "======================================================================================"		&& \
 	 printf "%s\n"   "= Getting Prisma API token for $${PRISMA_ENDPOINT}"		  		 															&& \
@@ -456,10 +482,10 @@ aws-prisma-deploy: aws-env-banner
 	 export $$(cat aws.$(APPLICATION_NAME).$(ENVIRONMENT_NAME) | grep -v "#" | xargs)														&& \
 	 export PRISMA_MANAGEMENT_API_SECRET="$(AWS_PRISMA_MANAGEMENT_API_SECRET)"																	&& \
 	 export PRISMA_SECRET="$(AWS_PRISMA_SERVICE_API_SECRET)" 																										&& \
-	 export PRISMA_ENDPOINT="https://prisma.$${ApplicationDomainNamespace}"																			&& \
+	 export PRISMA_ENDPOINT="https://$(AWS_PRISMA_ENDPOINT_PREFIX)prisma.$${ApplicationDomainNamespace}"				&& \
 	 printf "$(OK_COLOR)"																																												&& \
 	 printf "\n%s\n" "======================================================================================"		&& \
-	 printf "%s\n"   "= Deploying Prisma datamodel to ${AWS_PRISMA_ENDPOINT}"		   															&& \
+	 printf "%s\n"   "= Deploying Prisma datamodel to $${PRISMA_ENDPOINT}"		   																&& \
 	 printf "%s"     "======================================================================================"		&& \
 	 printf "$(NO_COLOR)\n"																																											&& \
 	 cd prisma && yarn deploy
@@ -474,7 +500,7 @@ aws-prisma-reseed: aws-env-banner
 	 export PRISMA_SECRET="$(AWS_PRISMA_SERVICE_API_SECRET)" 																										&& \
 	 printf "$(OK_COLOR)"																																												&& \
 	 printf "\n%s\n" "======================================================================================"		&& \
-	 printf "%s\n"   "= Seeding ${PRISMA_ENDPOINT}"			   																											&& \
+	 printf "%s\n"   "= Seeding $${PRISMA_ENDPOINT}"			   																										&& \
 	 printf "%s"     "======================================================================================"		&& \
 	 printf "$(NO_COLOR)\n"																																											&& \
 	 cd prisma && yarn reseed
