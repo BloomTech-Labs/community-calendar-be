@@ -11,13 +11,15 @@ const Mutation = require('./Mutation')
 const User = require('./User')
 const Event = require('./Event')
 const Tag = require('./Tag')
+const Series = require('./Series')
 
 const resolvers = {
   Query,
   Mutation,
   User,
   Event,
-  Tag
+  Tag,
+  Series
 }
 
 module.exports = resolvers

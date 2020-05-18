@@ -101,6 +101,6 @@ enum FrequencyType {
 type Series {
   id: ID! @id
   frequency: FrequencyType
-  series_end: DateTime!
+  series_end: DateTime
   events: [Event] @relation(name: "SeriesEvent")
 }

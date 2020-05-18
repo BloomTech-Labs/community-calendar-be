@@ -47,6 +47,8 @@ const Event = {
 
     return eventLocations
   },
-  tags: (parent, args, { prisma }) => prisma.event({ id: parent.id }).tags({ ...args })
+  tags: (parent, args, { prisma }) => prisma.event({ id: parent.id }).tags({ ...args }),
+  series: (parent, args, { prisma }) => prisma.event({ id: parent.id }).series({ ...args })
+
 }
 module.exports = Event

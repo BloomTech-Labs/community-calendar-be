@@ -81,7 +81,7 @@ const Mutation = {
         ),
       ).join(',') +
       ',';
-    return await prisma.addEvent(args.data);
+    return await prisma.createEvent(args.data);
   },
   updateEvent: async (_, args, { prisma, user }) => {
     if (!user.id) {
@@ -256,14 +256,19 @@ const Mutation = {
     return !!userSaved.length;
   },
   createSeries: async (_, args, { prisma }) => {
-    const { data, events: { id } } = args
+    console.log("prisma", prisma.mutation)
+    const { data } = args
+    console.log("data for stuff", args.data)
 
-    const { events } = await prisma.event({ id })
-    const seriesConnect = events.length && { connect: { id } }
+    console.log("events?", args.data.events)
 
-    console.log("data stuff", data, data.events)
+    if (args.data.events && args.data.events.length) {
+      args.data.events.connect = args.data.events
+    }
+
+
     const newSeries = await prisma
-      .createSeries({ data: { events: seriesConnect }, ...data })
+      .createSeries(data)
     return newSeries
   }
 };

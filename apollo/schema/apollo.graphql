@@ -49,6 +49,7 @@ input EventCreateInput {
   locations: LocationCreateManyWithoutEventInput
   tags: [EventCreateTagInput!]
   ticketPrice: Float!
+  series: SeriesCreateOneWithoutEventsInput
 }
 
 input EventUpdateInput {
