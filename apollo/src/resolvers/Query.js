@@ -203,6 +203,14 @@ const Query = {
   },
   ticketMasterEventsAlt: async (root, args, { dataSources }) => {
     return await dataSources.ticketMasterAPI.getEventsAlt({ ...args })
+  },
+  series: async (_, args, { prisma }) => {
+    const series = await prisma.series(args.where)
+    return series
+  },
+  serieses: async (_, args, { prisma }) => {
+    const seriesList = await prisma.serieses(args)
+    return seriesList
   }
 }
 

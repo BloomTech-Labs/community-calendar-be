@@ -1,20 +1,21 @@
-
 # import Query.users from "generated/prisma.graphql"
 # import Query.tags from 'generated/prisma.graphql'
 # import Query.events from 'generated/prisma.graphql'
+# import Query.series from 'generated/prisma.graphql'
+# import Query.serieses from 'generated/prisma.graphql'
 
 # import Mutation.deleteEvent from 'generated/prisma.graphql'
 # import Mutation.rsvpEvent from 'generated/prisma.graphql'
 # import Mutation.saveEvent from 'generated/prisma.graphql'
+# import Mutation.createSeries from 'generated/prisma.graphql'
+# import Mutation.updateSeries from 'generated/prisma.graphql'
+# import Mutation.deleteSeries from 'generated/prisma.graphql'
 
 # import User, Location, Event, Tags from 'generated/prisma.graphql'
-
-
 
 # import TMEvent from '../src/ticket-master/tm.schema.graphql'
 # import TMResults from '../src/ticket-master/tm.schema.graphql'
 # import TMResultsAlt from '../src/ticket-master/tm.schema.graphql'
-
 
 input UserCheckIdInput {
   oktaId: String!
@@ -27,7 +28,6 @@ input EventCreateTagInput {
 input EventCreateImageInput {
   url: String!
 }
-
 
 type File {
   filename: String!
@@ -128,27 +128,76 @@ type Event {
   description: String!
   start: DateTime!
   end: DateTime!
- creator: User
+  creator: User
   ticketPrice: Float!
-  eventImages(where: EventImageWhereInput, orderBy: EventImageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [EventImage!]
-  rsvps(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
-  saved(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
-  urls(where: EventUrlWhereInput, orderBy: EventUrlOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [EventUrl!]
-  admins(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
+  eventImages(
+    where: EventImageWhereInput
+    orderBy: EventImageOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [EventImage!]
+  rsvps(
+    where: UserWhereInput
+    orderBy: UserOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [User!]
+  saved(
+    where: UserWhereInput
+    orderBy: UserOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [User!]
+  urls(
+    where: EventUrlWhereInput
+    orderBy: EventUrlOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [EventUrl!]
+  admins(
+    where: UserWhereInput
+    orderBy: UserOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [User!]
   locations(
-    where: LocationWhereInput, 
-    orderBy: LocationOrderByInput, 
-    skip: Int, after: String, 
-    before: String, 
-    first: Int, 
-    last: Int, 
+    where: LocationWhereInput
+    orderBy: LocationOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
     # userLatitude and userLongitude args used to calculate distance to event
-    userLatitude: Float,
-    userLongitude: Float,
+    userLatitude: Float
+    userLongitude: Float
     # distanceUnit for event is "miles" or "kilometers" to comply with turf requirements
     distanceUnit: String
-    ): [Location!]
-  tags(where: TagWhereInput, orderBy: TagOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Tag!]
+  ): [Location!]
+  tags(
+    where: TagWhereInput
+    orderBy: TagOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Tag!]
   index: String!
 }
 
@@ -162,10 +211,8 @@ type Query {
     first: Int
     last: Int
   ): [User!]
-    checkId(data: UserCheckIdInput!): [User]
-  user(
-     where: UserWhereUniqueInput
-  ): User!
+  checkId(data: UserCheckIdInput!): [User]
+  user(where: UserWhereUniqueInput): User!
   events(
     where: EventWhereInput
     orderBy: EventOrderByInput
@@ -185,7 +232,7 @@ type Query {
     first: Int
     last: Int
   ): [Tag!]
-    ticketMasterEvents(
+  ticketMasterEvents(
     radius: Int
     # "miles" or "km"
     unit: String
@@ -220,7 +267,6 @@ type Query {
     postalCode: String
   ): TMResultsAlt
 }
-
 
 type Mutation {
   addUser(data: UserCreateInput!): User!
