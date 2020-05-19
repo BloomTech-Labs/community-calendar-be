@@ -1,14 +1,17 @@
 type User {
-  id: ID! @id 
+  id: ID! @id
   firstName: String
   lastName: String
   oktaId: String! @unique
-  organizations: [Organization!] @relation(name: "UsersOrganizations", link: TABLE)
+  organizations: [Organization!]
+    @relation(name: "UsersOrganizations", link: TABLE)
   rsvps: [Event!] @relation(name: "UsersRsvps", link: TABLE)
   saved: [Event!] @relation(name: "UsersSavedEvents", link: TABLE)
   adminFor: [Event!] @relation(name: "EventsAdmins", link: TABLE)
-  createdEvents: [Event!] @relation(name: "CreatedEvents", link: TABLE, onDelete: CASCADE)
-  createdImages: [EventImage!] @relation(name: "CreatedImages", link: TABLE, onDelete: CASCADE)
+  createdEvents: [Event!]
+    @relation(name: "CreatedEvents", link: TABLE, onDelete: CASCADE)
+  createdImages: [EventImage!]
+    @relation(name: "CreatedImages", link: TABLE, onDelete: CASCADE)
   profileImage: String
 }
 
@@ -20,20 +23,23 @@ type Event {
   end: DateTime!
   ticketPrice: Float!
   creator: User @relation(name: "CreatedEvents")
-  eventImages: [EventImage!] @relation(name: "EventsImages", link: TABLE, onDelete: CASCADE)
+  eventImages: [EventImage!]
+    @relation(name: "EventsImages", link: TABLE, onDelete: CASCADE)
   rsvps: [User!] @relation(name: "UsersRsvps")
   saved: [User!] @relation(name: "UsersSavedEvents")
   urls: [EventUrl!] @relation(name: "EventUrls", link: TABLE, onDelete: CASCADE)
   admins: [User!] @relation(name: "EventsAdmins")
-  locations: [Location!] @relation(name: "EventsLocations", link: TABLE, onDelete: CASCADE)
-  tags: [Tag!] @relation(name: "EventTags", link: TABLE )
+  locations: [Location!]
+    @relation(name: "EventsLocations", link: TABLE, onDelete: CASCADE)
+  tags: [Tag!] @relation(name: "EventTags", link: TABLE)
   index: String!
+  series: Series @relation(name: "SeriesEvent", link: INLINE, onDelete: CASCADE)
 }
 
-type Tag{
+type Tag {
   id: ID! @id
   title: String! @unique
-  events: [Event!] @relation(name:"EventTags")
+  events: [Event!] @relation(name: "EventTags")
 }
 
 type EventImage {
@@ -53,14 +59,15 @@ type Location {
   id: ID! @id
   name: String!
   streetAddress: String!
-  streetAddress2: String  
+  streetAddress2: String
   city: String!
   zipcode: Int!
   state: String!
   latitude: Float
   longitude: Float
   event: Event! @relation(name: "EventsLocations")
-  neighborhood: Neighborhood @relation(name: "OrganizationLocations",link: TABLE)
+  neighborhood: Neighborhood
+    @relation(name: "OrganizationLocations", link: TABLE)
 }
 
 type Organization {
@@ -74,13 +81,26 @@ type Organization {
 
 type Neighborhood {
   id: ID! @id
-  geoJson: GeoJson! @relation(name: "NeighborhoodGeo",link: INLINE, onDelete: CASCADE)
+  geoJson: GeoJson!
+    @relation(name: "NeighborhoodGeo", link: INLINE, onDelete: CASCADE)
   locations: [Location!] @relation(name: "OrganizationLocations")
 }
 
 type GeoJson {
   id: ID! @id
   geoJson: String!
-  neighborhood: Neighborhood! @relation(name: "NeighborhoodGeo", onDelete: CASCADE)
+  neighborhood: Neighborhood!
+    @relation(name: "NeighborhoodGeo", onDelete: CASCADE)
 }
 
+enum FrequencyType {
+  DAILY
+  WEEKLY
+  MONTHLY
+}
+type Series {
+  id: ID! @id
+  frequency: FrequencyType
+  series_end: DateTime
+  events: [Event] @relation(name: "SeriesEvent")
+}
