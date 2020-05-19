@@ -256,17 +256,10 @@ const Mutation = {
     return !!userSaved.length;
   },
   createSeries: async (_, args, { prisma }) => {
-    console.log("prisma", prisma.mutation)
     const { data } = args
-    console.log("data for stuff", args.data)
-
-    console.log("events?", args.data.events)
-
     if (args.data.events && args.data.events.length) {
       args.data.events.connect = args.data.events
     }
-
-
     const newSeries = await prisma
       .createSeries(data)
     return newSeries
