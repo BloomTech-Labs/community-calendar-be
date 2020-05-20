@@ -102,5 +102,5 @@ type Series {
   id: ID! @id
   frequency: FrequencyType
   series_end: DateTime
-  events: [Event] @relation(name: "SeriesEvent")
+  events: [Event] @relation(name: "SeriesEvent", onDelete: CASCADE)
 }

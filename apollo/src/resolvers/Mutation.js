@@ -263,7 +263,12 @@ const Mutation = {
     const newSeries = await prisma
       .createSeries(data)
     return newSeries
+  },
+  deleteSeries: async (_, args, { prisma }) => {
+    const { where } = args
+    return await prisma.deleteSeries(where)
   }
 };
+
 
 module.exports = Mutation;
