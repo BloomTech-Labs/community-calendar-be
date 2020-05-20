@@ -267,6 +267,13 @@ const Mutation = {
   deleteSeries: async (_, args, { prisma }) => {
     const { where } = args
     return await prisma.deleteSeries(where)
+  },
+  updateSeries: async (_, args, { prisma }) => {
+    const { where, data } = args
+    return await prisma.updateSeries({
+      where: where,
+      data: data
+    })
   }
 };
 
