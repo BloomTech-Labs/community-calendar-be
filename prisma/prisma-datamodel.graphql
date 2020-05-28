@@ -33,7 +33,7 @@ type Event {
     @relation(name: "EventsLocations", link: TABLE, onDelete: CASCADE)
   tags: [Tag!] @relation(name: "EventTags", link: TABLE)
   index: String!
-  series: Series @relation(name: "SeriesEvent", link: INLINE, onDelete: CASCADE)
+  series: Series @relation(name: "SeriesEvent", link: INLINE)
 }
 
 type Tag {
