@@ -1,7 +1,7 @@
 // @ts-check
 'use strict';
 
-const {prisma} = require('../apollo/src/generated/prisma-client');
+const {prisma} = require('./generated/prisma-client');
 
 async function main() {
   const user = await prisma.createUser({
